@@ -2,3 +2,17 @@
   padding: 0px;
   margin: 0px;
 }
+
+:root{
+  --mainColor:#5096F3;
+  --secondColor:#1765F3;
+  --lightBg:#F6F6F6;
+  --lightGrey:#C5C5C5;
+}
+.App{
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+a{
+  text-decoration: none;
+}
