@@ -5,7 +5,7 @@ import loginImage from '../../utils/images/login.jpg'
 import "../UserLogin/userlogin.css"
 import { Link } from 'react-router-dom';
 
-function AdminLogin() {
+function HospitalLogin() {
     return (
         <div className="login-main">
             <Row>
@@ -41,9 +41,9 @@ function AdminLogin() {
                                 <div className="login-row">
                                     <button>login</button>
                                 </div>
-                                {/* <div className="login-row mt-3">
+                                <div className="login-row mt-3">
                                     <Link to="/signup">Don't Have an Account? Signin</Link>
-                                </div> */}
+                                </div>
                             </div>
                         </div>
                     </Col>
@@ -54,4 +54,4 @@ function AdminLogin() {
     )
 }
 
-export default AdminLogin
+export default HospitalLogin
