@@ -11,6 +11,9 @@ function App() {
       <Routes>
         <Route path='/' element={<h1>hai</h1> } />
         <Route path='/login' element={<LoginPage /> } />
+        
+
+        <Route path='/admin/login' element={<LoginPage /> } />
 
       </Routes>
        
