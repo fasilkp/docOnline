@@ -1,11 +1,11 @@
 import React from 'react'
 import { Col, Container, Row } from 'react-bootstrap';
 import { TextField } from '@mui/material';
-import emailSentImage from '../../utils/images/emailSent.jpg'
+import otpImage from '../../utils/images/otp.webp'
 import "../UserLogin/userlogin.css"
 import { Link } from 'react-router-dom';
 
-function DoctorForgot() {
+function VerifyOtp() {
     return (
         <div className="login-main">
             <Row>
@@ -13,8 +13,6 @@ function DoctorForgot() {
                     <Container>
                         <Row>
                             <h3>docOnline</h3>
-                            <b style={{marginTop:"-10px"}}>Doctor Panel</b>
-
                         </Row>
                     </Container>
                 </nav>
@@ -25,23 +23,23 @@ function DoctorForgot() {
 
                     <Col md={6}>
                         <div className="login-sec bg">
-                            <img src={emailSentImage} alt="" />
+                            <img src={otpImage} alt="" />
                         </div>
                     </Col>
                     <Col md={6}>
-                        <div className="login-sec">
+                        <div className="login-sec sec-2">
                             <div className="login-box">
                                 <div className="login-row head">
-                                    <h3>Forgot Password</h3>
+                                    <h3>Verify Email</h3>
                                 </div>
                                 <div className="login-row head">
-                                    <b>Enter the email</b>
+                                    <b>Enter the OTP</b>
                                 </div>
                                 <div className="login-row w-100 mt-3">
-                                    <TextField id="outlined-basic" label="Email" type="email" variant="outlined" fullWidth className='input' />
+                                    <TextField id="outlined-basic" label="Email" type="number" variant="outlined" fullWidth className='input' />
                                 </div>
                                 <div className="login-row">
-                                    <button>Next</button>
+                                    <button>Check</button>
                                 </div>
                             </div>
                         </div>
@@ -53,4 +51,4 @@ function DoctorForgot() {
     )
 }
 
-export default DoctorForgot
+export default VerifyOtp
