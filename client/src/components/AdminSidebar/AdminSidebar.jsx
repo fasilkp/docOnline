@@ -22,7 +22,8 @@ function AdminSidebar({page}) {
                 <span>Doctors</span>
               </div>
             </li>
-            <li className='admin-sideitems'>
+            <li className={`admin-sideitems ${page=="hospital" && 'active'}`}>
+
               <div className='side'></div>
               <div className="admin-sideItem">
 
@@ -30,7 +31,8 @@ function AdminSidebar({page}) {
                 <span>Hospitals</span>
               </div>
             </li>
-            <li className='admin-sideitems'>
+            <li className={`admin-sideitems ${page=="hospital request" && 'active'}`}>
+
               <div className='side'></div>
               <div className="admin-sideItem">
 
