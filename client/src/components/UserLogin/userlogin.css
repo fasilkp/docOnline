@@ -22,6 +22,7 @@
 
 .login-sec img {
     max-width: 90%;
+    max-height: 500px;
 }
 
 .login-box {
@@ -87,5 +88,4 @@
     .login-box .input div {
         height:50x;
     }
-    
 }

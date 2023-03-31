@@ -1,7 +1,7 @@
 import React from 'react'
 import { Col, Container, Row } from 'react-bootstrap';
 import { TextField } from '@mui/material';
-import loginImage from '../../utils/images/login.jpg'
+import loginImage from '../../assets/images/login.jpg'
 import "../UserLogin/userlogin.css"
 import { Link } from 'react-router-dom';
 

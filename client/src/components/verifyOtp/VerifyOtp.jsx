@@ -1,7 +1,7 @@
 import React from 'react'
 import { Col, Container, Row } from 'react-bootstrap';
 import { TextField } from '@mui/material';
-import otpImage from '../../utils/images/otp.webp'
+import otpImage from '../../assets/images/otp.webp'
 import "../UserLogin/userlogin.css"
 import { Link } from 'react-router-dom';
 

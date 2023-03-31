@@ -11,6 +11,7 @@ import DoctorForgotPage from './pages/doctor/DoctorForgotPage';
 import DoctorLoginPage from './pages/doctor/DoctorLoginPage';
 import UserSignupPage from './pages/user/UserSignupPage';
 import VerifyOtp from './components/verifyOtp/VerifyOtp';
+import AdminHome from './components/AdminHome/AdminHome';
 
 
 function App() {
@@ -31,9 +32,8 @@ function App() {
 
         <Route path='/doctor/login' element={<DoctorLoginPage /> } />
         <Route path='/doctor/forgot' element={<DoctorForgotPage /> } />
-
-
-
+        <Route path='/admin' element={<AdminHome /> } />
+        
       </Routes>
        
     </div>
