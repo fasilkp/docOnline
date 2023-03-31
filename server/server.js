@@ -2,6 +2,7 @@ import 'dotenv/config'
 import express from 'express'
 import cors from 'cors'
 import path from 'path'
+import dbConnect from './config/dbConnect.js'
 
 const app=express();
 app.use(express.json())
@@ -16,6 +17,7 @@ app.use(
     credentials: true,
   })
 );
+dbConnect();
 
 
 app.listen(5000, ()=>{
