@@ -34,3 +34,12 @@ export async function adminLogin(req, res){
         console.log(err);
     }
 }
+
+export const adminLogout=async (req, res) => {
+    res.cookie("adminToken", "", {
+        httpOnly: true,
+        expires: new Date(0),
+        secure: true,
+        sameSite: "none",
+      }).json({message:"logged out", error:false});
+}
