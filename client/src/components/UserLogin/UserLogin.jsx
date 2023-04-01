@@ -5,11 +5,15 @@ import loginImage from '../../assets/images/login.jpg'
 import "./userlogin.css"
 import { Link } from 'react-router-dom';
 import { ClipLoader } from 'react-spinners';
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
 
 function UserLogin() {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [errMessage, setErrMessage] = useState("")
+    const dispatch = useDispatch()
+
 
     const validForm = () => {
         if (password.trim() === "" || email.trim() === "") {
@@ -20,9 +24,16 @@ function UserLogin() {
     const [loading, setLoading] = useState({
         submit: false
     })
-    const handleSubmit=(e)=>{
+    const handleSubmit=async (e)=>{
         e.preventDefault();
         setLoading({...loading, submit:true})
+        const {data}= await axios.post("/user/auth/login", {email, password});
+        if(data.err){
+            setErrMessage(data.message)
+        }else{
+            dispatch({ type: "refresh" })
+        }
+        setLoading({...loading, submit:false})
     }
     return (
         <div className="login-main">
