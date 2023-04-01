@@ -4,7 +4,7 @@ import { adminLogin,  adminLogout,  checkAdminLoggedIn} from '../controllers/adm
 const router=express.Router();
 
 router.post("/login", adminLogin)
-router.get("/check-auth", checkAdminLoggedIn)
+router.get("/check", checkAdminLoggedIn)
 router.get("/logout", adminLogout)
 
 

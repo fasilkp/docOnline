@@ -13,6 +13,7 @@ import UserSignupPage from './pages/user/UserSignupPage';
 import VerifyOtp from './components/verifyOtp/VerifyOtp';
 import AdminHome from './components/AdminHome/AdminHome';
 import axios from 'axios'
+import AdminHomePage from './pages/admin/AdminHomePage';
 import { useDispatch, useSelector } from 'react-redux';
 
 
@@ -20,7 +21,7 @@ function App() {
   axios.defaults.baseURL = "http://localhost:5000/";
   axios.defaults.withCredentials = true;
 
-  const { user, refresh } = useSelector((state) => {
+  const { user, refresh, admin } = useSelector((state) => {
     return state;
   });
   const dispatch=useDispatch()
@@ -29,6 +30,11 @@ function App() {
     (async function () {
       let { data } = await axios.get("/user/auth/check");
       dispatch({ type: "user", payload: { login: data.loggedIn, details: data.user } })
+      let { data:adminData } = await axios.get("/admin/auth/check");
+      console.log(adminData)
+      dispatch({ type: "admin", payload: { login: adminData.loggedIn, details: adminData.user } })
+      console.log(admin)
+
     })()
   }, [refresh])
   return (
@@ -40,8 +46,6 @@ function App() {
           <Route path='/' element={<h1>hai</h1>} />
           <Route path='/login' element={<Navigate to={"/"} />} />
           <Route path='/signup' element={<Navigate to="/" />} />
-          {/* <Route path='/forgot' element={<Navigate to="/" />} />
-          <Route path='/otp' element={<VerifyOtp />} /> */}
           </>
         }
         {
@@ -52,16 +56,29 @@ function App() {
           <Route path='/signup' element={<UserSignupPage />} />
           </>
         }
+        {
+          admin.login &&
+          <>
+          <Route path='/account/admin/' element={<AdminHomePage />} />
+          <Route path='/account/admin/login' element={<Navigate to="/account/admin" />} />
+          </>
+        }
+        {
+          admin.login===false &&
+          <>
+          <Route path='/account/admin/login' element={<AdminLoginPage />} />
+          <Route path='/account/admin' element={<Navigate to="/account/admin/login" />} />
+          </>
+        }
 
 
-        <Route path='/admin/login' element={<AdminLoginPage />} />
 
-        <Route path='/hospital/login' element={<HospitalLoginPage />} />
-        <Route path='/hospital/forgot' element={<HospitalForgotPage />} />
+        <Route path='/account/hospital/login' element={<HospitalLoginPage />} />
+        <Route path='/account/hospital/forgot' element={<HospitalForgotPage />} />
 
-        <Route path='/doctor/login' element={<DoctorLoginPage />} />
-        <Route path='/doctor/forgot' element={<DoctorForgotPage />} />
-        <Route path='/admin' element={<AdminHome />} />
+        <Route path='/account/doctor/login' element={<DoctorLoginPage />} />
+        <Route path='/account/doctor/forgot' element={<DoctorForgotPage />} />
+        <Route path='/account/admin' element={<AdminHome />} />
 
       </Routes>
 

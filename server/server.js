@@ -5,6 +5,7 @@ import path from 'path'
 import cookieParser from 'cookie-parser'
 import dbConnect from './config/dbConnect.js'
 import userAuthRouter from './routers/userAuthRouter.js'
+import adminAuthRouter from './routers/adminAuthRouter.js'
 
 const app=express();
 app.use(express.json())
@@ -22,6 +23,7 @@ app.use(
 dbConnect();
 
 app.use("/user/auth/", userAuthRouter)
+app.use("/admin/auth/", adminAuthRouter)
 
 
 app.listen(5000, ()=>{
