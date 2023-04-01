@@ -5,7 +5,7 @@ import loginImage from '../../assets/images/login.jpg'
 import "./userlogin.css"
 import { Link } from 'react-router-dom';
 
-function UserLogin() {
+function UserLogin(){
     return (
         <div className="login-main">
             <Row>

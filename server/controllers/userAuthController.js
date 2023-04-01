@@ -109,3 +109,21 @@ export async function userRegisterVerify(req, res) {
         res.json({ error: err, err:true, message:"something went wrong" })
     }
 }
+
+export const checkUserLoggedIn = async (req, res) => {
+    try {
+        const token = req.cookies.token;
+        if (!token)
+            return res.json({ loggedIn: false, error: true, message: "no token" });
+
+        const verifiedJWT = jwt.verify(token, process.env.JWT_SECRET_KEY);
+        const user = await UserModel.findById(verifiedJWT.id, { password: 0 });
+        if (!user) {
+            return res.json({ loggedIn: false });
+        }
+        return res.json({ user, loggedIn: true });
+    } catch (err) {
+        console.log(err)
+        res.json({ loggedIn: false, error: err });
+    }
+}
