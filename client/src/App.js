@@ -12,9 +12,12 @@ import DoctorLoginPage from './pages/doctor/DoctorLoginPage';
 import UserSignupPage from './pages/user/UserSignupPage';
 import VerifyOtp from './components/verifyOtp/VerifyOtp';
 import AdminHome from './components/AdminHome/AdminHome';
+import axios from 'axios'
 
 
 function App() {
+  axios.defaults.baseURL = "http://localhost:5000/";
+  axios.defaults.withCredentials = true;
   return (
     <div className='App'>
       <Routes>

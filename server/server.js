@@ -4,6 +4,7 @@ import cors from 'cors'
 import path from 'path'
 import cookieParser from 'cookie-parser'
 import dbConnect from './config/dbConnect.js'
+import userAuthRouter from './routers/userAuthRouter.js'
 
 const app=express();
 app.use(express.json())
@@ -19,6 +20,8 @@ app.use(
   })
 );
 dbConnect();
+
+app.use("/user/auth/", userAuthRouter)
 
 
 app.listen(5000, ()=>{

@@ -1,6 +1,7 @@
 import nodemailer from 'nodemailer'
 
 export default function sentOTP(email, otp){
+  console.log(email, otp)
     return new Promise((resolve, reject)=>{
         let transporter = nodemailer.createTransport({
             host: "smtp.gmail.com",
@@ -17,7 +18,7 @@ export default function sentOTP(email, otp){
               to: email,
               subject: "DocOnline Email verification",
               html: `
-              <h1>Verify Your Email For E-cart</h1>
+              <h1>Verify Your Email For DocOnline</h1>
                 <h3>use this code in E-cart to verify your email</h3>
                 <h2>${otp}</h2>
               `,
@@ -25,9 +26,11 @@ export default function sentOTP(email, otp){
         
             transporter.sendMail(mailOptions, function (error, info) {
               if (error) {
+                console.log("error", error, info)
                 reject(error)
 
               } else {
+                console.log("success")
                 resolve({success:true, message:"Email sent successfull"})
               }
             });

@@ -21,7 +21,7 @@ export async function adminLogin(req, res){
                 admin:true,
                 id:admin._id
             }, 
-            "myjwtsecretkey"
+            process.env.JWT_SECRET_KEY
         )
         return res.cookie("adminToken", token, {
                 httpOnly: true,
@@ -52,7 +52,7 @@ export const checkAdminLoggedIn=async (req, res) => {
       if (!token) 
         return res.json({loggedIn:false, error:true, message:"no token"});
     
-      const verifiedJWT = jwt.verify(token, "myjwtsecretkey");
+      const verifiedJWT = jwt.verify(token, process.env.JWT_SECRET_KEY);
       return res.json({name:verifiedJWT.name, loggedIn: true});
     } catch (err) {
       res.json({loggedIn:false, error:err});
