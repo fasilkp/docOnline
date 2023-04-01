@@ -127,3 +127,13 @@ export const checkUserLoggedIn = async (req, res) => {
         res.json({ loggedIn: false, error: err });
     }
 }
+
+
+export const userLogout = async (req, res) => {
+    res.cookie("token", "", {
+        httpOnly: true,
+        expires: new Date(0),
+        secure: true,
+        sameSite: "none",
+    }).json({ message: "logged out", error: false });
+}
