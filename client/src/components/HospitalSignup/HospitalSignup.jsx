@@ -5,7 +5,7 @@ import loginImage from '../../assets/images/login.jpg'
 import "../UserLogin/userlogin.css"
 import { Link } from 'react-router-dom';
 
-function HospitalLogin() {
+function HospitalSignup() {
     return (
         <div className="login-main">
             <Row>
@@ -30,7 +30,10 @@ function HospitalLogin() {
                         <div className="login-sec">
                             <div className="login-box">
                                 <div className="login-row head">
-                                    <h3>Login</h3>
+                                    <h3>register</h3>
+                                </div>
+                                <div className="login-row w-100 mt-3">
+                                    <TextField id="outlined-basic" label="Name" type="name" variant="outlined" fullWidth className='input' />
                                 </div>
                                 <div className="login-row w-100 mt-3">
                                     <TextField id="outlined-basic" label="Email" type="email" variant="outlined" fullWidth className='input' />
@@ -39,10 +42,10 @@ function HospitalLogin() {
                                     <TextField id="outlined-basic" label="Password" type="password" variant="outlined" className='input' fullWidth/>
                                 </div>
                                 <div className="login-row">
-                                    <button>login</button>
+                                    <button>Signup</button>
                                 </div>
                                 <div className="login-row mt-3">
-                                    <Link to="/account/hospital/signup">Don't Have an Account? Signin</Link>
+                                    <Link to="/account/hospital/login">Don't Have an Account? Signin</Link>
                                 </div>
                             </div>
                         </div>
@@ -54,4 +57,4 @@ function HospitalLogin() {
     )
 }
 
-export default HospitalLogin
+export default HospitalSignup
