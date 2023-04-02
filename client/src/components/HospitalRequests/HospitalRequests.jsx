@@ -8,6 +8,7 @@ import AdminSidebar from '../AdminSidebar/AdminSidebar';
 
 export default function HospitalRequests() {
   const [hospitalList, setHospitalList] = useState([])
+  const [refresh, setRefresh]=useState(false)
   React.useEffect(() => {
     (
       async function () {
@@ -22,7 +23,19 @@ export default function HospitalRequests() {
         }
       }
     )()
-  }, [])
+  }, [refresh])
+  const acceptRequest=async (e)=>{
+    e.preventDefault();
+    const {data}= await axios.post("/admin/hospital/accept", {email});
+    if(!data.err){
+      setRefresh(!refresh)
+    }else{
+      alert("something went wrong")
+    }
+  }
+  const rejectRequest= async(e)=>{
+    e.preventDefault();
+  }
   return (
     <div className="admin-home">
       <AdminHeader />
@@ -57,8 +70,8 @@ export default function HospitalRequests() {
                           </Dropdown.Toggle>
 
                           <Dropdown.Menu>
-                            <Dropdown.Item href="#">Accept</Dropdown.Item>
-                            <Dropdown.Item href="#">Reject</Dropdown.Item>
+                            <Dropdown.Item href="#" onClick={(e)=>acceptRequest(e, item.email)}>Accept</Dropdown.Item>
+                            <Dropdown.Item href="#" onClick={(e)=>rejectRequest(e, item.email)}>Reject</Dropdown.Item>
                           </Dropdown.Menu>
                         </Dropdown>
                       </td>
