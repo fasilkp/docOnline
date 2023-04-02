@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './App.css'
 import LoginPage from './pages/user/UserLoginPage'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import AdminLoginPage from './pages/admin/AdminLoginPage';
@@ -15,6 +14,9 @@ import AdminHome from './components/AdminHome/AdminHome';
 import axios from 'axios'
 import AdminHomePage from './pages/admin/AdminHomePage';
 import { useDispatch, useSelector } from 'react-redux';
+import UserHomePage from './pages/user/UserHomePage';
+import './App.css'
+import HospitalrequestPage from './pages/hospital/HospitalrequestPage';
 
 
 function App() {
@@ -43,7 +45,7 @@ function App() {
         {
           user.login &&
           <>
-          <Route path='/' element={<h1>hai</h1>} />
+          <Route path='/' element={<UserHomePage/>} />
           <Route path='/login' element={<Navigate to={"/"} />} />
           <Route path='/signup' element={<Navigate to="/" />} />
           </>
@@ -60,6 +62,7 @@ function App() {
           admin.login &&
           <>
           <Route path='/account/admin/' element={<AdminHomePage />} />
+          <Route path='/account/admin/hospital/requests' element={<HospitalrequestPage />} />
           <Route path='/account/admin/login' element={<Navigate to="/account/admin" />} />
           </>
         }
@@ -67,7 +70,7 @@ function App() {
           admin.login===false &&
           <>
           <Route path='/account/admin/login' element={<AdminLoginPage />} />
-          <Route path='/account/admin' element={<Navigate to="/account/admin/login" />} />
+          <Route path='/account/admin/*' element={<Navigate to="/account/admin/login" />} />
           </>
         }
 

@@ -1,8 +1,14 @@
 .user-header{
-    height: 55px;
-    box-shadow: 0px 10px 10px 10px grey;
+    height: 60px;
     display: flex;
     justify-content: space-between;
     padding: 0px 20px;
     align-items: center;
+}
+.user-header-item{
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    font-weight: 400;
+
 }
