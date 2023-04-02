@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser'
 import dbConnect from './config/dbConnect.js'
 import userAuthRouter from './routers/userAuthRouter.js'
 import adminAuthRouter from './routers/adminAuthRouter.js'
+import hospitalAuthRouter from './routers/hospitalAuthRouter.js'
 
 const app=express();
 app.use(express.json())
@@ -24,6 +25,7 @@ dbConnect();
 
 app.use("/user/auth/", userAuthRouter)
 app.use("/admin/auth/", adminAuthRouter)
+app.use("/hospital/auth/", hospitalAuthRouter)
 
 
 app.listen(5000, ()=>{

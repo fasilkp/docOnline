@@ -32,7 +32,7 @@ export async function adminLogin(req, res) {
         }).json({ err: false })
     }
     catch (err) {
-        res.json({ message: "server error", error: err })
+        res.json({ message: "server error",err:true, error: err })
         console.log(err);
     }
 }

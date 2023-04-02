@@ -22,7 +22,6 @@ export async function userLogin(req, res) {
             },
             process.env.JWT_SECRET_KEY
         )
-        console.log(token)
         return res.cookie("token", token, {
             httpOnly: true,
             secure: true,
@@ -32,7 +31,6 @@ export async function userLogin(req, res) {
     }
     catch (err) {
         res.json({ message: "server error",err:true, error: err })
-        console.log(err);
     }
 }
 
@@ -46,14 +44,12 @@ export async function userRegister(req, res) {
         let otp = Math.ceil(Math.random() * 1000000)
         console.log(otp)
         let otpSent=await sentOTP(email, otp)
-        console.log(otpSent)
         const token = jwt.sign(
             {
                 otp: otp
             },
             process.env.JWT_SECRET_KEY
         )
-        console.log("token")
         return res.cookie("tempToken", token, {
             httpOnly: true,
             secure: true,
@@ -71,23 +67,19 @@ export async function userRegister(req, res) {
 export async function userRegisterVerify(req, res) {
     try {
         const { name, email, password, otp } = req.body;
-        console.log(req.body)
         const tempToken = req.cookies.tempToken;
 
         if (!tempToken){
             return res.json({ err: true, message: "OTP Session Timed Out" });
         }
-        console.log(tempToken)
 
         const verifiedTempToken = jwt.verify(tempToken, process.env.JWT_SECRET_KEY);
-        console.log(verifiedTempToken)
 
         if(otp!= verifiedTempToken.otp){
             return res.json({ err: true, message: "Invalid OTP" });
         }
 
         const hashPassword = bcrypt.hashSync(password, salt);
-        console.log(hashPassword)
         
         const newUser = new UserModel({ name, email, password: hashPassword })
         await newUser.save();

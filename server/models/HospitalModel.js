@@ -25,8 +25,7 @@ const HospitalSchema = new mongoose.Schema({
         type:Object
     },
     mobile:{
-        type:Number,
-        default:0000000000
+        type:Number
     },
     active:{
         type:Boolean,
