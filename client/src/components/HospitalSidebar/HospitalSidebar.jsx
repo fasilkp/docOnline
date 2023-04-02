@@ -1,34 +1,45 @@
 import React from 'react'
 import '../AdminSidebar/Sidebar.css'
-import { RiBuilding4Line, RiHome2Line, RiHospitalLine, RiUser2Line } from "react-icons/ri";
+import { RiArchiveDrawerLine, RiBuilding4Line, RiHome2Line, RiHospitalLine, RiUser2Line } from "react-icons/ri";
 import { Link } from 'react-router-dom';
 
-function HospitalSidebar({page}) {
+function HospitalSidebar({ page }) {
   return (
     <div className="admin-sidebar">
-          <ul>
-              <Link to="/account/admin/">
-            <li className={`admin-sideitems ${page=="dashboard" && 'active'}`}>
-              <div className='side'></div>
-              <div className="admin-sideItem">
+      <ul>
+        <Link to="/account/hospital/">
+          <li className={`admin-sideitems ${page == "dashboard" && 'active'}`}>
+            <div className='side'></div>
+            <div className="admin-sideItem">
 
-                <RiHome2Line className='icon' />
-                <span>Dashboard</span>
-              </div>
-            </li>
-              </Link>
-              <Link to="/account/admin/doctors">
+              <RiHome2Line className='icon' />
+              <span>Dashboard</span>
+            </div>
+          </li>
+        </Link>
+        <Link to="/account/hospital/doctors">
 
-            <li className={`admin-sideitems ${page=="doctor" && 'active'}`}>
-              <div className='side'></div>
-              <div className="admin-sideItem">
+          <li className={`admin-sideitems ${page == "doctor" && 'active'}`}>
+            <div className='side'></div>
+            <div className="admin-sideItem">
 
-                <RiUser2Line className='icon' />
-                <span>Doctors</span>
-              </div>
-            </li>
-            </Link>
-            <Link to="/account/admin/hospitals">
+              <RiUser2Line className='icon' />
+              <span>Doctors</span>
+            </div>
+          </li>
+        </Link>
+        <Link to="/account/hospital/department">
+
+          <li className={`admin-sideitems ${page == "department" && 'active'}`}>
+            <div className='side'></div>
+            <div className="admin-sideItem">
+
+              <RiArchiveDrawerLine className="icon" />
+              <span>Department</span>
+            </div>
+          </li>
+        </Link>
+        {/* <Link to="/account/admin/hospitals">
 
             <li className={`admin-sideitems ${page=="doctor request" && 'active'}`}>
 
@@ -39,8 +50,8 @@ function HospitalSidebar({page}) {
                 <span>Doctor Requests</span>
               </div>
             </li>
-            </Link>
-            {/* <Link to="/account/admin/hospitals/requests">
+            </Link> */}
+        {/* <Link to="/account/admin/hospitals/requests">
 
             <li className={`admin-sideitems ${page=="hospital request" && 'active'}`}>
 
@@ -53,9 +64,9 @@ function HospitalSidebar({page}) {
             </li>
             </Link> */}
 
-          </ul>
+      </ul>
 
-        </div>
+    </div>
   )
 }
 

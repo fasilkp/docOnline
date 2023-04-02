@@ -6,6 +6,7 @@ import "../UserLogin/userlogin.css"
 import { Link, useNavigate } from 'react-router-dom';
 import { ClipLoader } from 'react-spinners';
 import axios from 'axios'
+import Swal from 'sweetalert2';
 
 function HospitalSignup() {
     const [name, setName] = useState("")
@@ -27,7 +28,11 @@ function HospitalSignup() {
             if (data.err) {
                 setErrMessage(data.message)
             } else {
-                alert("Thank You for Registration. We will Inform you when You once account has got Approved")
+                Swal.fire(
+                    'Success!',
+                    'Thank You for Registration. We will Inform you once account has got Approved',
+                    'success'
+                  )
                 navigate("/account/hospital/login")
             }
             setLoading({ ...loading, submit: false })

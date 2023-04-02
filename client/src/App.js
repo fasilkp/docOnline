@@ -19,6 +19,7 @@ import './App.css'
 import HospitalrequestPage from './pages/admin/HospitalrequestPage';
 import HospitalHomePage from './pages/hospital/HospitalHomePage';
 import HospitalSignupPage from './pages/hospital/HospitalSignupPage';
+import HospitalDepartmentPage from './pages/hospital/HospitalDepartmentPage';
 
 
 function App() {
@@ -80,6 +81,7 @@ function App() {
           hospital.login &&
           <>
             <Route path='/account/hospital/' element={<HospitalHomePage />} />
+            <Route path='/account/hospital/department' element={<HospitalDepartmentPage />} />
             <Route path='/account/hospital/login' element={<Navigate to="/account/hospital/" />} />
             <Route path='/account/hospital/signup' element={<Navigate to="/account/hospital/" />} />
           </>

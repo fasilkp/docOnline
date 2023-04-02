@@ -66,6 +66,12 @@ button:disabled {
   flex-direction: column;
   gap: 10px;
 }
+.container-header{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
 .def-padding {
   padding: 0px 50px;
