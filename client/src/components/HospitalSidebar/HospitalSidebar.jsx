@@ -30,17 +30,17 @@ function HospitalSidebar({page}) {
             </Link>
             <Link to="/account/admin/hospitals">
 
-            <li className={`admin-sideitems ${page=="hospital" && 'active'}`}>
+            <li className={`admin-sideitems ${page=="doctor request" && 'active'}`}>
 
               <div className='side'></div>
               <div className="admin-sideItem">
 
                 <RiBuilding4Line className='icon' />
-                <span>Hospitals</span>
+                <span>Doctor Requests</span>
               </div>
             </li>
             </Link>
-            <Link to="/account/admin/hospitals/requests">
+            {/* <Link to="/account/admin/hospitals/requests">
 
             <li className={`admin-sideitems ${page=="hospital request" && 'active'}`}>
 
@@ -51,7 +51,7 @@ function HospitalSidebar({page}) {
                 <span>Hospital Requests</span>
               </div>
             </li>
-            </Link>
+            </Link> */}
 
           </ul>
 

@@ -1,13 +1,12 @@
 import React from 'react'
 import { Container } from 'react-bootstrap';
-import AdminHeader from '../AdminHeader/AdminHeader';
+import HospitalHeader from '../HospitalHeader/HospitalHeader';
 import HospitalSidebar from '../HospitalSidebar/HospitalSidebar';
-import './AdminHome.css'
 
-function hospitalHome() {
+function HospitalHome() {
   return (
     <div className="admin-home">
-      <AdminHeader />
+      <HospitalHeader />
       <div className="admin-main">
         <HospitalSidebar page={'dashboard'}/>
         <div className="admin-container">

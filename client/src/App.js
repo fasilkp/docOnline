@@ -17,6 +17,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import UserHomePage from './pages/user/UserHomePage';
 import './App.css'
 import HospitalrequestPage from './pages/admin/HospitalrequestPage';
+import HospitalHomePage from './pages/hospital/HospitalHomePage';
 
 
 function App() {
@@ -76,6 +77,7 @@ function App() {
 
 
 
+        <Route path='/account/hospital/' element={<HospitalHomePage />} />
         <Route path='/account/hospital/login' element={<HospitalLoginPage />} />
         <Route path='/account/hospital/forgot' element={<HospitalForgotPage />} />
         <Route path='/account/hospital/signup' element={<HospitalForgotPage />} />

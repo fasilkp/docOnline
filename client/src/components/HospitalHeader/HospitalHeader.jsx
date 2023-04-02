@@ -2,7 +2,7 @@ import { Avatar } from '@mui/material'
 import React from 'react'
 import '../AdminHeader/AdminHeader.css'
 
-function AdminHeader() {
+function HospitalHeader() {
   return (
     <div className="admin-header">
         <div className="admi-header-item">
@@ -16,4 +16,4 @@ function AdminHeader() {
   )
 }
 
-export default AdminHeader
+export default HospitalHeader
