@@ -5,10 +5,11 @@ import { Container, Dropdown, Table } from 'react-bootstrap';
 import { RiMore2Fill } from 'react-icons/ri';
 import AdminHeader from '../AdminHeader/AdminHeader';
 import AdminSidebar from '../AdminSidebar/AdminSidebar';
+import Swal from 'sweetalert2'
 
 export default function HospitalRequests() {
   const [hospitalList, setHospitalList] = useState([])
-  const [refresh, setRefresh]=useState(false)
+  const [refresh, setRefresh] = useState(false)
   React.useEffect(() => {
     (
       async function () {
@@ -24,16 +25,39 @@ export default function HospitalRequests() {
       }
     )()
   }, [refresh])
-  const acceptRequest=async (e)=>{
+  const acceptRequest = async (e, email) => {
     e.preventDefault();
-    const {data}= await axios.post("/admin/hospital/accept", {email});
-    if(!data.err){
-      setRefresh(!refresh)
-    }else{
-      alert("something went wrong")
-    }
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#7e3af2',
+      cancelButtonColor: '##a8a8a8',
+      confirmButtonText: 'Yes, Accept it!'
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const { data } = await axios.post("/admin/hospital/accept", { email });
+        if (!data.err) {
+          Swal.fire(
+            'Success!',
+            'Successfully Accepted',
+            'success'
+          )
+          setRefresh(!refresh)
+        } else {
+          Swal.fire(
+            'Failed!',
+            'Something Went Wrong',
+            'error'
+          )
+
+        }
+      }
+    })
+
   }
-  const rejectRequest= async(e)=>{
+  const rejectRequest = async (e, email) => {
     e.preventDefault();
   }
   return (
@@ -70,8 +94,8 @@ export default function HospitalRequests() {
                           </Dropdown.Toggle>
 
                           <Dropdown.Menu>
-                            <Dropdown.Item href="#" onClick={(e)=>acceptRequest(e, item.email)}>Accept</Dropdown.Item>
-                            <Dropdown.Item href="#" onClick={(e)=>rejectRequest(e, item.email)}>Reject</Dropdown.Item>
+                            <Dropdown.Item href="#" onClick={(e) => acceptRequest(e, item.email)}>Accept</Dropdown.Item>
+                            <Dropdown.Item href="#" onClick={(e) => rejectRequest(e, item.email)}>Reject</Dropdown.Item>
                           </Dropdown.Menu>
                         </Dropdown>
                       </td>
