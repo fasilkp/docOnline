@@ -25,20 +25,21 @@ function App() {
   axios.defaults.baseURL = "http://localhost:5000/";
   axios.defaults.withCredentials = true;
 
-  const { user, refresh, admin } = useSelector((state) => {
+  const { user, refresh, admin, hospital } = useSelector((state) => {
     return state;
   });
-  const dispatch=useDispatch()
+  console.log(hospital)
+  const dispatch = useDispatch()
 
   useEffect(() => {
     (async function () {
       let { data } = await axios.get("/user/auth/check");
       dispatch({ type: "user", payload: { login: data.loggedIn, details: data.user } })
-      let { data:adminData } = await axios.get("/admin/auth/check");
-      console.log(adminData)
-      dispatch({ type: "admin", payload: { login: adminData.loggedIn, details: adminData.user } })
-      console.log(admin)
-
+      let { data: adminData } = await axios.get("/admin/auth/check");
+      dispatch({ type: "admin", payload: { login: adminData.loggedIn, details: adminData.admin } })
+      let { data: hospitalData } = await axios.get("/hospital/auth/check");
+      console.log(hospitalData)
+      dispatch({ type: "hospital", payload: { login: hospitalData.loggedIn, details: hospitalData.hospital } })
     })()
   }, [refresh])
   return (
@@ -47,41 +48,54 @@ function App() {
         {
           user.login &&
           <>
-          <Route path='/' element={<UserHomePage/>} />
-          <Route path='/login' element={<Navigate to={"/"} />} />
-          <Route path='/signup' element={<Navigate to="/" />} />
+            <Route path='/' element={<UserHomePage />} />
+            <Route path='/login' element={<Navigate to={"/"} />} />
+            <Route path='/signup' element={<Navigate to="/" />} />
           </>
         }
         {
-          user.login===false &&
+          user.login === false &&
           <>
-          <Route path='/' element={<Navigate to="/login"/>} />
-          <Route path='/login' element={<LoginPage />} />
-          <Route path='/signup' element={<UserSignupPage />} />
+            <Route path='/' element={<Navigate to="/login" />} />
+            <Route path='/login' element={<LoginPage />} />
+            <Route path='/signup' element={<UserSignupPage />} />
           </>
         }
         {
           admin.login &&
           <>
-          <Route path='/account/admin/' element={<AdminHomePage />} />
-          <Route path='/account/admin/hospitals/requests' element={<HospitalrequestPage />} />
-          <Route path='/account/admin/login' element={<Navigate to="/account/admin" />} />
+            <Route path='/account/admin/' element={<AdminHomePage />} />
+            <Route path='/account/admin/hospitals/requests' element={<HospitalrequestPage />} />
+            <Route path='/account/admin/login' element={<Navigate to="/account/admin" />} />
           </>
         }
         {
-          admin.login===false &&
+          admin.login === false &&
           <>
-          <Route path='/account/admin/login' element={<AdminLoginPage />} />
-          <Route path='/account/admin/*' element={<Navigate to="/account/admin/login" />} />
+            <Route path='/account/admin/login' element={<AdminLoginPage />} />
+            <Route path='/account/admin/*' element={<Navigate to="/account/admin/login" />} />
+          </>
+        }
+        {
+          hospital.login &&
+          <>
+            <Route path='/account/hospital/' element={<HospitalHomePage />} />
+            <Route path='/account/hospital/login' element={<Navigate to="/account/hospital/" />} />
+            <Route path='/account/hospital/signup' element={<Navigate to="/account/hospital/" />} />
+          </>
+        }
+        {
+          hospital.login === false &&
+          <>
+            <Route path='/account/hospital/login' element={<HospitalLoginPage />} />
+            <Route path='/account/hospital/signup' element={<HospitalSignupPage />} />
+            <Route path='/account/hospital/*' element={<Navigate to="/account/hospital/login" />} />
           </>
         }
 
 
 
-        <Route path='/account/hospital/' element={<HospitalHomePage />} />
-        <Route path='/account/hospital/login' element={<HospitalLoginPage />} />
-        <Route path='/account/hospital/forgot' element={<HospitalForgotPage />} />
-        <Route path='/account/hospital/signup' element={<HospitalSignupPage />} />
+        
 
         <Route path='/account/doctor/login' element={<DoctorLoginPage />} />
         <Route path='/account/doctor/forgot' element={<DoctorForgotPage />} />

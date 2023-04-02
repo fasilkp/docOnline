@@ -53,15 +53,13 @@ export const checkAdminLoggedIn = async (req, res) => {
 
         if (!token)
             return res.json({ loggedIn: false, error: true, message: "no token" });
-        console.log(token)
         const verifiedJWT = jwt.verify(token, process.env.JWT_SECRET_KEY);
         const admin = await AdminModel.findById(verifiedJWT.id, { password: 0 });
-        console.log("ad", admin)
-        console.log('ad jwt', verifiedJWT)
+  
         if (!admin) {
             return res.json({ loggedIn: false });
         }
-        return res.json({ name: verifiedJWT.name, loggedIn: true });
+        return res.json({ admin, loggedIn: true });
     } catch (err) {
         res.json({ loggedIn: false, error: err });
     }

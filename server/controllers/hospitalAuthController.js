@@ -51,3 +51,22 @@ export async function hospitalLogin(req, res) {
     }
 }
 
+
+export const checkHospitalLoggedIn = async (req, res) => {
+    try {
+        const token = req.cookies.hospitalToken;
+        if (!token)
+            return res.json({ loggedIn: false, error: true, message: "no token" });
+
+        const verifiedJWT = jwt.verify(token, process.env.JWT_SECRET_KEY);
+        const hospital = await HospitalModel.findOne({_id:verifiedJWT.id, active:true}, { password: 0 });
+        if (!hospital) {
+            return res.json({ loggedIn: false });
+        }
+        return res.json({ hospital, loggedIn: true });
+    } catch (err) {
+        console.log(err)
+        res.json({ loggedIn: false, error: err });
+    }
+}
+
