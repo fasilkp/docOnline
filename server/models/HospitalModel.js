@@ -25,9 +25,14 @@ const HospitalSchema = new mongoose.Schema({
         type:Object
     },
     mobile:{
-        type:Number
+        type:Number,
+        default:0000000000
+    },
+    active:{
+        type:Boolean,
+        default:false
     }
 })
 
-const HospitalModel=mongoose.model("User", HospitalSchema)
+const HospitalModel=mongoose.model("Hospital", HospitalSchema)
 export default HospitalModel
