@@ -27,7 +27,7 @@ export async function hospitalLogin(req, res) {
             return res.json({ err: true, message: "No Hospital Found" })
         }
         if (!hospital.active){
-            return res.json({ err: true, message: "Approval under process .inform you when completed" })
+            return res.json({ err: true, message: "Approval under process. We will inform you once completed" })
         }
     
         const hospitalValid = bcrypt.compareSync(password, hospital.password);

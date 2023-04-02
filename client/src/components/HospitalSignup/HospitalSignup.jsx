@@ -29,6 +29,8 @@ function HospitalSignup() {
                 alert("Thank You for Registration. We will Inform you when Your account has been Approved")
                 navigate("/account/hospital/login")
             }
+            setLoading({ ...loading, submit: false })
+
 
         }
     }
