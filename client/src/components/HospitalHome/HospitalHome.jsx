@@ -1,7 +1,7 @@
 import React from 'react'
 import { Container } from 'react-bootstrap';
 import AdminHeader from '../AdminHeader/AdminHeader';
-import AdminSidebar from '../AdminSidebar/AdminSidebar';
+import HospitalSidebar from '../HospitalSidebar/HospitalSidebar';
 import './AdminHome.css'
 
 function hospitalHome() {
@@ -9,7 +9,7 @@ function hospitalHome() {
     <div className="admin-home">
       <AdminHeader />
       <div className="admin-main">
-        <AdminSidebar page={'dashboard'}/>
+        <HospitalSidebar page={'dashboard'}/>
         <div className="admin-container">
           <Container fluid>
 
