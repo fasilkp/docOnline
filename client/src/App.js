@@ -62,7 +62,7 @@ function App() {
           admin.login &&
           <>
           <Route path='/account/admin/' element={<AdminHomePage />} />
-          <Route path='/account/admin/hospital/requests' element={<HospitalrequestPage />} />
+          <Route path='/account/admin/hospitals/requests' element={<HospitalrequestPage />} />
           <Route path='/account/admin/login' element={<Navigate to="/account/admin" />} />
           </>
         }

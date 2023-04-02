@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Container, Table } from 'react-bootstrap';
+import { RiMore2Fill } from 'react-icons/ri';
 import AdminHeader from '../AdminHeader/AdminHeader';
 import AdminSidebar from '../AdminSidebar/AdminSidebar';
 
@@ -17,9 +18,10 @@ export default function HospitalRequests() {
       <thead>
         <tr>
           <th>#</th>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>Username</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Mobile</th>
+          <th>option</th>
         </tr>
       </thead>
       <tbody>
@@ -27,13 +29,19 @@ export default function HospitalRequests() {
           <td>1</td>
           <td>Mark</td>
           <td>Otto</td>
-          <td>@mdo</td>
+          <td>Otto</td>
+          <td>
+          <RiMore2Fill/>
+          </td>
         </tr>
         <tr>
           <td>2</td>
           <td>Jacob</td>
           <td>Thornton</td>
-          <td>@fat</td>
+          <td>Thornton</td>
+          <td>
+          <RiMore2Fill/>
+          </td>
         </tr>
       </tbody>
     </Table>

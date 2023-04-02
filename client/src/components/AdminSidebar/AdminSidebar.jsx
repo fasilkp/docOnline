@@ -1,11 +1,13 @@
 import React from 'react'
 import './Sidebar.css'
 import { RiBuilding4Line, RiHome2Line, RiHospitalLine, RiUser2Line } from "react-icons/ri";
+import { Link } from 'react-router-dom';
 
 function AdminSidebar({page}) {
   return (
     <div className="admin-sidebar">
           <ul>
+              <Link to="/account/admin/">
             <li className={`admin-sideitems ${page=="dashboard" && 'active'}`}>
               <div className='side'></div>
               <div className="admin-sideItem">
@@ -14,6 +16,9 @@ function AdminSidebar({page}) {
                 <span>Dashboard</span>
               </div>
             </li>
+              </Link>
+              <Link to="/account/admin/doctors">
+
             <li className={`admin-sideitems ${page=="doctor" && 'active'}`}>
               <div className='side'></div>
               <div className="admin-sideItem">
@@ -22,6 +27,9 @@ function AdminSidebar({page}) {
                 <span>Doctors</span>
               </div>
             </li>
+            </Link>
+            <Link to="/account/admin/hospitals">
+
             <li className={`admin-sideitems ${page=="hospital" && 'active'}`}>
 
               <div className='side'></div>
@@ -31,6 +39,9 @@ function AdminSidebar({page}) {
                 <span>Hospitals</span>
               </div>
             </li>
+            </Link>
+            <Link to="/account/admin/hospitals/requests">
+
             <li className={`admin-sideitems ${page=="hospital request" && 'active'}`}>
 
               <div className='side'></div>
@@ -40,6 +51,7 @@ function AdminSidebar({page}) {
                 <span>Hospital Requests</span>
               </div>
             </li>
+            </Link>
 
           </ul>
 
