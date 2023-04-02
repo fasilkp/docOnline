@@ -6,10 +6,12 @@ import { RiMore2Fill } from 'react-icons/ri';
 import AdminHeader from '../AdminHeader/AdminHeader';
 import AdminSidebar from '../AdminSidebar/AdminSidebar';
 import Swal from 'sweetalert2'
+import { Backdrop, CircularProgress } from '@mui/material';
 
 export default function HospitalRequests() {
   const [hospitalList, setHospitalList] = useState([])
   const [refresh, setRefresh] = useState(false)
+  const [load, setLoad]=useState(false)
   React.useEffect(() => {
     (
       async function () {
@@ -29,6 +31,41 @@ export default function HospitalRequests() {
     e.preventDefault();
     Swal.fire({
       title: 'Are you sure?',
+      text: "accept this account!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#7e3af2',
+      cancelButtonColor: '##a8a8a8',
+      confirmButtonText: 'Yes, Accept it!'
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        setLoad(true)
+        const { data } = await axios.post("/admin/hospital/accept", { email });
+        console.log(data)
+        if (!data.err) {
+          Swal.fire(
+            'Success!',
+            'Successfully Accepted',
+            'success'
+          )
+        } else {
+          Swal.fire(
+            'Failed!',
+            'Something Went Wrong',
+            'error'
+            )
+            
+          }
+          setRefresh(!refresh)
+          setLoad(false)
+      }
+    })
+
+  }
+  const rejectRequest = async (e, email) => {
+    e.preventDefault();
+    Swal.fire({
+      title: 'Are you sure?',
       text: "You won't be able to revert this!",
       icon: 'warning',
       showCancelButton: true,
@@ -37,11 +74,12 @@ export default function HospitalRequests() {
       confirmButtonText: 'Yes, Accept it!'
     }).then(async (result) => {
       if (result.isConfirmed) {
-        const { data } = await axios.post("/admin/hospital/accept", { email });
+        setLoad(true)
+        const { data } = await axios.post("/admin/hospital/reject", { email });
         if (!data.err) {
           Swal.fire(
             'Success!',
-            'Successfully Accepted',
+            'Successfully Rejected',
             'success'
           )
           setRefresh(!refresh)
@@ -53,15 +91,13 @@ export default function HospitalRequests() {
           )
 
         }
+        setLoad(false)
       }
     })
-
-  }
-  const rejectRequest = async (e, email) => {
-    e.preventDefault();
   }
   return (
     <div className="admin-home">
+
       <AdminHeader />
       <div className="admin-main">
         <AdminSidebar page={'hospital request'} />
@@ -109,6 +145,12 @@ export default function HospitalRequests() {
           </div>
         </Container>
       </div>
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={load}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
     </div>
 
   );

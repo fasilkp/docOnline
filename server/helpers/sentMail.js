@@ -1,7 +1,6 @@
 import nodemailer from 'nodemailer'
 
-export default function sentMail(email, otp){
-  console.log(email, message1, message2)
+export default function sentMail(email, message1, message2){
     return new Promise((resolve, reject)=>{
         let transporter = nodemailer.createTransport({
             host: "smtp.gmail.com",
@@ -19,8 +18,8 @@ export default function sentMail(email, otp){
               subject: "DocOnline",
               html: `
               <h1>DocOnline Registration</h1>
-                <h3>${message1}</h3>
-                <h5>${message2}</h5>
+                <h2>${message1}</h2>
+                <h3>${message2}</h3>
               `,
             }
         
