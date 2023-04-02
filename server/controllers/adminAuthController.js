@@ -11,7 +11,6 @@ export async function adminLogin(req, res) {
         const admin = await AdminModel.findOne({ email})
         console.log("admin",admin)
         if (!admin){
-            console.log("hai")
             return res.json({ err: true, message: "You have no admin access" })
         }
         const adminValid = bcrypt.compareSync(password, admin.password);
@@ -48,7 +47,6 @@ export const adminLogout = async (req, res) => {
 
 export const checkAdminLoggedIn = async (req, res) => {
     try {
-        console.log("hai")
         const token = req.cookies.adminToken;
 
         if (!token)

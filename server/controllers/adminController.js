@@ -9,3 +9,13 @@ export async function getHospitalRequests(req, res) {
         res.json({ message: "somrthing went wrong", error: err, err:true })
     }
 }
+export async function acceptHospital(req, res) {
+    try {
+        const {email}=req.body;
+        await HospitalModel.updateOne({email}, {active:true});
+        res.json({ err:false})
+    }
+    catch (err) {
+        res.json({ message: "somrthing went wrong", error: err, err:true })
+    }
+}

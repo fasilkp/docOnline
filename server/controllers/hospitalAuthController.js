@@ -8,9 +8,9 @@ var salt = bcrypt.genSaltSync(10);
 
 export async function hospitalRegister(req, res){
     try{
-        const {name, email, password}=req.body;
+        const {name, email, mobile, password}=req.body;
         const hashPassword = bcrypt.hashSync(password, salt);
-        const hospital = await HospitalModel.create({name, email, password:hashPassword});
+        const hospital = await HospitalModel.create({name,mobile, email, password:hashPassword});
         res.json({err:false})
 
     }catch(err){

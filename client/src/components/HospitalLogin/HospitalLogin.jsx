@@ -85,7 +85,7 @@ function HospitalLogin() {
                                         </button>
                                     </div>
                                     <div className="login-row mt-3">
-                                        <Link to="/account/hospital/login">Don't Have an Account? Signin</Link>
+                                        <Link to="/account/hospital/signup">Don't Have an Account? Signup</Link>
                                     </div>
                                 </form>
                             </div>

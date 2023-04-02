@@ -10,6 +10,7 @@ import axios from 'axios'
 function HospitalSignup() {
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
+    const [mobile, setMobile] = useState("")
     const [password, setPassword] = useState("")
     const [errMessage, setErrMessage] = useState("")
     const [loading, setLoading] = useState({
@@ -21,12 +22,12 @@ function HospitalSignup() {
         setLoading({ ...loading, submit: true })
         if (validForm()) {
             const { data } = await axios.post("/hospital/auth/register", {
-                email, name, password
+                email, name, password, mobile
             })
             if (data.err) {
                 setErrMessage(data.message)
             } else {
-                alert("Thank You for Registration. We will Inform you when Your account has been Approved")
+                alert("Thank You for Registration. We will Inform you when You once account has got Approved")
                 navigate("/account/hospital/login")
             }
             setLoading({ ...loading, submit: false })
@@ -35,7 +36,7 @@ function HospitalSignup() {
         }
     }
     function validForm() {
-        if (name.trim() === "" || email.trim() === "" || password.trim() === "") {
+        if (name.trim() === "" || email.trim() === "" || password.trim() === "" || mobile.toString().length !== 10) {
             return false
         }
         return true
@@ -72,6 +73,9 @@ function HospitalSignup() {
                                     <div className="login-row w-100">
                                         <TextField id="outlined-basic" value={email} onChange={(e) => setEmail(e.target.value)} label="Email" type="email" variant="outlined" fullWidth className='input' />
                                     </div>
+                                    <div className="login-row w-100">
+                                        <TextField id="outlined-basic" value={mobile} onChange={(e) => setMobile(e.target.value)} label="Mobile" type="number" variant="outlined" fullWidth className='input' />
+                                    </div>
                                     <div className="login-row">
                                         <TextField id="outlined-basic" value={password} onChange={(e) => setPassword(e.target.value)} label="Password" type="password" variant="outlined" className='input' fullWidth />
                                     </div>
@@ -88,7 +92,7 @@ function HospitalSignup() {
                                         </button>
                                     </div>
                                     <div className="login-row mt-3">
-                                        <Link to="/account/hospital/login">Don't Have an Account? Signin</Link>
+                                        <Link to="/account/hospital/login">Already Have an Account? Signin</Link>
                                     </div>
                                 </form>
                             </div>

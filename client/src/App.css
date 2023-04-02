@@ -42,14 +42,22 @@ button:disabled {
   background-color: #fff;
   width: 100%;
   border-radius: 10px;
-  overflow: hidden;
 }
 
 .table-main thead{
   height: 50px;
 }
 
+.table-responsive{
+  padding-bottom: 300px ;
+}
 
+
+.option-btn button, .option-btn button:hover, .option-btn button:checked, .option-btn button.show, .option-btn button:active, .option-btn button.active{
+  background: none;
+  border: none;
+  color:black;
+}
 
 .admin-container{
   padding-top: 20px;

@@ -1,9 +1,10 @@
 import express from 'express'
-import { getHospitalRequests } from '../controllers/adminController';
+import { acceptHospital, getHospitalRequests } from '../controllers/adminController.js';
 
 const Router = express.Router();
 
-Router.get("/doctor/requests", getHospitalRequests)
+Router.get("/hospital/requests", getHospitalRequests)
+Router.post("/hospital/accept", acceptHospital)
 
 
 export default Router
