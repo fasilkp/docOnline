@@ -8,6 +8,9 @@ import userAuthRouter from './routers/userAuthRouter.js'
 import adminAuthRouter from './routers/adminAuthRouter.js'
 import hospitalAuthRouter from './routers/hospitalAuthRouter.js'
 import adminRouter from './routers/adminRouter.js'
+import verifyAdmin from './middlewares/verifyAdmin.js'
+import verifyHospital from './middlewares/verifyHospital.js'
+import hospitalRouter from './routers/hospitalRouter.js'
 
 const app=express();
 app.use(express.json())
@@ -27,7 +30,8 @@ dbConnect();
 app.use("/user/auth/", userAuthRouter)
 app.use("/admin/auth/", adminAuthRouter)
 app.use("/hospital/auth/", hospitalAuthRouter)
-app.use("/admin/", adminRouter)
+app.use("/admin/",verifyAdmin, adminRouter)
+app.use("/hospital/",verifyHospital, hospitalRouter)
 
 
 app.listen(5000, ()=>{

@@ -1,21 +1,22 @@
 import jwt from 'jsonwebtoken'
-import UserModel from '../models/UserModel.js';
+import AdminModel from '../models/AdminModel.js';
 
-export default verifyUser = async (req, res, next) => {
+const verifyAdmin = async (req, res, next) => {
     try {
-        const token = req.cookies.token;
+        const token = req.cookies.adminToken;
+
         if (!token)
             return res.json({ loggedIn: false, error: true, message: "no token" });
-
         const verifiedJWT = jwt.verify(token, process.env.JWT_SECRET_KEY);
-        const user = await UserModel.findById(verifiedJWT.id, { password: 0 });
-        if (!user) {
+        const admin = await AdminModel.findById(verifiedJWT.id, { password: 0 });
+  
+        if (!admin) {
             return res.json({ loggedIn: false });
         }
-        req.user=user;
+        req.admin=admin;
         next()
     } catch (err) {
-        console.log(err)
         res.json({ loggedIn: false, error: err });
     }
 }
+export default verifyAdmin

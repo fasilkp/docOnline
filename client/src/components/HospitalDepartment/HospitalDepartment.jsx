@@ -6,15 +6,15 @@ import { RiMore2Fill } from 'react-icons/ri';
 import Swal from 'sweetalert2'
 import { Backdrop, CircularProgress } from '@mui/material';
 import HospitalSidebar from '../HospitalSidebar/HospitalSidebar';
-import {useDispatch, useSelector} from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import HospitalHeader from '../HospitalHeader/HospitalHeader';
 
 export default function HospitalDepartment() {
     const [refresh, setRefresh] = useState(false)
     const [load, setLoad] = useState(false)
-    const {hospital}=useSelector((state)=>state)
-    const departmentList= hospital.details.departments
-    const dispatch= useDispatch()
+    const { hospital } = useSelector((state) => state)
+    const departmentList = hospital.details.departments
+    const dispatch = useDispatch()
 
 
     //   const rejectRequest = async (e, email) => {
@@ -50,7 +50,7 @@ export default function HospitalDepartment() {
     //       }
     //     })
     //   }
-    
+
     const addDepartment = async () => {
         const { value: department } = await Swal.fire({
             title: 'Add Department',
@@ -67,7 +67,22 @@ export default function HospitalDepartment() {
         })
 
         if (department) {
-            Swal.fire(`Entered email: ${department}`)
+            let { data } = await axios.post("/hospital/department", { department });
+            if (!data.err) {
+                Swal.fire(
+                    'Success!',
+                    'Successfully Added',
+                    'success'
+                )
+            }else{
+                Swal.fire(
+                    'Failed!',
+                    data.message,
+                    'error'
+                )
+
+            }
+            dispatch({type:'refresh'})
         }
     }
     return (
@@ -94,7 +109,7 @@ export default function HospitalDepartment() {
                             <tbody>
                                 {
                                     departmentList.map((item, index) => {
-                                        return <tr>
+                                        return <tr key={index}>
                                             <td>{index + 1}</td>
                                             <td>{item}</td>
                                             <td className='option-btn'>

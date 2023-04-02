@@ -1,15 +1,20 @@
 import sentMail from "../helpers/sentMail.js";
 import HospitalModel from "../models/HospitalModel.js"
 
-// export async function getHospitalRequests(req, res) {
-//     try {
-//         const doctorRequests=await HospitalModel.find({active:false}).lean()
-//         res.json({ err:false, doctorRequests })
-//     }
-//     catch (err) {
-//         res.json({ message: "somrthing went wrong", error: err, err:true })
-//     }
-// }
+export async function addDepartment(req, res) {
+    try {
+
+        await HospitalModel.findByIdAndUpdate(req.hospital._id,{
+            $addToSet:{
+                departments:req.body.department.trim().toLowerCase()
+            }
+        })
+        res.json({ err:false })
+    }
+    catch (err) {
+        res.json({ message: "somrthing went wrong", error: err, err:true })
+    }
+}
 // export async function acceptHospital(req, res) {
 //     try {
 //         const {email}=req.body;
