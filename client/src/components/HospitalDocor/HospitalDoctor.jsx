@@ -9,13 +9,15 @@ import HospitalSidebar from '../HospitalSidebar/HospitalSidebar';
 import { useDispatch, useSelector } from 'react-redux'
 import HospitalHeader from '../HospitalHeader/HospitalHeader';
 import AddDoctor from '../../Modal/AddDoctor/AddDoctor';
+import { useEffect } from 'react';
 
 export default function HospitalDoctor() {
     const [refresh, setRefresh] = useState(false)
     const [load, setLoad] = useState(false)
     const { hospital } = useSelector((state) => state)
     const [showModal, setShowModal]=useState(false)
-    const departmentList = hospital.details.departments
+    const [doctorList, setDoctorList]=useState([])
+    
     const dispatch = useDispatch()
 
 
@@ -56,6 +58,18 @@ export default function HospitalDoctor() {
     const addDoctor = async () => {
         setShowModal(true)
     }
+    useEffect(() => {
+        (
+            async function(){
+                const {data}= await axios.get("/hospital/doctors");
+                console.log(data)
+                if(!data.err){
+                    setDoctorList(data.doctors)
+                }
+            }
+        )()
+    }, [refresh]);
+
     return (
         <div className="admin-home">
 
@@ -74,25 +88,27 @@ export default function HospitalDoctor() {
                                 <tr>
                                     <th>#</th>
                                     <th>Name</th>
+                                    <th>Email</th>
                                     <th>option</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {
-                                    departmentList.map((item, index) => {
+                                    doctorList.map((item, index) => {
                                         return <tr key={index}>
                                             <td>{index + 1}</td>
-                                            <td>{item}</td>
+                                            <td>{item.name}</td>
+                                            <td>{item.email}</td>
                                             <td className='option-btn'>
                                                 <Dropdown>
                                                     <Dropdown.Toggle variant="secondary" id="dropdown-basic">
                                                         <RiMore2Fill />
                                                     </Dropdown.Toggle>
 
-                                                    <Dropdown.Menu>
+                                                    {/* <Dropdown.Menu>
                                                         <Dropdown.Item href="#" onClick={(e) => { }}>Accept</Dropdown.Item>
                                                         <Dropdown.Item href="#" onClick={(e) => { }}>Reject</Dropdown.Item>
-                                                    </Dropdown.Menu>
+                                                    </Dropdown.Menu> */}
                                                 </Dropdown>
                                             </td>
                                         </tr>
@@ -107,7 +123,7 @@ export default function HospitalDoctor() {
             </div>
             {
                 showModal &&
-                <AddDoctor setShowModal={setShowModal} />
+                <AddDoctor setShowModal={setShowModal} refresh={refresh} setRefresh={setRefresh} />
             }
             <Backdrop
                 sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}

@@ -1,16 +1,20 @@
-import { TextField } from '@mui/material'
+import { InputLabel, MenuItem, Select, TextField } from '@mui/material'
+import axios from 'axios'
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { Form, FormControl } from 'react-bootstrap'
+import { useDispatch, useSelector } from 'react-redux'
 import { ClipLoader } from 'react-spinners'
 import '../../assets/css/modalForm.css'
 
-function AddDoctor({setShowModal}) {
-    const [name, setName]=useState("")
-    const [email, setEmail]=useState("")
-    const [password, setPassword]=useState("")
-    const [errMessage, setErrMessage]=useState("")
-    const [refresh, setRefresh]=useState(false)
+function AddDoctor({ setShowModal, setRefresh, refresh }) {
+    const [name, setName] = useState("")
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
+    const [department, setDepartment] = useState("")
+    const [errMessage, setErrMessage] = useState("")
     const dispatch = useDispatch()
+    const departmentList = useSelector((state)=>state.hospital.details.departments)
+    console.log(departmentList)
     const [loading, setLoading] = useState({
         submit: false
     })
@@ -19,61 +23,81 @@ function AddDoctor({setShowModal}) {
         setLoading({ ...loading, submit: true })
         if (validForm()) {
             const { data } = await axios.post("/hospital/doctor", {
-                email, password, name
+                email, password, name, department
             })
             if (data.err) {
                 setErrMessage(data.message)
             } else {
-                dispatch({type:"refresh"})
+                setRefresh(!refresh)
+                setShowModal(false)
             }
             setLoading({ ...loading, submit: false })
-            setRefresh(!refresh)
-            setShowModal(false)
         }
 
     }
     function validForm() {
-        if (email.trim() === "" || password.trim() === "" || name.trim()==="") {
+        if (email.trim() === "" || password.trim() === "" || name.trim() === "" || department.trim() ==="") {
             return false
         }
         return true
     }
-    useEffect(() => {
-        
-    }, []);
 
-  return (
-    <div className="modal-form">
-        <form className="modal-container" onSubmit={handleSubmit}>
-            <div className="modal-form-row head">
-                <h5>Add Doctor</h5>
-            </div>
-            <div className="modal-form-row">
-            <TextField id="outlined-basic" value={name} onChange={(e) => setName(e.target.value)} label="Name" type="text" variant="outlined" fullWidth className='input' />
-            </div>
-            <div className="modal-form-row">
-            <TextField id="outlined-basic" value={email} onChange={(e) => setEmail(e.target.value)} label="Email" type="email" variant="outlined" fullWidth className='input' />    
-            </div>
-            <div className="modal-form-row">
-            <TextField id="outlined-basic" value={password} onChange={(e) => setPassword(e.target.value)} label="Password" type="password" variant="outlined" fullWidth className='input' />    
-            </div>
-            {errMessage && 
-            <div className="modal-form-row">
-                <b>{errMessage}</b>
-            </div>
-            }
-            <div className="modal-form-row">
-                <button type='button' onClick={()=>setShowModal(false)} className='btn btn-outline-dark w-50'>close</button>
-                <button type='submmit' disabled={!validForm()} className='btn btn-dark w-50'>
-                    Add
-                    <ClipLoader size={20} color="white" loading={loading.submit} />
+
+    return (
+        <div className="modal-form">
+            <form className="modal-container" onSubmit={handleSubmit}>
+                <div className="modal-form-row head">
+                    <h5>Add Doctor</h5>
+                </div>
+                <div className="modal-form-row">
+                    <TextField id="outlined-basic" value={name} onChange={(e) => setName(e.target.value)} label="Name" type="text" variant="outlined" fullWidth className='input' />
+                </div>
+                <div className="modal-form-row">
+                    <TextField id="outlined-basic" value={email} onChange={(e) => setEmail(e.target.value)} label="Email" type="email" variant="outlined" fullWidth className='input' />
+                </div>
+                <div className="modal-form-row">
+                    <TextField id="outlined-basic" value={password} onChange={(e) => setPassword(e.target.value)} label="Password" type="password" variant="outlined" fullWidth className='input' />
+                </div>
+                <div className="modal-form-row">
+                    {/* <FormControl >
+                        <InputLabel id="demo-simple-select-label">Department</InputLabel>
+                        <Select
+                            labelId="demo-simple-select-label"
+                            id="demo-simple-select"
+                            value={department}
+                            label="Department"
+                        >
+                            <MenuItem value={10}>Ten</MenuItem>
+                            <MenuItem value={20}>Twenty</MenuItem>
+                            <MenuItem value={30}>Thirty</MenuItem>
+                        </Select>
+                    </FormControl> */}
+                    <Form.Select aria-label="Default select example" value={department} onChange={(e)=>setDepartment(e.target.value)}>
+                        <option value="">Select Department</option>
+                        {
+                            departmentList.map((item, index)=>{
+                                return <option value={item}>{item}</option>
+                            })
+                        }
+                    </Form.Select>
+                </div>
+                {errMessage &&
+                    <div className="modal-form-row">
+                        <b>{errMessage}</b>
+                    </div>
+                }
+                <div className="modal-form-row">
+                    <button type='button' onClick={() => setShowModal(false)} className='btn btn-outline-dark w-50'>close</button>
+                    <button type='submmit' disabled={!validForm()} className='btn btn-dark w-50'>
+                        Add
+                        <ClipLoader size={20} color="white" loading={loading.submit} />
 
                     </button>
-            </div>
+                </div>
 
-        </form>
-    </div>
-  )
+            </form>
+        </div>
+    )
 }
 
 export default AddDoctor
