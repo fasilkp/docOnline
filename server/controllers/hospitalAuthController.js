@@ -70,3 +70,11 @@ export const checkHospitalLoggedIn = async (req, res) => {
     }
 }
 
+export const hospitalLogout = async (req, res) => {
+    res.cookie("hospitalToken", "", {
+        httpOnly: true,
+        expires: new Date(0),
+        secure: true,
+        sameSite: "none",
+    }).json({ message: "logged out", error: false });
+}

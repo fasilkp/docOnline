@@ -125,7 +125,7 @@ export default function HospitalRequests() {
                       <td>{item.mobile}</td>
                       <td className='option-btn'>
                         <Dropdown>
-                          <Dropdown.Toggle variant="success" id="dropdown-basic">
+                          <Dropdown.Toggle variant="secondary" id="dropdown-basic">
                             <RiMore2Fill />
                           </Dropdown.Toggle>
 

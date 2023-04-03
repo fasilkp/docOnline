@@ -20,6 +20,7 @@ import HospitalrequestPage from './pages/admin/HospitalrequestPage';
 import HospitalHomePage from './pages/hospital/HospitalHomePage';
 import HospitalSignupPage from './pages/hospital/HospitalSignupPage';
 import HospitalDepartmentPage from './pages/hospital/HospitalDepartmentPage';
+import HospitalDoctorPage from './pages/hospital/HospitalDoctorPage';
 
 
 function App() {
@@ -29,7 +30,7 @@ function App() {
   const { user, refresh, admin, hospital } = useSelector((state) => {
     return state;
   });
-  console.log(hospital)
+  console.log(user, refresh, admin, hospital)
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -73,7 +74,9 @@ function App() {
         {
           admin.login === false &&
           <>
+          
             <Route path='/account/admin/login' element={<AdminLoginPage />} />
+            <Route path='/account/admin' element={<Navigate to="/account/admin/login" />} />
             <Route path='/account/admin/*' element={<Navigate to="/account/admin/login" />} />
           </>
         }
@@ -82,6 +85,7 @@ function App() {
           <>
             <Route path='/account/hospital/' element={<HospitalHomePage />} />
             <Route path='/account/hospital/department' element={<HospitalDepartmentPage />} />
+            <Route path='/account/hospital/doctor' element={<HospitalDoctorPage />} />
             <Route path='/account/hospital/login' element={<Navigate to="/account/hospital/" />} />
             <Route path='/account/hospital/signup' element={<Navigate to="/account/hospital/" />} />
           </>
@@ -91,6 +95,7 @@ function App() {
           <>
             <Route path='/account/hospital/login' element={<HospitalLoginPage />} />
             <Route path='/account/hospital/signup' element={<HospitalSignupPage />} />
+            <Route path='/account/hospital' element={<Navigate to="/account/hospital/login" />} />
             <Route path='/account/hospital/*' element={<Navigate to="/account/hospital/login" />} />
           </>
         }

@@ -17,7 +17,7 @@ function HospitalSidebar({ page }) {
             </div>
           </li>
         </Link>
-        <Link to="/account/hospital/doctors">
+        <Link to="/account/hospital/doctor">
 
           <li className={`admin-sideitems ${page == "doctor" && 'active'}`}>
             <div className='side'></div>

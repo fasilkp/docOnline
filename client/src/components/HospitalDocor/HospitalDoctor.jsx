@@ -9,7 +9,7 @@ import HospitalSidebar from '../HospitalSidebar/HospitalSidebar';
 import { useDispatch, useSelector } from 'react-redux'
 import HospitalHeader from '../HospitalHeader/HospitalHeader';
 
-export default function HospitalDepartment() {
+export default function HospitalDoctor() {
     const [refresh, setRefresh] = useState(false)
     const [load, setLoad] = useState(false)
     const { hospital } = useSelector((state) => state)
@@ -90,7 +90,7 @@ export default function HospitalDepartment() {
 
             <HospitalHeader />
             <div className="admin-main">
-                <HospitalSidebar page={'department'} />
+                <HospitalSidebar page={'doctor'} />
                 <Container fluid>
 
                     <div className="admin-container">
@@ -117,11 +117,11 @@ export default function HospitalDepartment() {
                                                     <Dropdown.Toggle variant="secondary" id="dropdown-basic">
                                                         <RiMore2Fill />
                                                     </Dropdown.Toggle>
-{/* 
+
                                                     <Dropdown.Menu>
                                                         <Dropdown.Item href="#" onClick={(e) => { }}>Accept</Dropdown.Item>
                                                         <Dropdown.Item href="#" onClick={(e) => { }}>Reject</Dropdown.Item>
-                                                    </Dropdown.Menu> */}
+                                                    </Dropdown.Menu>
                                                 </Dropdown>
                                             </td>
                                         </tr>
