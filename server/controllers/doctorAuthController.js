@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken'
 import bcrypt from "bcryptjs"
-import HospitalModel from '../models/HospitalModel.js';
+import DoctorModel from '../models/DoctorModel.js';
 
 
 var salt = bcrypt.genSaltSync(10);
@@ -11,15 +11,14 @@ export async function doctorLogin(req, res) {
         const { email, password } = req.body;
         const doctor = await DoctorModel.findOne({ email})
         if (!doctor){
-            return res.json({ err: true, message: "No Hospital Found" })
+            return res.json({ err: true, message: "No Doctor Found" })
         }
-    
         const doctorValid = bcrypt.compareSync(password, doctor.password);
         if (!doctorValid)
             return res.json({ err: true, message: "wrong Password" })
         const token = jwt.sign(
             {
-                id: hospital._id
+                id: doctor._id
             },
             process.env.JWT_SECRET_KEY
         )
@@ -31,6 +30,7 @@ export async function doctorLogin(req, res) {
         }).json({ err: false })
     }
     catch (err) {
+        console.log(err)
         res.json({ message: "somrthing went wrong", error: err, err:true })
     }
 }
@@ -38,7 +38,7 @@ export async function doctorLogin(req, res) {
 
 export const checkDoctorLoggedIn = async (req, res) => {
     try {
-        const token = req.cookies.hospitalToken;
+        const token = req.cookies.doctorToken;
         if (!token)
             return res.json({ loggedIn: false, error: true, message: "no token" });
 
@@ -47,7 +47,7 @@ export const checkDoctorLoggedIn = async (req, res) => {
         if (!doctor) {
             return res.json({ loggedIn: false });
         }
-        return res.json({ hospital, loggedIn: true });
+        return res.json({ doctor, loggedIn: true });
     } catch (err) {
         console.log(err)
         res.json({ loggedIn: false, error: err });

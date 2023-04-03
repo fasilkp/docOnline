@@ -21,16 +21,16 @@ import HospitalHomePage from './pages/hospital/HospitalHomePage';
 import HospitalSignupPage from './pages/hospital/HospitalSignupPage';
 import HospitalDepartmentPage from './pages/hospital/HospitalDepartmentPage';
 import HospitalDoctorPage from './pages/hospital/HospitalDoctorPage';
+import DoctorHomePage from './pages/doctor/DoctorHomePage';
 
 
 function App() {
   axios.defaults.baseURL = "http://localhost:5000/";
   axios.defaults.withCredentials = true;
 
-  const { user, refresh, admin, hospital } = useSelector((state) => {
+  const { user, refresh, admin, hospital, doctor } = useSelector((state) => {
     return state;
   });
-  console.log(user, refresh, admin, hospital)
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -40,8 +40,9 @@ function App() {
       let { data: adminData } = await axios.get("/admin/auth/check");
       dispatch({ type: "admin", payload: { login: adminData.loggedIn, details: adminData.admin } })
       let { data: hospitalData } = await axios.get("/hospital/auth/check");
-      console.log(hospitalData)
       dispatch({ type: "hospital", payload: { login: hospitalData.loggedIn, details: hospitalData.hospital } })
+      let { data: doctorData } = await axios.get("/doctor/auth/check");
+      dispatch({ type: "doctor", payload: { login: doctorData.loggedIn, details: doctorData.doctor } })
     })()
   }, [refresh])
   return (
@@ -74,7 +75,7 @@ function App() {
         {
           admin.login === false &&
           <>
-          
+
             <Route path='/account/admin/login' element={<AdminLoginPage />} />
             <Route path='/account/admin' element={<Navigate to="/account/admin/login" />} />
             <Route path='/account/admin/*' element={<Navigate to="/account/admin/login" />} />
@@ -99,14 +100,25 @@ function App() {
             <Route path='/account/hospital/*' element={<Navigate to="/account/hospital/login" />} />
           </>
         }
+        {
+          doctor.login === false &&
+          <>
+            <Route path='/account/doctor/login' element={<DoctorLoginPage />} />
+            <Route path='/account/doctor' element={<Navigate to="/account/doctor/login" />} />
+            <Route path='/account/doctor/*' element={<Navigate to="/account/doctor/login" />} />
+          </>
+        }
+        {
+          doctor.login &&
+          <>
+            <Route path='/account/doctor/' element={<DoctorHomePage />} />
+            <Route path='/account/doctor/login' element={<Navigate to="/account/doctor/" />} />
+          </>
+        }
 
 
 
-        
 
-        <Route path='/account/doctor/login' element={<DoctorLoginPage />} />
-        <Route path='/account/doctor/forgot' element={<DoctorForgotPage />} />
-        <Route path='/account/admin' element={<AdminHome />} />
 
       </Routes>
 

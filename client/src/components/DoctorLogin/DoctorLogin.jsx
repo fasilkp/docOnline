@@ -24,6 +24,7 @@ function DoctorLogin() {
             const { data } = await axios.post("/doctor/auth/login", {
                 email, password
             })
+            console.log(data)
             if (data.err) {
                 setErrMessage(data.message)
             } else {
