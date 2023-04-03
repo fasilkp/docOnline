@@ -1,0 +1,64 @@
+import jwt from 'jsonwebtoken'
+import bcrypt from "bcryptjs"
+import HospitalModel from '../models/HospitalModel.js';
+
+
+var salt = bcrypt.genSaltSync(10);
+
+
+export async function doctorLogin(req, res) {
+    try {
+        const { email, password } = req.body;
+        const doctor = await DoctorModel.findOne({ email})
+        if (!doctor){
+            return res.json({ err: true, message: "No Hospital Found" })
+        }
+    
+        const doctorValid = bcrypt.compareSync(password, doctor.password);
+        if (!doctorValid)
+            return res.json({ err: true, message: "wrong Password" })
+        const token = jwt.sign(
+            {
+                id: hospital._id
+            },
+            process.env.JWT_SECRET_KEY
+        )
+        return res.cookie("doctorToken", token, {
+            httpOnly: true,
+            secure: true,
+            maxAge: 1000 * 60 * 60 * 24 * 7,
+            sameSite: "none",
+        }).json({ err: false })
+    }
+    catch (err) {
+        res.json({ message: "somrthing went wrong", error: err, err:true })
+    }
+}
+
+
+export const checkDoctorLoggedIn = async (req, res) => {
+    try {
+        const token = req.cookies.hospitalToken;
+        if (!token)
+            return res.json({ loggedIn: false, error: true, message: "no token" });
+
+        const verifiedJWT = jwt.verify(token, process.env.JWT_SECRET_KEY);
+        const doctor = await DoctorModel.findOne({_id:verifiedJWT.id}, { password: 0 });
+        if (!doctor) {
+            return res.json({ loggedIn: false });
+        }
+        return res.json({ hospital, loggedIn: true });
+    } catch (err) {
+        console.log(err)
+        res.json({ loggedIn: false, error: err });
+    }
+}
+
+export const doctorLogout = async (req, res) => {
+    res.cookie("hospitalToken", "", {
+        httpOnly: true,
+        expires: new Date(0),
+        secure: true,
+        sameSite: "none",
+    }).json({ message: "logged out", error: false });
+}
