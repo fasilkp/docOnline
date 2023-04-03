@@ -1,4 +1,5 @@
 import sentMail from "../helpers/sentMail.js";
+import DoctorModel from "../models/DoctorModel.js";
 import HospitalModel from "../models/HospitalModel.js"
 
 export async function addDepartment(req, res) {
@@ -14,6 +15,18 @@ export async function addDepartment(req, res) {
     catch (err) {
         res.json({ message: "somrthing went wrong", error: err, err:true })
     }
+}
+export async function addDoctor(req, res){
+    try{
+        const {name, email, password}=req.body;
+        const hashPassword = bcrypt.hashSync(password, salt);
+        const doctor = await DoctorModel.create({name, email, password:hashPassword});
+        res.json({err:false})
+
+    }catch(err){
+        res.json({err:true , error:err, message:"Something Went Wrong"})
+    }
+
 }
 // export async function acceptHospital(req, res) {
 //     try {

@@ -8,11 +8,13 @@ import { Backdrop, CircularProgress } from '@mui/material';
 import HospitalSidebar from '../HospitalSidebar/HospitalSidebar';
 import { useDispatch, useSelector } from 'react-redux'
 import HospitalHeader from '../HospitalHeader/HospitalHeader';
+import AddDoctor from '../../Modal/AddDoctor/AddDoctor';
 
 export default function HospitalDoctor() {
     const [refresh, setRefresh] = useState(false)
     const [load, setLoad] = useState(false)
     const { hospital } = useSelector((state) => state)
+    const [showModal, setShowModal]=useState(false)
     const departmentList = hospital.details.departments
     const dispatch = useDispatch()
 
@@ -51,39 +53,8 @@ export default function HospitalDoctor() {
     //     })
     //   }
 
-    const addDepartment = async () => {
-        const { value: department } = await Swal.fire({
-            title: 'Add Department',
-            input: 'text',
-            inputLabel: 'Enter Department name',
-            inputPlaceholder: 'Enter your department name',
-            confirmButtonText: 'Add',
-            showCancelButton: true,
-            inputValidator: (value) => {
-                if (!value) {
-                    return 'You need to write something!'
-                }
-            }
-        })
-
-        if (department) {
-            let { data } = await axios.post("/hospital/department", { department });
-            if (!data.err) {
-                Swal.fire(
-                    'Success!',
-                    'Successfully Added',
-                    'success'
-                )
-            }else{
-                Swal.fire(
-                    'Failed!',
-                    data.message,
-                    'error'
-                )
-
-            }
-            dispatch({type:'refresh'})
-        }
+    const addDoctor = async () => {
+        setShowModal(true)
     }
     return (
         <div className="admin-home">
@@ -95,8 +66,8 @@ export default function HospitalDoctor() {
 
                     <div className="admin-container">
                         <div className="container-header">
-                            <h5>Departments</h5>
-                            <button className='btn btn-dark' onClick={addDepartment}>Add Department</button>
+                            <h5>Doctors</h5>
+                            <button className='btn btn-dark' onClick={addDoctor}>Add Doctor</button>
                         </div>
                         <Table className='table-main' responsive>
                             <thead>
@@ -134,6 +105,10 @@ export default function HospitalDoctor() {
                     </div>
                 </Container>
             </div>
+            {
+                showModal &&
+                <AddDoctor setShowModal={setShowModal} />
+            }
             <Backdrop
                 sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
                 open={load}

@@ -1,0 +1,28 @@
+.modal-form{
+    position: fixed;
+    top: 0px;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(128, 128, 128, 0.404);
+}
+.modal-container{
+    width: 500px;
+    padding: 20px;
+    gap: 10px;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px 0px grey;
+}
+.modal-form-row{
+    display: flex;
+    gap: 10px;
+}
+.modal-form-row.head{
+    display: flex;
+    justify-content: center;
+}
