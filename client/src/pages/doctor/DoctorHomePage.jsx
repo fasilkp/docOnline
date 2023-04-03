@@ -1,8 +1,9 @@
 import React from 'react'
+import DoctorHome from '../../components/DoctorHome/DoctorHome'
 
 function DoctorHomePage() {
   return (
-    <div>DoctorHomePage</div>
+    <DoctorHome/>
   )
 }
 

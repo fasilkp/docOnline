@@ -3,7 +3,7 @@ import '../AdminSidebar/Sidebar.css'
 import { RiArchiveDrawerLine, RiBuilding4Line, RiHome2Line, RiHospitalLine, RiUser2Line } from "react-icons/ri";
 import { Link } from 'react-router-dom';
 
-function SidebarSidebar({ page }) {
+function DoctorSidebar({ page }) {
   return (
     <div className="admin-sidebar">
       <ul>
@@ -70,4 +70,4 @@ function SidebarSidebar({ page }) {
   )
 }
 
-export default DoctorSideBar
+export default DoctorSidebar

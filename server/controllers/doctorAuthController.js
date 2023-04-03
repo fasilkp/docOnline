@@ -55,7 +55,7 @@ export const checkDoctorLoggedIn = async (req, res) => {
 }
 
 export const doctorLogout = async (req, res) => {
-    res.cookie("hospitalToken", "", {
+    res.cookie("doctorToken", "", {
         httpOnly: true,
         expires: new Date(0),
         secure: true,
