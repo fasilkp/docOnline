@@ -8,48 +8,26 @@ import { Backdrop, CircularProgress } from '@mui/material';
 import HospitalSidebar from '../HospitalSidebar/HospitalSidebar';
 import { useDispatch, useSelector } from 'react-redux'
 import HospitalHeader from '../HospitalHeader/HospitalHeader';
+import { useEffect } from 'react';
 
 export default function HospitalDepartment() {
     const [refresh, setRefresh] = useState(false)
     const [load, setLoad] = useState(false)
     const { hospital } = useSelector((state) => state)
-    const departmentList = hospital.details.departments
+    const [departmentList, setDepartmentList]=useState([])
     const dispatch = useDispatch()
 
+    useEffect(()=>{
+        (
+            async function(){
+                const {data}= await axios.get("/hospital/departments")
+                if(!data.err){
+                    setDepartmentList(data.departments)
+                }
+            }
+        )()
+    },[])
 
-    //   const rejectRequest = async (e, email) => {
-    //     e.preventDefault();
-    //     Swal.fire({
-    //       title: 'Are you sure?',
-    //       text: "You won't be able to revert this!",
-    //       icon: 'warning',
-    //       showCancelButton: true,
-    //       confirmButtonColor: '#7e3af2',
-    //       cancelButtonColor: '##a8a8a8',
-    //       confirmButtonText: 'Yes, Accept it!'
-    //     }).then(async (result) => {
-    //       if (result.isConfirmed) {
-    //         setLoad(true)
-    //         const { data } = await axios.post("/admin/hospital/reject", { email });
-    //         if (!data.err) {
-    //           Swal.fire(
-    //             'Success!',
-    //             'Successfully Rejected',
-    //             'success'
-    //           )
-    //           setRefresh(!refresh)
-    //         } else {
-    //           Swal.fire(
-    //             'Failed!',
-    //             'Something Went Wrong',
-    //             'error'
-    //           )
-
-    //         }
-    //         setLoad(false)
-    //       }
-    //     })
-    //   }
 
     const addDepartment = async () => {
         const { value: department } = await Swal.fire({
@@ -111,7 +89,7 @@ export default function HospitalDepartment() {
                                     departmentList.map((item, index) => {
                                         return <tr key={index}>
                                             <td>{index + 1}</td>
-                                            <td>{item}</td>
+                                            <td>{item.name}</td>
                                             <td className='option-btn'>
                                                 <Dropdown>
                                                     <Dropdown.Toggle variant="secondary" id="dropdown-basic">
