@@ -18,10 +18,20 @@ export async function addDepartment(req, res) {
     }
 }
 
-export async function getDepartment(req, res) {
+export async function getDepartments(req, res) {
     try {
-        let departments=await DepartmentModel.find({nahospitalId:req.hospital._id})
+        let departments=await DepartmentModel.find({hospitalId:req.hospital._id})
         res.json({ err:false, departments })
+    }
+    catch (err) {
+        res.json({ message: "somrthing went wrong", error: err, err:true })
+    }
+}
+
+export async function getHospitals(req, res) {
+    try {
+        let hospitals=await DoctorModel.find({hospitalId:req.hospital._id})
+        res.json({ err:false, hospitals })
     }
     catch (err) {
         res.json({ message: "somrthing went wrong", error: err, err:true })
