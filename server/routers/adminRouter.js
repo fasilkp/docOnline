@@ -1,5 +1,5 @@
 import express from 'express'
-import { acceptHospital, getDepartments, getDoctors, getHospitalRequests, getHospitals, rejectHospital } from '../controllers/adminController.js';
+import { acceptHospital, getDepartments, getDoctors, getHospitalRequests, getHospitals, getUsers, rejectHospital } from '../controllers/adminController.js';
 
 const Router = express.Router();
 
@@ -12,6 +12,8 @@ Router.get("/departments", getDepartments)
 Router.get("/hospitals", getHospitals)
 
 Router.get("/doctors", getDoctors)
+
+Router.get("/users", getUsers)
 
 
 export default Router

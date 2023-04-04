@@ -1,6 +1,8 @@
 import sentMail from "../helpers/sentMail.js";
 import DepartmentModel from "../models/DepartmentModel.js";
+import DoctorModel from "../models/DoctorModel.js";
 import HospitalModel from "../models/HospitalModel.js"
+import UserModel from '../models/UserModel.js'
 
 export async function getHospitalRequests(req, res) {
     try {
@@ -61,5 +63,15 @@ export async function getDoctors(req, res) {
     }
     catch (err) {
         res.json({ message: "somrthing went wrong", error: err, err:true })
+    }
+}
+
+export async function getUsers(req, res) {
+    try {
+        let users=await UserModel.find().lean()
+        res.json({ err:false, users })
+    }
+    catch (err) {
+        res.json({ message: "something went wrong", error: err, err:true })
     }
 }

@@ -11,4 +11,6 @@ Router.get("/departments", getDepartments)
 Router.get("/doctors", getDoctors)
 Router.post("/doctor", addDoctor)
 
+
+
 export default Router
