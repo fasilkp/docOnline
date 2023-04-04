@@ -29,8 +29,9 @@ function HospitalHeader() {
   }
   return (
     <div className="admin-header">
-      <div className="admin-header-item">
+      <div className="admin-header-item sec-1">
         <h5>DocOnline</h5>
+        <p>Hospital Panel</p>
       </div>
       <div className="admin-header-item">
         <div className="profile-dropdown">
@@ -40,7 +41,7 @@ function HospitalHeader() {
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
-              <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+              <Dropdown.Item href="#">Profile</Dropdown.Item>
               <Dropdown.Item href="#" onClick={handleLogout}>Logout</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>

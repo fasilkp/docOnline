@@ -13,10 +13,6 @@ const HospitalSchema = new mongoose.Schema({
         type:String,
         required:true
     },
-    departments:{
-        type:Array,
-        default:[]
-    },
     about:{
         type:String,
         default:''

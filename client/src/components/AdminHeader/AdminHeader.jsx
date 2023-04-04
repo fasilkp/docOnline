@@ -21,17 +21,15 @@ function AdminHeader() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         const {data}=await axios.get("/admin/auth/logout")
-        console.log(data)
         dispatch({ type: "refresh" })
       }
     })
-
-
   }
   return (
     <div className="admin-header">
-      <div className="admi-header-item">
+      <div className="admin-header-item sec-1">
         <h5>DocOnline</h5>
+        <p>Admin Panel</p>
       </div>
       <div className="admi-header-item">
         <div className="profile-dropdown">

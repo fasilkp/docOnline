@@ -12,6 +12,8 @@ import verifyAdmin from './middlewares/verifyAdmin.js'
 import verifyHospital from './middlewares/verifyHospital.js'
 import hospitalRouter from './routers/hospitalRouter.js'
 import doctorAuthRouter from './routers/doctorAuthRouter.js'
+import userRouter from './routers/userRouter.js'
+import verifyUser from './middlewares/verifyUser.js'
 
 const app=express();
 app.use(express.json())
@@ -34,6 +36,7 @@ app.use("/hospital/auth/", hospitalAuthRouter)
 app.use("/doctor/auth", doctorAuthRouter)
 app.use("/admin/",verifyAdmin, adminRouter)
 app.use("/hospital/",verifyHospital, hospitalRouter)
+app.use("/user/",verifyUser, userRouter)
 
 
 app.listen(5000, ()=>{

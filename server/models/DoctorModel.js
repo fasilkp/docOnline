@@ -21,7 +21,8 @@ const DoctorSchema = new mongoose.Schema({
         type:Number
     },
     department :{
-        type:String
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Department'
     },
     qualification :{
         type:String

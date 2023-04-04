@@ -20,20 +20,22 @@
     gap: 20px;
     align-items: center;
     font-weight: 550;
-    border-radius: 10px;
+    border-radius: 5px;
     color: rgb(83, 83, 83);
 }
 .admin-sideitems .side{
     width: 5px;
     height: 100%;
-    margin-right: 10px;
 }
 .admin-sideitems.active .side{
     width: 5px;
     height: 100%;
-    margin-right: 10px;
     background-color: var(--adminMain);
     border-radius: 0px 5px 5px 0px;
+}
+.admin-sideitems.active .admin-sideItem{
+    padding: 5px;
+    background-color: #f8f8f8;
 }
 .admin-sideitems.active .admin-sideItem{
     font-weight: 600;

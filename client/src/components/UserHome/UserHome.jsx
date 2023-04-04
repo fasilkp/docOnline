@@ -1,9 +1,22 @@
-import React from 'react'
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
 import { Container, Row } from 'react-bootstrap'
+import UserDepartmentRow from '../UserDepartmentRow/UserDepartmentRow'
 import UserHeader from '../UserHeader/UserHeader'
 import "./UserHome.css"
 
 function UserHome() {
+  const [departmentList, setDepartmentList]=useState([])
+  
+  useEffect(()=>{
+    (
+      async function(){
+        const {data} = await axios.get("/user/departments")
+        setDepartmentList(data)
+
+      }
+    )()
+  },[])
   return (
     <div className="user-main">
 
@@ -22,6 +35,9 @@ function UserHome() {
 
           </Container>
         </div>
+        </Row>
+        <Row>
+          <UserDepartmentRow list={departmentList} />
         </Row>
     </div>
   )
