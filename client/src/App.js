@@ -17,6 +17,7 @@ import HospitalSignupPage from './pages/hospital/HospitalSignupPage';
 import HospitalDepartmentPage from './pages/hospital/HospitalDepartmentPage';
 import HospitalDoctorPage from './pages/hospital/HospitalDoctorPage';
 import DoctorHomePage from './pages/doctor/DoctorHomePage';
+import AdminDoctorsPage from './pages/admin/AdminDoctorsPage';
 
 
 function App() {
@@ -63,8 +64,9 @@ function App() {
           admin.login &&
           <>
             <Route path='/account/admin/' element={<AdminHomePage />} />
-            <Route path='/account/admin/hospitals/requests' element={<HospitalrequestPage />} />
             <Route path='/account/admin/login' element={<Navigate to="/account/admin" />} />
+            <Route path='/account/admin/hospitals/requests' element={<HospitalrequestPage />} />
+            <Route path='/account/admin/doctors' element={<AdminDoctorsPage />} />
           </>
         }
         {
