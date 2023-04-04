@@ -8,17 +8,17 @@ import AdminSidebar from '../AdminSidebar/AdminSidebar';
 import Swal from 'sweetalert2'
 import { Backdrop, CircularProgress } from '@mui/material';
 
-export default function AdminDoctors() {
-  const [doctorList, setDoctorList] = useState([])
+export default function AdminHospitals() {
+  const [hospitalList, setHospitalList] = useState([])
   const [refresh, setRefresh] = useState(false)
   const [load, setLoad]=useState(false)
   React.useEffect(() => {
     (
       async function () {
         try {
-          const { data } = await axios.get("/admin/doctors")
+          const { data } = await axios.get("/admin/hospitals")
           if (!data.err) {
-            setDoctorList(data.doctors)
+            setHospitalList(data.hospitals)
           }
 
         } catch (err) {
@@ -100,7 +100,7 @@ export default function AdminDoctors() {
 
       <AdminHeader />
       <div className="admin-main">
-        <AdminSidebar page={'doctor'} />
+        <AdminSidebar page={'hospital'} />
         <Container fluid>
 
           <div className="admin-container">
@@ -111,18 +111,18 @@ export default function AdminDoctors() {
                   <th>#</th>
                   <th>Name</th>
                   <th>Email</th>
-                  {/* <th>Mobile</th> */}
+                  <th>Mobile</th>
                   <th>option</th>
                 </tr>
               </thead>
               <tbody>
                 {
-                  doctorList.map((item, index) => {
-                    return <tr key={index}>
+                  hospitalList.map((item, index) => {
+                    return <tr>
                       <td>{index + 1}</td>
                       <td>{item.name}</td>
                       <td>{item.email}</td>
-                      {/* <td>{item.mobile}</td> */}
+                      <td>{item.mobile}</td>
                       <td className='option-btn'>
                         <Dropdown>
                           <Dropdown.Toggle variant="secondary" id="dropdown-basic">
