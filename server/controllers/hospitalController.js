@@ -20,7 +20,7 @@ export async function addDepartment(req, res) {
 
 export async function getDepartments(req, res) {
     try {
-        let departments=await DepartmentModel.find({hospitalId:req.hospital._id})
+        let departments=await DepartmentModel.find({hospitalId:req.hospital._id}).lean()
         res.json({ err:false, departments })
     }
     catch (err) {
@@ -28,10 +28,10 @@ export async function getDepartments(req, res) {
     }
 }
 
-export async function getHospitals(req, res) {
+export async function getDoctors(req, res) {
     try {
-        let hospitals=await DoctorModel.find({hospitalId:req.hospital._id})
-        res.json({ err:false, hospitals })
+        let doctors=await DoctorModel.find({hospitalId:req.hospital._id}).lean()
+        res.json({ err:false, doctors })
     }
     catch (err) {
         res.json({ message: "somrthing went wrong", error: err, err:true })
@@ -51,13 +51,4 @@ export async function addDoctor(req, res){
     }
 
 }
-export async function getDoctors(req, res){
-    try{
-        const doctors = await DoctorModel.find({hospitalId:req.hospital._id}).lean()
-        res.json({err:false, doctors})
 
-    }catch(err){
-        res.json({err:true , error:err, message:"Something Went Wrong"})
-    }
-
-}
