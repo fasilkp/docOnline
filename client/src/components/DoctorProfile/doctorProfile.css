@@ -10,6 +10,9 @@
     object-fit: cover;
 }
 
+.dr-profile-img{
+    box-shadow: var(--defaultShadow);
+}
 .dr-profile-sec.sec-2{
     gap: 20px;
 }
@@ -23,7 +26,7 @@
 }
 .dr-profile-sec-row p{
     font-size: .9rem;
-    max-width: 500px;
+    max-width: 700px;
 }
 .dr-profile-sec-row h6{
     color: grey;
@@ -52,4 +55,16 @@
     gap: 10px;
     align-items: center;
 
+}
+
+.dr-profile-sec-row.button button{
+    width: 100px;
+    height: 45px;
+    border-radius: 10px;
+    background: var(--btnBg);
+    border: none;
+    outline: none;
+    color: white;
+    font-size: .9rem;
+    font-weight: 600;
 }

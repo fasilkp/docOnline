@@ -21,6 +21,8 @@ import AdminDoctorsPage from './pages/admin/AdminDoctorsPage';
 import AdminHospitalPage from './pages/admin/AdminHospitalPage';
 import DoctorProfilePage from './pages/doctor/DoctorProfilePage';
 import UserSearchPage from './pages/user/UserSearchPage';
+import UserDoctorPage from './pages/user/UserDoctorPage';
+import UserHospitalPage from './pages/user/UserHospitalPage';
 
 
 function App() {
@@ -54,6 +56,8 @@ function App() {
             <Route path='/signup' element={<Navigate to="/" />} />
             <Route path='/' element={<UserHomePage />} />
             <Route path='/search' element={<UserSearchPage />} />
+            <Route path='/doctor' element={<UserDoctorPage />} />
+            <Route path='/hospital' element={<UserHospitalPage />} />
           </>
         }
         {

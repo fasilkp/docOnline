@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Container, Row } from 'react-bootstrap'
 import { RiFilter2Line, RiSearch2Line } from 'react-icons/ri'
 import DoctorList from '../DoctorList/DoctorList'
+import HospitalList from '../HospitalList/HospitalList'
 import UserHeader from '../UserHeader/UserHeader'
 import './userSearch.css'
 
@@ -45,6 +46,9 @@ function UserSearch() {
                 </Row>
                 <Row className='mt-5'>
                     <DoctorList />
+                </Row>
+                <Row className='mt-5'>
+                    <HospitalList />
                 </Row>
             </Container>
         </div>
