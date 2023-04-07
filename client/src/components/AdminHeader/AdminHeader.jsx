@@ -2,11 +2,12 @@ import { Avatar } from '@mui/material'
 import axios from 'axios'
 import React from 'react'
 import { Dropdown } from 'react-bootstrap'
+import { RiMenu2Fill } from 'react-icons/ri'
 import { useDispatch } from 'react-redux'
 import Swal from 'sweetalert2'
 import './AdminHeader.css'
 
-function AdminHeader() {
+function AdminHeader(props) {
   const dispatch = useDispatch()
   async function handleLogout(e) {
     e.preventDefault()
@@ -20,16 +21,20 @@ function AdminHeader() {
       confirmButtonText: 'Yes, Logout!'
     }).then(async (result) => {
       if (result.isConfirmed) {
-        const {data}=await axios.get("/admin/auth/logout")
+        const { data } = await axios.get("/admin/auth/logout")
         dispatch({ type: "refresh" })
       }
     })
   }
   return (
     <div className="admin-header">
-      <div className="admin-header-item sec-1">
-        <h5>DocOnline</h5>
-        <p>Admin Panel</p>
+      <div className='d-flex align-items-center' style={{ gap: "10px" }}>
+
+        <RiMenu2Fill onClick={props.handleClick} className={"sideBtn"} />
+        <div className="admin-header-item sec-1" style={{ marginTop: "10px" }}>
+          <h5>DocOnline</h5>
+          <p>Admin Panel</p>
+        </div>
       </div>
       <div className="admi-header-item">
         <div className="profile-dropdown">

@@ -1,0 +1,32 @@
+.dr-container{
+    width: 100%;
+    display: flex;
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    align-items: center;
+    padding: 1px 7px;
+    box-shadow: var(--defaultShadow);
+}
+.dr-container-profile{
+    min-width: 100px;
+    max-width: 100px;
+    height: 120px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 5px;
+}
+.dr-container-profile-desc{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 10px;
+}
+.dr-container-profile-desc .desc{
+    display: flex;
+    flex-direction: column;
+    gap: 0px;
+    font-size: .7rem;
+    color: rgb(63, 63, 63);
+}

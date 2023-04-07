@@ -11,3 +11,9 @@
     font-size: .8rem;
     color: grey;
 }
+
+@media(min-width:801px){
+    .sideBtn{
+        display: none;
+    }
+}

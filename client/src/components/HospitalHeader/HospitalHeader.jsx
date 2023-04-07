@@ -2,11 +2,12 @@ import { Avatar } from '@mui/material'
 import axios from 'axios'
 import React from 'react'
 import { Dropdown } from 'react-bootstrap'
+import { RiMenu2Fill } from 'react-icons/ri'
 import { useDispatch } from 'react-redux'
 import Swal from 'sweetalert2'
 import '../AdminHeader/AdminHeader.css'
 
-function HospitalHeader() {
+function HospitalHeader(props) {
   const dispatch = useDispatch()
   async function handleLogout(e) {
     e.preventDefault()
@@ -24,14 +25,16 @@ function HospitalHeader() {
         dispatch({ type: "refresh" })
       }
     })
-
-
   }
   return (
     <div className="admin-header">
-      <div className="admin-header-item sec-1">
+      <div className='d-flex align-items-center' style={{gap:"10px"}}>
+
+      <RiMenu2Fill onClick={props.handleClick} className={"sideBtn"} />
+      <div className="admin-header-item sec-1" style={{marginTop:"10px"}}>
         <h5>DocOnline</h5>
         <p>Hospital Panel</p>
+      </div>
       </div>
       <div className="admin-header-item">
         <div className="profile-dropdown">

@@ -3,7 +3,7 @@
     width: 300px;
     background-color: #fff;
     font-size: .95rem;
-
+    transition: .3s;
 }
 
 .admin-sidebar li{
@@ -22,6 +22,7 @@
     font-weight: 550;
     border-radius: 5px;
     color: rgb(83, 83, 83);
+    padding-left: 20px;
 }
 .admin-sideitems .side{
     width: 5px;
@@ -34,7 +35,7 @@
     border-radius: 0px 5px 5px 0px;
 }
 .admin-sideitems.active .admin-sideItem{
-    padding: 5px;
+    padding: 25px;
     background-color: #f8f8f8;
 }
 .admin-sideitems.active .admin-sideItem{
@@ -46,4 +47,23 @@ ol, ul{
 }
 .admin-sideitems .icon{
     font-weight: 950;
+}
+@media(max-width:800px){
+    .admin-sidebar{
+        position: fixed;
+        left: -100vw;
+    }
+    .admin-sidebar.open{
+        width: 250px;
+        overflow: hidden;
+        position: fixed;
+        left: 0vw;
+    }
+    .admin-main{
+        min-height: 100vh;
+    }
+
+    .admin-sidebar.doctor{
+        display: none;
+    }
 }

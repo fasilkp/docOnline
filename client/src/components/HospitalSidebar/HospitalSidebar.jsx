@@ -3,9 +3,9 @@ import '../AdminSidebar/Sidebar.css'
 import { RiArchiveDrawerLine, RiBuilding4Line, RiFileWarningLine, RiHome2Line, RiHospitalLine, RiUser2Line } from "react-icons/ri";
 import { Link } from 'react-router-dom';
 
-function HospitalSidebar({ page }) {
+function HospitalSidebar({ page, clicked }) {
   return (
-    <div className="admin-sidebar">
+    <div className={`admin-sidebar ${clicked && 'open'}`}>
       <ul>
         <Link to="/account/hospital/">
           <li className={`admin-sideitems ${page == "dashboard" && 'active'}`}>

@@ -12,6 +12,10 @@ export default function AdminDoctors() {
   const [doctorList, setDoctorList] = useState([])
   const [refresh, setRefresh] = useState(false)
   const [load, setLoad]=useState(false)
+  const [clicked, setCLicked]=useState(false)
+  const handleClick=()=>{
+    setCLicked(!clicked)
+  }
   React.useEffect(() => {
     (
       async function () {
@@ -98,9 +102,9 @@ export default function AdminDoctors() {
   return (
     <div className="admin-home">
 
-      <AdminHeader />
+      <AdminHeader handleClick={handleClick} />
       <div className="admin-main">
-        <AdminSidebar page={'doctor'} />
+        <AdminSidebar page={'doctor'} clicked={clicked} />
         <Container fluid>
 
           <div className="admin-container">

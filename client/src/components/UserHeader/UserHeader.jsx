@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import { Avatar, Button, Menu, MenuItem } from '@mui/material'
 import './UserHeader.css'
-import { Container } from 'react-bootstrap'
+import { Container, Row } from 'react-bootstrap'
 import axios from 'axios'
 import { useDispatch } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 function UserHeader() {
     const [open, setOpen]=useState(false)
@@ -15,11 +16,13 @@ function UserHeader() {
     }
 
   return (
-      
-        <Container fluid>
-      <div className="user-header def-padding">
+    <div className="header-main">
+        <Container >
+      <div className="user-header ">
         <div className="user-header-item">
+          <Link to="/">
             <h5>DocOnline</h5>
+          </Link>
         </div>
         <div className="user-header-item">
             <span>Home</span>
@@ -32,7 +35,7 @@ function UserHeader() {
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         onClick={(e)=>{setOpen(true); setAnchorEl(e.currentTarget);}}
-      >
+        >
         <Avatar alt="Femy Sharp" src="/static/images/avatar/1.jpg" sx={{ width: 32, height: 32 }} />
       </Button>
       <Menu
@@ -51,6 +54,8 @@ function UserHeader() {
 
     </div>
     </Container>
+    </div>
+
   )
 
 }

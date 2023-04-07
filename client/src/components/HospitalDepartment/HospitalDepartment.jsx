@@ -14,19 +14,23 @@ export default function HospitalDepartment() {
     const [refresh, setRefresh] = useState(false)
     const [load, setLoad] = useState(false)
     const { hospital } = useSelector((state) => state)
-    const [departmentList, setDepartmentList]=useState([])
+    const [departmentList, setDepartmentList] = useState([])
     const dispatch = useDispatch()
+    const [clicked, setCLicked] = useState(false)
+    const handleClick = () => {
+        setCLicked(!clicked)
+    }
 
-    useEffect(()=>{
+    useEffect(() => {
         (
-            async function(){
-                const {data}= await axios.get("/hospital/departments")
-                if(!data.err){
+            async function () {
+                const { data } = await axios.get("/hospital/departments")
+                if (!data.err) {
                     setDepartmentList(data.departments)
                 }
             }
         )()
-    },[])
+    }, [])
 
 
     const addDepartment = async () => {
@@ -52,7 +56,7 @@ export default function HospitalDepartment() {
                     'Successfully Added',
                     'success'
                 )
-            }else{
+            } else {
                 Swal.fire(
                     'Failed!',
                     data.message,
@@ -60,15 +64,15 @@ export default function HospitalDepartment() {
                 )
 
             }
-            dispatch({type:'refresh'})
+            dispatch({ type: 'refresh' })
         }
     }
     return (
         <div className="admin-home">
 
-            <HospitalHeader />
+            <HospitalHeader handleClick={handleClick} />
             <div className="admin-main">
-                <HospitalSidebar page={'department'} />
+                <HospitalSidebar page={'department'} clicked={clicked} />
                 <Container fluid>
 
                     <div className="admin-container">
@@ -95,7 +99,7 @@ export default function HospitalDepartment() {
                                                     <Dropdown.Toggle variant="secondary" id="dropdown-basic">
                                                         <RiMore2Fill />
                                                     </Dropdown.Toggle>
-{/* 
+                                                    {/* 
                                                     <Dropdown.Menu>
                                                         <Dropdown.Item href="#" onClick={(e) => { }}>Accept</Dropdown.Item>
                                                         <Dropdown.Item href="#" onClick={(e) => { }}>Reject</Dropdown.Item>

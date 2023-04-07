@@ -12,6 +12,10 @@ export default function AdminHospitals() {
   const [hospitalList, setHospitalList] = useState([])
   const [refresh, setRefresh] = useState(false)
   const [load, setLoad]=useState(false)
+  const [clicked, setCLicked]=useState(false)
+  const handleClick=()=>{
+    setCLicked(!clicked)
+  }
   React.useEffect(() => {
     (
       async function () {
@@ -98,9 +102,9 @@ export default function AdminHospitals() {
   return (
     <div className="admin-home">
 
-      <AdminHeader />
+      <AdminHeader handleClick={handleClick} />
       <div className="admin-main">
-        <AdminSidebar page={'hospital'} />
+        <AdminSidebar page={'hospital'} clicked={clicked} />
         <Container fluid>
 
           <div className="admin-container">
@@ -118,7 +122,7 @@ export default function AdminHospitals() {
               <tbody>
                 {
                   hospitalList.map((item, index) => {
-                    return <tr>
+                    return <tr key={index}>
                       <td>{index + 1}</td>
                       <td>{item.name}</td>
                       <td>{item.email}</td>

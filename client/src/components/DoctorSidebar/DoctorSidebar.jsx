@@ -5,15 +5,15 @@ import { Link } from 'react-router-dom';
 
 function DoctorSidebar({ page }) {
   return (
-    <div className="admin-sidebar">
+    <div className="admin-sidebar doctor">
       <ul>
         <Link to="/account/doctor/">
-          <li className={`admin-sideitems ${page == "dashboard" && 'active'}`}>
+          <li className={`admin-sideitems ${page == "home" && 'active'}`}>
             <div className='side'></div>
             <div className="admin-sideItem">
 
               <RiHome2Line className='icon' />
-              <span>Dashboard</span>
+              <span>Home</span>
             </div>
           </li>
         </Link>
@@ -39,18 +39,18 @@ function DoctorSidebar({ page }) {
             </div>
           </li>
         </Link>
-        {/* <Link to="/account/admin/hospitals">
+        <Link to="/account/doctor/profile">
 
-            <li className={`admin-sideitems ${page=="doctor request" && 'active'}`}>
+            <li className={`admin-sideitems ${page=="profile" && 'active'}`}>
 
               <div className='side'></div>
               <div className="admin-sideItem">
 
                 <RiBuilding4Line className='icon' />
-                <span>Doctor Requests</span>
+                <span>Profile</span>
               </div>
             </li>
-            </Link> */}
+            </Link>
         {/* <Link to="/account/admin/hospitals/requests">
 
             <li className={`admin-sideitems ${page=="hospital request" && 'active'}`}>

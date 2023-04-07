@@ -23,9 +23,9 @@ function UserHome() {
         <UserHeader/>
         <Row>
         <div className="user-banner ">
-          <Container fluid>
+          <Container>
 
-          <div className="user-banner-container def-padding">
+          <div className="user-banner-container">
             <h1>We Care About your Health</h1>
             <p>Specialized Doctors from all over the country</p>
             <button>

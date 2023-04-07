@@ -19,6 +19,8 @@ import HospitalDoctorPage from './pages/hospital/HospitalDoctorPage';
 import DoctorHomePage from './pages/doctor/DoctorHomePage';
 import AdminDoctorsPage from './pages/admin/AdminDoctorsPage';
 import AdminHospitalPage from './pages/admin/AdminHospitalPage';
+import DoctorProfilePage from './pages/doctor/DoctorProfilePage';
+import UserSearchPage from './pages/user/UserSearchPage';
 
 
 function App() {
@@ -48,17 +50,18 @@ function App() {
         {
           user.login &&
           <>
-            <Route path='/' element={<UserHomePage />} />
             <Route path='/login' element={<Navigate to={"/"} />} />
             <Route path='/signup' element={<Navigate to="/" />} />
+            <Route path='/' element={<UserHomePage />} />
+            <Route path='/search' element={<UserSearchPage />} />
           </>
         }
         {
           user.login === false &&
           <>
-            <Route path='/' element={<Navigate to="/login" />} />
             <Route path='/login' element={<LoginPage />} />
             <Route path='/signup' element={<UserSignupPage />} />
+            <Route path='/' element={<Navigate to="/login" />} />
           </>
         }
         {
@@ -110,8 +113,9 @@ function App() {
         {
           doctor.login &&
           <>
-            <Route path='/account/doctor/' element={<DoctorHomePage />} />
             <Route path='/account/doctor/login' element={<Navigate to="/account/doctor/" />} />
+            <Route path='/account/doctor/' element={<DoctorHomePage />} />
+            <Route path='/account/doctor/profile' element={<DoctorProfilePage />} />
           </>
         }
 

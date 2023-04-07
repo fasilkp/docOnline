@@ -15,55 +15,23 @@ export default function HospitalDoctor() {
     const [refresh, setRefresh] = useState(false)
     const [load, setLoad] = useState(false)
     const { hospital } = useSelector((state) => state)
-    const [showModal, setShowModal]=useState(false)
-    const [doctorList, setDoctorList]=useState([])
-    
+    const [showModal, setShowModal] = useState(false)
+    const [doctorList, setDoctorList] = useState([])
+    const [clicked, setCLicked] = useState(false)
+    const handleClick = () => {
+        setCLicked(!clicked)
+    }
     const dispatch = useDispatch()
-
-
-    //   const rejectRequest = async (e, email) => {
-    //     e.preventDefault();
-    //     Swal.fire({
-    //       title: 'Are you sure?',
-    //       text: "You won't be able to revert this!",
-    //       icon: 'warning',
-    //       showCancelButton: true,
-    //       confirmButtonColor: '#7e3af2',
-    //       cancelButtonColor: '##a8a8a8',
-    //       confirmButtonText: 'Yes, Accept it!'
-    //     }).then(async (result) => {
-    //       if (result.isConfirmed) {
-    //         setLoad(true)
-    //         const { data } = await axios.post("/admin/hospital/reject", { email });
-    //         if (!data.err) {
-    //           Swal.fire(
-    //             'Success!',
-    //             'Successfully Rejected',
-    //             'success'
-    //           )
-    //           setRefresh(!refresh)
-    //         } else {
-    //           Swal.fire(
-    //             'Failed!',
-    //             'Something Went Wrong',
-    //             'error'
-    //           )
-
-    //         }
-    //         setLoad(false)
-    //       }
-    //     })
-    //   }
 
     const addDoctor = async () => {
         setShowModal(true)
     }
     useEffect(() => {
         (
-            async function(){
-                const {data}= await axios.get("/hospital/doctors");
+            async function () {
+                const { data } = await axios.get("/hospital/doctors");
                 console.log(data)
-                if(!data.err){
+                if (!data.err) {
                     setDoctorList(data.doctors)
                 }
             }
@@ -73,9 +41,9 @@ export default function HospitalDoctor() {
     return (
         <div className="admin-home">
 
-            <HospitalHeader />
+            <HospitalHeader handleClick={handleClick} />
             <div className="admin-main">
-                <HospitalSidebar page={'doctor'} />
+                <HospitalSidebar page={'doctor'} clicked={clicked} />
                 <Container fluid>
 
                     <div className="admin-container">
