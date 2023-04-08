@@ -10,7 +10,7 @@ export async function hospitalRegister(req, res){
     try{
         const {name, email, mobile, password}=req.body;
         const hashPassword = bcrypt.hashSync(password, salt);
-        const hospital = await HospitalModel.create({name,mobile, email, password:hashPassword});
+        const hospital = await HospitalModel.create({...req.body,password:hashPassword});
         res.json({err:false})
 
     }catch(err){
@@ -59,7 +59,9 @@ export const checkHospitalLoggedIn = async (req, res) => {
             return res.json({ loggedIn: false, error: true, message: "no token" });
 
         const verifiedJWT = jwt.verify(token, process.env.JWT_SECRET_KEY);
+        console.log(verifiedJWT)
         const hospital = await HospitalModel.findOne({_id:verifiedJWT.id, active:true}, { password: 0 });
+        console.log(hospital)
         if (!hospital) {
             return res.json({ loggedIn: false });
         }

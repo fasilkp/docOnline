@@ -1,6 +1,6 @@
 import { InputLabel, MenuItem, Select, TextField } from '@mui/material'
 import axios from 'axios'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Form, FormControl } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { ClipLoader } from 'react-spinners'
@@ -51,7 +51,7 @@ function AddDoctor({ setShowModal, setRefresh, refresh }) {
 
     }
     function validForm() {
-        if (email.trim() === "" || qualification.trim()==="" || specialization/trim()==="" || about.trim()==="" || fees.trim()==="" || password.trim() === "" || name.trim() === "" || department.trim() === "") {
+        if (email.trim() === "" || qualification.trim()==="" || specialization.trim()==="" || about.trim()==="" || fees.trim()==="" || password.trim() === "" || name.trim() === "" || department.trim() === "") {
             return false
         }
         return true

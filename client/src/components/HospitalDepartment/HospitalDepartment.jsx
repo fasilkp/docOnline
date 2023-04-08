@@ -30,7 +30,7 @@ export default function HospitalDepartment() {
                 }
             }
         )()
-    }, [])
+    }, [refresh])
 
 
     const addDepartment = async () => {
@@ -64,7 +64,7 @@ export default function HospitalDepartment() {
                 )
 
             }
-            dispatch({ type: 'refresh' })
+            setRefresh(!refresh)
         }
     }
     return (

@@ -85,16 +85,16 @@ function HospitalSignup() {
                                         <TextField id="outlined-basic" value={mobile} onChange={(e) => setMobile(e.target.value)} label="Mobile" type="number" variant="outlined" fullWidth className='input' />
                                     </div>
                                     <div className="login-row">
+                                        <TextField id="outlined-basic" value={about} onChange={(e) => setAbout(e.target.value)} label="About" type="text" multiline variant="outlined" className='input' fullWidth />
+                                    </div>
+                                    <div className="login-row">
+                                        <TextField id="outlined-basic" value={address} onChange={(e) => setAddress(e.target.value)} label="Address" type="text" multiline variant="outlined" className='input' fullWidth />
+                                    </div>
+                                    <div className="login-row">
+                                        <TextField id="outlined-basic" value={place} onChange={(e) => setPlace(e.target.value)} label="Place" type="text" variant="outlined" className='input' fullWidth />
+                                    </div>
+                                    <div className="login-row">
                                         <TextField id="outlined-basic" value={password} onChange={(e) => setPassword(e.target.value)} label="Password" type="password" variant="outlined" className='input' fullWidth />
-                                    </div>
-                                    <div className="login-row">
-                                        <TextField id="outlined-basic" value={about} onChange={(e) => setAbout(e.target.value)} label="Password" type="text" multiline variant="outlined" className='input' fullWidth />
-                                    </div>
-                                    <div className="login-row">
-                                        <TextField id="outlined-basic" value={address} onChange={(e) => setAddress(e.target.value)} label="Password" type="text" multiline variant="outlined" className='input' fullWidth />
-                                    </div>
-                                    <div className="login-row">
-                                        <TextField id="outlined-basic" value={place} onChange={(e) => setPlace(e.target.value)} label="Password" type="text" variant="outlined" className='input' fullWidth />
                                     </div>
                                     {
                                         errMessage &&
