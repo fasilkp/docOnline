@@ -13,6 +13,9 @@ function HospitalSignup() {
     const [email, setEmail] = useState("")
     const [mobile, setMobile] = useState("")
     const [password, setPassword] = useState("")
+    const [about, setAbout] = useState("")
+    const [address, setAddress] = useState("")
+    const [place, setPlace] = useState("")
     const [errMessage, setErrMessage] = useState("")
     const [loading, setLoading] = useState({
         submit: false
@@ -23,7 +26,7 @@ function HospitalSignup() {
         setLoading({ ...loading, submit: true })
         if (validForm()) {
             const { data } = await axios.post("/hospital/auth/register", {
-                email, name, password, mobile
+                email, name, password, mobile, about, address, place
             })
             if (data.err) {
                 setErrMessage(data.message)
@@ -41,7 +44,7 @@ function HospitalSignup() {
         }
     }
     function validForm() {
-        if (name.trim() === "" || email.trim() === "" || password.trim() === "" || mobile.toString().length !== 10) {
+        if (name.trim() === "" || about.trim()==="" || place.trim()==="" || address.trim()==="" || email.trim() === "" || password.trim() === "" || mobile.toString().length !== 10) {
             return false
         }
         return true
@@ -83,6 +86,15 @@ function HospitalSignup() {
                                     </div>
                                     <div className="login-row">
                                         <TextField id="outlined-basic" value={password} onChange={(e) => setPassword(e.target.value)} label="Password" type="password" variant="outlined" className='input' fullWidth />
+                                    </div>
+                                    <div className="login-row">
+                                        <TextField id="outlined-basic" value={about} onChange={(e) => setAbout(e.target.value)} label="Password" type="text" multiline variant="outlined" className='input' fullWidth />
+                                    </div>
+                                    <div className="login-row">
+                                        <TextField id="outlined-basic" value={address} onChange={(e) => setAddress(e.target.value)} label="Password" type="text" multiline variant="outlined" className='input' fullWidth />
+                                    </div>
+                                    <div className="login-row">
+                                        <TextField id="outlined-basic" value={place} onChange={(e) => setPlace(e.target.value)} label="Password" type="text" variant="outlined" className='input' fullWidth />
                                     </div>
                                     {
                                         errMessage &&

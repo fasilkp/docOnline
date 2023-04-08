@@ -17,6 +17,15 @@ const HospitalSchema = new mongoose.Schema({
         type:String,
         default:''
     },
+    address:{
+        type:String,
+        default:""
+    },
+    place:{
+        type:String,
+        default:""
+
+    },
     image:{
         type:Object,
         default:{
