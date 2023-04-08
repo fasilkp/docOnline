@@ -12,18 +12,33 @@ function AddDoctor({ setShowModal, setRefresh, refresh }) {
     const [password, setPassword] = useState("")
     const [department, setDepartment] = useState("")
     const [errMessage, setErrMessage] = useState("")
+    const [qualification, setQualification] = useState("")
+    const [specialization, setSpecialization] = useState("")
+    const [about, setAbout] = useState("")
+    const [fees, setFees] = useState("")
+    const [departmentList, setDepartmentList]=useState([])
+
     const dispatch = useDispatch()
-    const departmentList = useSelector((state)=>state.hospital.details.departments)
     console.log(departmentList)
     const [loading, setLoading] = useState({
         submit: false
     })
+    useEffect(()=>{
+        (
+          async function(){
+            const {data} = await axios.get("/hospital/departments")
+            setDepartmentList(data)
+    
+          }
+        )()
+      },[])
+
     async function handleSubmit(e) {
         e.preventDefault();
         setLoading({ ...loading, submit: true })
         if (validForm()) {
             const { data } = await axios.post("/hospital/doctor", {
-                email, password, name, department
+                email, password, name, department, qualification, specialization, fees, about
             })
             if (data.err) {
                 setErrMessage(data.message)
@@ -36,7 +51,7 @@ function AddDoctor({ setShowModal, setRefresh, refresh }) {
 
     }
     function validForm() {
-        if (email.trim() === "" || password.trim() === "" || name.trim() === "" || department.trim() ==="") {
+        if (email.trim() === "" || qualification.trim()==="" || specialization/trim()==="" || about.trim()==="" || fees.trim()==="" || password.trim() === "" || name.trim() === "" || department.trim() === "") {
             return false
         }
         return true
@@ -59,6 +74,18 @@ function AddDoctor({ setShowModal, setRefresh, refresh }) {
                     <TextField id="outlined-basic" value={password} onChange={(e) => setPassword(e.target.value)} label="Password" type="password" variant="outlined" fullWidth className='input' />
                 </div>
                 <div className="modal-form-row">
+                    <TextField id="outlined-basic" value={qualification} onChange={(e) => setQualification(e.target.value)} label="Qualification" type="text" variant="outlined" fullWidth className='input' />
+                </div>
+                <div className="modal-form-row">
+                    <TextField id="outlined-basic" value={specialization} onChange={(e) => setSpecialization(e.target.value)} label="Specialization" type="text" variant="outlined" fullWidth className='input' />
+                </div>
+                <div className="modal-form-row">
+                    <TextField id="outlined-basic" value={about} onChange={(e) => setAbout(e.target.value)} label="About" type="text" variant="outlined" fullWidth className='input' />
+                </div>
+                <div className="modal-form-row">
+                    <TextField id="outlined-basic" value={fees} onChange={(e) => setFees(e.target.value)} label="Fees" type="number" variant="outlined" fullWidth className='input' />
+                </div>
+                <div className="modal-form-row">
                     {/* <FormControl >
                         <InputLabel id="demo-simple-select-label">Department</InputLabel>
                         <Select
@@ -72,11 +99,11 @@ function AddDoctor({ setShowModal, setRefresh, refresh }) {
                             <MenuItem value={30}>Thirty</MenuItem>
                         </Select>
                     </FormControl> */}
-                    <Form.Select aria-label="Default select example" value={department} onChange={(e)=>setDepartment(e.target.value)}>
+                    <Form.Select aria-label="Default select example" value={department} onChange={(e) => setDepartment(e.target.value)}>
                         <option value="">Select Department</option>
                         {
-                            departmentList.map((item, index)=>{
-                                return <option value={item}>{item}</option>
+                            departmentList.map((item, index) => {
+                                return <option value={item._id}>{item.name}</option>
                             })
                         }
                     </Form.Select>

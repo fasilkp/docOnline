@@ -1,11 +1,10 @@
+import DepartmentModel from "../models/DepartmentModel.js"
 import HospitalModel from "../models/HospitalModel.js"
 
 
 export async function getAllDepartments(req, res){
     try{
-        const departments= await HospitalModel.aggregate([
-            {$unwind:"$departments"}, {$group:{_id:"$departments"}}
-        ])
+        const departments= await DepartmentModel.find().leana()
         console.log(departments)
         res.json(departments)
 

@@ -40,9 +40,9 @@ export async function getDoctors(req, res) {
 
 export async function addDoctor(req, res){
     try{
-        const {name, email, password, department}=req.body;
+        const {password}=req.body;
         const hashPassword = bcrypt.hashSync(password, salt);
-        const doctor = await DoctorModel.create({name, email,department, password:hashPassword, hospitalId:req.hospital._id});
+        const doctor = await DoctorModel.create({...req.body, password:hashPassword, hospitalId:req.hospital._id});
         res.json({err:false})
 
     }catch(err){

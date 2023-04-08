@@ -6,8 +6,8 @@ const DoctorSchema = new mongoose.Schema({
         required:true
     },
     hospitalId:{
-        type: String,
-        required:true
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Department'
     },
     email:{
         type: String,
