@@ -56,8 +56,8 @@ function App() {
             <Route path='/signup' element={<Navigate to="/" />} />
             <Route path='/' element={<UserHomePage />} />
             <Route path='/search' element={<UserSearchPage />} />
-            <Route path='/doctor' element={<UserDoctorPage />} />
-            <Route path='/hospital' element={<UserHospitalPage />} />
+            <Route path='/doctor/:id' element={<UserDoctorPage />} />
+            <Route path='/hospital/:id' element={<UserHospitalPage />} />
           </>
         }
         {

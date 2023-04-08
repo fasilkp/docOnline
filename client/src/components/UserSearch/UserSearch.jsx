@@ -14,12 +14,12 @@ function UserSearch() {
     const [hospitalList, setHospitalList] = useState([])
     async function handleSearch() {
         if (searchType === 'hospital') {
-            let { data } = await axios.get("/user/hospitals");
+            let { data } = await axios.get("/user/hospitals?name="+name);
             if (!data.err) {
                 setHospitalList(data.hospitals)
             }
         } else {
-            let { data } = await axios.get("/user/doctors");
+            let { data } = await axios.get("/user/doctors?name="+name);
             if (!data.err) {
                 setDoctorList(data.doctors)
             }

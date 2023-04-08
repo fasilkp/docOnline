@@ -1,6 +1,7 @@
 import { Rating } from '@mui/material'
 import React from 'react'
 import { Col, Row } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 import doctorImg from '../../assets/images/doctor.png'
 import './doctorlist.css'
 
@@ -16,20 +17,22 @@ function DoctorList({ list }) {
                     list.map((item, index) => {
 
                         return <Col md={4} lg={3} xs={12} key={index} className="p-2">
-                            <div className="dr-container">
-                                <div className="dr-container-profile" style={{ backgroundImage: `url(${item.image.url})` }}>
+                            <Link to={"/doctor/"+item._id}>
+                                <div className="dr-container">
+                                    <div className="dr-container-profile" style={{ backgroundImage: `url(${item.image.url})` }}>
 
-                                </div>
-                                <div className="dr-container-profile-desc">
-                                    <h6>{item.name}</h6>
-                                    <Rating name="size-small" defaultValue={2} size="small" />
-                                    <div className="desc">
-                                        <span>{item.specialization}</span>
-                                        <span>{item.qualification}</span>
-                                        <span>{item.hospitalId.name}</span>
+                                    </div>
+                                    <div className="dr-container-profile-desc">
+                                        <h6>{item.name}</h6>
+                                        <Rating name="size-small" readOnly defaultValue={2} size="small" />
+                                        <div className="desc">
+                                            <span>{item.specialization}</span>
+                                            <span>{item.qualification}</span>
+                                            <span>{item.hospitalId.name}</span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </Link>
                         </Col>
                     })
                 }
