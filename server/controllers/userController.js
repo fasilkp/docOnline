@@ -49,6 +49,16 @@ export async function getDoctor(req, res){
         res.json({err:true, error:err})
     }
 }
+export async function getHospital(req, res){
+    try{
+        const hospital= await HospitalModel.findById(req.params.id);
+        res.json({err:false, hospital})
+
+    }catch(err){
+        console.log(err)
+        res.json({err:true, error:err})
+    }
+}
 
 // export async function searchData(req, res){
 //     try{
