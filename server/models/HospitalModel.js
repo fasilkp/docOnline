@@ -18,7 +18,11 @@ const HospitalSchema = new mongoose.Schema({
         default:''
     },
     image:{
-        type:Object
+        type:Object,
+        default:{
+            url:"https://img.freepik.com/free-vector/people-walking-sitting-hospital-building-city-clinic-glass-exterior-flat-vector-illustration-medical-help-emergency-architecture-healthcare-concept_74855-10130.jpg",
+            secure_url:"https://img.freepik.com/free-vector/people-walking-sitting-hospital-building-city-clinic-glass-exterior-flat-vector-illustration-medical-help-emergency-architecture-healthcare-concept_74855-10130.jpg"
+        }
     },
     mobile:{
         type:Number
