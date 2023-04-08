@@ -31,74 +31,8 @@ export default function AdminHospitals() {
       }
     )()
   }, [refresh])
-  const acceptRequest = async (e, email) => {
-    e.preventDefault();
-    Swal.fire({
-      title: 'Are you sure?',
-      text: "accept this account!",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#7e3af2',
-      cancelButtonColor: '##a8a8a8',
-      confirmButtonText: 'Yes, Accept it!'
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        setLoad(true)
-        const { data } = await axios.post("/admin/hospital/accept", { email });
-        console.log(data)
-        if (!data.err) {
-          Swal.fire(
-            'Success!',
-            'Successfully Accepted',
-            'success'
-          )
-        } else {
-          Swal.fire(
-            'Failed!',
-            'Something Went Wrong',
-            'error'
-            )
-            
-          }
-          setRefresh(!refresh)
-          setLoad(false)
-      }
-    })
 
-  }
-  const rejectRequest = async (e, email) => {
-    e.preventDefault();
-    Swal.fire({
-      title: 'Are you sure?',
-      text: "You won't be able to revert this!",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#7e3af2',
-      cancelButtonColor: '##a8a8a8',
-      confirmButtonText: 'Yes, Accept it!'
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        setLoad(true)
-        const { data } = await axios.post("/admin/hospital/reject", { email });
-        if (!data.err) {
-          Swal.fire(
-            'Success!',
-            'Successfully Rejected',
-            'success'
-          )
-          setRefresh(!refresh)
-        } else {
-          Swal.fire(
-            'Failed!',
-            'Something Went Wrong',
-            'error'
-          )
 
-        }
-        setLoad(false)
-      }
-    })
-  }
   return (
     <div className="admin-home">
 
@@ -134,8 +68,8 @@ export default function AdminHospitals() {
                           </Dropdown.Toggle>
 
                           <Dropdown.Menu>
-                            <Dropdown.Item href="#" onClick={(e) => acceptRequest(e, item.email)}>Accept</Dropdown.Item>
-                            <Dropdown.Item href="#" onClick={(e) => rejectRequest(e, item.email)}>Reject</Dropdown.Item>
+                            {/* <Dropdown.Item href="#" onClick={(e) => acceptRequest(e, item.email)}>Accept</Dropdown.Item>
+                            <Dropdown.Item href="#" onClick={(e) => rejectRequest(e, item.email)}>Reject</Dropdown.Item> */}
                           </Dropdown.Menu>
                         </Dropdown>
                       </td>
