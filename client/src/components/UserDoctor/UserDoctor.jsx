@@ -1,10 +1,30 @@
 import { Col, Container, Row } from "react-bootstrap"
 import UserHeader from "../UserHeader/UserHeader"
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import doctorImg from '../../assets/images/doctor.png'
 import { Avatar, Rating } from "@mui/material"
 import '../DoctorProfile/doctorProfile.css'
+import { useParams } from "react-router-dom"
+import axios from "axios"
 function UserDoctor() {
+    const {id} = useParams()
+    const [doctor, setDoctor]=useState({
+        image:{
+            url:"https://bharajhospital.in/wp-content/uploads/2015/11/doctor-placeholder-500x500.jpg"
+        }
+    })
+      useEffect(()=>{
+        (
+            async function(){
+                const {data}= await axios.get("/user/doctor/"+id);
+                if(!data.err){
+                    setDoctor(data.doctor)
+                }
+                console.log(data)
+            }
+        )()
+    },[])
+    
 
     return (
         <div className="user-main">
@@ -20,7 +40,7 @@ function UserDoctor() {
                             <Col sm={12} md={5}>
                                 <div className="dr-profile-sec sec-1">
                                     <div className="dr-profile-img">
-                                        <img src={doctorImg} alt="" />
+                                        <img src={doctor.image.url} alt="" />
                                     </div>
 
                                 </div>
@@ -29,17 +49,17 @@ function UserDoctor() {
                             <Col sm={12} md={7}>
                                 <div className="dr-profile-sec sec-2">
                                     <div className="dr-profile-sec-row head">
-                                        <h5>Dr James</h5>
-                                        <p>Paediatrician</p>
+                                        <h5>{doctor.name}</h5>
+                                        <p>{doctor.specialization}</p>
                                     </div>
 
                                     <div className="dr-profile-sec-row">
                                         <h6>Fees</h6>
-                                        <b>₹250</b>
+                                        <b>₹{doctor.fees}</b>
                                     </div>
                                     <div className="dr-profile-sec-row">
                                         <h6>About</h6>
-                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat tempore tempora sequi ut et alias voluptatum quaerat impedit aspernatur incidunt accusamus.</p>
+                                        <p>{doctor.about}</p>
                                     </div>
                                     <div className="dr-profile-sec-row button">
                                         <button>Book Now</button>
@@ -53,21 +73,21 @@ function UserDoctor() {
                         <Row>
                             <Col sm={12} md={5}>
                                 <div className="dr-profile-sec sec-1">
-                                    <div className="dr-profile-sec-row">
+                                    {/* <div className="dr-profile-sec-row">
                                         <h6>Place</h6>
-                                        <p>Tirur, Malappuram</p>
+                                        <p>{doctor.place}</p>
                                     </div>
                                     <div className="dr-profile-sec-row">
                                         <h6>Address</h6>
-                                        <p>National Complex, Tirur</p>
+                                        <p>{doctor.address}</p>
                                     </div>
                                     <div className="dr-profile-sec-row">
                                         <h6>Mobile</h6>
-                                        <p>9865235695</p>
-                                    </div>
+                                        <p>{doctor.mobile}</p>
+                                    </div> */}
                                     <div className="dr-profile-sec-row">
                                         <h6>email</h6>
-                                        <p>mail@example.com</p>
+                                        <p>{doctor.email}</p>
                                     </div>
 
                                 </div>

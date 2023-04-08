@@ -18,7 +18,7 @@ export async function getAllDepartments(req, res){
 export async function getAllHospitals(req, res){
     try{
         const name= req.query.name ?? "";
-        const hospitals= await HospitalModel.find({name:new RegExp(name, 'i')}).lean()
+        const hospitals= await HospitalModel.find({name:new RegExp(name, 'i')}, {password:0}).lean()
         console.log(hospitals)
         res.json({hospitals})
 
@@ -30,7 +30,7 @@ export async function getAllHospitals(req, res){
 export async function getAllDoctors(req, res){
     try{
         const name= req.query.name ?? "";
-        const doctors= await DoctorModel.find({name:new RegExp(name, 'i')}).populate('hospitalId', 'name').lean()
+        const doctors= await DoctorModel.find({name:new RegExp(name, 'i')}, {password:0}).populate('hospitalId', 'name').lean()
         console.log(doctors)
         res.json({doctors})
 
@@ -41,7 +41,7 @@ export async function getAllDoctors(req, res){
 }
 export async function getDoctor(req, res){
     try{
-        const doctor= await DoctorModel.findById(req.params.id);
+        const doctor= await DoctorModel.findById(req.params.id, {password:0});
         res.json({err:false, doctor})
 
     }catch(err){
@@ -51,7 +51,7 @@ export async function getDoctor(req, res){
 }
 export async function getHospital(req, res){
     try{
-        const hospital= await HospitalModel.findById(req.params.id);
+        const hospital= await HospitalModel.findById(req.params.id, {password:0});
         res.json({err:false, hospital})
 
     }catch(err){
