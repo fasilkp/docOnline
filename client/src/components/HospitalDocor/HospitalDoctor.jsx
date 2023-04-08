@@ -29,6 +29,9 @@ export default function HospitalDoctor() {
     const addDoctor = async () => {
         setShowModal(true)
     }
+    const blockDoctor=(id)=>{
+
+    }
     useEffect(() => {
         (
             async function () {
@@ -78,6 +81,7 @@ export default function HospitalDoctor() {
 
                                                     <Dropdown.Menu>
                                                         <Dropdown.Item href="#" onClick={(e) => { setShowEditModal(true); setEditDoctorId(item._id) }}>Edit</Dropdown.Item>
+                                                        <Dropdown.Item href="#" onClick={(e) => {blockDoctor(item._id) }}>Edit</Dropdown.Item>
                                                     </Dropdown.Menu>
                                                 </Dropdown>
                                             </td>

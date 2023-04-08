@@ -53,7 +53,18 @@ export async function addDoctor(req, res){
 }
 export async function editDoctor(req, res){
     try{
-        const doctor = await DoctorModel.updateOne({_id:req.body._id},{...req.body, hospitalId:req.hospital._id});
+        const doctor = await DoctorModel.updateOne({_id:req.body._id},{$set:{...req.body, hospitalId:req.hospital._id}});
+        res.json({err:false})
+
+    }catch(err){
+        console.log(err)
+        res.json({err:true , error:err, message:"Something Went Wrong"})
+    }
+
+}
+export async function blockDoctor(req, res){
+    try{
+        await DoctorModel.updateOne({_id:req.params.id}, {$set:{block:true}});
         res.json({err:false})
 
     }catch(err){
