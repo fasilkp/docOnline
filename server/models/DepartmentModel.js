@@ -6,8 +6,8 @@ const schema = new mongoose.Schema({
         required:true
     },
     hospitalId:{
-        type: mongoose.Schema.Types.ObjectId,
-        required:"Hospital"
+        type: String,
+        required:true
     }
 })
 

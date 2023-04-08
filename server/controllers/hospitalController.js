@@ -51,4 +51,16 @@ export async function addDoctor(req, res){
     }
 
 }
+export async function editDoctor(req, res){
+    try{
+        const {password}=req.body;
+        const doctor = await DoctorModel.create({...req.body, hospitalId:req.hospital._id});
+        res.json({err:false})
+
+    }catch(err){
+        console.log(err)
+        res.json({err:true , error:err, message:"Something Went Wrong"})
+    }
+
+}
 

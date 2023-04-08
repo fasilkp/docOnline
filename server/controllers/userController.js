@@ -52,6 +52,8 @@ export async function getDoctor(req, res){
 export async function getHospital(req, res){
     try{
         const hospital= await HospitalModel.findById(req.params.id, {password:0});
+        // const departments= await DepartmentModel.find({hospitalId:'ObjectId('+req.params.id+')'}, {password:0});
+        // console.log("department",departments)
         res.json({err:false, hospital})
 
     }catch(err){

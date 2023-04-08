@@ -1,12 +1,30 @@
 import { Col, Container, Row } from "react-bootstrap"
 import UserHeader from "../UserHeader/UserHeader"
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import hospitalImg from '../../assets/images/hospital.jpg'
 import { Avatar, Rating } from "@mui/material"
 import '../DoctorProfile/doctorProfile.css'
 import UserDepartmentRow from "../UserDepartmentRow/UserDepartmentRow"
+import axios from "axios"
+import { useParams } from "react-router-dom"
 function UserHospital() {
-
+    const {id} = useParams()
+    const [hospital, setHospital]=useState({
+        image:{
+            url:"https://www.medibhai.com/uploads/hospital_image/hospital-profile-default.jpg"
+        }
+    })
+      useEffect(()=>{
+        (
+            async function(){
+                const {data}= await axios.get("/user/hospital/"+id);
+                if(!data.err){
+                    setHospital(data.hospital)
+                }
+                console.log(data)
+            }
+        )()
+    },[])
     return (
         <div className="user-main">
 
@@ -21,7 +39,7 @@ function UserHospital() {
                             <Col sm={12} md={5}>
                                 <div className="dr-profile-sec sec-1">
                                     <div className="dr-profile-img">
-                                        <img src={hospitalImg} alt="" />
+                                        <img src={hospital.image.url} alt="" />
                                     </div>
 
                                 </div>
@@ -30,17 +48,21 @@ function UserHospital() {
                             <Col sm={12} md={7}>
                                 <div className="dr-profile-sec sec-2">
                                     <div className="dr-profile-sec-row head">
-                                        <h5>Dr James</h5>
-                                        <p>Paediatrician</p>
+                                        <h5>{hospital.name}</h5>
+                                        {/* <p>Paediatrician</p> */}
                                     </div>
 
                                     <div className="dr-profile-sec-row">
-                                        <h6>Fees</h6>
-                                        <b>₹250</b>
+                                        <h6>Place</h6>
+                                        <b>{hospital.place}</b>
+                                    </div>
+                                    <div className="dr-profile-sec-row">
+                                        <h6>Address</h6>
+                                        <b>{hospital.address}</b>
                                     </div>
                                     <div className="dr-profile-sec-row">
                                         <h6>About</h6>
-                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat tempore tempora sequi ut et alias voluptatum quaerat impedit aspernatur incidunt accusamus.</p>
+                                        <b>{hospital.about}</b>
                                     </div>
                                     {/* <div className="dr-profile-sec-row button">
                                         <button>Book Now</button>
