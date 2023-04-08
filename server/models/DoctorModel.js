@@ -25,13 +25,18 @@ const DoctorSchema = new mongoose.Schema({
         ref:'Department'
     },
     qualification :{
-        type:String
+        type:String,
+        default:""
     },
     specialization :{
-        type:String
+        type:String,
+        default:""
+
     },
     about :{
-        type:String
+        type:String,
+        default:""
+
     },
     image :{
         type:Object,
@@ -41,7 +46,9 @@ const DoctorSchema = new mongoose.Schema({
         }
     },
     fees :{
-        type:Number
+        type:Number,
+        default:0
+
     }
     
 })

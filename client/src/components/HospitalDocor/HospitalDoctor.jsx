@@ -10,12 +10,15 @@ import { useDispatch, useSelector } from 'react-redux'
 import HospitalHeader from '../HospitalHeader/HospitalHeader';
 import AddDoctor from '../../Modal/AddDoctor/AddDoctor';
 import { useEffect } from 'react';
+import EditDoctor from '../../Modal/editDoctor/EditDoctor';
 
 export default function HospitalDoctor() {
     const [refresh, setRefresh] = useState(false)
+    const [editDoctorId, setEditDoctorId]=useState("")
     const [load, setLoad] = useState(false)
     const { hospital } = useSelector((state) => state)
     const [showModal, setShowModal] = useState(false)
+    const [showEditModal, setShowEditModal] = useState(false)
     const [doctorList, setDoctorList] = useState([])
     const [clicked, setCLicked] = useState(false)
     const handleClick = () => {
@@ -73,10 +76,9 @@ export default function HospitalDoctor() {
                                                         <RiMore2Fill />
                                                     </Dropdown.Toggle>
 
-                                                    {/* <Dropdown.Menu>
-                                                        <Dropdown.Item href="#" onClick={(e) => { }}>Accept</Dropdown.Item>
-                                                        <Dropdown.Item href="#" onClick={(e) => { }}>Reject</Dropdown.Item>
-                                                    </Dropdown.Menu> */}
+                                                    <Dropdown.Menu>
+                                                        <Dropdown.Item href="#" onClick={(e) => { setShowEditModal(true); setEditDoctorId(item._id) }}>Edit</Dropdown.Item>
+                                                    </Dropdown.Menu>
                                                 </Dropdown>
                                             </td>
                                         </tr>
@@ -92,6 +94,10 @@ export default function HospitalDoctor() {
             {
                 showModal &&
                 <AddDoctor setShowModal={setShowModal} refresh={refresh} setRefresh={setRefresh} />
+            }
+            {
+                showEditModal &&
+                <EditDoctor setShowModal={setShowEditModal} id={editDoctorId} refresh={refresh} setRefresh={setRefresh} />
             }
             <Backdrop
                 sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}

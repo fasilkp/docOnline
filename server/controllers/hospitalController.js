@@ -53,8 +53,7 @@ export async function addDoctor(req, res){
 }
 export async function editDoctor(req, res){
     try{
-        const {password}=req.body;
-        const doctor = await DoctorModel.create({...req.body, hospitalId:req.hospital._id});
+        const doctor = await DoctorModel.updateOne({_id:req.body._id},{...req.body, hospitalId:req.hospital._id});
         res.json({err:false})
 
     }catch(err){
