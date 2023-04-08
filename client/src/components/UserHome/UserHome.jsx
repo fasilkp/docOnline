@@ -13,7 +13,9 @@ function UserHome() {
     (
       async function(){
         const {data} = await axios.get("/user/departments")
-        setDepartmentList(data)
+        if(data.departments){
+          setDepartmentList(data.departments)
+        }
 
       }
     )()

@@ -30,7 +30,7 @@ export async function getAllHospitals(req, res){
 export async function getAllDoctors(req, res){
     try{
         const name= req.query.name ?? "";
-        const doctors= await DoctorModel.find({name:new RegExp(name, 'i')}).lean()
+        const doctors= await DoctorModel.find({name:new RegExp(name, 'i')}).populate('hospitalId', 'name').lean()
         console.log(doctors)
         res.json({doctors})
 

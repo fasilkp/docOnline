@@ -7,7 +7,7 @@ const DoctorSchema = new mongoose.Schema({
     },
     hospitalId:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'Department'
+        ref:'Hospital'
     },
     email:{
         type: String,
@@ -27,7 +27,7 @@ const DoctorSchema = new mongoose.Schema({
     qualification :{
         type:String
     },
-    specializedIn :{
+    specialization :{
         type:String
     },
     about :{

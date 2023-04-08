@@ -17,14 +17,14 @@ function UserDepartmentRow({ list }) {
                         </Container>
                         <Container>
 
-                            <Row className='mt-3'>
+                            <Row className='mt-1'>
                                 {
                                     list.map((item, index) => {
                                         return <Col xs={6} md={2} key={index}>
-                                            <div className="department-item">
+                                            <div className="department-item mt-3" >
                                                 <div className="department-item-box">
                                                     <img src={img1} alt="" />
-                                                    <b>{item._id}</b>
+                                                    <b>{item.name}</b>
                                                 </div>
 
                                             </div>
