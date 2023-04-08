@@ -27,8 +27,9 @@ function AddDoctor({ setShowModal, setRefresh, refresh }) {
         (
           async function(){
             const {data} = await axios.get("/hospital/departments")
-            setDepartmentList(data)
-    
+            if(!data.err){
+                setDepartmentList(data.departments)
+            }
           }
         )()
       },[])
