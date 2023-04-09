@@ -67,6 +67,41 @@ export default function HospitalDepartment() {
             setRefresh(!refresh)
         }
     }
+    const editDepartment = async (id, name) => {
+        const { value: department } = await Swal.fire({
+            title: 'Add Department',
+            input: 'text',
+            inputValue:name,
+            inputLabel: 'Enter Department name',
+            inputPlaceholder: 'Enter your department name',
+            confirmButtonText: 'Edit',
+            showCancelButton: true,
+            inputValidator: (value) => {
+                if (!value) {
+                    return 'You need to write something!'
+                }
+            }
+        })
+
+        if (department) {
+            let { data } = await axios.patch("/hospital/department", { department, id });
+            if (!data.err) {
+                Swal.fire(
+                    'Success!',
+                    'Successfully Added',
+                    'success'
+                )
+            } else {
+                Swal.fire(
+                    'Failed!',
+                    data.message,
+                    'error'
+                )
+
+            }
+            setRefresh(!refresh)
+        }
+    }
     return (
         <div className="admin-home">
 
@@ -99,11 +134,10 @@ export default function HospitalDepartment() {
                                                     <Dropdown.Toggle variant="secondary" id="dropdown-basic">
                                                         <RiMore2Fill />
                                                     </Dropdown.Toggle>
-                                                    {/* 
+                                                    
                                                     <Dropdown.Menu>
-                                                        <Dropdown.Item href="#" onClick={(e) => { }}>Accept</Dropdown.Item>
-                                                        <Dropdown.Item href="#" onClick={(e) => { }}>Reject</Dropdown.Item>
-                                                    </Dropdown.Menu> */}
+                                                        <Dropdown.Item href="#" onClick={(e) => { editDepartment(item._id, item.name) }}>Edit</Dropdown.Item>
+                                                    </Dropdown.Menu>
                                                 </Dropdown>
                                             </td>
                                         </tr>

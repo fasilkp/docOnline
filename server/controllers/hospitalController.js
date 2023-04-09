@@ -16,6 +16,15 @@ export async function addDepartment(req, res) {
         res.json({ message: "somrthing went wrong", error: err, err:true })
     }
 }
+export async function editDepartment(req, res) {
+    try {
+        await DepartmentModel.findByIdAndUpdate(req.body.id,{$set:{name:req.body.department.trim().toLowerCase()}})
+        res.json({ err:false })
+    }
+    catch (err) {
+        res.json({ message: "somrthing went wrong", error: err, err:true })
+    }
+}
 
 export async function getDepartments(req, res) {
     try {

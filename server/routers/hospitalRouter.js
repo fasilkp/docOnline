@@ -1,10 +1,11 @@
 import express from 'express'
-import { addDepartment, addDoctor, blockDoctor, editDoctor, getDepartments, getDoctors, unBlockDoctor } from '../controllers/hospitalController.js';
+import { addDepartment, addDoctor, blockDoctor, editDepartment, editDoctor, getDepartments, getDoctors, unBlockDoctor } from '../controllers/hospitalController.js';
 
 const Router = express.Router();
 
 
 Router.post("/department", addDepartment)
+Router.patch("/department", editDepartment)
 Router.get("/departments", getDepartments)
 
 

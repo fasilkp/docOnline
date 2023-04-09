@@ -15,6 +15,9 @@ function UserDoctor() {
         department:{
             name:" "
 
+        },
+        hospitalId:{
+            name:""
         }
     })
       useEffect(()=>{
@@ -94,8 +97,12 @@ function UserDoctor() {
                                         <p>{doctor.mobile}</p>
                                     </div> */}
                                     <div className="dr-profile-sec-row">
-                                        <h6>email</h6>
+                                        <h6>Email</h6>
                                         <p>{doctor.email}</p>
+                                    </div>
+                                    <div className="dr-profile-sec-row">
+                                        <h6>Hospital</h6>
+                                        <p>{doctor.hospitalId.name}</p>
                                     </div>
 
                                 </div>
