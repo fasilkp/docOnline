@@ -2,7 +2,7 @@ import axios from 'axios';
 import * as React from 'react';
 import { useState } from 'react';
 import { Container, Dropdown, Table } from 'react-bootstrap';
-import { RiMore2Fill } from 'react-icons/ri';
+import { RiMore2Fill, RiSearch2Line } from 'react-icons/ri';
 import Swal from 'sweetalert2'
 import { Backdrop, CircularProgress, setRef } from '@mui/material';
 import HospitalSidebar from '../HospitalSidebar/HospitalSidebar';
@@ -21,6 +21,7 @@ export default function HospitalDoctor() {
     const [showEditModal, setShowEditModal] = useState(false)
     const [doctorList, setDoctorList] = useState([])
     const [clicked, setCLicked] = useState(false)
+    const [name, setName]=useState("")
     const handleClick = () => {
         setCLicked(!clicked)
     }
@@ -64,14 +65,14 @@ export default function HospitalDoctor() {
     useEffect(() => {
         (
             async function () {
-                const { data } = await axios.get("/hospital/doctors");
+                const { data } = await axios.get("/hospital/doctors?name="+name);
                 console.log(data)
                 if (!data.err) {
                     setDoctorList(data.doctors)
                 }
             }
         )()
-    }, [refresh]);
+    }, [refresh, name]);
 
     return (
         <div className="admin-home">
@@ -84,6 +85,10 @@ export default function HospitalDoctor() {
                     <div className="admin-container">
                         <div className="container-header">
                             <h5>Doctors</h5>
+                            <div className="admin-search-box">
+                                <input type="text" placeholder='Search...' value={name} onChange={(e)=>setName(e.target.value)} />
+                                <button><RiSearch2Line/></button>
+                            </div>
                             <button className='btn btn-dark' onClick={addDoctor}>Add Doctor</button>
                         </div>
                         <Table className='table-main' responsive>

@@ -120,6 +120,28 @@ button:disabled {
   max-height: 90%;
 }
 
+.admin-search-box{
+  background-color: #fff;
+  padding: 5px;
+  border-radius: 10px;
+  box-shadow: var(--defaultShadow);
+
+}
+.admin-search-box input{
+  width: 400px;
+  height: 35px;
+  padding-left: 10px;
+}
+.admin-search-box button{
+  height: 35px;
+  width: 20px;
+}
+.admin-search-box button, .admin-search-box input{
+  border: none;
+  outline: none;
+  background: none;
+}
+
 @media(max-width:600px) {
   .def-padding {
     padding: 0px 10px;

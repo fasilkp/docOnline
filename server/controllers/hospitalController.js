@@ -38,7 +38,8 @@ export async function getDepartments(req, res) {
 
 export async function getDoctors(req, res) {
     try {
-        let doctors=await DoctorModel.find({hospitalId:req.hospital._id}).lean()
+        const name= req.query.name ?? ""
+        let doctors=await DoctorModel.find({hospitalId:req.hospital._id, name:new RegExp(name, 'i')}).lean()
         res.json({ err:false, doctors })
     }
     catch (err) {
