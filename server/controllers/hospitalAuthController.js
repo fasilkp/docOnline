@@ -11,7 +11,18 @@ export async function hospitalRegister(req, res){
         const {name, email, mobile, password}=req.body;
         const hashPassword = bcrypt.hashSync(password, salt);
         const hospital = await HospitalModel.create({...req.body,password:hashPassword});
-        res.json({err:false})
+        const token = jwt.sign(
+            {
+                id: hospital._id
+            },
+            process.env.JWT_SECRET_KEY
+        )
+        return res.cookie("hospitalToken", token, {
+            httpOnly: true,
+            secure: true,
+            maxAge: 1000 * 60 * 60 * 24 * 7,
+            sameSite: "none",
+        }).json({ err: false })
 
     }catch(err){
         res.json({err:true , error:err, message:"Something Went Wrong"})
@@ -26,9 +37,9 @@ export async function hospitalLogin(req, res) {
         if (!hospital){
             return res.json({ err: true, message: "No Hospital Found" })
         }
-        if (!hospital.active){
-            return res.json({ err: true, message: "Approval under process. We will inform you once completed" })
-        }
+        // if (!hospital.active){
+        //     return res.json({ err: true, message: "Approval under process. We will inform you once completed" })
+        // }
     
         const hospitalValid = bcrypt.compareSync(password, hospital.password);
         if (!hospitalValid)
@@ -60,7 +71,7 @@ export const checkHospitalLoggedIn = async (req, res) => {
 
         const verifiedJWT = jwt.verify(token, process.env.JWT_SECRET_KEY);
         console.log(verifiedJWT)
-        const hospital = await HospitalModel.findOne({_id:verifiedJWT.id, active:true}, { password: 0 });
+        const hospital = await HospitalModel.findOne({_id:verifiedJWT.id}, { password: 0 });
         console.log(hospital)
         if (!hospital) {
             return res.json({ loggedIn: false });

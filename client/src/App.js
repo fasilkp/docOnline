@@ -24,6 +24,7 @@ import UserSearchPage from './pages/user/UserSearchPage';
 import UserDoctorPage from './pages/user/UserDoctorPage';
 import UserHospitalPage from './pages/user/UserHospitalPage';
 import UserDepartmentPage from './pages/user/UserDepartmentPage';
+import HospitalApproalPage from './pages/hospital/HospitalApproalPage';
 
 
 function App() {
@@ -90,9 +91,18 @@ function App() {
           </>
         }
         {
+          hospital.login && !hospital.details.active &&
+          <>
+          <Route path='/account/hospital/' element={<HospitalApproalPage />} />
+          <Route path='/account/hospital/*' element={<HospitalApproalPage />} />
+          </>
+          
+        }
+        {
           hospital.login &&
           <>
             <Route path='/account/hospital/' element={<HospitalHomePage />} />
+            {/* <Route path='/account/hospital/approval' element={<HospitalApproalPage />} /> */}
             <Route path='/account/hospital/department' element={<HospitalDepartmentPage />} />
             <Route path='/account/hospital/doctor' element={<HospitalDoctorPage />} />
             <Route path='/account/hospital/login' element={<Navigate to="/account/hospital/" />} />

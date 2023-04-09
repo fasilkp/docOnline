@@ -7,6 +7,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ClipLoader } from 'react-spinners';
 import axios from 'axios'
 import Swal from 'sweetalert2';
+import { useDispatch } from 'react-redux';
 
 function HospitalSignup() {
     const [name, setName] = useState("")
@@ -17,6 +18,7 @@ function HospitalSignup() {
     const [address, setAddress] = useState("")
     const [place, setPlace] = useState("")
     const [errMessage, setErrMessage] = useState("")
+    const dispatch= useDispatch()
     const [loading, setLoading] = useState({
         submit: false
     })
@@ -36,7 +38,7 @@ function HospitalSignup() {
                     'Thank You for Registration. We will Inform you once account has got Approved',
                     'success'
                   )
-                navigate("/account/hospital/login")
+                  dispatch({type:"refresh"})
             }
             setLoading({ ...loading, submit: false })
 
