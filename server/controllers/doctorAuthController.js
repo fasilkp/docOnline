@@ -13,6 +13,8 @@ export async function doctorLogin(req, res) {
         if (!doctor){
             return res.json({ err: true, message: "No Doctor Found" })
         }
+        if (doctor.block)
+            return res.json({ err: true, message: "You are blocked" })
         const doctorValid = bcrypt.compareSync(password, doctor.password);
         if (!doctorValid)
             return res.json({ err: true, message: "wrong Password" })
@@ -45,6 +47,9 @@ export const checkDoctorLoggedIn = async (req, res) => {
         const verifiedJWT = jwt.verify(token, process.env.JWT_SECRET_KEY);
         const doctor = await DoctorModel.findOne({_id:verifiedJWT.id}, { password: 0 });
         if (!doctor) {
+            return res.json({ loggedIn: false });
+        }
+        if(doctor.block){
             return res.json({ loggedIn: false });
         }
         return res.json({ doctor, loggedIn: true });

@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Container, Dropdown, Table } from 'react-bootstrap';
 import { RiMore2Fill } from 'react-icons/ri';
 import Swal from 'sweetalert2'
-import { Backdrop, CircularProgress } from '@mui/material';
+import { Backdrop, CircularProgress, setRef } from '@mui/material';
 import HospitalSidebar from '../HospitalSidebar/HospitalSidebar';
 import { useDispatch, useSelector } from 'react-redux'
 import HospitalHeader from '../HospitalHeader/HospitalHeader';
@@ -14,7 +14,7 @@ import EditDoctor from '../../Modal/editDoctor/EditDoctor';
 
 export default function HospitalDoctor() {
     const [refresh, setRefresh] = useState(false)
-    const [editDoctorId, setEditDoctorId]=useState("")
+    const [editDoctorId, setEditDoctorId] = useState("")
     const [load, setLoad] = useState(false)
     const { hospital } = useSelector((state) => state)
     const [showModal, setShowModal] = useState(false)
@@ -29,8 +29,37 @@ export default function HospitalDoctor() {
     const addDoctor = async () => {
         setShowModal(true)
     }
-    const blockDoctor=(id)=>{
-
+    const blockDoctor = (id) => {
+        Swal.fire({
+            title: 'Are you sure? Block',
+            text: "Block this user!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#7e3af2',
+            cancelButtonColor: '##a8a8a8',
+            confirmButtonText: 'Yes, Block!'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                const { data } = await axios.patch("/hospital/doctor/block", { id });
+                setRefresh(!refresh)
+            }
+        })
+    }
+    const unBlockDoctor = (id) => {
+        Swal.fire({
+            title: 'Are you sure? Unblock',
+            text: "Unblock this user!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#7e3af2',
+            cancelButtonColor: '##a8a8a8',
+            confirmButtonText: 'Yes, Unblock!'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                const { data } = await axios.patch("/hospital/doctor/unblock", { id });
+                setRefresh(!refresh)
+            }
+        })
     }
     useEffect(() => {
         (
@@ -63,6 +92,8 @@ export default function HospitalDoctor() {
                                     <th>#</th>
                                     <th>Name</th>
                                     <th>Email</th>
+                                    <th>Fees</th>
+                                    <th>Status</th>
                                     <th>option</th>
                                 </tr>
                             </thead>
@@ -73,6 +104,8 @@ export default function HospitalDoctor() {
                                             <td>{index + 1}</td>
                                             <td>{item.name}</td>
                                             <td>{item.email}</td>
+                                            <td>{item.fees}</td>
+                                            <td>{item.block ? "Blocked" : "Active"}</td>
                                             <td className='option-btn'>
                                                 <Dropdown>
                                                     <Dropdown.Toggle variant="secondary" id="dropdown-basic">
@@ -81,7 +114,12 @@ export default function HospitalDoctor() {
 
                                                     <Dropdown.Menu>
                                                         <Dropdown.Item href="#" onClick={(e) => { setShowEditModal(true); setEditDoctorId(item._id) }}>Edit</Dropdown.Item>
-                                                        <Dropdown.Item href="#" onClick={(e) => {blockDoctor(item._id) }}>Edit</Dropdown.Item>
+                                                        {
+                                                            item.block ?
+                                                            <Dropdown.Item href="#" onClick={() => { unBlockDoctor(item._id) }}>unBlock Doctor</Dropdown.Item>
+                                                            :
+                                                            <Dropdown.Item href="#" onClick={() => { blockDoctor(item._id) }}>Block Doctor</Dropdown.Item>
+                                                        }
                                                     </Dropdown.Menu>
                                                 </Dropdown>
                                             </td>

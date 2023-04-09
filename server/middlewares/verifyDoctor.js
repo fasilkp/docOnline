@@ -9,6 +9,9 @@ const verifyDoctor = async (req, res, next) => {
         if (!doctor) {
             return res.json({ loggedIn: false });
         }
+        if(doctor.block){
+            return res.json({ loggedIn: false });
+        }
         req.doctor=doctor;
         next()
     } catch (err) {

@@ -23,6 +23,7 @@ import DoctorProfilePage from './pages/doctor/DoctorProfilePage';
 import UserSearchPage from './pages/user/UserSearchPage';
 import UserDoctorPage from './pages/user/UserDoctorPage';
 import UserHospitalPage from './pages/user/UserHospitalPage';
+import UserDepartmentPage from './pages/user/UserDepartmentPage';
 
 
 function App() {
@@ -58,6 +59,7 @@ function App() {
             <Route path='/search' element={<UserSearchPage />} />
             <Route path='/doctor/:id' element={<UserDoctorPage />} />
             <Route path='/hospital/:id' element={<UserHospitalPage />} />
+            <Route path='/department/:id' element={<UserDepartmentPage />} />
           </>
         }
         {

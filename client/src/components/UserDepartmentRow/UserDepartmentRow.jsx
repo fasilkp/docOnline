@@ -2,8 +2,13 @@ import React from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 import './userDepartmentRow.css'
 import img1 from '../../assets/images/department/01.jpg'
+import { Link } from 'react-router-dom'
+import noResultImg from '../../assets/images/no-result.png'
 
-function UserDepartmentRow({ list }) {
+
+
+function UserDepartmentRow({ list, hospitalWise, hospitalId }) {
+
     return (
         <Container>
 
@@ -19,17 +24,24 @@ function UserDepartmentRow({ list }) {
 
                             <Row className='mt-1'>
                                 {
-                                    list.map((item, index) => {
-                                        return <Col xs={6} md={2} key={index}>
-                                            <div className="department-item mt-3" >
-                                                <div className="department-item-box">
-                                                    <img src={img1} alt="" />
-                                                    <b>{item.name}</b>
-                                                </div>
+                                    list[0] ?
+                                        list.map((item, index) => {
+                                            return <Col xs={6} md={2} key={index}>
+                                                <Link to={'/department/' + item._id} state={{hospital:hospitalWise ? hospitalId : null}} >
+                                                    <div className="department-item mt-3" >
+                                                        <div className="department-item-box" >
+                                                            <img src={img1} alt="" />
+                                                            <b>{item.name}</b>
+                                                        </div>
 
-                                            </div>
-                                        </Col>
-                                    })
+                                                    </div>
+                                                </Link>
+                                            </Col>
+                                        })
+                                        :
+                                        <div className='no-result-container'>
+                                            <img src={noResultImg} alt="" />
+                                        </div>
                                 }
                             </Row>
                         </Container>

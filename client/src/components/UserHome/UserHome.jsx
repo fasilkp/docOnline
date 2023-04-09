@@ -42,7 +42,7 @@ function UserHome() {
         </div>
         </Row>
         <Row>
-          <UserDepartmentRow list={departmentList} />
+          <UserDepartmentRow hospitalWise={false} list={departmentList} />
         </Row>
     </div>
   )

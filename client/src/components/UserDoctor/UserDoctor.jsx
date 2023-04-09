@@ -11,6 +11,10 @@ function UserDoctor() {
     const [doctor, setDoctor]=useState({
         image:{
             url:"https://bharajhospital.in/wp-content/uploads/2015/11/doctor-placeholder-500x500.jpg"
+        },
+        department:{
+            name:" "
+
         }
     })
       useEffect(()=>{
@@ -50,12 +54,16 @@ function UserDoctor() {
                                 <div className="dr-profile-sec sec-2">
                                     <div className="dr-profile-sec-row head">
                                         <h5>{doctor.name}</h5>
-                                        <p>{doctor.specialization}</p>
+                                        <p>{doctor.department.name.toUpperCase()} Department</p>
                                     </div>
 
                                     <div className="dr-profile-sec-row">
                                         <h6>Fees</h6>
                                         <b>₹{doctor.fees}</b>
+                                    </div>
+                                    <div className="dr-profile-sec-row">
+                                        <h6>Qualification</h6>
+                                        <b>{doctor.qualification}</b>
                                     </div>
                                     <div className="dr-profile-sec-row">
                                         <h6>About</h6>

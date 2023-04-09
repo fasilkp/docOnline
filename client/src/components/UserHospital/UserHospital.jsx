@@ -9,6 +9,7 @@ import axios from "axios"
 import { useParams } from "react-router-dom"
 function UserHospital() {
     const {id} = useParams()
+    const [departmentList, setDepartmentList]=useState([])
     const [hospital, setHospital]=useState({
         image:{
             url:"https://www.medibhai.com/uploads/hospital_image/hospital-profile-default.jpg"
@@ -20,6 +21,7 @@ function UserHospital() {
                 const {data}= await axios.get("/user/hospital/"+id);
                 if(!data.err){
                     setHospital(data.hospital)
+                    setDepartmentList(data.departments)
                 }
                 console.log(data)
             }
@@ -74,7 +76,7 @@ function UserHospital() {
                     {/* </Container> */}
                     {/* <Container> */}
                         <Row>
-                            <UserDepartmentRow list={[]}/>
+                            <UserDepartmentRow hospitalId={id} hospitalWise={true} list={departmentList}/>
                         </Row>
                     {/* </Container> */}
 

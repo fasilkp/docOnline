@@ -106,6 +106,19 @@ button:disabled {
 .login-main {
   background-color: #fff;
 }
+.no-result-container{
+  width: 100%;
+  padding-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+.no-result-container img{
+  width: 500px;
+  max-width: 90%;
+  max-height: 90%;
+}
 
 @media(max-width:600px) {
   .def-padding {

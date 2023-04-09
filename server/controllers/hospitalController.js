@@ -9,8 +9,7 @@ var salt = bcrypt.genSaltSync(10);
 
 export async function addDepartment(req, res) {
     try {
-
-        await DepartmentModel.create({name:req.body.department.trim().toLowerCase(), hospitalId:req.hospital._id})
+        await DepartmentModel.updateOne({name:req.body.department},{$set:{name:req.body.department.trim().toLowerCase()}, $push:{hospitalId:req.hospital._id}}, {upsert:true})
         res.json({ err:false })
     }
     catch (err) {
@@ -64,7 +63,18 @@ export async function editDoctor(req, res){
 }
 export async function blockDoctor(req, res){
     try{
-        await DoctorModel.updateOne({_id:req.params.id}, {$set:{block:true}});
+        await DoctorModel.updateOne({_id:req.body.id}, {$set:{block:true}});
+        res.json({err:false})
+
+    }catch(err){
+        console.log(err)
+        res.json({err:true , error:err, message:"Something Went Wrong"})
+    }
+
+}
+export async function unBlockDoctor(req, res){
+    try{
+        await DoctorModel.updateOne({_id:req.body.id}, {$set:{block:false}});
         res.json({err:false})
 
     }catch(err){

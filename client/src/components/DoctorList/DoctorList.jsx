@@ -3,6 +3,7 @@ import React from 'react'
 import { Col, Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import doctorImg from '../../assets/images/doctor.png'
+import noResultImg from '../../assets/images/no-result.png'
 import './doctorlist.css'
 
 function DoctorList({ list }) {
@@ -14,6 +15,7 @@ function DoctorList({ list }) {
             </Row>
             <Row>
                 {
+                    list[0] ?
                     list.map((item, index) => {
 
                         return <Col md={4} lg={3} xs={12} key={index} className="p-2">
@@ -35,6 +37,10 @@ function DoctorList({ list }) {
                             </Link>
                         </Col>
                     })
+                    :
+                    <div className='no-result-container'>
+                        <img src={noResultImg} alt="" />
+                    </div>
                 }
 
 

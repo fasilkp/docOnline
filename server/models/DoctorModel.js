@@ -45,6 +45,10 @@ const DoctorSchema = new mongoose.Schema({
             secure_url:"https://thumbs.dreamstime.com/b/default-placeholder-doctor-half-length-portrait-default-placeholder-doctor-half-length-portrait-photo-avatar-gray-color-113631373.jpg"
         }
     },
+    block:{
+      type:Boolean,
+      default:false  
+    },
     fees :{
         type:Number,
         default:0
