@@ -2,7 +2,7 @@ import axios from 'axios';
 import * as React from 'react';
 import { useState } from 'react';
 import { Container, Dropdown, Table } from 'react-bootstrap';
-import { RiMore2Fill } from 'react-icons/ri';
+import { RiMore2Fill, RiSearch2Line } from 'react-icons/ri';
 import AdminHeader from '../AdminHeader/AdminHeader';
 import AdminSidebar from '../AdminSidebar/AdminSidebar';
 import Swal from 'sweetalert2'
@@ -13,6 +13,8 @@ export default function AdminDoctors() {
   const [refresh, setRefresh] = useState(false)
   const [load, setLoad]=useState(false)
   const [clicked, setCLicked]=useState(false)
+  const [name, setName]=useState("")
+
   const handleClick=()=>{
     setCLicked(!clicked)
   }
@@ -20,7 +22,7 @@ export default function AdminDoctors() {
     (
       async function () {
         try {
-          const { data } = await axios.get("/admin/doctors")
+          const { data } = await axios.get("/admin/doctors?name="+name)
           if (!data.err) {
             setDoctorList(data.doctors)
           }
@@ -30,7 +32,7 @@ export default function AdminDoctors() {
         }
       }
     )()
-  }, [refresh])
+  }, [refresh, name])
   const acceptRequest = async (e, email) => {
     e.preventDefault();
     Swal.fire({
@@ -108,14 +110,21 @@ export default function AdminDoctors() {
         <Container fluid>
 
           <div className="admin-container">
-            <h5>Hospital Requests</h5>
+            <div className="container-header">
+            <h5>Doctors</h5>
+            <div className="admin-search-box">
+                <input type="text" placeholder='Search...' value={name} onChange={(e) => setName(e.target.value)} />
+                <button><RiSearch2Line /></button>
+              </div>
+
+            </div>
             <Table className='table-main' responsive>
               <thead>
                 <tr>
                   <th>#</th>
                   <th>Name</th>
                   <th>Email</th>
-                  {/* <th>Mobile</th> */}
+                  <th>Status</th>
                   <th>option</th>
                 </tr>
               </thead>
@@ -126,6 +135,7 @@ export default function AdminDoctors() {
                       <td>{index + 1}</td>
                       <td>{item.name}</td>
                       <td>{item.email}</td>
+                      <td>{item.block ? "Blocked" : "Active"}</td>
                       {/* <td>{item.mobile}</td> */}
                       <td className='option-btn'>
                         <Dropdown>
@@ -134,8 +144,8 @@ export default function AdminDoctors() {
                           </Dropdown.Toggle>
 
                           <Dropdown.Menu>
-                            <Dropdown.Item href="#" onClick={(e) => acceptRequest(e, item.email)}>Accept</Dropdown.Item>
-                            <Dropdown.Item href="#" onClick={(e) => rejectRequest(e, item.email)}>Reject</Dropdown.Item>
+                            {/* <Dropdown.Item href="#" onClick={(e) => acceptRequest(e, item.email)}>Accept</Dropdown.Item>
+                            <Dropdown.Item href="#" onClick={(e) => rejectRequest(e, item.email)}>Reject</Dropdown.Item> */}
                           </Dropdown.Menu>
                         </Dropdown>
                       </td>

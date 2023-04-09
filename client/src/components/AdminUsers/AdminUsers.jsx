@@ -8,8 +8,8 @@ import AdminSidebar from '../AdminSidebar/AdminSidebar';
 import Swal from 'sweetalert2'
 import { Backdrop, CircularProgress } from '@mui/material';
 
-export default function AdminHospitals() {
-  const [hospitalList, setHospitalList] = useState([])
+export default function AdminUsers() {
+  const [usersList, setUsersList] = useState([])
   const [refresh, setRefresh] = useState(false)
   const [load, setLoad] = useState(false)
   const [clicked, setCLicked] = useState(false)
@@ -21,9 +21,9 @@ export default function AdminHospitals() {
     (
       async function () {
         try {
-          const { data } = await axios.get("/admin/hospitals?name="+name)
+          const { data } = await axios.get("/admin/users?name="+name)
           if (!data.err) {
-            setHospitalList(data.hospitals)
+            setUsersList(data.users)
           }
 
         } catch (err) {
@@ -39,7 +39,7 @@ export default function AdminHospitals() {
 
       <AdminHeader handleClick={handleClick} />
       <div className="admin-main">
-        <AdminSidebar page={'hospital'} clicked={clicked} />
+        <AdminSidebar page={'user'} clicked={clicked} />
         <Container fluid>
 
           <div className="admin-container">
@@ -57,18 +57,18 @@ export default function AdminHospitals() {
                   <th>#</th>
                   <th>Name</th>
                   <th>Email</th>
-                  <th>Mobile</th>
+                  {/* <th>Mobile</th> */}
                   <th>option</th>
                 </tr>
               </thead>
               <tbody>
                 {
-                  hospitalList.map((item, index) => {
+                  usersList.map((item, index) => {
                     return <tr key={index}>
                       <td>{index + 1}</td>
                       <td>{item.name}</td>
                       <td>{item.email}</td>
-                      <td>{item.mobile}</td>
+                      {/* <td>{item.mobile}</td> */}
                       <td className='option-btn'>
                         <Dropdown>
                           <Dropdown.Toggle variant="secondary" id="dropdown-basic">

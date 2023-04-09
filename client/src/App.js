@@ -25,6 +25,7 @@ import UserDoctorPage from './pages/user/UserDoctorPage';
 import UserHospitalPage from './pages/user/UserHospitalPage';
 import UserDepartmentPage from './pages/user/UserDepartmentPage';
 import HospitalApproalPage from './pages/hospital/HospitalApproalPage';
+import AdminUsersPage from './pages/admin/AdminUsersPage';
 
 
 function App() {
@@ -79,6 +80,7 @@ function App() {
             <Route path='/account/admin/hospitals/requests' element={<HospitalrequestPage />} />
             <Route path='/account/admin/doctors' element={<AdminDoctorsPage />} />
             <Route path='/account/admin/hospitals' element={<AdminHospitalPage />} />
+            <Route path='/account/admin/users' element={<AdminUsersPage />} />
           </>
         }
         {

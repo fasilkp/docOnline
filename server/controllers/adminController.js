@@ -38,7 +38,8 @@ export async function rejectHospital(req, res) {
 
 export async function getDepartments(req, res) {
     try {
-        let departments=await DepartmentModel.find().lean()
+        const name= req.query.name ?? "";
+        let departments=await DepartmentModel.find({name:new RegExp(name, 'i')}).lean()
         res.json({ err:false, departments })
     }
     catch (err) {
@@ -48,7 +49,8 @@ export async function getDepartments(req, res) {
 
 export async function getHospitals(req, res) {
     try {
-        let hospitals=await HospitalModel.find({active:true}).lean()
+        const name=req.query.name ?? "";
+        let hospitals=await HospitalModel.find({active:true, name: new RegExp(name, 'i')}).lean()
         res.json({ err:false, hospitals })
     }
     catch (err) {
@@ -58,7 +60,8 @@ export async function getHospitals(req, res) {
 
 export async function getDoctors(req, res) {
     try {
-        let doctors=await DoctorModel.find().lean()
+        const name= req.query.name ?? "";
+        let doctors=await DoctorModel.find({name: new RegExp(name, 'i')}).lean()
         res.json({ err:false, doctors })
     }
     catch (err) {
@@ -68,7 +71,8 @@ export async function getDoctors(req, res) {
 
 export async function getUsers(req, res) {
     try {
-        let users=await UserModel.find().lean()
+        const name= req.query.name ?? "";
+        let users=await UserModel.find({name: new RegExp(name, 'i')}).lean()
         res.json({ err:false, users })
     }
     catch (err) {

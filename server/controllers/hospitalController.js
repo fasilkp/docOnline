@@ -28,7 +28,8 @@ export async function editDepartment(req, res) {
 
 export async function getDepartments(req, res) {
     try {
-        let departments=await DepartmentModel.find({hospitalId:req.hospital._id}).lean()
+        const name= req.query.name ?? ""
+        let departments=await DepartmentModel.find({hospitalId:req.hospital._id, name:new RegExp(name, 'i')}).lean()
         res.json({ err:false, departments })
     }
     catch (err) {

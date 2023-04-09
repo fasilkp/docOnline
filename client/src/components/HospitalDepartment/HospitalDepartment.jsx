@@ -2,7 +2,7 @@ import axios from 'axios';
 import * as React from 'react';
 import { useState } from 'react';
 import { Container, Dropdown, Table } from 'react-bootstrap';
-import { RiMore2Fill } from 'react-icons/ri';
+import { RiMore2Fill, RiSearch2Line } from 'react-icons/ri';
 import Swal from 'sweetalert2'
 import { Backdrop, CircularProgress } from '@mui/material';
 import HospitalSidebar from '../HospitalSidebar/HospitalSidebar';
@@ -17,6 +17,8 @@ export default function HospitalDepartment() {
     const [departmentList, setDepartmentList] = useState([])
     const dispatch = useDispatch()
     const [clicked, setCLicked] = useState(false)
+    const [name, setName]=useState("")
+
     const handleClick = () => {
         setCLicked(!clicked)
     }
@@ -24,13 +26,13 @@ export default function HospitalDepartment() {
     useEffect(() => {
         (
             async function () {
-                const { data } = await axios.get("/hospital/departments")
+                const { data } = await axios.get("/hospital/departments?name="+name)
                 if (!data.err) {
                     setDepartmentList(data.departments)
                 }
             }
         )()
-    }, [refresh])
+    }, [refresh, name])
 
 
     const addDepartment = async () => {
@@ -113,6 +115,10 @@ export default function HospitalDepartment() {
                     <div className="admin-container">
                         <div className="container-header">
                             <h5>Departments</h5>
+                            <div className="admin-search-box">
+                                <input type="text" placeholder='Search...' value={name} onChange={(e)=>setName(e.target.value)} />
+                                <button><RiSearch2Line/></button>
+                            </div>
                             <button className='btn btn-dark' onClick={addDepartment}>Add Department</button>
                         </div>
                         <Table className='table-main' responsive>
