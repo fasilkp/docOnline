@@ -100,3 +100,22 @@ export async function unBlockHospital(req, res) {
     }
 }
 
+export async function blockUser(req, res) {
+    try {
+        await UserModel.findByIdAndUpdate(req.body.id,{$set:{block:true}}).lean()
+        res.json({ err:false })
+    }
+    catch (err) {
+        res.json({ message: "something went wrong", error: err, err:true })
+    }
+}
+
+export async function unBlockUser(req, res) {
+    try {
+        await UserModel.findByIdAndUpdate(req.body.id,{$set:{block:false}}).lean()
+        res.json({ err:false })
+    }
+    catch (err) {
+        res.json({ message: "something went wrong", error: err, err:true })
+    }
+}

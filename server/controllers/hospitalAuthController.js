@@ -37,6 +37,9 @@ export async function hospitalLogin(req, res) {
         if (!hospital){
             return res.json({ err: true, message: "No Hospital Found" })
         }
+        if (hospital.block){
+            return res.json({ err: true, message: "Hospital is blocked" })
+        }
         // if (!hospital.active){
         //     return res.json({ err: true, message: "Approval under process. We will inform you once completed" })
         // }
@@ -71,7 +74,7 @@ export const checkHospitalLoggedIn = async (req, res) => {
 
         const verifiedJWT = jwt.verify(token, process.env.JWT_SECRET_KEY);
         console.log(verifiedJWT)
-        const hospital = await HospitalModel.findOne({_id:verifiedJWT.id}, { password: 0 });
+        const hospital = await HospitalModel.findOne({_id:verifiedJWT.id, block:false}, { password: 0 });
         console.log(hospital)
         if (!hospital) {
             return res.json({ loggedIn: false });

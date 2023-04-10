@@ -13,7 +13,7 @@ export default function AdminUsers() {
   const [refresh, setRefresh] = useState(false)
   const [load, setLoad] = useState(false)
   const [clicked, setCLicked] = useState(false)
-  const [name, setName]=useState("")
+  const [name, setName] = useState("")
   const handleClick = () => {
     setCLicked(!clicked)
   }
@@ -21,7 +21,7 @@ export default function AdminUsers() {
     (
       async function () {
         try {
-          const { data } = await axios.get("/admin/users?name="+name)
+          const { data } = await axios.get("/admin/users?name=" + name)
           if (!data.err) {
             setUsersList(data.users)
           }
@@ -32,6 +32,39 @@ export default function AdminUsers() {
       }
     )()
   }, [refresh, name])
+  async function blockUser(id) {
+    Swal.fire({
+      title: 'Are you sure? Block',
+      text: "Block this user!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#7e3af2',
+      cancelButtonColor: '##a8a8a8',
+      confirmButtonText: 'Yes, Block!'
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const { data } = await axios.patch("/admin/user/block", { id });
+        console.log(data)
+        setRefresh(!refresh)
+      }
+    })
+  }
+  async function unBlockUser(id) {
+    Swal.fire({
+      title: 'Are you sure? Unblock',
+      text: "Unblock this user!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#7e3af2',
+      cancelButtonColor: '##a8a8a8',
+      confirmButtonText: 'Yes, Unblock!'
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const { data } = await axios.patch("/admin/user/unblock", { id });
+        setRefresh(!refresh)
+      }
+    })
+  }
 
 
   return (
@@ -57,7 +90,7 @@ export default function AdminUsers() {
                   <th>#</th>
                   <th>Name</th>
                   <th>Email</th>
-                  {/* <th>Mobile</th> */}
+                  <th>Status</th>
                   <th>option</th>
                 </tr>
               </thead>
@@ -68,6 +101,7 @@ export default function AdminUsers() {
                       <td>{index + 1}</td>
                       <td>{item.name}</td>
                       <td>{item.email}</td>
+                      <td>{item.block ? "bocked" : "Active"}</td>
                       {/* <td>{item.mobile}</td> */}
                       <td className='option-btn'>
                         <Dropdown>
@@ -76,8 +110,12 @@ export default function AdminUsers() {
                           </Dropdown.Toggle>
 
                           <Dropdown.Menu>
-                            {/* <Dropdown.Item href="#" onClick={(e) => acceptRequest(e, item.email)}>Accept</Dropdown.Item>
-                            <Dropdown.Item href="#" onClick={(e) => rejectRequest(e, item.email)}>Reject</Dropdown.Item> */}
+                            {
+                              item.block ?
+                                <Dropdown.Item href="#" onClick={(e) => unBlockUser(item._id)}>Unblock</Dropdown.Item>
+                                :
+                                <Dropdown.Item href="#" onClick={(e) => blockUser(item._id)}>Block</Dropdown.Item>
+                            }
                           </Dropdown.Menu>
                         </Dropdown>
                       </td>

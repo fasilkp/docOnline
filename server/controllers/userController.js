@@ -83,6 +83,8 @@ export async function getHospital(req, res){
     }
 }
 
+
+
 // export async function searchData(req, res){
 //     try{
 //         const name= req.query.name ?? "";
