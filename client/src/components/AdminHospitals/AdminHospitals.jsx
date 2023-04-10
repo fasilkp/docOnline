@@ -7,6 +7,7 @@ import AdminHeader from '../AdminHeader/AdminHeader';
 import AdminSidebar from '../AdminSidebar/AdminSidebar';
 import Swal from 'sweetalert2'
 import { Backdrop, CircularProgress } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 export default function AdminHospitals() {
   const [hospitalList, setHospitalList] = useState([])
@@ -57,8 +58,12 @@ export default function AdminHospitals() {
                   <th>#</th>
                   <th>Name</th>
                   <th>Email</th>
+                  <th>Place</th>
+                  <th>Address</th>
                   <th>Mobile</th>
-                  <th>option</th>
+                  <th>
+                    {/* option */}
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -66,14 +71,20 @@ export default function AdminHospitals() {
                   hospitalList.map((item, index) => {
                     return <tr key={index}>
                       <td>{index + 1}</td>
-                      <td>{item.name}</td>
+                      <td>
+                      <Link to={"/hospital/"+item._id}>
+                        {item.name}
+                        </Link>
+                        </td>
                       <td>{item.email}</td>
+                      <td>{item.place}</td>
+                      <td>{item.address}</td>
                       <td>{item.mobile}</td>
                       <td className='option-btn'>
                         <Dropdown>
-                          <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+                          {/* <Dropdown.Toggle variant="secondary" id="dropdown-basic">
                             <RiMore2Fill />
-                          </Dropdown.Toggle>
+                          </Dropdown.Toggle> */}
 
                           <Dropdown.Menu>
                             {/* <Dropdown.Item href="#" onClick={(e) => acceptRequest(e, item.email)}>Accept</Dropdown.Item>

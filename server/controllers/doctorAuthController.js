@@ -45,7 +45,7 @@ export const checkDoctorLoggedIn = async (req, res) => {
             return res.json({ loggedIn: false, error: true, message: "no token" });
 
         const verifiedJWT = jwt.verify(token, process.env.JWT_SECRET_KEY);
-        const doctor = await DoctorModel.findOne({_id:verifiedJWT.id}, { password: 0 });
+        const doctor = await DoctorModel.findOne({_id:verifiedJWT.id, block:false}, { password: 0 });
         if (!doctor) {
             return res.json({ loggedIn: false });
         }

@@ -39,6 +39,10 @@ const HospitalSchema = new mongoose.Schema({
     active:{
         type:Boolean,
         default:false
+    },
+    block:{
+        type:Boolean,
+        default:false,
     }
 })
 

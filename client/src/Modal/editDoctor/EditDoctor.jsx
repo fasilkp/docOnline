@@ -1,7 +1,7 @@
 import { InputLabel, MenuItem, Select, TextField } from '@mui/material'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { Form} from 'react-bootstrap'
+import { Form } from 'react-bootstrap'
 import { ClipLoader } from 'react-spinners'
 import '../../assets/css/modalForm.css'
 
@@ -14,41 +14,44 @@ function EditDoctor({ setShowModal, setRefresh, refresh, id }) {
     const [specialization, setSpecialization] = useState("")
     const [about, setAbout] = useState("")
     const [fees, setFees] = useState("")
-    const [departmentList, setDepartmentList]=useState([])
+    const [departmentList, setDepartmentList] = useState([])
 
     console.log(departmentList)
     const [loading, setLoading] = useState({
         submit: false
     })
-    useEffect(()=>{
+    useEffect(() => {
         (
-          async function(){
-            const {data:doctorData}=await axios.get("/user/doctor/"+id);
-            console.log("doctordata",doctorData)
-            setName(doctorData.doctor.name)
-            setEmail(doctorData.doctor.email)
-            setDepartment(doctorData.doctor.department)
-            setQualification(doctorData.doctor.qualification)
-            if(doctorData.doctor.specialization){
-                setSpecialization(doctorData.doctor.specialization)
+            async function () {
+                const { data: doctorData } = await axios.get("/user/doctor/" + id);
+                console.log("doctordata", doctorData)
+                if (!doctorData.err) {
+
+                    setName(doctorData.doctor.name)
+                    setEmail(doctorData.doctor.email)
+                    setDepartment(doctorData.doctor.department._id)
+                    setQualification(doctorData.doctor.qualification)
+                    if (doctorData.doctor.specialization) {
+                        setSpecialization(doctorData.doctor.specialization)
+                    }
+                    setAbout(doctorData.doctor.about)
+                    setFees(doctorData.doctor.fees)
+                }
+
+                const { data } = await axios.get("/hospital/departments")
+                if (!data.err) {
+                    setDepartmentList(data.departments)
+                }
             }
-            setAbout(doctorData.doctor.about)
-            setFees(doctorData.doctor.fees)
-            
-            const {data} = await axios.get("/hospital/departments")
-            if(!data.err){
-                setDepartmentList(data.departments)
-            }
-          }
         )()
-      },[])
+    }, [])
 
     async function handleSubmit(e) {
         e.preventDefault();
         setLoading({ ...loading, submit: true })
         if (validForm()) {
             const { data } = await axios.patch("/hospital/doctor", {
-                email, name, department, qualification, specialization, fees, about, _id:id
+                email, name, department, qualification, specialization, fees, about, _id: id
             })
             if (data.err) {
                 setErrMessage(data.message)
@@ -61,7 +64,7 @@ function EditDoctor({ setShowModal, setRefresh, refresh, id }) {
 
     }
     function validForm() {
-        if (email.trim() === "" || qualification.trim()==="" || specialization.trim()==="" || about.trim()==="" || fees.toString().trim()===""  || name.trim() === "" || department.trim() === "") {
+        if (email.trim() === "" || qualification.trim() === "" || specialization.trim() === "" || about.trim() === "" || fees.toString().trim() === "" || name.trim() === "" || department.trim() === "") {
             return false
         }
         return true

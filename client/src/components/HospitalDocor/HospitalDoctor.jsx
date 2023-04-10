@@ -11,6 +11,7 @@ import HospitalHeader from '../HospitalHeader/HospitalHeader';
 import AddDoctor from '../../Modal/AddDoctor/AddDoctor';
 import { useEffect } from 'react';
 import EditDoctor from '../../Modal/editDoctor/EditDoctor';
+import { Link } from 'react-router-dom';
 
 export default function HospitalDoctor() {
     const [refresh, setRefresh] = useState(false)
@@ -97,6 +98,7 @@ export default function HospitalDoctor() {
                                     <th>#</th>
                                     <th>Name</th>
                                     <th>Email</th>
+                                    <th>Qualification</th>
                                     <th>Fees</th>
                                     <th>Status</th>
                                     <th>option</th>
@@ -107,8 +109,13 @@ export default function HospitalDoctor() {
                                     doctorList.map((item, index) => {
                                         return <tr key={index}>
                                             <td>{index + 1}</td>
-                                            <td>{item.name}</td>
+                                            <td>
+                                                <Link to={"/doctor/"+item._id}>
+                                                {item.name}
+                                                </Link>
+                                                </td>
                                             <td>{item.email}</td>
+                                            <td>{item.qualification}</td>
                                             <td>{item.fees}</td>
                                             <td>{item.block ? "Blocked" : "Active"}</td>
                                             <td className='option-btn'>

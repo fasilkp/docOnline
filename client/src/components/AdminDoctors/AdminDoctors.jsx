@@ -7,6 +7,7 @@ import AdminHeader from '../AdminHeader/AdminHeader';
 import AdminSidebar from '../AdminSidebar/AdminSidebar';
 import Swal from 'sweetalert2'
 import { Backdrop, CircularProgress } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 export default function AdminDoctors() {
   const [doctorList, setDoctorList] = useState([])
@@ -23,6 +24,7 @@ export default function AdminDoctors() {
       async function () {
         try {
           const { data } = await axios.get("/admin/doctors?name="+name)
+          console.log(data)
           if (!data.err) {
             setDoctorList(data.doctors)
           }
@@ -124,8 +126,13 @@ export default function AdminDoctors() {
                   <th>#</th>
                   <th>Name</th>
                   <th>Email</th>
+                  <th>Department</th>
+                  <th>Hospital</th>
+                  <th>Fees</th>
                   <th>Status</th>
-                  <th>option</th>
+                  <th>
+                    {/* option */}
+                    </th>
                 </tr>
               </thead>
               <tbody>
@@ -133,15 +140,22 @@ export default function AdminDoctors() {
                   doctorList.map((item, index) => {
                     return <tr key={index}>
                       <td>{index + 1}</td>
-                      <td>{item.name}</td>
+                      <td>
+                      <Link to={"/doctor/"+item._id}>
+                        {item.name}
+                        </Link>
+                        </td>
                       <td>{item.email}</td>
+                      <td>{item.department.name}</td>
+                      <td>{item.hospitalId.name}</td>
+                      <td>{item.fees}</td>
                       <td>{item.block ? "Blocked" : "Active"}</td>
                       {/* <td>{item.mobile}</td> */}
                       <td className='option-btn'>
                         <Dropdown>
-                          <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+                          {/* <Dropdown.Toggle variant="secondary" id="dropdown-basic">
                             <RiMore2Fill />
-                          </Dropdown.Toggle>
+                          </Dropdown.Toggle> */}
 
                           <Dropdown.Menu>
                             {/* <Dropdown.Item href="#" onClick={(e) => acceptRequest(e, item.email)}>Accept</Dropdown.Item>

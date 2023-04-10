@@ -61,7 +61,7 @@ export async function getHospitals(req, res) {
 export async function getDoctors(req, res) {
     try {
         const name= req.query.name ?? "";
-        let doctors=await DoctorModel.find({name: new RegExp(name, 'i')}).lean()
+        let doctors=await DoctorModel.find({name: new RegExp(name, 'i')}).populate('department').populate('hospitalId').lean()
         res.json({ err:false, doctors })
     }
     catch (err) {
@@ -79,3 +79,14 @@ export async function getUsers(req, res) {
         res.json({ message: "something went wrong", error: err, err:true })
     }
 }
+
+export async function blockHospital(req, res) {
+    try {
+        await UserModel.findByIdAndUpdate(req.body.id,{$set:{block:true}}).lean()
+        res.json({ err:false })
+    }
+    catch (err) {
+        res.json({ message: "something went wrong", error: err, err:true })
+    }
+}
+
