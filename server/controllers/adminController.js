@@ -82,7 +82,17 @@ export async function getUsers(req, res) {
 
 export async function blockHospital(req, res) {
     try {
-        await UserModel.findByIdAndUpdate(req.body.id,{$set:{block:true}}).lean()
+        await HospitalModel.findByIdAndUpdate(req.body.id,{$set:{block:true}}).lean()
+        res.json({ err:false })
+    }
+    catch (err) {
+        res.json({ message: "something went wrong", error: err, err:true })
+    }
+}
+
+export async function unBlockHospital(req, res) {
+    try {
+        await HospitalModel.findByIdAndUpdate(req.body.id,{$set:{block:false}}).lean()
         res.json({ err:false })
     }
     catch (err) {

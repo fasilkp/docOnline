@@ -14,7 +14,7 @@ export default function AdminHospitals() {
   const [refresh, setRefresh] = useState(false)
   const [load, setLoad] = useState(false)
   const [clicked, setCLicked] = useState(false)
-  const [name, setName]=useState("")
+  const [name, setName] = useState("")
   const handleClick = () => {
     setCLicked(!clicked)
   }
@@ -22,7 +22,7 @@ export default function AdminHospitals() {
     (
       async function () {
         try {
-          const { data } = await axios.get("/admin/hospitals?name="+name)
+          const { data } = await axios.get("/admin/hospitals?name=" + name)
           if (!data.err) {
             setHospitalList(data.hospitals)
           }
@@ -33,6 +33,39 @@ export default function AdminHospitals() {
       }
     )()
   }, [refresh, name])
+
+  async function blockHospital(id) {
+    Swal.fire({
+      title: 'Are you sure? Block',
+      text: "Block this user!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#7e3af2',
+      cancelButtonColor: '##a8a8a8',
+      confirmButtonText: 'Yes, Block!'
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const { data } = await axios.patch("/admin/hospital/block", { id });
+        setRefresh(!refresh)
+      }
+    })
+  }
+  async function unBlockHospital(id) {
+    Swal.fire({
+      title: 'Are you sure? Unblock',
+      text: "Unblock this user!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#7e3af2',
+      cancelButtonColor: '##a8a8a8',
+      confirmButtonText: 'Yes, Unblock!'
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const { data } = await axios.patch("/admin/hospital/unblock", { id });
+        setRefresh(!refresh)
+      }
+    })
+  }
 
 
   return (
@@ -50,7 +83,6 @@ export default function AdminHospitals() {
                 <input type="text" placeholder='Search...' value={name} onChange={(e) => setName(e.target.value)} />
                 <button><RiSearch2Line /></button>
               </div>
-
             </div>
             <Table className='table-main' responsive>
               <thead>
@@ -61,6 +93,7 @@ export default function AdminHospitals() {
                   <th>Place</th>
                   <th>Address</th>
                   <th>Mobile</th>
+                  <th>Status</th>
                   <th>
                     {/* option */}
                   </th>
@@ -72,23 +105,28 @@ export default function AdminHospitals() {
                     return <tr key={index}>
                       <td>{index + 1}</td>
                       <td>
-                      <Link to={"/hospital/"+item._id}>
-                        {item.name}
+                        <Link to={"/hospital/" + item._id}>
+                          {item.name}
                         </Link>
-                        </td>
+                      </td>
                       <td>{item.email}</td>
                       <td>{item.place}</td>
                       <td>{item.address}</td>
                       <td>{item.mobile}</td>
+                      <td>{item.block ? "Blocked" : "Active"}</td>
                       <td className='option-btn'>
                         <Dropdown>
-                          {/* <Dropdown.Toggle variant="secondary" id="dropdown-basic">
+                          <Dropdown.Toggle variant="secondary" id="dropdown-basic">
                             <RiMore2Fill />
-                          </Dropdown.Toggle> */}
+                          </Dropdown.Toggle>
 
                           <Dropdown.Menu>
-                            {/* <Dropdown.Item href="#" onClick={(e) => acceptRequest(e, item.email)}>Accept</Dropdown.Item>
-                            <Dropdown.Item href="#" onClick={(e) => rejectRequest(e, item.email)}>Reject</Dropdown.Item> */}
+                            {
+                              item.block ?
+                                <Dropdown.Item href="#" onClick={(e) => unBlockHospital(item._id)}>Unblock</Dropdown.Item>
+                                :
+                                <Dropdown.Item href="#" onClick={(e) => blockHospital(item._id)}>Block</Dropdown.Item>
+                            }
                           </Dropdown.Menu>
                         </Dropdown>
                       </td>

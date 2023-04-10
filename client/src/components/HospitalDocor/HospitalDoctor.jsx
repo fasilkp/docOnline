@@ -34,7 +34,7 @@ export default function HospitalDoctor() {
     const blockDoctor = (id) => {
         Swal.fire({
             title: 'Are you sure? Block',
-            text: "Block this user!",
+            text: "Block this doctor!",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#7e3af2',
@@ -50,7 +50,7 @@ export default function HospitalDoctor() {
     const unBlockDoctor = (id) => {
         Swal.fire({
             title: 'Are you sure? Unblock',
-            text: "Unblock this user!",
+            text: "Unblock this doctor!",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#7e3af2',
