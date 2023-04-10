@@ -26,6 +26,7 @@ import UserHospitalPage from './pages/user/UserHospitalPage';
 import UserDepartmentPage from './pages/user/UserDepartmentPage';
 import HospitalApproalPage from './pages/hospital/HospitalApproalPage';
 import AdminUsersPage from './pages/admin/AdminUsersPage';
+import HospitalProfilePage from './pages/hospital/HospitalProfilePage';
 
 
 function App() {
@@ -104,7 +105,7 @@ function App() {
           hospital.login &&
           <>
             <Route path='/account/hospital/' element={<HospitalHomePage />} />
-            {/* <Route path='/account/hospital/approval' element={<HospitalApproalPage />} /> */}
+            <Route path='/account/hospital/profile' element={<HospitalProfilePage />} />
             <Route path='/account/hospital/department' element={<HospitalDepartmentPage />} />
             <Route path='/account/hospital/doctor' element={<HospitalDoctorPage />} />
             <Route path='/account/hospital/login' element={<Navigate to="/account/hospital/" />} />

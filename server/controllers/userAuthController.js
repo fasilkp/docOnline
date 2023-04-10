@@ -13,6 +13,8 @@ export async function userLogin(req, res) {
         const user = await UserModel.findOne({ email })
         if (!user)
             return res.json({ err: true, message: "No User found" })
+        if (user.block)
+            return res.json({ err: true, message: "You are blocked" })
         const userValid = bcrypt.compareSync(password, user.password);
         if (!userValid)
             return res.json({ err: true, message: "wrong Password" })
@@ -111,6 +113,9 @@ export const checkUserLoggedIn = async (req, res) => {
         const verifiedJWT = jwt.verify(token, process.env.JWT_SECRET_KEY);
         const user = await UserModel.findById(verifiedJWT.id, { password: 0 });
         if (!user) {
+            return res.json({ loggedIn: false });
+        }
+        if (user.block) {
             return res.json({ loggedIn: false });
         }
         return res.json({ user, loggedIn: true });

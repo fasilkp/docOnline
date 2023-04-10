@@ -3,11 +3,13 @@ import axios from 'axios'
 import React from 'react'
 import { Dropdown } from 'react-bootstrap'
 import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
 import '../AdminHeader/AdminHeader.css'
 
 function DoctorHeader() {
   const dispatch = useDispatch()
+  const navigate= useNavigate()
   async function handleLogout(e) {
     e.preventDefault()
     Swal.fire({
@@ -42,7 +44,7 @@ function DoctorHeader() {
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
-              <Dropdown.Item href="#">Profile</Dropdown.Item>
+              <Dropdown.Item href="#" onClick={()=>navigate("/account/doctor/profile")}>Profile</Dropdown.Item>
               <Dropdown.Item href="#" onClick={handleLogout}>Logout</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>

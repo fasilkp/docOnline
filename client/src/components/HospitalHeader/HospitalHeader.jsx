@@ -4,11 +4,13 @@ import React from 'react'
 import { Dropdown } from 'react-bootstrap'
 import { RiMenu2Fill } from 'react-icons/ri'
 import { useDispatch } from 'react-redux'
+import { Link, useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
 import '../AdminHeader/AdminHeader.css'
 
 function HospitalHeader(props) {
   const dispatch = useDispatch()
+  const navigate= useNavigate()
   async function handleLogout(e) {
     e.preventDefault()
     Swal.fire({
@@ -44,7 +46,7 @@ function HospitalHeader(props) {
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
-              <Dropdown.Item href="#">Profile</Dropdown.Item>
+              <Dropdown.Item href="#" onClick={()=>navigate("/account/hospital/profile")}>Profile</Dropdown.Item>
               <Dropdown.Item href="#" onClick={handleLogout}>Logout</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
