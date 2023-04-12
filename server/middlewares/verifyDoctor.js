@@ -1,3 +1,6 @@
+import jwt from 'jsonwebtoken'
+import DoctorModel from '../models/DoctorModel.js';
+
 const verifyDoctor = async (req, res, next) => {
     try {
         const token = req.cookies.doctorToken;

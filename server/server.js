@@ -14,9 +14,11 @@ import hospitalRouter from './routers/hospitalRouter.js'
 import doctorAuthRouter from './routers/doctorAuthRouter.js'
 import userRouter from './routers/userRouter.js'
 import verifyUser from './middlewares/verifyUser.js'
+import doctorRouter from "./routers/doctorRouter.js"
+import verifyDoctor from './middlewares/verifyDoctor.js'
 
 const app=express();
-app.use(express.json())
+app.use(express.json({limit: '50mb'}))
 app.use(cookieParser());
 app.use(express.urlencoded({extended:true}))
 app.use(express.static(path.resolve()+"/public"))
@@ -37,6 +39,7 @@ app.use("/doctor/auth", doctorAuthRouter)
 app.use("/admin/",verifyAdmin, adminRouter)
 app.use("/hospital/",verifyHospital, hospitalRouter)
 app.use("/user/",verifyUser, userRouter)
+app.use("/doctor/",verifyDoctor, doctorRouter)
 
 
 app.listen(5000, ()=>{

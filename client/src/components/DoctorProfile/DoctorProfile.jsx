@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Col, Container, Row } from 'react-bootstrap';
 import DoctorHeader from '../DoctorHeader/DoctorHeader';
 import DoctorSideBar from '../DoctorSidebar/DoctorSidebar';
@@ -9,9 +9,33 @@ import { Ri24HoursFill, Ri4KFill, RiAB } from 'react-icons/ri';
 import DoctorBottom from '../DoctorBottom/DoctorBottom';
 import DoctorBottomNava from '../DoctorBottom/DoctorBottom';
 import DoctorBottomNav from '../DoctorBottom/DoctorBottom';
+import EditDoctorProfile from '../../Modal/EditDoctorProfile/EditDoctorProfile';
+import axios from 'axios';
 
 export default function DoctorProfile() {
     const [value, setValue]=useState('')
+    const [showModal, setShowModal]=useState(false)
+    const [refresh, setRefresh]=useState(false)
+    const [doctor, setDoctor]=useState({
+        image:{
+            url:"https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8ZG9jdG9yfGVufDB8fDB8fA%3D%3D&w=1000&q=80"
+        }
+    })
+
+    useEffect(() => {
+        (
+            async function(){
+                const {data} =await axios.get('/doctor/profile');
+                console.log(data)
+                if(!data.err){
+                    setDoctor(data.doctor)
+                }
+            }
+
+        )()
+        
+    }, [refresh]);
+
     console.log(value)
     return (
         <div className="admin-home">
@@ -27,9 +51,9 @@ export default function DoctorProfile() {
                             <Col sm={12} md={4}>
                                 <div className="dr-profile-sec sec-1">
                                     <div className="dr-profile-img">
-                                        <img src={doctorImg} alt="" />
+                                        <img src={doctor.image.url} alt="" />
                                     </div>
-                                    <button className='mt-3 btn btn-dark'>Edit</button>
+                                    <button className='mt-3 btn btn-dark' onClick={()=>setShowModal(true)}>Edit</button>
 
                                 </div>
 
@@ -154,6 +178,10 @@ export default function DoctorProfile() {
 
                 </div>
             </div>
+                    {
+                        showModal &&
+                    <EditDoctorProfile setShowModal={setShowModal} refresh={refresh} setRefresh={setRefresh}  />
+                    }
             <DoctorBottomNav page={'profile'} />
         </div>
     )
