@@ -25,10 +25,10 @@ function UserHeader() {
           </Link>
         </div>
         <div className="user-header-item">
-            <span>Home</span>
+            {/* <span>Home</span>
             <span>Hospitals</span>
             <span>Departmets</span>
-            <span>Doctors</span>
+            <span>Doctors</span> */}
             <Button
         id="basic-button"
         aria-controls={open ? 'basic-menu' : undefined}

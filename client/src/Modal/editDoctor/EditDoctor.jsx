@@ -26,7 +26,6 @@ function EditDoctor({ setShowModal, setRefresh, refresh, id }) {
                 const { data: doctorData } = await axios.get("/user/doctor/" + id);
                 console.log("doctordata", doctorData)
                 if (!doctorData.err) {
-
                     setName(doctorData.doctor.name)
                     setEmail(doctorData.doctor.email)
                     setDepartment(doctorData.doctor.department._id)

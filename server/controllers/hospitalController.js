@@ -9,7 +9,7 @@ var salt = bcrypt.genSaltSync(10);
 
 export async function addDepartment(req, res) {
     try {
-        await DepartmentModel.updateOne({name:req.body.department},{$set:{name:req.body.department.trim().toLowerCase()}, $push:{hospitalId:req.hospital._id}}, {upsert:true})
+        await DepartmentModel.updateOne({name:req.body.department},{$set:{name:req.body.department.trim().toLowerCase()}, $addToSet:{hospitalId:req.hospital._id}}, {upsert:true})
         res.json({ err:false })
     }
     catch (err) {

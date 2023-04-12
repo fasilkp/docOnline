@@ -29,6 +29,7 @@ export default function DoctorProfile() {
                                     <div className="dr-profile-img">
                                         <img src={doctorImg} alt="" />
                                     </div>
+                                    <button className='mt-3 btn btn-dark'>Edit</button>
 
                                 </div>
 

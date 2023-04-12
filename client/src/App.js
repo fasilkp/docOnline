@@ -27,6 +27,7 @@ import UserDepartmentPage from './pages/user/UserDepartmentPage';
 import HospitalApproalPage from './pages/hospital/HospitalApproalPage';
 import AdminUsersPage from './pages/admin/AdminUsersPage';
 import HospitalProfilePage from './pages/hospital/HospitalProfilePage';
+import HospitalSchedulePage from './pages/hospital/HospitalSchedulePage';
 
 
 function App() {
@@ -71,6 +72,7 @@ function App() {
             <Route path='/login' element={<LoginPage />} />
             <Route path='/signup' element={<UserSignupPage />} />
             <Route path='/' element={<Navigate to="/login" />} />
+            <Route path='/*' element={<Navigate to="/login" />} />
           </>
         }
         {
@@ -108,6 +110,7 @@ function App() {
             <Route path='/account/hospital/profile' element={<HospitalProfilePage />} />
             <Route path='/account/hospital/department' element={<HospitalDepartmentPage />} />
             <Route path='/account/hospital/doctor' element={<HospitalDoctorPage />} />
+            <Route path='/account/hospital/schedule' element={<HospitalSchedulePage/>} />
             <Route path='/account/hospital/login' element={<Navigate to="/account/hospital/" />} />
             <Route path='/account/hospital/signup' element={<Navigate to="/account/hospital/" />} />
           </>

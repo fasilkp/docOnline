@@ -29,8 +29,8 @@ function DoctorList({ list }) {
                                         <h6>{item.name}</h6>
                                         <Rating name="size-small" readOnly defaultValue={2} size="small" />
                                         <div className="desc">
+                                            <b>₹{item.fees}</b>
                                             <span>{item.department.name}</span>
-                                            <span>{item.qualification}</span>
                                             <span>{item.hospitalId.name}</span>
                                         </div>
                                     </div>
