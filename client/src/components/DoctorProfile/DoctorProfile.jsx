@@ -61,17 +61,17 @@ export default function DoctorProfile() {
                             <Col sm={12} md={8}>
                                 <div className="dr-profile-sec sec-2">
                                     <div className="dr-profile-sec-row head">
-                                        <h5>Dr James</h5>
-                                        <p>Paediatrician</p>
+                                        <h5>{doctor.name}</h5>
+                                        <p>{doctor.department && doctor.department.name.toUpperCase()} Department</p>
                                     </div>
 
                                     <div className="dr-profile-sec-row">
                                         <h6>Fees</h6>
-                                        <b>₹250</b>
+                                        <b>₹{doctor.fees}</b>
                                     </div>
                                     <div className="dr-profile-sec-row">
                                         <h6>About</h6>
-                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat tempore tempora sequi ut et alias voluptatum quaerat impedit aspernatur incidunt accusamus.</p>
+                                        <p>{doctor.about}</p>
                                     </div>
                                 </div>
 
