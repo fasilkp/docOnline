@@ -45,20 +45,116 @@ export default function HospitalSchedule() {
           <HospitalSidebar page={'doctor'} clicked={clicked} />
           <div className="admin-container">
             <Container fluid>
-              <h5>Schedule Doctor</h5>
+              <h4>Schedule Doctor</h4>
               <div className="doctor-schedule-main">
                 <div className="doctor-schedule-container">
                   <div className="time-inputs-item">
-                    <h6>MONDAY</h6>
+                    <h5>MONDAY</h5>
                     <div className="time-inputs">
                       <div className="time-input">
                         <DemoItem label="Start Time" >
-                          <MobileTimePicker className='time-picker' onChange={(item) => setMon({ ...mon, startDate: item })} small />
+                          <MobileTimePicker className='time-picker' onChange={(item) => setMon({ ...mon, startDate: item })} />
                         </DemoItem>
                       </div>
                       <div className="time-input">
                         <DemoItem label="End Time" >
-                          <MobileTimePicker className='time-picker' value={mon.endDate} onChange={(item) => setMon({ ...mon, endDate: item })} defaultValue={dayjs('2022-04-17T15:30')} small />
+                          <MobileTimePicker className='time-picker'  onChange={(item) => setMon({ ...mon, endDate: item })}  />
+                        </DemoItem>
+                      </div>
+                      <button>Add Time</button>
+                    </div>
+                  </div>
+                  <div className="time-inputs-item">
+                    <h5>Tuesday</h5>
+                    <div className="time-inputs">
+                      <div className="time-input">
+                        <DemoItem label="Start Time" >
+                          <MobileTimePicker className='time-picker' onChange={(item) => setTue({ ...tue, startDate: item })}  />
+                        </DemoItem>
+                      </div>
+                      <div className="time-input">
+                        <DemoItem label="End Time" >
+                          <MobileTimePicker className='time-picker' onChange={(item) => setTue({ ...tue, endDate: item })} />
+                        </DemoItem>
+                      </div>
+                      <button>Add Time</button>
+                    </div>
+                  </div>
+                  <div className="time-inputs-item">
+                    <h5>Tuesday</h5>
+                    <div className="time-inputs">
+                      <div className="time-input">
+                        <DemoItem label="Start Time" >
+                          <MobileTimePicker className='time-picker' onChange={(item) => setWed({ ...wed, startDate: item })}  />
+                        </DemoItem>
+                      </div>
+                      <div className="time-input">
+                        <DemoItem label="End Time" >
+                          <MobileTimePicker className='time-picker' onChange={(item) => setWed({ ...wed, endDate: item })} />
+                        </DemoItem>
+                      </div>
+                      <button>Add Time</button>
+                    </div>
+                  </div>
+                  <div className="time-inputs-item">
+                    <h5>Tuesday</h5>
+                    <div className="time-inputs">
+                      <div className="time-input">
+                        <DemoItem label="Start Time" >
+                          <MobileTimePicker className='time-picker' onChange={(item) => setThu({ ...thu, startDate: item })}  />
+                        </DemoItem>
+                      </div>
+                      <div className="time-input">
+                        <DemoItem label="End Time" >
+                          <MobileTimePicker className='time-picker' onChange={(item) => setThu({ ...thu, endDate: item })} />
+                        </DemoItem>
+                      </div>
+                      <button>Add Time</button>
+                    </div>
+                  </div>
+                  <div className="time-inputs-item">
+                    <h5>Tuesday</h5>
+                    <div className="time-inputs">
+                      <div className="time-input">
+                        <DemoItem label="Start Time" >
+                          <MobileTimePicker className='time-picker' onChange={(item) => setFri({ ...fri, startDate: item })}  />
+                        </DemoItem>
+                      </div>
+                      <div className="time-input">
+                        <DemoItem label="End Time" >
+                          <MobileTimePicker className='time-picker' onChange={(item) => setFri({ ...fri, endDate: item })} />
+                        </DemoItem>
+                      </div>
+                      <button>Add Time</button>
+                    </div>
+                  </div>
+                  <div className="time-inputs-item">
+                    <h5>Tuesday</h5>
+                    <div className="time-inputs">
+                      <div className="time-input">
+                        <DemoItem label="Start Time" >
+                          <MobileTimePicker className='time-picker' onChange={(item) => setSat({ ...sat, startDate: item })}  />
+                        </DemoItem>
+                      </div>
+                      <div className="time-input">
+                        <DemoItem label="End Time" >
+                          <MobileTimePicker className='time-picker' onChange={(item) => setSat({ ...tue, endDate: item })} />
+                        </DemoItem>
+                      </div>
+                      <button>Add Time</button>
+                    </div>
+                  </div>
+                  <div className="time-inputs-item">
+                    <h5>Tuesday</h5>
+                    <div className="time-inputs">
+                      <div className="time-input">
+                        <DemoItem label="Start Time" >
+                          <MobileTimePicker className='time-picker' onChange={(item) => setSun({ ...sun, startDate: item })}  />
+                        </DemoItem>
+                      </div>
+                      <div className="time-input">
+                        <DemoItem label="End Time" >
+                          <MobileTimePicker className='time-picker'  onChange={(item) => setSun({ ...sun, endDate: item })} />
                         </DemoItem>
                       </div>
                       <button>Add Time</button>
