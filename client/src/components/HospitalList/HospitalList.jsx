@@ -20,14 +20,14 @@ function HospitalList({ list }) {
                     list[0] ?
                     list.map((item, index) => {
 
-                        return <Col md={4} lg={3} xs={12} key={index} className="p-2">
+                        return <Col md={4} xs={12} key={index} className="p-2">
                             <Link to={"/hospital/"+item._id}>
                                 <div className="hs-container">
                                     <div className="hs-container-profile" style={{ backgroundImage: `url(${item.image.url})` }}>
 
                                     </div>
                                     <div className="hs-container-profile-desc">
-                                        <h6>{item.name}</h6>
+                                        <h5>{item.name}</h5>
                                         <Rating name="size-small" defaultValue={3} readOnly size="small" />
                                         <div className="desc">
                                             <span>{item.address}</span>

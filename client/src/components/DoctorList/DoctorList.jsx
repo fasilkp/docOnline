@@ -19,14 +19,14 @@ function DoctorList({ list }) {
                     list[0] ?
                     list.map((item, index) => {
 
-                        return <Col md={4} lg={3} xs={12} key={index} className="p-2">
+                        return <Col md={4} xs={12} key={index} className="p-2">
                             <Link to={"/doctor/"+item._id}>
                                 <div className="dr-container">
                                     <div className="dr-container-profile" style={{ backgroundImage: `url(${item.image.url})` }}>
 
                                     </div>
                                     <div className="dr-container-profile-desc">
-                                        <h6>{item.name}</h6>
+                                        <h5>{item.name}</h5>
                                         <Rating name="size-small" readOnly defaultValue={2} size="small" />
                                         <div className="desc">
                                             <b>₹{item.fees}</b>

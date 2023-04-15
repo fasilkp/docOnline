@@ -10,9 +10,9 @@
     
 }
 .dr-container-profile{
-    min-width: 100px;
-    max-width: 100px;
-    height: 120px;
+    min-width: 150px;
+    max-width: 150px;
+    height: 150px;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -23,13 +23,13 @@
     flex-direction: column;
     gap: 5px;
     padding: 10px;
-    max-height: 120px ;
+    max-height: 150px ;
     overflow: hidden;
 }
 .dr-container-profile-desc .desc{
     display: flex;
     flex-direction: column;
     gap: 0px;
-    font-size: .7rem;
+    font-size: .95rem;
     color: rgb(63, 63, 63);
 }
