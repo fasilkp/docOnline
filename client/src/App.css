@@ -32,6 +32,10 @@ a {
 button:disabled {
   opacity: 50%;
 }
+.admin-home{
+  max-height: 100vh;
+  overflow-y: scroll;
+}
 
 .user-main {
   display: flex;

@@ -4,6 +4,9 @@
     background-color: #fff;
     font-size: .95rem;
     transition: .3s;
+    position: sticky;
+    top: 55px;
+    z-index:120;
 }
 
 .admin-sidebar li{

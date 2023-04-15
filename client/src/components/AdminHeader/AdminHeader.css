@@ -5,6 +5,9 @@
     padding: 0px 20px;
     align-items: center;
     background-color: #fff;
+    position: sticky;
+    top: 0px;
+    z-index: 150;
 
 }
 .admin-header-item p{

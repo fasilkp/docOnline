@@ -9,6 +9,8 @@ import { MobileTimePicker } from '@mui/x-date-pickers/MobileTimePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { scheduleReducer } from '../../reducers/scheduleReducer';
+import { TextField } from '@mui/material';
+import { RiDeleteBin4Line, RiDeleteBin5Line } from 'react-icons/ri';
 
 export default function HospitalSchedule() {
   const [clicked, setCLicked] = useState(false)
@@ -24,18 +26,39 @@ export default function HospitalSchedule() {
     sat: [],
     sun: []
   }
-  const [scheduleState, scheduleDispatch]=useReducer(scheduleReducer)
+  const [scheduleState, scheduleDispatch] = useReducer(scheduleReducer, scheduleInititalState)
   console.log(scheduleState)
 
-  const [mon, setMon] = useState({ startDate: null, endDate: null })
-  const [tue, setTue] = useState({ startDate: null, endDate: null })
-  const [wed, setWed] = useState({ startDate: null, endDate: null })
-  const [thu, setThu] = useState({ startDate: null, endDate: null })
-  const [fri, setFri] = useState({ startDate: null, endDate: null })
-  const [sat, setSat] = useState({ startDate: null, endDate: null })
-  const [sun, setSun] = useState({ startDate: null, endDate: null })
+  const [mon, setMon] = useState({ startDate: null, endDate: null, slot: 0 })
+  const [tue, setTue] = useState({ startDate: null, endDate: null, slot: 0 })
+  const [wed, setWed] = useState({ startDate: null, endDate: null, slot: 0 })
+  const [thu, setThu] = useState({ startDate: null, endDate: null, slot: 0 })
+  const [fri, setFri] = useState({ startDate: null, endDate: null, slot: 0 })
+  const [sat, setSat] = useState({ startDate: null, endDate: null, slot: 0 })
+  const [sun, setSun] = useState({ startDate: null, endDate: null, slot: 0 })
+  // console.log(mon, tue , wed, thu, fri, sat, sun)
   const [time, setTime] = useState(null)
-  console.log(new Date(time))
+  console.log(scheduleState)
+
+  const validateRow = (item) => {
+    let obj = eval(item)
+    if (!obj.startDate || !obj.endDate || obj.slot <= 0) {
+      return true;
+    }
+    return false
+  }
+
+  const addTime = (type) => {
+    let obj = eval(type)
+    scheduleDispatch({ type, payload: obj })
+    // setState({ startDate: null, endDate: null, slot: 0 })
+  }
+  const removeTime = (type, index) => {
+    let mond= scheduleState.mon
+    console.log(mond)
+    console.log(mond.splice(index,1))
+    // scheduleDispatch({ type, payload: index })
+  }
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -49,117 +72,304 @@ export default function HospitalSchedule() {
               <div className="doctor-schedule-main">
                 <div className="doctor-schedule-container">
                   <div className="time-inputs-item">
+                    <div className="time-inputs">
+                      <div className="time-input">
+                        <DemoItem label="Start Time" >
+                        </DemoItem>
+                      </div>
+                      <div className="time-input">
+                        <DemoItem label="End Time" >
+                        </DemoItem>
+                      </div>
+                      <div className="time-input">
+                        <DemoItem label="Slot" >
+                        </DemoItem>
+                      </div>
+                      <span>Action</span>
+                    </div>
+                  </div>
+                  <div className="time-inputs-item">
                     <h5>MONDAY</h5>
+                    {
+                      scheduleState.mon.map((item, index) => {
+                       return( <div className="time-inputs mt-2">
+                          <div className="time-input">
+                            <MobileTimePicker className='time-picker' disabled value={new Date(item.startDate)} />
+                          </div>
+                          <div className="time-input">
+                            <MobileTimePicker className='time-picker' disabled
+                              value={new Date(item.endDate)}/>
+                          </div>
+                          <div className="time-input">
+                            <TextField id="outlined-basic" size='small' disabled
+                              type='number'
+                              value={item.slot}
+                              variant="outlined" />
+                          </div>
+                          <button onClick={()=>removeTime('rmMOn', index)} ><RiDeleteBin5Line /></button>
+                        </div>)
+
+                      })
+                    }
                     <div className="time-inputs">
                       <div className="time-input">
-                        <DemoItem label="Start Time" >
-                          <MobileTimePicker className='time-picker' onChange={(item) => setMon({ ...mon, startDate: item })} />
-                        </DemoItem>
+                        <MobileTimePicker className='time-picker' onChange={(item) => setMon({ ...mon, startDate: item })} />
                       </div>
                       <div className="time-input">
-                        <DemoItem label="End Time" >
-                          <MobileTimePicker className='time-picker'  onChange={(item) => setMon({ ...mon, endDate: item })}  />
-                        </DemoItem>
+                        <MobileTimePicker className='time-picker'
+                          onChange={(item) => setMon({ ...mon, endDate: item })} />
                       </div>
-                      <button>Add Time</button>
+                      <div className="time-input">
+                        <TextField id="outlined-basic" size='small'
+                          type='number'
+                          value={mon.slot}
+                          onChange={(e) => setMon({ ...mon, slot: e.target.value })}
+                          variant="outlined" />
+                      </div>
+                      <button disabled={validateRow('mon')} className={'button'} onClick={() => addTime('mon')}>Add Time</button>
                     </div>
                   </div>
                   <div className="time-inputs-item">
-                    <h5>Tuesday</h5>
+                    <h5>TUESDAY</h5>
+                    {
+                      scheduleState.tue.map((item, index) => {
+                       return( <div className="time-inputs">
+                          <div className="time-input">
+                            <MobileTimePicker className='time-picker' disabled value={new Date(item.startDate)} />
+                          </div>
+                          <div className="time-input">
+                            <MobileTimePicker className='time-picker' disabled
+                              value={new Date(item.endDate)}/>
+                          </div>
+                          <div className="time-input">
+                            <TextField id="outlined-basic" size='small' disabled
+                              type='number'
+                              value={item.slot}
+                              variant="outlined" />
+                          </div>
+                          <button ><RiDeleteBin5Line /></button>
+                        </div>)
+
+                      })
+                    }
                     <div className="time-inputs">
                       <div className="time-input">
-                        <DemoItem label="Start Time" >
-                          <MobileTimePicker className='time-picker' onChange={(item) => setTue({ ...tue, startDate: item })}  />
-                        </DemoItem>
+                        <MobileTimePicker className='time-picker' onChange={(item) => setTue({ ...tue, startDate: item })} />
                       </div>
                       <div className="time-input">
-                        <DemoItem label="End Time" >
-                          <MobileTimePicker className='time-picker' onChange={(item) => setTue({ ...tue, endDate: item })} />
-                        </DemoItem>
+                        <MobileTimePicker className='time-picker' onChange={(item) => setTue({ ...tue, endDate: item })} />
                       </div>
-                      <button>Add Time</button>
+                      <div className="time-input">
+                        <TextField id="outlined-basic" size='small'
+                          type='number'
+                          value={tue.slot}
+                          onChange={(e) => setTue({ ...tue, slot: e.target.value })}
+                          variant="outlined" />
+                      </div>
+                      <button disabled={validateRow('tue')} className={'button'} onClick={() => addTime('tue')}>Add Time</button>
                     </div>
                   </div>
                   <div className="time-inputs-item">
-                    <h5>Tuesday</h5>
+                    <h5>WEDNESDAY</h5>
+                    {
+                      scheduleState.wed.map((item, index) => {
+                       return( <div className="time-inputs mt-2">
+                          <div className="time-input">
+                            <MobileTimePicker className='time-picker' disabled value={new Date(item.startDate)} />
+                          </div>
+                          <div className="time-input">
+                            <MobileTimePicker className='time-picker' disabled
+                              value={new Date(item.endDate)}/>
+                          </div>
+                          <div className="time-input">
+                            <TextField id="outlined-basic" size='small' disabled
+                              type='number'
+                              value={item.slot}
+                              variant="outlined" />
+                          </div>
+                          <button ><RiDeleteBin5Line /></button>
+                        </div>)
+
+                      })
+                    }
                     <div className="time-inputs">
                       <div className="time-input">
-                        <DemoItem label="Start Time" >
-                          <MobileTimePicker className='time-picker' onChange={(item) => setWed({ ...wed, startDate: item })}  />
-                        </DemoItem>
+                        <MobileTimePicker className='time-picker' onChange={(item) => setWed({ ...wed, startDate: item })} />
                       </div>
                       <div className="time-input">
-                        <DemoItem label="End Time" >
-                          <MobileTimePicker className='time-picker' onChange={(item) => setWed({ ...wed, endDate: item })} />
-                        </DemoItem>
+                        <MobileTimePicker className='time-picker' onChange={(item) => setWed({ ...wed, endDate: item })} />
                       </div>
-                      <button>Add Time</button>
+                      <div className="time-input">
+                        <TextField id="outlined-basic" size='small'
+                          type='number'
+                          value={wed.slot}
+                          onChange={(e) => setWed({ ...wed, slot: e.target.value })}
+                          variant="outlined" />
+                      </div>
+                      <button disabled={validateRow('wed')} className={'button'} onClick={() => addTime('wed')}>Add Time</button>
                     </div>
                   </div>
                   <div className="time-inputs-item">
-                    <h5>Tuesday</h5>
+                    <h5>THURSDAY</h5>
+                    {
+                      scheduleState.thu.map((item, index) => {
+                       return( <div className="time-inputs mt-2">
+                          <div className="time-input">
+                            <MobileTimePicker className='time-picker' disabled value={new Date(item.startDate)} />
+                          </div>
+                          <div className="time-input">
+                            <MobileTimePicker className='time-picker' disabled
+                              value={new Date(item.endDate)}/>
+                          </div>
+                          <div className="time-input">
+                            <TextField id="outlined-basic" size='small' disabled
+                              type='number'
+                              value={item.slot}
+                              variant="outlined" />
+                          </div>
+                          <button ><RiDeleteBin5Line /></button>
+                        </div>)
+
+                      })
+                    }
                     <div className="time-inputs">
                       <div className="time-input">
-                        <DemoItem label="Start Time" >
-                          <MobileTimePicker className='time-picker' onChange={(item) => setThu({ ...thu, startDate: item })}  />
-                        </DemoItem>
+                        <MobileTimePicker className='time-picker' onChange={(item) => setThu({ ...thu, startDate: item })} />
                       </div>
                       <div className="time-input">
-                        <DemoItem label="End Time" >
-                          <MobileTimePicker className='time-picker' onChange={(item) => setThu({ ...thu, endDate: item })} />
-                        </DemoItem>
+                        <MobileTimePicker className='time-picker' onChange={(item) => setThu({ ...thu, endDate: item })} />
                       </div>
-                      <button>Add Time</button>
+                      <div className="time-input">
+                        <TextField id="outlined-basic" size='small'
+                          type='number'
+                          value={thu.slot}
+                          onChange={(e) => setThu({ ...thu, slot: e.target.value })}
+                          variant="outlined" />
+                      </div>
+                      <button disabled={validateRow('thu')} className={'button'} onClick={() => addTime('thu')}>Add Time</button>
                     </div>
                   </div>
                   <div className="time-inputs-item">
-                    <h5>Tuesday</h5>
+                    <h5>FRIDAY</h5>
+                    {
+                      scheduleState.fri.map((item, index) => {
+                       return( <div className="time-inputs mt-2">
+                          <div className="time-input">
+                            <MobileTimePicker className='time-picker' disabled value={new Date(item.startDate)} />
+                          </div>
+                          <div className="time-input">
+                            <MobileTimePicker className='time-picker' disabled
+                              value={new Date(item.endDate)}/>
+                          </div>
+                          <div className="time-input">
+                            <TextField id="outlined-basic" size='small' disabled
+                              type='number'
+                              value={item.slot}
+                              variant="outlined" />
+                          </div>
+                          <button ><RiDeleteBin5Line /></button>
+                        </div>)
+
+                      })
+                    }
                     <div className="time-inputs">
                       <div className="time-input">
-                        <DemoItem label="Start Time" >
-                          <MobileTimePicker className='time-picker' onChange={(item) => setFri({ ...fri, startDate: item })}  />
-                        </DemoItem>
+                        <MobileTimePicker className='time-picker' onChange={(item) => setFri({ ...fri, startDate: item })} />
                       </div>
                       <div className="time-input">
-                        <DemoItem label="End Time" >
-                          <MobileTimePicker className='time-picker' onChange={(item) => setFri({ ...fri, endDate: item })} />
-                        </DemoItem>
+                        <MobileTimePicker className='time-picker' onChange={(item) => setFri({ ...fri, endDate: item })} />
                       </div>
-                      <button>Add Time</button>
+                      <div className="time-input">
+                        <TextField id="outlined-basic" size='small'
+                          type='number'
+                          value={fri.slot}
+                          onChange={(e) => setFri({ ...fri, slot: e.target.value })}
+                          variant="outlined" />
+                      </div>
+                      <button disabled={validateRow('fri')} className={'button'} onClick={() => addTime('fri')}>Add Time</button>
                     </div>
                   </div>
                   <div className="time-inputs-item">
-                    <h5>Tuesday</h5>
+                    <h5>SATURDAY</h5>
+                    {
+                      scheduleState.sat.map((item, index) => {
+                       return( <div className="time-inputs mt-2">
+                          <div className="time-input">
+                            <MobileTimePicker className='time-picker' disabled value={new Date(item.startDate)} />
+                          </div>
+                          <div className="time-input">
+                            <MobileTimePicker className='time-picker' disabled
+                              value={new Date(item.endDate)}/>
+                          </div>
+                          <div className="time-input">
+                            <TextField id="outlined-basic" size='small' disabled
+                              type='number'
+                              value={item.slot}
+                              variant="outlined" />
+                          </div>
+                          <button ><RiDeleteBin5Line /></button>
+                        </div>)
+
+                      })
+                    }
                     <div className="time-inputs">
                       <div className="time-input">
-                        <DemoItem label="Start Time" >
-                          <MobileTimePicker className='time-picker' onChange={(item) => setSat({ ...sat, startDate: item })}  />
-                        </DemoItem>
+                        <MobileTimePicker className='time-picker' onChange={(item) => setSat({ ...sat, startDate: item })} />
                       </div>
                       <div className="time-input">
-                        <DemoItem label="End Time" >
-                          <MobileTimePicker className='time-picker' onChange={(item) => setSat({ ...tue, endDate: item })} />
-                        </DemoItem>
+                        <MobileTimePicker className='time-picker' onChange={(item) => setSat({ ...tue, endDate: item })} />
                       </div>
-                      <button>Add Time</button>
+                      <div className="time-input">
+                        <TextField id="outlined-basic" size='small'
+                          type='number'
+                          value={sat.slot}
+                          onChange={(e) => setSat({ ...sat, slot: e.target.value })}
+                          variant="outlined" />
+                      </div>
+                      <button disabled={validateRow('sat')} className={'button'} onClick={() => addTime('sat')}>Add Time</button>
                     </div>
                   </div>
                   <div className="time-inputs-item">
-                    <h5>Tuesday</h5>
+                    <h5>SUNDAY</h5>
+                    {
+                      scheduleState.sun.map((item, index) => {
+                       return( <div className="time-inputs mt-2">
+                          <div className="time-input">
+                            <MobileTimePicker className='time-picker' disabled value={new Date(item.startDate)} />
+                          </div>
+                          <div className="time-input">
+                            <MobileTimePicker className='time-picker' disabled
+                              value={new Date(item.endDate)}/>
+                          </div>
+                          <div className="time-input">
+                            <TextField id="outlined-basic" size='small' disabled
+                              type='number'
+                              value={item.slot}
+                              variant="outlined" />
+                          </div>
+                          <button ><RiDeleteBin5Line /></button>
+                        </div>)
+
+                      })
+                    }
                     <div className="time-inputs">
                       <div className="time-input">
-                        <DemoItem label="Start Time" >
-                          <MobileTimePicker className='time-picker' onChange={(item) => setSun({ ...sun, startDate: item })}  />
-                        </DemoItem>
+                        <MobileTimePicker className='time-picker' onChange={(item) => setSun({ ...sun, startDate: item })} />
                       </div>
                       <div className="time-input">
-                        <DemoItem label="End Time" >
-                          <MobileTimePicker className='time-picker'  onChange={(item) => setSun({ ...sun, endDate: item })} />
-                        </DemoItem>
+                        <MobileTimePicker className='time-picker' onChange={(item) => setSun({ ...sun, endDate: item })} />
                       </div>
-                      <button>Add Time</button>
+                      <div className="time-input">
+                        <TextField id="outlined-basic" size='small'
+                          type='number'
+                          value={sun.slot}
+                          onChange={(e) => setSun({ ...sun, slot: e.target.value })}
+                          variant="outlined" />
+                      </div>
+                      <button disabled={validateRow('sun')} className={'button'} onClick={() => addTime('sun')}>Add Time</button>
                     </div>
                   </div>
+                  <button>Save Changes</button>
                 </div>
 
               </div>

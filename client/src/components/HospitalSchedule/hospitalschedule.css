@@ -13,12 +13,16 @@
     padding: 20px;
     border-radius: 10px;
     box-shadow: var(--defaultShadow);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 .doctor-schedule-container .time-inputs{
     width: 100%;
     display: flex;
     gap: 10px;
     align-items: flex-end;
+    margin-top: 20px;
 }
 .time-inputs .time-input{
     width: 100%;
@@ -34,15 +38,36 @@
 }
 .time-input>div{
     width: 100%;
+    color: grey;
+}
+.time-picker input{
+    height: 8px;
+    color: grey;
 }
 .time-inputs button{
-    width: 200px !important;
-    height: 55px;
-    border: none;
+    width: 300px !important;
+    height: 40px;
+    border: 1px solid black;
+    color: black;
     border-radius: 5px;
+}
+.time-inputs .button{
+    border: none;
     background-color: rgb(7, 7, 7);
     color: white;
-
+}
+.time-inputs-item h5{
+    margin-bottom: 10px;
+    font-weight: 550;
+}
+.doctor-schedule-container>button{
+    height: 50px;
+    background-image: linear-gradient(to right, var(--mainColor), var(--secondColor));
+    border: none;
+    outline: none;
+    color: white;
+    font-weight: 500;
+    border-radius: 10px;
 }
 
 /* .time-input label{
