@@ -10,106 +10,130 @@ var salt = bcrypt.genSaltSync(10);
 
 export async function addDepartment(req, res) {
     try {
-        await DepartmentModel.updateOne({name:req.body.department},{$set:{name:req.body.department.trim().toLowerCase()}, $addToSet:{hospitalId:req.hospital._id}}, {upsert:true})
-        res.json({ err:false })
+        await DepartmentModel.updateOne({ name: req.body.department }, { $set: { name: req.body.department.trim().toLowerCase() }, $addToSet: { hospitalId: req.hospital._id } }, { upsert: true })
+        res.json({ err: false })
     }
     catch (err) {
-        res.json({ message: "somrthing went wrong", error: err, err:true })
+        res.json({ message: "somrthing went wrong", error: err, err: true })
     }
 }
 export async function editDepartment(req, res) {
     try {
-        await DepartmentModel.findByIdAndUpdate(req.body.id,{$set:{name:req.body.department.trim().toLowerCase()}})
-        res.json({ err:false })
+        await DepartmentModel.findByIdAndUpdate(req.body.id, { $set: { name: req.body.department.trim().toLowerCase() } })
+        res.json({ err: false })
     }
     catch (err) {
-        res.json({ message: "somrthing went wrong", error: err, err:true })
+        res.json({ message: "somrthing went wrong", error: err, err: true })
     }
 }
 
 export async function getDepartments(req, res) {
     try {
-        const name= req.query.name ?? ""
-        let departments=await DepartmentModel.find({hospitalId:req.hospital._id, name:new RegExp(name, 'i')}).lean()
-        res.json({ err:false, departments })
+        const name = req.query.name ?? ""
+        let departments = await DepartmentModel.find({ hospitalId: req.hospital._id, name: new RegExp(name, 'i') }).lean()
+        res.json({ err: false, departments })
     }
     catch (err) {
-        res.json({ message: "somrthing went wrong", error: err, err:true })
+        res.json({ message: "somrthing went wrong", error: err, err: true })
     }
 }
 
 export async function getDoctors(req, res) {
     try {
-        const name= req.query.name ?? ""
-        let doctors=await DoctorModel.find({hospitalId:req.hospital._id, name:new RegExp(name, 'i')}).lean()
-        res.json({ err:false, doctors })
+        const name = req.query.name ?? ""
+        let doctors = await DoctorModel.find({ hospitalId: req.hospital._id, name: new RegExp(name, 'i') }).lean()
+        res.json({ err: false, doctors })
     }
     catch (err) {
-        res.json({ message: "somrthing went wrong", error: err, err:true })
+        res.json({ message: "somrthing went wrong", error: err, err: true })
     }
 }
 
-export async function addDoctor(req, res){
-    try{
-        const {password}=req.body;
+export async function addDoctor(req, res) {
+    try {
+        const { password } = req.body;
         const hashPassword = bcrypt.hashSync(password, salt);
-        const doctor = await DoctorModel.create({...req.body, password:hashPassword, hospitalId:req.hospital._id});
-        res.json({err:false})
+        const doctor = await DoctorModel.create({ ...req.body, password: hashPassword, hospitalId: req.hospital._id });
+        res.json({ err: false })
 
-    }catch(err){
+    } catch (err) {
         console.log(err)
-        res.json({err:true , error:err, message:"Something Went Wrong"})
+        res.json({ err: true, error: err, message: "Something Went Wrong" })
     }
 
 }
-export async function editDoctor(req, res){
-    try{
-        const doctor = await DoctorModel.updateOne({_id:req.body._id},{$set:{...req.body, hospitalId:req.hospital._id}});
-        res.json({err:false})
+export async function editDoctor(req, res) {
+    try {
+        const doctor = await DoctorModel.updateOne({ _id: req.body._id }, { $set: { ...req.body, hospitalId: req.hospital._id } });
+        res.json({ err: false })
 
-    }catch(err){
+    } catch (err) {
         console.log(err)
-        res.json({err:true , error:err, message:"Something Went Wrong"})
+        res.json({ err: true, error: err, message: "Something Went Wrong" })
     }
 
 }
-export async function blockDoctor(req, res){
-    try{
-        await DoctorModel.updateOne({_id:req.body.id}, {$set:{block:true}});
-        res.json({err:false})
+export async function blockDoctor(req, res) {
+    try {
+        await DoctorModel.updateOne({ _id: req.body.id }, { $set: { block: true } });
+        res.json({ err: false })
 
-    }catch(err){
+    } catch (err) {
         console.log(err)
-        res.json({err:true , error:err, message:"Something Went Wrong"})
+        res.json({ err: true, error: err, message: "Something Went Wrong" })
     }
 
 }
-export async function unBlockDoctor(req, res){
-    try{
-        await DoctorModel.updateOne({_id:req.body.id}, {$set:{block:false}});
-        res.json({err:false})
+export async function unBlockDoctor(req, res) {
+    try {
+        await DoctorModel.updateOne({ _id: req.body.id }, { $set: { block: false } });
+        res.json({ err: false })
 
-    }catch(err){
+    } catch (err) {
         console.log(err)
-        res.json({err:true , error:err, message:"Something Went Wrong"})
+        res.json({ err: true, error: err, message: "Something Went Wrong" })
     }
 
 }
-export async function updateSchedule(req, res){
-    try{
-        const {doctorId} = req.body;
-        await ScheduleModel.updateOne({doctorId}, {
-            $set:{
+export async function updateSchedule(req, res) {
+    try {
+        const { doctorId } = req.body;
+        await ScheduleModel.updateOne({ doctorId }, {
+            $set: {
                 ...req.body
             }
-        },{upsert:true})
+        }, { upsert: true })
 
-        res.json({err:false})
+        res.json({ err: false })
 
-    }catch(err){
+    } catch (err) {
         console.log(err)
-        res.json({err:true , error:err, message:"Something Went Wrong"})
+        res.json({ err: true, error: err, message: "Something Went Wrong" })
     }
 
 }
 
+export async function getSchedule(req, res) {
+    try {
+        const { doctorId } = req.query;
+        const schedule = await ScheduleModel.findOne({ doctorId });
+        if (schedule) {
+            return res.json({ err: false, schedule })
+        } else {
+            return res.json({
+                err: false, schedule: {
+                    mon: [],
+                    tue: [],
+                    wed: [],
+                    thu: [],
+                    fri: [],
+                    sat: [],
+                    sun: []
+                }
+            })
+        }
+    } catch (err) {
+        console.log(err)
+        res.json({ err: true, error: err, message: "Something Went Wrong" })
+    }
+}

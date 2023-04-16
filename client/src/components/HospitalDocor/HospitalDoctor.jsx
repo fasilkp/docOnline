@@ -11,7 +11,7 @@ import HospitalHeader from '../HospitalHeader/HospitalHeader';
 import AddDoctor from '../../Modal/AddDoctor/AddDoctor';
 import { useEffect } from 'react';
 import EditDoctor from '../../Modal/editDoctor/EditDoctor';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function HospitalDoctor() {
     const [refresh, setRefresh] = useState(false)
@@ -23,6 +23,7 @@ export default function HospitalDoctor() {
     const [doctorList, setDoctorList] = useState([])
     const [clicked, setCLicked] = useState(false)
     const [name, setName]=useState("")
+    const navigate= useNavigate()
     const handleClick = () => {
         setCLicked(!clicked)
     }
@@ -126,6 +127,7 @@ export default function HospitalDoctor() {
 
                                                     <Dropdown.Menu>
                                                         <Dropdown.Item href="#" onClick={(e) => { setShowEditModal(true); setEditDoctorId(item._id) }}>Edit</Dropdown.Item>
+                                                        <Dropdown.Item href="#" onClick={() => { navigate('/account/hospital/schedule/'+item._id) }}>Schedule</Dropdown.Item>
                                                         {
                                                             item.block ?
                                                             <Dropdown.Item href="#" onClick={() => { unBlockDoctor(item._id) }}>unBlock Doctor</Dropdown.Item>

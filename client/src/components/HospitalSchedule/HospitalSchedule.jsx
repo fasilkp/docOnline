@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from 'react'
+import React, { useEffect, useReducer, useState } from 'react'
 import { Container } from 'react-bootstrap';
 import HospitalHeader from '../HospitalHeader/HospitalHeader';
 import HospitalSidebar from '../HospitalSidebar/HospitalSidebar';
@@ -12,22 +12,43 @@ import { scheduleReducer } from '../../reducers/scheduleReducer';
 import { TextField } from '@mui/material';
 import { RiDeleteBin4Line, RiDeleteBin5Line } from 'react-icons/ri';
 import { useParams } from 'react-router-dom';
+import axios from 'axios';
 
 export default function HospitalSchedule() {
   const [clicked, setCLicked] = useState(false)
-  const {id:doctorId}=useParams()
+  const [scheduleInititalState, setScheduleInitialState] = useState(
+    {
+      mon: [],
+      tue: [],
+      wed: [],
+      thu: [],
+      fri: [],
+      sat: [],
+      sun: []
+    }
+  )
+  const { id: doctorId } = useParams()
   const handleClick = () => {
     setCLicked(!clicked)
   }
-  const scheduleInititalState = {
-    mon: [],
-    tue: [],
-    wed: [],
-    thu: [],
-    fri: [],
-    sat: [],
-    sun: []
-  }
+  useEffect(() => {
+    (async function () {
+      const { data } = await axios.get("/hospital/doctor/schedule/" + doctorId);
+      console.log(data)
+      if(!data.err){
+        setScheduleInitialState(data.schedule)
+      }
+    })()
+  }, [])
+  // const scheduleInititalState = {
+  //   mon: [],
+  //   tue: [],
+  //   wed: [],
+  //   thu: [],
+  //   fri: [],
+  //   sat: [],
+  //   sun: []
+  // }
   const [scheduleState, scheduleDispatch] = useReducer(scheduleReducer, scheduleInititalState)
   // console.log(scheduleState)
 
@@ -55,14 +76,14 @@ export default function HospitalSchedule() {
     scheduleDispatch({ type, payload: obj })
     // setState({ startDate: null, endDate: null, slot: 0 })
   }
-  let count=0
+  let count = 0
   const removeTime = (type, index) => {
     count++;
     console.log(count)
     scheduleDispatch({ type, payload: index })
   }
-  const handleSubmit = ()=>{
-    
+  const handleSubmit = () => {
+
   }
 
   return (
@@ -97,13 +118,13 @@ export default function HospitalSchedule() {
                     <h5>MONDAY</h5>
                     {
                       scheduleState.mon.map((item, index) => {
-                       return( <div className="time-inputs mt-2" key={index}>
+                        return (<div className="time-inputs mt-2" key={index}>
                           <div className="time-input">
                             <MobileTimePicker className='time-picker' disabled value={new Date(item.startDate)} />
                           </div>
                           <div className="time-input">
                             <MobileTimePicker className='time-picker' disabled
-                              value={new Date(item.endDate)}/>
+                              value={new Date(item.endDate)} />
                           </div>
                           <div className="time-input">
                             <TextField id="outlined-basic" size='small' disabled
@@ -111,7 +132,7 @@ export default function HospitalSchedule() {
                               value={item.slot}
                               variant="outlined" />
                           </div>
-                          <button onClick={()=>removeTime('rmMon', index)} ><RiDeleteBin5Line /></button>
+                          <button onClick={() => removeTime('rmMon', index)} ><RiDeleteBin5Line /></button>
                         </div>)
 
                       })
@@ -138,13 +159,13 @@ export default function HospitalSchedule() {
                     <h5>TUESDAY</h5>
                     {
                       scheduleState.tue.map((item, index) => {
-                       return( <div className="time-inputs" key={index}>
+                        return (<div className="time-inputs" key={index}>
                           <div className="time-input">
                             <MobileTimePicker className='time-picker' disabled value={new Date(item.startDate)} />
                           </div>
                           <div className="time-input">
                             <MobileTimePicker className='time-picker' disabled
-                              value={new Date(item.endDate)}/>
+                              value={new Date(item.endDate)} />
                           </div>
                           <div className="time-input">
                             <TextField id="outlined-basic" size='small' disabled
@@ -152,7 +173,7 @@ export default function HospitalSchedule() {
                               value={item.slot}
                               variant="outlined" />
                           </div>
-                          <button onClick={()=>removeTime('rmTue', index)} ><RiDeleteBin5Line /></button>
+                          <button onClick={() => removeTime('rmTue', index)} ><RiDeleteBin5Line /></button>
                         </div>)
 
                       })
@@ -178,13 +199,13 @@ export default function HospitalSchedule() {
                     <h5>WEDNESDAY</h5>
                     {
                       scheduleState.wed.map((item, index) => {
-                       return( <div className="time-inputs mt-2" key={index}>
+                        return (<div className="time-inputs mt-2" key={index}>
                           <div className="time-input">
                             <MobileTimePicker className='time-picker' disabled value={new Date(item.startDate)} />
                           </div>
                           <div className="time-input">
                             <MobileTimePicker className='time-picker' disabled
-                              value={new Date(item.endDate)}/>
+                              value={new Date(item.endDate)} />
                           </div>
                           <div className="time-input">
                             <TextField id="outlined-basic" size='small' disabled
@@ -192,7 +213,7 @@ export default function HospitalSchedule() {
                               value={item.slot}
                               variant="outlined" />
                           </div>
-                          <button onClick={()=>removeTime('rmWed', index)} ><RiDeleteBin5Line /></button>
+                          <button onClick={() => removeTime('rmWed', index)} ><RiDeleteBin5Line /></button>
                         </div>)
 
                       })
@@ -218,13 +239,13 @@ export default function HospitalSchedule() {
                     <h5>THURSDAY</h5>
                     {
                       scheduleState.thu.map((item, index) => {
-                       return( <div className="time-inputs mt-2" key={index}>
+                        return (<div className="time-inputs mt-2" key={index}>
                           <div className="time-input">
                             <MobileTimePicker className='time-picker' disabled value={new Date(item.startDate)} />
                           </div>
                           <div className="time-input">
                             <MobileTimePicker className='time-picker' disabled
-                              value={new Date(item.endDate)}/>
+                              value={new Date(item.endDate)} />
                           </div>
                           <div className="time-input">
                             <TextField id="outlined-basic" size='small' disabled
@@ -232,7 +253,7 @@ export default function HospitalSchedule() {
                               value={item.slot}
                               variant="outlined" />
                           </div>
-                          <button onClick={()=>removeTime('rmThu', index)} ><RiDeleteBin5Line /></button>
+                          <button onClick={() => removeTime('rmThu', index)} ><RiDeleteBin5Line /></button>
                         </div>)
 
                       })
@@ -258,13 +279,13 @@ export default function HospitalSchedule() {
                     <h5>FRIDAY</h5>
                     {
                       scheduleState.fri.map((item, index) => {
-                       return( <div className="time-inputs mt-2" key={index}>
+                        return (<div className="time-inputs mt-2" key={index}>
                           <div className="time-input">
                             <MobileTimePicker className='time-picker' disabled value={new Date(item.startDate)} />
                           </div>
                           <div className="time-input">
                             <MobileTimePicker className='time-picker' disabled
-                              value={new Date(item.endDate)}/>
+                              value={new Date(item.endDate)} />
                           </div>
                           <div className="time-input">
                             <TextField id="outlined-basic" size='small' disabled
@@ -272,7 +293,7 @@ export default function HospitalSchedule() {
                               value={item.slot}
                               variant="outlined" />
                           </div>
-                          <button onClick={()=>removeTime('rmFri', index)} ><RiDeleteBin5Line /></button>
+                          <button onClick={() => removeTime('rmFri', index)} ><RiDeleteBin5Line /></button>
                         </div>)
 
                       })
@@ -298,13 +319,13 @@ export default function HospitalSchedule() {
                     <h5>SATURDAY</h5>
                     {
                       scheduleState.sat.map((item, index) => {
-                       return( <div className="time-inputs mt-2" key={index}>
+                        return (<div className="time-inputs mt-2" key={index}>
                           <div className="time-input">
                             <MobileTimePicker className='time-picker' disabled value={new Date(item.startDate)} />
                           </div>
                           <div className="time-input">
                             <MobileTimePicker className='time-picker' disabled
-                              value={new Date(item.endDate)}/>
+                              value={new Date(item.endDate)} />
                           </div>
                           <div className="time-input">
                             <TextField id="outlined-basic" size='small' disabled
@@ -312,7 +333,7 @@ export default function HospitalSchedule() {
                               value={item.slot}
                               variant="outlined" />
                           </div>
-                          <button onClick={()=>removeTime('rmSat', index)} ><RiDeleteBin5Line /></button>
+                          <button onClick={() => removeTime('rmSat', index)} ><RiDeleteBin5Line /></button>
                         </div>)
 
                       })
@@ -338,13 +359,13 @@ export default function HospitalSchedule() {
                     <h5>SUNDAY</h5>
                     {
                       scheduleState.sun.map((item, index) => {
-                       return( <div className="time-inputs mt-2" key={index}>
+                        return (<div className="time-inputs mt-2" key={index}>
                           <div className="time-input">
                             <MobileTimePicker className='time-picker' disabled value={new Date(item.startDate)} />
                           </div>
                           <div className="time-input">
                             <MobileTimePicker className='time-picker' disabled
-                              value={new Date(item.endDate)}/>
+                              value={new Date(item.endDate)} />
                           </div>
                           <div className="time-input">
                             <TextField id="outlined-basic" size='small' disabled
@@ -352,7 +373,7 @@ export default function HospitalSchedule() {
                               value={item.slot}
                               variant="outlined" />
                           </div>
-                          <button onClick={()=>removeTime('rmSun', index)} ><RiDeleteBin5Line /></button>
+                          <button onClick={() => removeTime('rmSun', index)} ><RiDeleteBin5Line /></button>
                         </div>)
 
                       })
