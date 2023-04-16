@@ -3,6 +3,9 @@ export const scheduleReducer = (state, action) => {
     const removeFromArray=(arr, index)=>{
         return arr.filter((item, i)=>i!=index);
     }
+    const removeDuplicate=(arr, payload)=>{
+        
+    }
 
     switch (action.type) {
         case 'mon': return {...state, mon:[...state.mon, action.payload]}
@@ -19,6 +22,9 @@ export const scheduleReducer = (state, action) => {
         case 'rmFri': return {...state, fri:[...removeFromArray(state.fri, action.payload)]}
         case 'rmSat': return {...state, sat:[...removeFromArray(state.sat, action.payload)]}
         case 'rmSun': return {...state, sun:[...removeFromArray(state.sun, action.payload)]}
+        case 'all':
+            let {mon, tue, wed, thu, fri , sat, sun}=action.payload;    
+            return {mon, tue, wed, thu, fri, sat, sun}
 
         default:
             return state;

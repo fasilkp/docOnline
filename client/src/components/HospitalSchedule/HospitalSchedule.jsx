@@ -11,13 +11,14 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { scheduleReducer } from '../../reducers/scheduleReducer';
 import { TextField } from '@mui/material';
 import { RiDeleteBin4Line, RiDeleteBin5Line } from 'react-icons/ri';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 export default function HospitalSchedule() {
   const [clicked, setCLicked] = useState(false)
-  const [scheduleInititalState, setScheduleInitialState] = useState(
-    {
+  const navigate = useNavigate()
+  const scheduleInititalState={
       mon: [],
       tue: [],
       wed: [],
@@ -26,7 +27,6 @@ export default function HospitalSchedule() {
       sat: [],
       sun: []
     }
-  )
   const { id: doctorId } = useParams()
   const handleClick = () => {
     setCLicked(!clicked)
@@ -36,21 +36,11 @@ export default function HospitalSchedule() {
       const { data } = await axios.get("/hospital/doctor/schedule/" + doctorId);
       console.log(data)
       if(!data.err){
-        setScheduleInitialState(data.schedule)
+        scheduleDispatch({type:'all', payload:data.schedule})
       }
     })()
   }, [])
-  // const scheduleInititalState = {
-  //   mon: [],
-  //   tue: [],
-  //   wed: [],
-  //   thu: [],
-  //   fri: [],
-  //   sat: [],
-  //   sun: []
-  // }
   const [scheduleState, scheduleDispatch] = useReducer(scheduleReducer, scheduleInititalState)
-  // console.log(scheduleState)
 
   const [mon, setMon] = useState({ startDate: null, endDate: null, slot: 0 })
   const [tue, setTue] = useState({ startDate: null, endDate: null, slot: 0 })
@@ -60,6 +50,7 @@ export default function HospitalSchedule() {
   const [sat, setSat] = useState({ startDate: null, endDate: null, slot: 0 })
   const [sun, setSun] = useState({ startDate: null, endDate: null, slot: 0 })
   const [time, setTime] = useState(null)
+  console.log(scheduleState)
 
   const validateRow = (item) => {
     let obj = eval(item)
@@ -72,7 +63,8 @@ export default function HospitalSchedule() {
   const addTime = (type) => {
     let obj = eval(type)
     scheduleDispatch({ type, payload: obj })
-    // setState({ startDate: null, endDate: null, slot: 0 })
+    let setState= eval('set'+type.charAt(0).toUpperCase()+ type.slice(1))
+    setState({ startDate: null, endDate: null, slot: 0 })
   }
   let count = 0
   const removeTime = (type, index) => {
@@ -85,7 +77,19 @@ export default function HospitalSchedule() {
       doctorId,
       ...scheduleState
     })
-    console.log(data)
+    if(data.err){
+      Swal.fire(
+        'Failed!',
+        'Something Went Wrong',
+        'plaese try again'
+        )
+      }
+      Swal.fire(
+        'Success!',
+        'Successfully Saved ',
+        'success'
+      )
+      navigate("/account/hospital/doctor")
   }
 
   return (
@@ -99,7 +103,10 @@ export default function HospitalSchedule() {
               <h4>Schedule Doctor</h4>
               <div className="doctor-schedule-main">
                 <div className="doctor-schedule-container">
+                  {/* <div className="time-inputs-item">
+                  </div> */}
                   <div className="time-inputs-item">
+                    <h5>MONDAY</h5>
                     <div className="time-inputs">
                       <div className="time-input">
                         <DemoItem label="Start Time" >
@@ -113,11 +120,8 @@ export default function HospitalSchedule() {
                         <DemoItem label="Slot" >
                         </DemoItem>
                       </div>
-                      <span>Action</span>
+                      <div></div>
                     </div>
-                  </div>
-                  <div className="time-inputs-item">
-                    <h5>MONDAY</h5>
                     {
                       scheduleState.mon.map((item, index) => {
                         return (<div className="time-inputs mt-2" key={index}>
@@ -139,6 +143,7 @@ export default function HospitalSchedule() {
 
                       })
                     }
+                    <hr />
                     <div className="time-inputs">
                       <div className="time-input">
                         <MobileTimePicker className='time-picker' onChange={(item) => setMon({ ...mon, startDate: item })} />
@@ -180,6 +185,8 @@ export default function HospitalSchedule() {
 
                       })
                     }
+                    <hr />
+
                     <div className="time-inputs">
                       <div className="time-input">
                         <MobileTimePicker className='time-picker' onChange={(item) => setTue({ ...tue, startDate: item })} />
@@ -220,6 +227,8 @@ export default function HospitalSchedule() {
 
                       })
                     }
+                    <hr />
+
                     <div className="time-inputs">
                       <div className="time-input">
                         <MobileTimePicker className='time-picker' onChange={(item) => setWed({ ...wed, startDate: item })} />
@@ -260,6 +269,8 @@ export default function HospitalSchedule() {
 
                       })
                     }
+                    <hr />
+
                     <div className="time-inputs">
                       <div className="time-input">
                         <MobileTimePicker className='time-picker' onChange={(item) => setThu({ ...thu, startDate: item })} />
@@ -300,6 +311,8 @@ export default function HospitalSchedule() {
 
                       })
                     }
+                    <hr />
+
                     <div className="time-inputs">
                       <div className="time-input">
                         <MobileTimePicker className='time-picker' onChange={(item) => setFri({ ...fri, startDate: item })} />
@@ -340,6 +353,8 @@ export default function HospitalSchedule() {
 
                       })
                     }
+                    <hr />
+
                     <div className="time-inputs">
                       <div className="time-input">
                         <MobileTimePicker className='time-picker' onChange={(item) => setSat({ ...sat, startDate: item })} />
@@ -380,6 +395,8 @@ export default function HospitalSchedule() {
 
                       })
                     }
+                    <hr />
+
                     <div className="time-inputs">
                       <div className="time-input">
                         <MobileTimePicker className='time-picker' onChange={(item) => setSun({ ...sun, startDate: item })} />

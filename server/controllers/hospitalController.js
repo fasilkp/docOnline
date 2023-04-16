@@ -116,8 +116,9 @@ export async function updateSchedule(req, res) {
 
 export async function getSchedule(req, res) {
     try {
-        const { doctorId } = req.query;
+        const { doctorId } = req.params;
         const schedule = await ScheduleModel.findOne({ doctorId });
+        console.log(schedule)
         if (schedule) {
             return res.json({ err: false, schedule })
         } else {
