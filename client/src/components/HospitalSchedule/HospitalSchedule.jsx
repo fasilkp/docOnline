@@ -27,7 +27,7 @@ export default function HospitalSchedule() {
     sun: []
   }
   const [scheduleState, scheduleDispatch] = useReducer(scheduleReducer, scheduleInititalState)
-  console.log(scheduleState)
+  // console.log(scheduleState)
 
   const [mon, setMon] = useState({ startDate: null, endDate: null, slot: 0 })
   const [tue, setTue] = useState({ startDate: null, endDate: null, slot: 0 })
@@ -38,7 +38,7 @@ export default function HospitalSchedule() {
   const [sun, setSun] = useState({ startDate: null, endDate: null, slot: 0 })
   // console.log(mon, tue , wed, thu, fri, sat, sun)
   const [time, setTime] = useState(null)
-  console.log(scheduleState)
+  // console.log(scheduleState)
 
   const validateRow = (item) => {
     let obj = eval(item)
@@ -53,11 +53,11 @@ export default function HospitalSchedule() {
     scheduleDispatch({ type, payload: obj })
     // setState({ startDate: null, endDate: null, slot: 0 })
   }
+  let count=0
   const removeTime = (type, index) => {
-    let mond= scheduleState.mon
-    console.log(mond)
-    console.log(mond.splice(index,1))
-    // scheduleDispatch({ type, payload: index })
+    count++;
+    console.log(count)
+    scheduleDispatch({ type, payload: index })
   }
 
   return (
@@ -92,7 +92,7 @@ export default function HospitalSchedule() {
                     <h5>MONDAY</h5>
                     {
                       scheduleState.mon.map((item, index) => {
-                       return( <div className="time-inputs mt-2">
+                       return( <div className="time-inputs mt-2" key={index}>
                           <div className="time-input">
                             <MobileTimePicker className='time-picker' disabled value={new Date(item.startDate)} />
                           </div>
@@ -106,7 +106,7 @@ export default function HospitalSchedule() {
                               value={item.slot}
                               variant="outlined" />
                           </div>
-                          <button onClick={()=>removeTime('rmMOn', index)} ><RiDeleteBin5Line /></button>
+                          <button onClick={()=>removeTime('rmMon', index)} ><RiDeleteBin5Line /></button>
                         </div>)
 
                       })
