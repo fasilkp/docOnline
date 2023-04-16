@@ -97,6 +97,7 @@ export async function unBlockDoctor(req, res) {
 }
 export async function updateSchedule(req, res) {
     try {
+        // res.json(req.body)
         const { doctorId } = req.body;
         await ScheduleModel.updateOne({ doctorId }, {
             $set: {

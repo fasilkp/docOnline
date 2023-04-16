@@ -59,9 +59,7 @@ export default function HospitalSchedule() {
   const [fri, setFri] = useState({ startDate: null, endDate: null, slot: 0 })
   const [sat, setSat] = useState({ startDate: null, endDate: null, slot: 0 })
   const [sun, setSun] = useState({ startDate: null, endDate: null, slot: 0 })
-  // console.log(mon, tue , wed, thu, fri, sat, sun)
   const [time, setTime] = useState(null)
-  // console.log(scheduleState)
 
   const validateRow = (item) => {
     let obj = eval(item)
@@ -82,8 +80,12 @@ export default function HospitalSchedule() {
     console.log(count)
     scheduleDispatch({ type, payload: index })
   }
-  const handleSubmit = () => {
-
+  const handleSubmit = async() => {
+    const {data} = await axios.patch("/hospital/doctor/schedule",{
+      doctorId,
+      ...scheduleState
+    })
+    console.log(data)
   }
 
   return (
