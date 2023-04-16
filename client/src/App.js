@@ -110,9 +110,9 @@ function App() {
             <Route path='/account/hospital/profile' element={<HospitalProfilePage />} />
             <Route path='/account/hospital/department' element={<HospitalDepartmentPage />} />
             <Route path='/account/hospital/doctor' element={<HospitalDoctorPage />} />
-            <Route path='/account/hospital/schedule' element={<HospitalSchedulePage/>} />
             <Route path='/account/hospital/login' element={<Navigate to="/account/hospital/" />} />
             <Route path='/account/hospital/signup' element={<Navigate to="/account/hospital/" />} />
+            <Route path='/account/hospital/schedule/:id' element={<HospitalSchedulePage/>} />
           </>
         }
         {

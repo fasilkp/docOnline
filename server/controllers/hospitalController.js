@@ -3,6 +3,7 @@ import DoctorModel from "../models/DoctorModel.js";
 import bcrypt from "bcryptjs"
 import HospitalModel from "../models/HospitalModel.js"
 import DepartmentModel from "../models/DepartmentModel.js";
+import ScheduleModel from "../models/ScheduleModel.js";
 
 var salt = bcrypt.genSaltSync(10);
 
@@ -86,6 +87,23 @@ export async function blockDoctor(req, res){
 export async function unBlockDoctor(req, res){
     try{
         await DoctorModel.updateOne({_id:req.body.id}, {$set:{block:false}});
+        res.json({err:false})
+
+    }catch(err){
+        console.log(err)
+        res.json({err:true , error:err, message:"Something Went Wrong"})
+    }
+
+}
+export async function updateSchedule(req, res){
+    try{
+        const {doctorId} = req.body;
+        await ScheduleModel.updateOne({doctorId}, {
+            $set:{
+                ...req.body
+            }
+        },{upsert:true})
+
         res.json({err:false})
 
     }catch(err){
