@@ -1,3 +1,5 @@
+import minuteDiff from "../helpers/minuteDifference.js"
+import BookingModel from "../models/BookingModel.js"
 import DepartmentModel from "../models/DepartmentModel.js"
 import DoctorModel from "../models/DoctorModel.js"
 import HospitalModel from "../models/HospitalModel.js"
@@ -6,7 +8,6 @@ import HospitalModel from "../models/HospitalModel.js"
 export async function getAllDepartments(req, res) {
     try {
         const departments = await DepartmentModel.find().lean()
-        console.log(departments)
         res.json({ departments })
 
     } catch (err) {
@@ -26,7 +27,6 @@ export async function getAllHospitals(req, res) {
         } else {
             hospitals = await HospitalModel.find({ name: new RegExp(name, 'i') }, { password: 0 }).lean()
         }
-        console.log(hospitals)
         res.json({ hospitals })
 
     } catch (err) {
@@ -40,19 +40,18 @@ export async function getAllDoctors(req, res) {
         const department = req.query.department ?? "";
         const hospital = req.query.hospital ?? "";
         const sort = req.query.sort ?? "";
-        console.log(req.query)
         let doctors = []
-        if(sort){
+        if (sort) {
             if (hospital) {
-                doctors = await DoctorModel.find({ name: new RegExp(name, 'i'), department: department, hospitalId: hospital }, { password: 0 }).populate('hospitalId', 'name').populate('department', 'name').sort({fees:sort}).lean()
+                doctors = await DoctorModel.find({ name: new RegExp(name, 'i'), department: department, hospitalId: hospital }, { password: 0 }).populate('hospitalId', 'name').populate('department', 'name').sort({ fees: sort }).lean()
             }
             else if (department) {
-                doctors = await DoctorModel.find({ name: new RegExp(name, 'i'), department: department }, { password: 0 }).populate('hospitalId', 'name').populate('department', 'name').sort({fees:sort}).lean()
+                doctors = await DoctorModel.find({ name: new RegExp(name, 'i'), department: department }, { password: 0 }).populate('hospitalId', 'name').populate('department', 'name').sort({ fees: sort }).lean()
             }
             else {
-                doctors = await DoctorModel.find({ name: new RegExp(name, 'i') }, { password: 0 }).populate('hospitalId', 'name').populate('department', 'name').sort({fees:sort}).lean()
+                doctors = await DoctorModel.find({ name: new RegExp(name, 'i') }, { password: 0 }).populate('hospitalId', 'name').populate('department', 'name').sort({ fees: sort }).lean()
             }
-        }else{
+        } else {
             if (hospital) {
                 doctors = await DoctorModel.find({ name: new RegExp(name, 'i'), department: department, hospitalId: hospital }, { password: 0 }).populate('hospitalId', 'name').populate('department', 'name').lean()
             }
@@ -63,7 +62,6 @@ export async function getAllDoctors(req, res) {
                 doctors = await DoctorModel.find({ name: new RegExp(name, 'i') }, { password: 0 }).populate('hospitalId', 'name').populate('department', 'name').lean()
             }
         }
-        console.log(doctors)
         res.json({ doctors })
 
     } catch (err) {
@@ -85,8 +83,6 @@ export async function getHospital(req, res) {
     try {
         const hospital = await HospitalModel.findById(req.params.id, { password: 0 });
         const departments = await DepartmentModel.find({ hospitalId: hospital._id }, { password: 0 });
-        console.log("hospital", hospital)
-        console.log("department", departments)
 
         res.json({ err: false, hospital, departments })
 
@@ -96,3 +92,58 @@ export async function getHospital(req, res) {
     }
 }
 
+export async function checkTimeSlot(req, res) {
+    try {
+
+        const { schedule, date } = req.body;
+        console.log(date)
+        // console.log(schedule)
+        let scheduleArr = []
+        for (let item of schedule) {
+            const timeSlot = new Date(item.startDate).toLocaleTimeString('en-US') + " - " + new Date(schedule.endDate).toLocaleTimeString('en-US');
+            const bookingCount = await BookingModel.find({ $and: [
+                {date: {$gt: new Date(new Date(new Date(date).setHours(0,0,0,0)).setDate(new Date(date).getDate()))}},
+                {date: {$lt: new Date(new Date(new Date(date).setHours(0,0,0,0)).setDate(new Date(date).getDate()+1))}},
+                {timeSlot:new Date(item.startDate).toLocaleTimeString('en-US') + " - " + new Date(item.endDate).toLocaleTimeString('en-US')}
+                ]}).count();
+                console.log(bookingCount)
+            // console.log('booking count', bookingCount)
+            const minuteDifference = minuteDiff(item.endDate, item.startDate);
+
+            // console.log(minuteDifference)
+
+            const minutesPerPatient = Number(minuteDifference) / Number(item.slot) -1
+
+            const totalMinutes = minutesPerPatient * bookingCount;
+
+            // console.log(minutesPerPatient)
+
+            const time = new Date(new Date(item.startDate).setMinutes(new Date(item.startDate).getMinutes() + totalMinutes))
+            console.log(new Date(time).toLocaleTimeString())
+            if (bookingCount < Number(item.slot)) {
+                scheduleArr.push({ 
+                    startDate: item.startDate, 
+                    endDate: item.endDate, 
+                    slot: item.slot, 
+                    time: time, 
+                })
+
+            }
+        }
+        if(scheduleArr[0]){
+            return res.json({
+                err: false,
+                result: {
+                    schedule:scheduleArr,
+                    date
+                }
+            })
+        }
+        return res.json({ err: true })
+    } catch (error) {
+        console.log(error)
+        return res.json({ error, err: true, message: "something went wrong" })
+    }
+
+
+}

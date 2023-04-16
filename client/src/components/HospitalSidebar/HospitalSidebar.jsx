@@ -28,17 +28,6 @@ function HospitalSidebar({ page, clicked }) {
             </div>
           </li>
         </Link>
-        <Link to="/account/hospital/schedule">
-
-          <li className={`admin-sideitems ${page == "schedule" && 'active'}`}>
-            <div className='side'></div>
-            <div className="admin-sideItem">
-
-              <RiUser2Line className='icon' />
-              <span>Doctor Schedule</span>
-            </div>
-          </li>
-        </Link>
         <Link to="/account/hospital/department">
 
           <li className={`admin-sideitems ${page == "department" && 'active'}`}>
