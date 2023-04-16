@@ -9,11 +9,14 @@ import axios from "axios"
 import { useParams } from "react-router-dom"
 import { useSelector } from "react-redux"
 import HospitalHeader from "../HospitalHeader/HospitalHeader"
+import EditHospitalProfile from "../../Modal/EditHospitalProfile/EditHospitalProfile"
 
 export default function HospitalProfile() {
     const id = useSelector((state)=>state.hospital.details._id)
     console.log(id);
     const [departmentList, setDepartmentList]=useState([])
+    const [showModal, setShowModal]=useState(false)
+    const [refresh, setRefresh]=useState(false)
     const [hospital, setHospital]=useState({
         image:{
             url:"https://www.medibhai.com/uploads/hospital_image/hospital-profile-default.jpg"
@@ -30,7 +33,7 @@ export default function HospitalProfile() {
                 console.log(data)
             }
         )()
-    },[])
+    },[refresh])
     return (
         <div className="user-main">
 
@@ -86,7 +89,7 @@ export default function HospitalProfile() {
 
                 </div>
             </Container>
-            EditHosp
+            <EditHospitalProfile refresh={refresh} setRefresh={setRefresh} setShowModal={setShowModal} />
         </div>
     )
 }

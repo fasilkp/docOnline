@@ -10,6 +10,11 @@ export default function EditHospitalProfile({ setShowModal, setRefresh, refresh 
         submit: false
     })
     const [image, setImage]=useState(null)
+    const [name, setName]=useState("")
+    const [about, setAbout]=useState("")
+    const [address, setAddress]=useState("")
+    const [place, setPlace]=useState("")
+    const [mobile, setMobile]=useState("")
     const [finalImage, setFinalImage]=useState(null)
     const [errMessage, setErrMessage]=useState("")
     const isValidFileUploaded=(file)=>{
@@ -17,7 +22,6 @@ export default function EditHospitalProfile({ setShowModal, setRefresh, refresh 
         const fileExtension = file.type.split('/')[1]
         return validExtensions.includes(fileExtension)
       }
-    
     const handleImage=(e)=>{
         if(isValidFileUploaded(e.target.files[0])){
             setImage(e.target.files[0])
@@ -40,7 +44,7 @@ export default function EditHospitalProfile({ setShowModal, setRefresh, refresh 
     async function handleSubmit(e) {
         e.preventDefault();
         setLoading({ ...loading, submit: true })
-        const {data}= await axios.patch("/doctor/profile", {image:finalImage});
+        const {data}= await axios.patch("/hospital/profile", {image:finalImage, name, about, address, place, mobile});
         console.log(data)
         if(data.err){
             setErrMessage(data.message)
@@ -69,9 +73,24 @@ export default function EditHospitalProfile({ setShowModal, setRefresh, refresh 
                 </div>
 
                 <div className="modal-form-row">
+                <TextField id="outlined-basic" value={name} onChange={(e) => setName(e.target.value)} label="Name" type="text" variant="outlined" fullWidth className='input' />
+                </div>
+                <div className="modal-form-row">
+                <TextField id="outlined-basic" value={about} onChange={(e) => setAbout(e.target.value)} label="About" type="text" variant="outlined" fullWidth className='input' />
+                </div>
+                <div className="modal-form-row">
+                <TextField id="outlined-basic" value={address} onChange={(e) => setAddress(e.target.value)} label="Address" type="text" variant="outlined" fullWidth className='input' />
+                </div>
+                <div className="modal-form-row">
+                <TextField id="outlined-basic" value={place} onChange={(e) => setPlace(e.target.value)} label="Place" type="text" variant="outlined" fullWidth className='input' />
+                </div>
+                <div className="modal-form-row">
+                <TextField id="outlined-basic" value={mobile} onChange={(e) => setMobile(e.target.value)} label="Mobile" type="number" variant="outlined" fullWidth className='input' />
+                </div>
+                <div className="modal-form-row">
                     <Form.Group controlId="formFile" className="mb-3 w-100">
                         <Form.Label>Input profile photo</Form.Label>
-                        <Form.Control type="file" className='w-100' onChange={handleImage} />
+                        <Form.Control type="file" accept='image/*' className='w-100' onChange={handleImage} />
                     </Form.Group>
                 </div>
                 {
