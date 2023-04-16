@@ -86,6 +86,7 @@ export default function HospitalProfile() {
 
                 </div>
             </Container>
+            EditHosp
         </div>
     )
 }

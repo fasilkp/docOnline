@@ -139,3 +139,20 @@ export async function getSchedule(req, res) {
         res.json({ err: true, error: err, message: "Something Went Wrong" })
     }
 }
+export async function editHospitalProfile(req, res){
+    try{
+        const {image, name, email, about, address, place, mobile}= req.body;
+        const data=await cloudinary.uploader.upload(image,{
+            folder:'docOnline'
+        })
+        console.log(data)
+        await DoctorModel.findByIdAndUpdate(req.hospital._id, {$set:{image:data,
+        name, email, about, address, place, mobile
+        }})
+        res.json({result:data, err:false})
+
+    }catch(error){
+        console.log(error);
+        req.json({err:true, error, message:"something went wrong"})
+    }
+}

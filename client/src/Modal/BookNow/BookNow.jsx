@@ -54,6 +54,7 @@ function BookNow({ daysAvailable, doctor, setShowBookNow }) {
                         'success'
                       )
                 }
+                setShowBookNow(false)
             }
         }
         var rzp1 = new window.Razorpay(options);
