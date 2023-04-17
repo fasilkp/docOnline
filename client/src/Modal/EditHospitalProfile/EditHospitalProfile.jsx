@@ -17,11 +17,13 @@ export default function EditHospitalProfile({ setShowModal, setRefresh, refresh 
     const [mobile, setMobile]=useState("")
     const [finalImage, setFinalImage]=useState(null)
     const [errMessage, setErrMessage]=useState("")
+
     const isValidFileUploaded=(file)=>{
         const validExtensions = ['png','jpeg','jpg']
         const fileExtension = file.type.split('/')[1]
         return validExtensions.includes(fileExtension)
       }
+
     const handleImage=(e)=>{
         if(isValidFileUploaded(e.target.files[0])){
             setImage(e.target.files[0])
@@ -32,6 +34,7 @@ export default function EditHospitalProfile({ setShowModal, setRefresh, refresh 
         }
       console.log(e.target.files[0])
     }
+
     const ImageTOBase=(file)=>{
       const reader= new FileReader();
       reader.readAsDataURL(file);
@@ -63,6 +66,13 @@ export default function EditHospitalProfile({ setShowModal, setRefresh, refresh 
         }
         return true
     }
+    useEffect(()=>{
+        setName(hospital.name)
+        setAbout(hospital.about)
+        setAddress(hospital.address)
+        setAddress(hospital.place)
+        setAddress(hospital.mobile)
+    },[])
 
 
     return (

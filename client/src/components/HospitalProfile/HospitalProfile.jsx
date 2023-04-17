@@ -74,7 +74,7 @@ export default function HospitalProfile() {
                                         <b>{hospital.about}</b>
                                     </div>
                                     <div className="dr-profile-sec-row button">
-                                        <button>Edit</button>
+                                        <button onClick={()=>setShowModal(true)}>Edit</button>
                                     </div>
                                 </div>
 
@@ -89,7 +89,7 @@ export default function HospitalProfile() {
 
                 </div>
             </Container>
-            <EditHospitalProfile refresh={refresh} setRefresh={setRefresh} setShowModal={setShowModal} />
+            <EditHospitalProfile refresh={refresh} setRefresh={setRefresh} hospital={hospital} setShowModal={setShowModal} />
         </div>
     )
 }
