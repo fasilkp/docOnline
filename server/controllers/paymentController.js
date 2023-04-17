@@ -39,7 +39,9 @@ export async function verifyPayment(req, res) {
             bookingTime: time,
             doctorId,
             hospitalId,
-            fees
+            fees,
+            name,
+            age
         } = req.body;
 
         let body = response.razorpay_order_id + "|" + response.razorpay_payment_id;
@@ -53,7 +55,7 @@ export async function verifyPayment(req, res) {
         if (expectedSignature === response.razorpay_signature){
             const booking= await BookingModel.create({
                 date, timeSlot, time, payment:response, doctorId, hospitalId,fees,
-                userId:req.user._id
+                userId:req.user._id, patientName:name, age
             })
             return res.json({
                 err:false, booking

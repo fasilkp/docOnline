@@ -32,6 +32,18 @@ const schema = new mongoose.Schema({
     fees:{
         type:Number,
         required:true
+    },
+    patientName:{
+        type:String,
+        default:""
+    },
+    age:{
+        type:Number,
+        default:""
+    },
+    token:{
+        type:String,
+        defaullt: Math.ceil(Math.random() *100000)
     }
 })
 

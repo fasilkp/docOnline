@@ -8,6 +8,8 @@ function BookNow({ daysAvailable, doctor, setShowBookNow }) {
     const [bookTimeSlot, setBookTimeSlot] = useState('')
     const [bookingTime, setBookingTime] = useState("")
     const [times, setTimes] = useState([])
+    const [name, setName] = useState("")
+    const [age, setAge] = useState("")
     useEffect(() => {
 
     }, [])
@@ -39,7 +41,7 @@ function BookNow({ daysAvailable, doctor, setShowBookNow }) {
             description: "Test Transaction",
             order_id: order.id,
             handler: async (response) => {
-                const { data } = await axios.post("/user/payment/verify", { response, bookDate, bookTimeSlot,bookingTime, doctorId: doctor._id, hospitalId: doctor.hospitalId, fees:doctor.fees });
+                const { data } = await axios.post("/user/payment/verify", { response, bookDate, bookTimeSlot,bookingTime,name, age, doctorId: doctor._id, hospitalId: doctor.hospitalId, fees:doctor.fees });
                 console.log(data)
                 if(data.err){
                     Swal.fire({
@@ -153,6 +155,13 @@ function BookNow({ daysAvailable, doctor, setShowBookNow }) {
 
                     </div>
                 }
+                <div className="booking-row">
+                <TextField id="outlined-basic" value={name} onChange={(e) => setName(e.target.value)} label="Name" type="text" variant="outlined" fullWidth className='input' />
+                </div>
+                <div className="booking-row">
+                <TextField id="outlined-basic" value={age} onChange={(e) => setAge(e.target.value)} label="Name" type="number" variant="outlined" fullWidth className='input' />
+                </div>
+
                 <div className="btn">
                     <button onClick={() => setShowBookNow(false)}>Cancel</button>
                     <button onClick={handleBooking} disabled={validateForm()} >Book Now</button>
