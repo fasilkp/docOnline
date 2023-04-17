@@ -2,13 +2,14 @@ import { Col, Container, Row } from "react-bootstrap"
 import UserHeader from "../UserHeader/UserHeader"
 import React, { useEffect, useState } from 'react'
 import doctorImg from '../../assets/images/doctor.png'
-import { Avatar, Rating } from "@mui/material"
+import { Avatar, Rating, setRef } from "@mui/material"
 import '../DoctorProfile/doctorProfile.css'
 import { useParams } from "react-router-dom"
 import axios from "axios"
 import BookNow from "../../Modal/BookNow/BookNow"
 function UserDoctor() {
     const { id } = useParams()
+    const [refresh, setRefresh]=useState(false)
     const [doctorSchedule, setDoctorSchedule] = useState({})
     const days = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat']
     const [daysAvailable, setDaysAvailable] = useState([])
@@ -60,7 +61,7 @@ function UserDoctor() {
                 }
             }
         )()
-    }, [])
+    }, [refresh])
 
 
     return (
@@ -225,7 +226,7 @@ function UserDoctor() {
                         </Col>
                         {
                             showBookNow && 
-                            <BookNow daysAvailable={daysAvailable} doctor={doctor} setShowBookNow={setShowBookNow} />
+                            <BookNow daysAvailable={daysAvailable} doctor={doctor} setShowBookNow={setShowBookNow} refresh={refresh} setRefresh={setRefresh} />
                         }
 
                     </Row>

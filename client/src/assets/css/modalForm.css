@@ -39,6 +39,9 @@
     justify-content: center;
     align-items: center;
 }
+.modal-form-row.image.full img{
+    width: 100%;
+}
 
 @keyframes startAnime {
     from{

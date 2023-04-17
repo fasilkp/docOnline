@@ -5,7 +5,7 @@ import { Form } from 'react-bootstrap'
 import { ClipLoader } from 'react-spinners'
 import '../../assets/css/modalForm.css'
 
-export default function EditHospitalProfile({ setShowModal, setRefresh, refresh }) {
+export default function EditHospitalProfile({ setShowModal, setRefresh, refresh, hospital }) {
     const [loading, setLoading] = useState({
         submit: false
     })
@@ -61,7 +61,9 @@ export default function EditHospitalProfile({ setShowModal, setRefresh, refresh 
 
     }
     function validForm() {
-        if (!image) {
+        if (!image || name.trim()==="" || 
+            about.trim()==="" || address.trim()==="" || 
+            mobile.toString().length!=10 ) {
             return false
         }
         return true
@@ -70,8 +72,8 @@ export default function EditHospitalProfile({ setShowModal, setRefresh, refresh 
         setName(hospital.name)
         setAbout(hospital.about)
         setAddress(hospital.address)
-        setAddress(hospital.place)
-        setAddress(hospital.mobile)
+        setPlace(hospital.place)
+        setMobile(hospital.mobile)
     },[])
 
 
@@ -105,7 +107,7 @@ export default function EditHospitalProfile({ setShowModal, setRefresh, refresh 
                 </div>
                 {
                     finalImage &&
-                <div className="modal-form-row image">
+                <div className="modal-form-row image full">
                     <img src={finalImage} alt="" />
                 </div>
                 }

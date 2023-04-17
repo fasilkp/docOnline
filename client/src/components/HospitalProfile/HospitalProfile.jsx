@@ -89,7 +89,10 @@ export default function HospitalProfile() {
 
                 </div>
             </Container>
-            <EditHospitalProfile refresh={refresh} setRefresh={setRefresh} hospital={hospital} setShowModal={setShowModal} />
+            {
+                showModal &&
+                <EditHospitalProfile refresh={refresh} setRefresh={setRefresh} hospital={hospital} setShowModal={setShowModal} />
+            }
         </div>
     )
 }

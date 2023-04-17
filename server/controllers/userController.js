@@ -110,13 +110,14 @@ export async function checkTimeSlot(req, res) {
             // console.log('booking count', bookingCount)
             const minuteDifference = minuteDiff(item.endDate, item.startDate);
 
-            // console.log(minuteDifference)
+            console.log(minuteDifference)
 
-            const minutesPerPatient = Number(minuteDifference) / Number(item.slot) -1
+            let minutesPerPatient = Number(minuteDifference) / Number(item.slot)
+            minutesPerPatient;
+            console.log(minutesPerPatient)
 
             const totalMinutes = minutesPerPatient * bookingCount;
 
-            // console.log(minutesPerPatient)
 
             const time = new Date(new Date(item.startDate).setMinutes(new Date(item.startDate).getMinutes() + totalMinutes))
             console.log(new Date(time).toLocaleTimeString())

@@ -3,7 +3,8 @@ import { useEffect } from 'react'
 import axios from 'axios'
 import './BookNow.css'
 import Swal from 'sweetalert2'
-function BookNow({ daysAvailable, doctor, setShowBookNow }) {
+import { TextField } from '@mui/material'
+function BookNow({ daysAvailable, doctor, setShowBookNow, refresh, setRefresh}) {
     const [bookDate, setBookDate] = useState('')
     const [bookTimeSlot, setBookTimeSlot] = useState('')
     const [bookingTime, setBookingTime] = useState("")
@@ -57,6 +58,7 @@ function BookNow({ daysAvailable, doctor, setShowBookNow }) {
                       )
                 }
                 setShowBookNow(false)
+                setRefresh(!refresh)
             }
         }
         var rzp1 = new window.Razorpay(options);
@@ -68,14 +70,17 @@ function BookNow({ daysAvailable, doctor, setShowBookNow }) {
                 title: 'Oops...',
                 text: response.error.description,
             })
+            setRefresh(!refresh)
+
         })
 
     }
-    const validateForm = () => {
-        if (bookDate === "" || bookTimeSlot === "") {
-            return true;
+    const validForm = () => {
+        if (bookDate === "" || bookTimeSlot === "" ||
+            name.trim()==="" || !age ) {
+            return false;
         }
-        return false;
+        return true;
     }
 
     useEffect(() => {
@@ -159,12 +164,12 @@ function BookNow({ daysAvailable, doctor, setShowBookNow }) {
                 <TextField id="outlined-basic" value={name} onChange={(e) => setName(e.target.value)} label="Name" type="text" variant="outlined" fullWidth className='input' />
                 </div>
                 <div className="booking-row">
-                <TextField id="outlined-basic" value={age} onChange={(e) => setAge(e.target.value)} label="Name" type="number" variant="outlined" fullWidth className='input' />
+                <TextField id="outlined-basic" value={age} onChange={(e) => setAge(e.target.value)} label="Age" type="number" variant="outlined" fullWidth className='input' />
                 </div>
 
                 <div className="btn">
                     <button onClick={() => setShowBookNow(false)}>Cancel</button>
-                    <button onClick={handleBooking} disabled={validateForm()} >Book Now</button>
+                    <button onClick={handleBooking} disabled={!validForm()} >Book Now</button>
 
                 </div>
             </div>

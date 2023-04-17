@@ -28,6 +28,8 @@ import HospitalApproalPage from './pages/hospital/HospitalApproalPage';
 import AdminUsersPage from './pages/admin/AdminUsersPage';
 import HospitalProfilePage from './pages/hospital/HospitalProfilePage';
 import HospitalSchedulePage from './pages/hospital/HospitalSchedulePage';
+import HospitalBookingPage from './pages/hospital/HospitalBookingPage';
+import DoctorSchedulePage from './pages/doctor/DoctorSchedulePage';
 
 
 function App() {
@@ -113,6 +115,7 @@ function App() {
             <Route path='/account/hospital/login' element={<Navigate to="/account/hospital/" />} />
             <Route path='/account/hospital/signup' element={<Navigate to="/account/hospital/" />} />
             <Route path='/account/hospital/schedule/:id' element={<HospitalSchedulePage/>} />
+            <Route path='/account/hospital/booking' element={<HospitalBookingPage/>} />
           </>
         }
         {
@@ -138,6 +141,7 @@ function App() {
             <Route path='/account/doctor/login' element={<Navigate to="/account/doctor/" />} />
             <Route path='/account/doctor/' element={<DoctorHomePage />} />
             <Route path='/account/doctor/profile' element={<DoctorProfilePage />} />
+            <Route path='/account/doctor/schedule' element={<DoctorSchedulePage />} />
           </>
         }
 

@@ -4,6 +4,8 @@ import bcrypt from "bcryptjs"
 import HospitalModel from "../models/HospitalModel.js"
 import DepartmentModel from "../models/DepartmentModel.js";
 import ScheduleModel from "../models/ScheduleModel.js";
+import cloudinary from '../config/cloudinary.js'
+import BookingModel from "../models/BookingModel.js";
 
 var salt = bcrypt.genSaltSync(10);
 
@@ -146,13 +148,27 @@ export async function editHospitalProfile(req, res){
             folder:'docOnline'
         })
         console.log(data)
-        await DoctorModel.findByIdAndUpdate(req.hospital._id, {$set:{image:data,
+        await HospitalModel.findByIdAndUpdate(req.hospital._id, {$set:{image:data,
         name, about, address, place, mobile
         }})
         res.json({result:data, err:false})
 
     }catch(error){
         console.log(error);
-        req.json({err:true, error, message:"something went wrong"})
+        res.json({err:true, error, message:"something went wrong"})
+    }
+}
+
+export async function getBookings(req, res){
+    try{
+        const bookings = await BookingModel.find({
+            hospitalId:req.hospital._id
+        }).populate('doctorId').sort({ _id:-1})
+        console.log(bookings)
+        return res.json({err:false, bookings})
+
+    }catch(error){
+        console.log(error)
+        res.json({err:true, error, message:"something went wrong"})
     }
 }
