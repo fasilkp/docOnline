@@ -15,7 +15,6 @@ export async function getAllDepartments(req, res) {
         console.log(err)
         res.json({ err: true, error: err })
     }
-
 }
 export async function getAllHospitals(req, res) {
     try {

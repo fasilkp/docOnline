@@ -188,12 +188,7 @@ export async function verifyForgotOtp(req, res) {
         if (otpHash != verifiedTempToken.otp) {
             return res.json({ err: true, message: "Invalid OTP" });
         }
-        return res.cookie("token", token, {
-            httpOnly: true,
-            secure: true,
-            maxAge: 1000 * 60 * 60 * 24 * 7,
-            sameSite: "none",
-        }).json({ err: false })
+        return res.json({ err: false })
     }
     catch (err) {
         console.log(err)

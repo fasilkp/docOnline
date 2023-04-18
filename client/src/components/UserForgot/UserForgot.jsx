@@ -5,16 +5,33 @@ import emailSentImage from "../../assets/images/emailSent.jpg";
 import "../UserLogin/userlogin.css";
 import { Link } from "react-router-dom";
 import UserForgotOtp from "../UserForgotOTP/UserForgotOtp";
+import { ClipLoader } from "react-spinners";
+import axios from "axios";
 
 function UserForgot() {
     const [email, setEmail] = useState("");
     const [showOTP, setShowOTP] = useState(false)
+    const [errMessage, setErrMessage] = useState("")
+    const [loading, setLoading]=useState(false)
+
     const validForm = () => {
         if (email.trim() === "") {
             return false;
         }
         return true;
     };
+    const handleSubmit = async () => {
+        setLoading(true)
+        if (validForm()) {
+            const { data } = await axios.post("/user/auth/forgot", {email})
+            if(data.err){
+                setErrMessage(data.message)
+            }else{
+                setShowOTP(true)
+            }
+        }
+        setLoading(false)
+    }
     return (
         <div className="login-main">
             <Row>
@@ -59,8 +76,17 @@ function UserForgot() {
                                                     className="input"
                                                 />
                                             </div>
+                                            {
+                                                errMessage &&
+                                                <div className="login-row" style={{ justifyContent: "flex-start" }}>
+                                                    <p className='text-danger'>{errMessage}</p>
+                                                </div>
+                                            }
                                             <div className="login-row">
-                                                <button disabled={!validForm()}>Next</button>
+                                                <button disabled={!validForm()} onClick={handleSubmit}>
+                                                    Next
+                                                    <ClipLoader size={20} color="white" loading={loading} />
+                                                    </button>
                                             </div>
                                         </div>
                                     </div>

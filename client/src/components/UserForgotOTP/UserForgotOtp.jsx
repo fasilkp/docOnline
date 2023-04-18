@@ -7,9 +7,10 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useDispatch } from "react-redux";
 import { ClipLoader } from 'react-spinners';
+import UserReset from '../UserReset/UserReset';
 
 
-function UserForgotOtp(props) {
+function UserForgotOtp({email}) {
     const [errMessage, setErrMessage] = useState("")
     const [otp, setOtp] = useState("")
     const [showReset, setShowReset]=useState(false);
@@ -21,12 +22,21 @@ function UserForgotOtp(props) {
     async function handleSubmit(e) {
         e.preventDefault();
         setLoading({ ...loading, submit: true })
-
+        const {data}= await axios.post("/user/auth/forgot/verify", {otp});
+        if(data.err){
+            setErrMessage(data.message)
+        }else{
+            setShowReset(true)
+        }
         setLoading({ ...loading, submit: false })
     }
-    
 
     return (
+        <>
+    {    
+        showReset ?
+        <UserReset otp={otp} email={email} />
+        :
         <Row>
             <div className="login-container">
                 <Row>
@@ -56,7 +66,7 @@ function UserForgotOtp(props) {
                                 }
                                 <div className="login-row">
                                     <button type='submit' disabled={otp.trim() == ""}>
-                                        Check
+                                        Next
                                         <ClipLoader size={20} color="white" loading={loading.submit} />
                                     </button>
                                 </div>
@@ -66,6 +76,8 @@ function UserForgotOtp(props) {
                 </Row>
             </div>
         </Row>
+    }
+    </>
     )
 }
 
