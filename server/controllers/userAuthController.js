@@ -33,7 +33,7 @@ export async function userLogin(req, res) {
         }).json({ err: false, user: user._id })
     }
     catch (err) {
-        res.json({ message: "server error",err:true, error: err })
+        res.json({ message: "server error", err: true, error: err })
     }
 }
 
@@ -45,10 +45,10 @@ export async function userRegister(req, res) {
             return res.json({ err: true, message: "User Already Exist" })
         }
         let otp = Math.ceil(Math.random() * 1000000)
-        let otpHash=crypto.createHmac('sha256', process.env.OTP_SECRET)
-        .update(otp.toString())
-        .digest('hex');
-        let otpSent=await sentOTP(email, otp)
+        let otpHash = crypto.createHmac('sha256', process.env.OTP_SECRET)
+            .update(otp.toString())
+            .digest('hex');
+        let otpSent = await sentOTP(email, otp)
         const token = jwt.sign(
             {
                 otp: otpHash
@@ -64,7 +64,7 @@ export async function userRegister(req, res) {
     }
     catch (err) {
         console.log(err)
-        res.json({ err:true, error: err, message:"something went wrong" })
+        res.json({ err: true, error: err, message: "something went wrong" })
     }
 }
 
@@ -75,23 +75,23 @@ export async function userRegisterVerify(req, res) {
         const { name, email, password, otp } = req.body;
         const tempToken = req.cookies.tempToken;
 
-        if (!tempToken){
+        if (!tempToken) {
             return res.json({ err: true, message: "OTP Session Timed Out" });
         }
 
         const verifiedTempToken = jwt.verify(tempToken, process.env.JWT_SECRET_KEY);
-        let otpHash=crypto.createHmac('sha256', process.env.OTP_SECRET)
-        .update(otp.toString())
-        .digest('hex');
-        if(otpHash!= verifiedTempToken.otp){
+        let otpHash = crypto.createHmac('sha256', process.env.OTP_SECRET)
+            .update(otp.toString())
+            .digest('hex');
+        if (otpHash != verifiedTempToken.otp) {
             return res.json({ err: true, message: "Invalid OTP" });
         }
 
         const hashPassword = bcrypt.hashSync(password, salt);
-        
+
         const newUser = new UserModel({ name, email, password: hashPassword })
         await newUser.save();
-        
+
         const token = jwt.sign(
             {
                 id: newUser._id
@@ -107,7 +107,7 @@ export async function userRegisterVerify(req, res) {
     }
     catch (err) {
         console.log(err)
-        res.json({ error: err, err:true, message:"something went wrong" })
+        res.json({ error: err, err: true, message: "something went wrong" })
     }
 }
 
@@ -150,10 +150,10 @@ export async function userForgot(req, res) {
             return res.json({ err: true, message: "User not found" })
         }
         let otp = Math.ceil(Math.random() * 1000000)
-        let otpHash=crypto.createHmac('sha256', process.env.OTP_SECRET)
-        .update(otp.toString())
-        .digest('hex');
-        let otpSent=await sentOTP(email, otp)
+        let otpHash = crypto.createHmac('sha256', process.env.OTP_SECRET)
+            .update(otp.toString())
+            .digest('hex');
+        let otpSent = await sentOTP(email, otp)
         const token = jwt.sign(
             {
                 otp: otpHash
@@ -169,6 +169,66 @@ export async function userForgot(req, res) {
     }
     catch (err) {
         console.log(err)
-        res.json({ err:true, error: err, message:"something went wrong" })
+        res.json({ err: true, error: err, message: "something went wrong" })
+    }
+}
+export async function verifyForgotOtp(req, res) {
+    try {
+        const { otp } = req.body;
+        const tempToken = req.cookies.tempToken;
+
+        if (!tempToken) {
+            return res.json({ err: true, message: "OTP Session Timed Out" });
+        }
+
+        const verifiedTempToken = jwt.verify(tempToken, process.env.JWT_SECRET_KEY);
+        let otpHash = crypto.createHmac('sha256', process.env.OTP_SECRET)
+            .update(otp.toString())
+            .digest('hex');
+        if (otpHash != verifiedTempToken.otp) {
+            return res.json({ err: true, message: "Invalid OTP" });
+        }
+        return res.cookie("token", token, {
+            httpOnly: true,
+            secure: true,
+            maxAge: 1000 * 60 * 60 * 24 * 7,
+            sameSite: "none",
+        }).json({ err: false })
+    }
+    catch (err) {
+        console.log(err)
+        res.json({ error: err, err: true, message: "something went wrong" })
+    }
+}
+
+export async function resetUserPassword(req, res) {
+    try {
+        const { email, password, otp } = req.body;
+        const tempToken = req.cookies.tempToken;
+
+        if (!tempToken) {
+            return res.json({ err: true, message: "OTP Session Timed Out" });
+        }
+
+        const verifiedTempToken = jwt.verify(tempToken, process.env.JWT_SECRET_KEY);
+        let otpHash = crypto.createHmac('sha256', process.env.OTP_SECRET)
+            .update(otp.toString())
+            .digest('hex');
+        if (otpHash != verifiedTempToken.otp) {
+            return res.json({ err: true, message: "Invalid OTP" });
+        }
+        const hashPassword = bcrypt.hashSync(password, salt);
+
+
+        await UserModel.updateOne({ email }, {
+            $set: {
+                password: hashPassword
+            }
+        })
+        return res.json({ err: false })
+    }
+    catch (err) {
+        console.log(err)
+        res.json({ error: err, err: true, message: "something went wrong" })
     }
 }
