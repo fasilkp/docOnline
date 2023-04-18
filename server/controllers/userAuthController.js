@@ -141,3 +141,34 @@ export const userLogout = async (req, res) => {
         sameSite: "none",
     }).json({ message: "logged out", error: false });
 }
+
+export async function userForgot(req, res) {
+    try {
+        const { email } = req.body;
+        const user = await UserModel.findOne({ email });
+        if (!user) {
+            return res.json({ err: true, message: "User not found" })
+        }
+        let otp = Math.ceil(Math.random() * 1000000)
+        let otpHash=crypto.createHmac('sha256', process.env.OTP_SECRET)
+        .update(otp.toString())
+        .digest('hex');
+        let otpSent=await sentOTP(email, otp)
+        const token = jwt.sign(
+            {
+                otp: otpHash
+            },
+            process.env.JWT_SECRET_KEY
+        )
+        return res.cookie("tempToken", token, {
+            httpOnly: true,
+            secure: true,
+            maxAge: 1000 * 60 * 10,
+            sameSite: "none",
+        }).json({ err: false })
+    }
+    catch (err) {
+        console.log(err)
+        res.json({ err:true, error: err, message:"something went wrong" })
+    }
+}
