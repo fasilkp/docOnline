@@ -1,19 +1,14 @@
-import React, { useEffect, useReducer, useState } from 'react'
+import React, { useEffect, useReducer } from 'react'
 import { Container } from 'react-bootstrap';
-import HospitalHeader from '../HospitalHeader/HospitalHeader';
-import HospitalSidebar from '../HospitalSidebar/HospitalSidebar';
 import '../HospitalSchedule/hospitalschedule.css'
-import dayjs from 'dayjs';
 import { DemoItem } from '@mui/x-date-pickers/internals/demo';
 import { MobileTimePicker } from '@mui/x-date-pickers/MobileTimePicker';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { scheduleReducer } from '../../reducers/scheduleReducer';
 import { TextField } from '@mui/material';
-import { RiDeleteBin4Line, RiDeleteBin5Line } from 'react-icons/ri';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import Swal from 'sweetalert2';
 import DoctorHeader from '../DoctorHeader/DoctorHeader';
 import DoctorSidebar from '../DoctorSidebar/DoctorSidebar';
 import { useSelector } from 'react-redux';
@@ -47,14 +42,6 @@ export default function DoctorSchedule() {
     }, [doctorId])
     const [scheduleState, scheduleDispatch] = useReducer(scheduleReducer, scheduleInititalState)
 
-    //   const [mon, setMon] = useState({ startDate: null, endDate: null, slot: 0 })
-    //   const [tue, setTue] = useState({ startDate: null, endDate: null, slot: 0 })
-    //   const [wed, setWed] = useState({ startDate: null, endDate: null, slot: 0 })
-    //   const [thu, setThu] = useState({ startDate: null, endDate: null, slot: 0 })
-    //   const [fri, setFri] = useState({ startDate: null, endDate: null, slot: 0 })
-    //   const [sat, setSat] = useState({ startDate: null, endDate: null, slot: 0 })
-    //   const [sun, setSun] = useState({ startDate: null, endDate: null, slot: 0 })
-    //   const [time, setTime] = useState(null)
     console.log(scheduleState)
 
     return (

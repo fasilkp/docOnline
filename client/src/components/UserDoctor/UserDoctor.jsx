@@ -33,7 +33,8 @@ function UserDoctor() {
                 if (!data.err) {
                     setDoctor(data.doctor)
                 }
-                const { data: scheduleData } = await axios.get("/hospital/doctor/schedule/" + id);
+                const { data: scheduleData } = await axios.get("/user/doctor/schedule/" + id);
+                console.log(scheduleData)
                 if (!scheduleData.err) {
                     let n = 0;
                     let date = new Date()
@@ -114,7 +115,7 @@ function UserDoctor() {
                                     </div>
                                 </div>
                                 <div className="dr-profile-sec-row button">
-                                    <button onClick={() => setShowBookNow(true)}>Book Now</button>
+                                    <button onClick={() => setShowBookNow(true)} disabled={!daysAvailable[0]} >Book Now</button>
                                 </div>
                             </div>
 

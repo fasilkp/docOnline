@@ -120,7 +120,6 @@ export async function getSchedule(req, res) {
     try {
         const { doctorId } = req.params;
         const schedule = await ScheduleModel.findOne({ doctorId });
-        console.log(schedule)
         if (schedule) {
             return res.json({ err: false, schedule })
         } else {
@@ -147,7 +146,6 @@ export async function editHospitalProfile(req, res){
         const data=await cloudinary.uploader.upload(image,{
             folder:'docOnline'
         })
-        console.log(data)
         await HospitalModel.findByIdAndUpdate(req.hospital._id, {$set:{image:data,
         name, about, address, place, mobile
         }})
@@ -164,7 +162,6 @@ export async function getBookings(req, res){
         const bookings = await BookingModel.find({
             hospitalId:req.hospital._id
         }).populate('doctorId').sort({ _id:-1})
-        console.log(bookings)
         return res.json({err:false, bookings})
 
     }catch(error){

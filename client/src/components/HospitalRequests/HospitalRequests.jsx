@@ -116,6 +116,8 @@ export default function HospitalRequests() {
                   <th>Name</th>
                   <th>Email</th>
                   <th>Mobile</th>
+                  <th>Proof</th>
+                  <th>Document No</th>
                   <th>option</th>
                 </tr>
               </thead>
@@ -127,6 +129,12 @@ export default function HospitalRequests() {
                       <td>{item.name}</td>
                       <td>{item.email}</td>
                       <td>{item.mobile}</td>
+                      <td>
+                        <a href={item.proof.url} target="_blank">
+                        <img src={item.proof.url} className='table-img' alt="" />
+                        </a>
+                        </td>
+                      <td>{item.documentNo}</td>
                       <td className='option-btn'>
                         <Dropdown>
                           <Dropdown.Toggle variant="secondary" id="dropdown-basic">

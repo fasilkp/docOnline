@@ -4,11 +4,12 @@ import './UserHeader.css'
 import { Container, Row } from 'react-bootstrap'
 import axios from 'axios'
 import { useDispatch } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 function UserHeader() {
     const [open, setOpen]=useState(false)
     const [anchorEl, setAnchorEl]=useState(null)
+    const navigate = useNavigate()
     const dispatch= useDispatch()
     async function handleLogout(){
         await axios.get("/user/auth/logout");
@@ -48,6 +49,7 @@ function UserHeader() {
         }}
       >
         <MenuItem >Profile</MenuItem>
+        <MenuItem onClick={()=>navigate('/booking')} >Booking</MenuItem>
         <MenuItem onClick={handleLogout} >Logout</MenuItem>
       </Menu>
         </div>

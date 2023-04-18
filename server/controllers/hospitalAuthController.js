@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken'
 import bcrypt from "bcryptjs"
 import HospitalModel from '../models/HospitalModel.js';
+import cloudinary from '../config/cloudinary.js';
 
 
 var salt = bcrypt.genSaltSync(10);
@@ -9,8 +10,11 @@ var salt = bcrypt.genSaltSync(10);
 export async function hospitalRegister(req, res){
     try{
         const {name, email, mobile, password}=req.body;
+        const proof=await cloudinary.uploader.upload(req.body.proof,{
+            folder:'docOnline'
+        })
         const hashPassword = bcrypt.hashSync(password, salt);
-        const hospital = await HospitalModel.create({...req.body,password:hashPassword});
+        const hospital = await HospitalModel.create({...req.body,password:hashPassword, proof});
         const token = jwt.sign(
             {
                 id: hospital._id
@@ -73,9 +77,7 @@ export const checkHospitalLoggedIn = async (req, res) => {
             return res.json({ loggedIn: false, error: true, message: "no token" });
 
         const verifiedJWT = jwt.verify(token, process.env.JWT_SECRET_KEY);
-        console.log(verifiedJWT)
         const hospital = await HospitalModel.findOne({_id:verifiedJWT.id, block:false}, { password: 0 });
-        console.log(hospital)
         if (!hospital) {
             return res.json({ loggedIn: false });
         }

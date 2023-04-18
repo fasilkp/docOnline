@@ -155,7 +155,7 @@ function BookNow({ daysAvailable, doctor, setShowBookNow, refresh, setRefresh}) 
                             Booking Time
                         </div>
                         <div className="booking-row-days">
-                            {new Date(bookingTime).toLocaleTimeString()}
+                            {new Date(bookingTime).toLocaleTimeString('en-US')}
                         </div>
 
                     </div>

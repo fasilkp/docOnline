@@ -15,7 +15,6 @@ export async function paymentOrder(req, res) {
             currency: "INR",
         };
         instance.orders.create(options, function (err, order) {
-            console.log(order);
             if (err) {
                 console.log(err)
                 res.json({ err: true, message: "server error" })
@@ -49,13 +48,12 @@ export async function verifyPayment(req, res) {
         var expectedSignature = crypto.createHmac('sha256', process.env.RAZORPAY_KEY_SECRET)
             .update(body.toString())
             .digest('hex');
-        console.log("sig received ", response.razorpay_signature);
-        console.log("sig generated ", expectedSignature);
 
         if (expectedSignature === response.razorpay_signature){
             const booking= await BookingModel.create({
                 date, timeSlot, time, payment:response, doctorId, hospitalId,fees,
-                userId:req.user._id, patientName:name, age
+                userId:req.user._id, patientName:name, age,
+                token: Math.ceil(Math.random()*100000)
             })
             return res.json({
                 err:false, booking

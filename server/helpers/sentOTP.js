@@ -1,7 +1,6 @@
 import nodemailer from 'nodemailer'
 
 export default function sentOTP(email, otp){
-  console.log(email, otp)
     return new Promise((resolve, reject)=>{
         let transporter = nodemailer.createTransport({
             host: "smtp.gmail.com",

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Col, Container, Row } from 'react-bootstrap';
+import { Col, Container, Form, Row } from 'react-bootstrap';
 import { TextField } from '@mui/material';
 import loginImage from '../../assets/images/login.jpg'
 import "../UserLogin/userlogin.css"
@@ -18,17 +18,46 @@ function HospitalSignup() {
     const [address, setAddress] = useState("")
     const [place, setPlace] = useState("")
     const [errMessage, setErrMessage] = useState("")
-    const dispatch= useDispatch()
+    const [image, setImage]=useState(null)
+    const [finalImage, setFinalImage]=useState(null)
+    const [docNo, setDocNo]=useState("")
+    const dispatch = useDispatch()
     const [loading, setLoading] = useState({
         submit: false
     })
     const navigate = useNavigate()
+    
+    const isValidFileUploaded=(file)=>{
+        const validExtensions = ['png','jpeg','jpg']
+        const fileExtension = file.type.split('/')[1]
+        return validExtensions.includes(fileExtension)
+      }
+
+    const handleImage=(e)=>{
+        if(isValidFileUploaded(e.target.files[0])){
+            setImage(e.target.files[0])
+            setErrMessage("")
+            ImageTOBase(e.target.files[0])
+        }else{
+            setErrMessage("Invalid File type")
+        }
+      console.log(e.target.files[0])
+    }
+
+    const ImageTOBase=(file)=>{
+      const reader= new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend=()=>{
+        setFinalImage(reader.result)
+        console.log(reader.result)
+      }
+    }
     async function handleSubmit(e) {
         e.preventDefault();
         setLoading({ ...loading, submit: true })
         if (validForm()) {
             const { data } = await axios.post("/hospital/auth/register", {
-                email, name, password, mobile, about, address, place
+                email, name, password, mobile, about, address, place, proof:finalImage, documentNo:docNo
             })
             if (data.err) {
                 setErrMessage(data.message)
@@ -37,8 +66,8 @@ function HospitalSignup() {
                     'Success!',
                     'Thank You for Registration. We will Inform you once account has got Approved',
                     'success'
-                  )
-                  dispatch({type:"refresh"})
+                )
+                dispatch({ type: "refresh" })
             }
             setLoading({ ...loading, submit: false })
 
@@ -46,7 +75,7 @@ function HospitalSignup() {
         }
     }
     function validForm() {
-        if (name.trim() === "" || about.trim()==="" || place.trim()==="" || address.trim()==="" || email.trim() === "" || password.trim() === "" || mobile.toString().length !== 10) {
+        if (name.trim() === "" || about.trim() === "" || place.trim() === "" || address.trim() === "" || email.trim() === "" || password.trim() === "" || mobile.toString().length !== 10 || docNo.trim() ==='' || !finalImage) {
             return false
         }
         return true
@@ -98,6 +127,21 @@ function HospitalSignup() {
                                     <div className="login-row">
                                         <TextField id="outlined-basic" value={password} onChange={(e) => setPassword(e.target.value)} label="Password" type="password" variant="outlined" className='input' fullWidth />
                                     </div>
+                                    <div className="login-row">
+                                        <TextField id="outlined-basic" value={docNo} onChange={(e) => setDocNo(e.target.value)} label="Document Number" type="text" variant="outlined" className='input' fullWidth />
+                                    </div>
+                                    <div className="modal-form-row">
+                                        <Form.Group controlId="formFile" className="mb-3 w-100">
+                                            <Form.Label>Document Proof </Form.Label>
+                                            <Form.Control type="file" accept='image/*' className='w-100' onChange={handleImage} />
+                                        </Form.Group>
+                                    </div>
+                                    {
+                                        finalImage &&
+                                        <div className="modal-form-row image register">
+                                            <img src={finalImage} alt="" />
+                                        </div>
+                                    }
                                     {
                                         errMessage &&
                                         <div className="login-row" style={{ justifyContent: "flex-start" }}>

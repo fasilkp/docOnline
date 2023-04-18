@@ -2,6 +2,7 @@ import UserModel from '../models/UserModel.js'
 import bcrypt from "bcryptjs"
 import jwt from 'jsonwebtoken'
 import sentOTP from '../helpers/sentOTP.js';
+import crypto from 'crypto'
 
 
 var salt = bcrypt.genSaltSync(10);
@@ -44,11 +45,13 @@ export async function userRegister(req, res) {
             return res.json({ err: true, message: "User Already Exist" })
         }
         let otp = Math.ceil(Math.random() * 1000000)
-        console.log(otp)
+        let otpHash=crypto.createHmac('sha256', process.env.OTP_SECRET)
+        .update(otp.toString())
+        .digest('hex');
         let otpSent=await sentOTP(email, otp)
         const token = jwt.sign(
             {
-                otp: otp
+                otp: otpHash
             },
             process.env.JWT_SECRET_KEY
         )
@@ -60,6 +63,7 @@ export async function userRegister(req, res) {
         }).json({ err: false })
     }
     catch (err) {
+        console.log(err)
         res.json({ err:true, error: err, message:"something went wrong" })
     }
 }
@@ -76,8 +80,10 @@ export async function userRegisterVerify(req, res) {
         }
 
         const verifiedTempToken = jwt.verify(tempToken, process.env.JWT_SECRET_KEY);
-
-        if(otp!= verifiedTempToken.otp){
+        let otpHash=crypto.createHmac('sha256', process.env.OTP_SECRET)
+        .update(otp.toString())
+        .digest('hex');
+        if(otpHash!= verifiedTempToken.otp){
             return res.json({ err: true, message: "Invalid OTP" });
         }
 
@@ -100,6 +106,7 @@ export async function userRegisterVerify(req, res) {
         }).json({ err: false })
     }
     catch (err) {
+        console.log(err)
         res.json({ error: err, err:true, message:"something went wrong" })
     }
 }

@@ -9,9 +9,7 @@ export async function editDoctorProfile(req, res){
         const data=await cloudinary.uploader.upload(image,{
             folder:'docOnline'
         })
-        console.log(data)
         await DoctorModel.findByIdAndUpdate(req.doctor._id, {$set:{image:data}})
-        console.log(await DoctorModel.findById(req.doctor._id))
         res.json({result:data, err:false})
 
     }catch(error){
@@ -50,7 +48,6 @@ export async function getDoctorTodayBookings(req, res){
         const bookings = await BookingModel.find({
             doctorId:req.doctor._id
         }).sort({ _id:-1})
-        console.log(bookings)
         return res.json({err:false, bookings})
 
     }catch(error){

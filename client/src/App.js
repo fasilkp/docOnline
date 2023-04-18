@@ -30,6 +30,8 @@ import HospitalProfilePage from './pages/hospital/HospitalProfilePage';
 import HospitalSchedulePage from './pages/hospital/HospitalSchedulePage';
 import HospitalBookingPage from './pages/hospital/HospitalBookingPage';
 import DoctorSchedulePage from './pages/doctor/DoctorSchedulePage';
+import UserBookingPage from './pages/user/UserBookingPage';
+import UserForgotPage from './pages/user/UserForgotPage';
 
 
 function App() {
@@ -53,6 +55,7 @@ function App() {
       dispatch({ type: "doctor", payload: { login: doctorData.loggedIn, details: doctorData.doctor } })
     })()
   }, [refresh])
+  console.log(user)
   return (
     <div className='App'>
       <Routes>
@@ -66,6 +69,7 @@ function App() {
             <Route path='/doctor/:id' element={<UserDoctorPage />} />
             <Route path='/hospital/:id' element={<UserHospitalPage />} />
             <Route path='/department/:id' element={<UserDepartmentPage />} />
+            <Route path='/booking' element={<UserBookingPage />} />
           </>
         }
         {
@@ -73,8 +77,9 @@ function App() {
           <>
             <Route path='/login' element={<LoginPage />} />
             <Route path='/signup' element={<UserSignupPage />} />
+            <Route path='/forgot' element={<UserForgotPage />} />
             <Route path='/' element={<Navigate to="/login" />} />
-            <Route path='/*' element={<Navigate to="/login" />} />
+            <Route path='/doctor/*' element={<Navigate to="/login" />} />
           </>
         }
         {

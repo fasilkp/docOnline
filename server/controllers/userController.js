@@ -3,6 +3,7 @@ import BookingModel from "../models/BookingModel.js"
 import DepartmentModel from "../models/DepartmentModel.js"
 import DoctorModel from "../models/DoctorModel.js"
 import HospitalModel from "../models/HospitalModel.js"
+import ScheduleModel from "../models/ScheduleModel.js"
 
 
 export async function getAllDepartments(req, res) {
@@ -96,8 +97,6 @@ export async function checkTimeSlot(req, res) {
     try {
 
         const { schedule, date } = req.body;
-        console.log(date)
-        // console.log(schedule)
         let scheduleArr = []
         for (let item of schedule) {
             const timeSlot = new Date(item.startDate).toLocaleTimeString('en-US') + " - " + new Date(schedule.endDate).toLocaleTimeString('en-US');
@@ -106,21 +105,16 @@ export async function checkTimeSlot(req, res) {
                 {date: {$lt: new Date(new Date(new Date(date).setHours(0,0,0,0)).setDate(new Date(date).getDate()+1))}},
                 {timeSlot:new Date(item.startDate).toLocaleTimeString('en-US') + " - " + new Date(item.endDate).toLocaleTimeString('en-US')}
                 ]}).count();
-                console.log(bookingCount)
-            // console.log('booking count', bookingCount)
             const minuteDifference = minuteDiff(item.endDate, item.startDate);
 
-            console.log(minuteDifference)
 
             let minutesPerPatient = Number(minuteDifference) / Number(item.slot)
             minutesPerPatient;
-            console.log(minutesPerPatient)
 
             const totalMinutes = minutesPerPatient * bookingCount;
 
 
             const time = new Date(new Date(item.startDate).setMinutes(new Date(item.startDate).getMinutes() + totalMinutes))
-            console.log(new Date(time).toLocaleTimeString())
             if (bookingCount < Number(item.slot)) {
                 scheduleArr.push({ 
                     startDate: item.startDate, 
@@ -147,4 +141,41 @@ export async function checkTimeSlot(req, res) {
     }
 
 
+}
+export async function getDoctorSchedule(req, res) {
+    try {
+        const { doctorId } = req.params;
+        const schedule = await ScheduleModel.findOne({ doctorId });
+        if (schedule) {
+            return res.json({ err: false, schedule })
+        } else {
+            return res.json({
+                err: false, schedule: {
+                    mon: [],
+                    tue: [],
+                    wed: [],
+                    thu: [],
+                    fri: [],
+                    sat: [],
+                    sun: []
+                }
+            })
+        }
+    } catch (err) {
+        console.log(err)
+        res.json({ err: true, error: err, message: "Something Went Wrong" })
+    }
+}
+
+export async function getUserBookings(req, res){
+    try{
+        const bookings = await BookingModel.find({
+            userId:req.user._id
+        }).populate('doctorId').sort({ _id:-1})
+        return res.json({err:false, bookings})
+
+    }catch(error){
+        console.log(error)
+        res.json({err:true, error, message:"something went wrong"})
+    }
 }

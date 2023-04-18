@@ -1,0 +1,29 @@
+.user-booking-container{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-top: 20px;
+}
+.user-booking-item{
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-radius: 10px;
+    box-shadow: var(--defaultShadow);
+    padding: 5px;
+}
+
+.ub-dr-profile img{
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+}
+.ub-dr-desc-item{
+    display: flex;
+    flex-direction: column;
+}
+.ub-dr-desc-item span{
+    display: flex;
+}

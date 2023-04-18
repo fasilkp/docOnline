@@ -43,7 +43,7 @@ const schema = new mongoose.Schema({
     },
     token:{
         type:String,
-        defaullt: Math.ceil(Math.random() *100000)
+        default: Math.ceil(Math.random() *100000)
     }
 })
 
