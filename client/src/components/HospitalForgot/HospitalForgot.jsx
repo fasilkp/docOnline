@@ -23,7 +23,7 @@ export default function HospitalForgot() {
     const handleSubmit = async () => {
         setLoading(true)
         if (validForm()) {
-            const { data } = await axios.post("/user/auth/forgot", {email})
+            const { data } = await axios.post("/hospital/auth/forgot", {email})
             if(data.err){
                 setErrMessage(data.message)
             }else{

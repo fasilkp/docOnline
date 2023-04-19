@@ -21,11 +21,11 @@ export default function HospitalReset({email, otp}) {
     async function handleSubmit(e) {
         e.preventDefault();
         setLoading({ ...loading, submit: true })
-        const {data}= await axios.post("/user/auth/forgot/reset", {otp, email, password});
+        const {data}= await axios.post("/hospital/auth/forgot/reset", {otp, email, password});
         if(data.err){
             setErrMessage(data.message)
         }else{
-            navigate("/login")
+            navigate("/account/hospital/login")
         }
         setLoading({ ...loading, submit: false })
     }
@@ -37,7 +37,6 @@ export default function HospitalReset({email, otp}) {
         return true
     }
     
-
     return (
         <Row>
             <div className="login-container">

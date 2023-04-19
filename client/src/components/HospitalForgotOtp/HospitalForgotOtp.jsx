@@ -22,7 +22,7 @@ export default function HospitalForgotOtp({email}) {
     async function handleSubmit(e) {
         e.preventDefault();
         setLoading({ ...loading, submit: true })
-        const {data}= await axios.post("/user/auth/forgot/verify", {otp});
+        const {data}= await axios.post("/hospital/auth/forgot/verify", {otp});
         if(data.err){
             setErrMessage(data.message)
         }else{

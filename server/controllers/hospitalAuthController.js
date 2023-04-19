@@ -3,6 +3,8 @@ import bcrypt from "bcryptjs"
 import HospitalModel from '../models/HospitalModel.js';
 import cloudinary from '../config/cloudinary.js';
 import crypto from 'crypto'
+import sentOTP from '../helpers/sentOTP.js';
+
 
 
 var salt = bcrypt.genSaltSync(10);
@@ -171,12 +173,12 @@ export async function resetHospitalPassword(req, res) {
         const hashPassword = bcrypt.hashSync(password, salt);
 
 
-        await UserModel.updateOne({ email }, {
+        await HospitalModel.updateOne({ email }, {
             $set: {
                 password: hashPassword
             }
         })
-        return rescookie("tempHospitalToken", "", {
+        return res.cookie("tempHospitalToken", "", {
             httpOnly: true,
             expires: new Date(0),
             secure: true,

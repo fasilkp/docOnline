@@ -78,6 +78,9 @@ function HospitalLogin() {
                                             <p className='text-danger'>{errMessage}</p>
                                         </div>
                                     }
+                                    <div className="login-row justify-content-start">
+                                        <Link to="/account/hospital/forgot">Forgot password</Link>
+                                    </div>
                                     <div className="login-row">
                                         <button type='submit' disabled={!validForm() || loading.submit}>
                                             Login
