@@ -1,7 +1,8 @@
 import jwt from 'jsonwebtoken'
 import bcrypt from "bcryptjs"
 import DoctorModel from '../models/DoctorModel.js';
-
+import crypto from 'crypto'
+import sentOTP from '../helpers/sentOTP.js';
 
 var salt = bcrypt.genSaltSync(10);
 
@@ -66,4 +67,95 @@ export const doctorLogout = async (req, res) => {
         secure: true,
         sameSite: "none",
     }).json({ message: "logged out", error: false });
+}
+
+export async function doctorForgot(req, res) {
+    try {
+        const { email } = req.body;
+        const user = await DoctorModel.findOne({ email });
+        if (!user) {
+            return res.json({ err: true, message: "no doctor found" })
+        }
+        let otp = Math.ceil(Math.random() * 1000000)
+        let otpHash = crypto.createHmac('sha256', process.env.OTP_SECRET)
+            .update(otp.toString())
+            .digest('hex');
+        let otpSent = await sentOTP(email, otp)
+        const token = jwt.sign(
+            {
+                otp: otpHash
+            },
+            process.env.JWT_SECRET_KEY
+        )
+        return res.cookie("tempDoctorToken", token, {
+            httpOnly: true,
+            secure: true,
+            maxAge: 1000 * 60 * 10,
+            sameSite: "none",
+        }).json({ err: false })
+    }
+    catch (err) {
+        console.log(err)
+        res.json({ err: true, error: err, message: "something went wrong" })
+    }
+}
+export async function verifyDoctorForgotOtp(req, res) {
+    try {
+        const { otp } = req.body;
+        const tempToken = req.cookies.tempDoctorToken;
+
+        if (!tempToken) {
+            return res.json({ err: true, message: "OTP Session Timed Out" });
+        }
+
+        const verifiedTempToken = jwt.verify(tempToken, process.env.JWT_SECRET_KEY);
+        let otpHash = crypto.createHmac('sha256', process.env.OTP_SECRET)
+            .update(otp.toString())
+            .digest('hex');
+        if (otpHash != verifiedTempToken.otp) {
+            return res.json({ err: true, message: "Invalid OTP" });
+        }
+        return res.json({ err: false })
+    }
+    catch (err) {
+        console.log(err)
+        res.json({ error: err, err: true, message: "something went wrong" })
+    }
+}
+
+export async function resetDoctorPassword(req, res) {
+    try {
+        const { email, password, otp } = req.body;
+        const tempToken = req.cookies.tempDoctorToken;
+
+        if (!tempToken) {
+            return res.json({ err: true, message: "OTP Session Timed Out" });
+        }
+
+        const verifiedTempToken = jwt.verify(tempToken, process.env.JWT_SECRET_KEY);
+        let otpHash = crypto.createHmac('sha256', process.env.OTP_SECRET)
+            .update(otp.toString())
+            .digest('hex');
+        if (otpHash != verifiedTempToken.otp) {
+            return res.json({ err: true, message: "Invalid OTP" });
+        }
+        const hashPassword = bcrypt.hashSync(password, salt);
+
+
+        await DoctorModel.updateOne({ email }, {
+            $set: {
+                password: hashPassword
+            }
+        })
+        return res.cookie("tempHospitalToken", "", {
+            httpOnly: true,
+            expires: new Date(0),
+            secure: true,
+            sameSite: "none",
+        }).json({ err: false })
+    }
+    catch (err) {
+        console.log(err)
+        res.json({ error: err, err: true, message: "something went wrong" })
+    }
 }

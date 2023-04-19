@@ -80,7 +80,7 @@ function DoctorLogin() {
                                         </div>
                                     }
                                     <div className="login-row justify-content-start">
-                                        <Link to="/account/doctor/forgot">Don't Have an Account? Signup</Link>
+                                        <Link to="/account/doctor/forgot">Forgot Password</Link>
                                     </div>
                                     <div className="login-row">
                                         <button type='submit' disabled={!validForm() || loading.submit}>

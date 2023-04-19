@@ -21,11 +21,11 @@ export default function DoctorReset({email, otp}) {
     async function handleSubmit(e) {
         e.preventDefault();
         setLoading({ ...loading, submit: true })
-        const {data}= await axios.post("/user/auth/forgot/reset", {otp, email, password});
+        const {data}= await axios.post("/doctor/auth/forgot/reset", {otp, email, password});
         if(data.err){
             setErrMessage(data.message)
         }else{
-            navigate("/login")
+            navigate("/account/doctor/login")
         }
         setLoading({ ...loading, submit: false })
     }

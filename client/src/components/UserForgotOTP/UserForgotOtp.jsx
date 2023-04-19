@@ -23,6 +23,7 @@ function UserForgotOtp({email}) {
         e.preventDefault();
         setLoading({ ...loading, submit: true })
         const {data}= await axios.post("/user/auth/forgot/verify", {otp});
+        console.lgo(data)
         if(data.err){
             setErrMessage(data.message)
         }else{

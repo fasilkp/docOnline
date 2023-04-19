@@ -11,4 +11,6 @@ Router.get('/booking', getDoctorBookings)
 Router.get('/booking/today', getDoctorTodayBookings)
 
 
+
+
 export default Router
