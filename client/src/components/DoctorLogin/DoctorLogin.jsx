@@ -79,15 +79,15 @@ function DoctorLogin() {
                                             <p className='text-danger'>{errMessage}</p>
                                         </div>
                                     }
+                                    <div className="login-row justify-content-start">
+                                        <Link to="/account/doctor/forgot">Don't Have an Account? Signup</Link>
+                                    </div>
                                     <div className="login-row">
                                         <button type='submit' disabled={!validForm() || loading.submit}>
                                             Login
                                             <ClipLoader size={20} color="white" loading={loading.submit} />
                                         </button>
                                     </div>
-                                    {/* <div className="login-row mt-3">
-                                        <Link to="/account/hospital/signup">Don't Have an Account? Signup</Link>
-                                    </div> */}
                                 </form>
                             </div>
                         </Col>

@@ -33,6 +33,7 @@ import DoctorSchedulePage from './pages/doctor/DoctorSchedulePage';
 import UserBookingPage from './pages/user/UserBookingPage';
 import UserForgotPage from './pages/user/UserForgotPage';
 import HospitalForgotPage from './pages/hospital/HospitalForgotPage';
+import DoctorForgotPage from './pages/doctor/DoctorForgotPage';
 
 
 function App() {
@@ -109,7 +110,6 @@ function App() {
           <Route path='/account/hospital/' element={<HospitalApproalPage />} />
           <Route path='/account/hospital/*' element={<HospitalApproalPage />} />
           </>
-          
         }
         {
           hospital.login &&
@@ -138,6 +138,7 @@ function App() {
           doctor.login === false &&
           <>
             <Route path='/account/doctor/login' element={<DoctorLoginPage />} />
+            <Route path='/account/doctor/forgot' element={<DoctorForgotPage />} />
             <Route path='/account/doctor' element={<Navigate to="/account/doctor/login" />} />
             <Route path='/account/doctor/*' element={<Navigate to="/account/doctor/login" />} />
           </>
