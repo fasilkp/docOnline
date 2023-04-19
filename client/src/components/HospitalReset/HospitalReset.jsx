@@ -9,7 +9,7 @@ import { useDispatch } from "react-redux";
 import { ClipLoader } from 'react-spinners';
 
 
-export default function UserReset({email, otp}) {
+export default function HospitalReset({email, otp}) {
     const [errMessage, setErrMessage] = useState("")
     const [password, setPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
