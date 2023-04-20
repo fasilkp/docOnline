@@ -194,3 +194,18 @@ export async function addDoctorFeedback(req, res){
         res.json({err:true, error, message:"something went wrong"})
     }
 }
+
+
+export async function addHospitalrFeedback(req, res){
+    try{
+        const {hospitalId, rating, review}=req.body;
+        await FeedbackModel.updateOne({userId:req.user._id, hospitalId},{
+            rating,review
+        }, {upsert:true})
+        return res.json({err:false})
+
+    }catch(error){
+        console.log(error)
+        res.json({err:true, error, message:"something went wrong"})
+    }
+}

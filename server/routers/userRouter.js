@@ -1,6 +1,6 @@
 import express from 'express';
 import { paymentOrder, verifyPayment } from '../controllers/paymentController.js';
-import { checkTimeSlot, getAllDepartments, getAllDoctors, getAllHospitals, getDoctor, getDoctorSchedule, getHospital, getUserBookings } from '../controllers/userController.js';
+import { addDoctorFeedback, addHospitalrFeedback, checkTimeSlot, getAllDepartments, getAllDoctors, getAllHospitals, getDoctor, getDoctorSchedule, getHospital, getUserBookings } from '../controllers/userController.js';
 
 const router=express.Router();
 
@@ -19,6 +19,9 @@ router.post('/check-time', checkTimeSlot)
 router.get("/doctor/schedule/:doctorId", getDoctorSchedule)
 router.get("/booking", getUserBookings)
 
+
+router.post('/feedback/doctor', addDoctorFeedback)
+router.post('/feedback/hospital', addHospitalrFeedback)
 
 
 
