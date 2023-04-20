@@ -32,7 +32,7 @@ export default function DoctorSchedule() {
         (async function () {
             console.log(doctorId)
             if(doctorId){
-                const { data } = await axios.get("/hospital/doctor/schedule/" + doctorId);
+                const { data } = await axios.get("/doctor/schedule/");
                 console.log('data',data)
                 if (!data.err) {
                     scheduleDispatch({ type: 'all', payload: data.schedule })

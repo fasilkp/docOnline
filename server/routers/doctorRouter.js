@@ -1,5 +1,5 @@
 import express from 'express'
-import { editDoctorProfile, getDoctorBookings, getDoctorProfile, getDoctorTodayBookings } from '../controllers/doctorController.js';
+import { editDoctorProfile, getDoctorBookings, getDoctorProfile, getDoctorSchedule, getDoctorTodayBookings } from '../controllers/doctorController.js';
 
 const Router = express.Router();
 
@@ -10,6 +10,7 @@ Router.get("/profile", getDoctorProfile)
 Router.get('/booking', getDoctorBookings)
 Router.get('/booking/today', getDoctorTodayBookings)
 
+Router.get("/schedule", getDoctorSchedule)
 
 
 

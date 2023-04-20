@@ -1,6 +1,7 @@
 import cloudinary from '../config/cloudinary.js'
 import BookingModel from '../models/BookingModel.js';
 import DoctorModel from '../models/DoctorModel.js';
+import ScheduleModel from '../models/ScheduleModel.js';
 
 
 export async function editDoctorProfile(req, res){
@@ -53,5 +54,29 @@ export async function getDoctorTodayBookings(req, res){
     }catch(error){
         console.log(error)
         res.json({err:true, error, message:"something went wrong"})
+    }
+}
+
+export async function getDoctorSchedule(req, res) {
+    try {
+        const schedule = await ScheduleModel.findOne({ doctorId:req.doctor._id });
+        if (schedule) {
+            return res.json({ err: false, schedule })
+        } else {
+            return res.json({
+                err: false, schedule: {
+                    mon: [],
+                    tue: [],
+                    wed: [],
+                    thu: [],
+                    fri: [],
+                    sat: [],
+                    sun: []
+                }
+            })
+        }
+    } catch (err) {
+        console.log(err)
+        res.json({ err: true, error: err, message: "Something Went Wrong" })
     }
 }
