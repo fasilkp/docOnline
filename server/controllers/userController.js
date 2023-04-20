@@ -2,6 +2,7 @@ import minuteDiff from "../helpers/minuteDifference.js"
 import BookingModel from "../models/BookingModel.js"
 import DepartmentModel from "../models/DepartmentModel.js"
 import DoctorModel from "../models/DoctorModel.js"
+import FeedbackModel from "../models/FeedbackModel.js"
 import HospitalModel from "../models/HospitalModel.js"
 import ScheduleModel from "../models/ScheduleModel.js"
 
@@ -172,6 +173,21 @@ export async function getUserBookings(req, res){
             userId:req.user._id
         }).populate('doctorId').sort({ _id:-1})
         return res.json({err:false, bookings})
+
+    }catch(error){
+        console.log(error)
+        res.json({err:true, error, message:"something went wrong"})
+    }
+}
+
+
+export async function addDoctorFeedback(req, res){
+    try{
+        const {doctorId, rating, review}=req.body;
+        await FeedbackModel.updateOne({userId:req.user._id, doctorId},{
+            rating,review
+        }, {upsert:true})
+        return res.json({err:false})
 
     }catch(error){
         console.log(error)
