@@ -29,8 +29,17 @@ export default function AddEMR({booking, setShowAddEmr}) {
     })
   }
   useEffect(()=>{
-    const data= getDoctorEMR(booking._id);
-    console.log(data)
+    (
+      async function(){
+        const data=await getDoctorEMR(booking._id);
+        console.log(data)
+        if(!data.err && data.emr){
+          setGender(data.emr.gender);
+          setWeight(data.emr.weight)
+          setPrescription(data.emr.prescription)
+        }
+      }
+    )()
   },[])
   return (
     <div className="add-emr-main">
@@ -70,6 +79,16 @@ export default function AddEMR({booking, setShowAddEmr}) {
               value={new Date(booking.date).toLocaleDateString()}
             />
           </div>
+          <div className="emr-header-item">
+            <TextField
+              id="filled-basic"
+              label="Time"
+              variant="filled"
+              fullWidth
+              readOnly
+              value={new Date(booking.time).toLocaleTimeString("en-US")}
+            />
+          </div>
         </div>
         <div className="add-emr-row header">
           <div className="emr-header-item">
@@ -92,18 +111,6 @@ export default function AddEMR({booking, setShowAddEmr}) {
               fullWidth
             />
           </div>
-          <div className="emr-header-item">
-            <TextField
-              id="filled-basic"
-              label="Time"
-              variant="filled"
-              fullWidth
-              readOnly
-              value={new Date(booking.time).toLocaleTimeString("en-US")}
-            />
-          </div>
-        </div>
-        <div className="add-emr-row header mt-3">
           <div className="emr-header-item">
             <FormControl
               variant="filled"
@@ -128,8 +135,7 @@ export default function AddEMR({booking, setShowAddEmr}) {
               </Select>
             </FormControl>
           </div>
-          <div className="emr-header-item"></div>
-          <div className="emr-header-item"></div>
+          
         </div>
         <hr />
         <div className="add-emr-row header">
