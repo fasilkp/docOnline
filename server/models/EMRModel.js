@@ -29,7 +29,14 @@ const schema = new mongoose.Schema({
         type:Number,
         required:true
     },
-    
+    weight:{
+        type:Number,
+        required:true
+    },
+    gender:{
+        type:String,
+        required:true
+    }
 })
 
 const EMRModel=mongoose.model("EMR", schema)

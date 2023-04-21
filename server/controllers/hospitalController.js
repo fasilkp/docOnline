@@ -143,12 +143,18 @@ export async function getSchedule(req, res) {
 export async function editHospitalProfile(req, res){
     try{
         const {image, name, about, address, place, mobile}= req.body;
-        const data=await cloudinary.uploader.upload(image,{
-            folder:'docOnline'
-        })
-        await HospitalModel.findByIdAndUpdate(req.hospital._id, {$set:{image:data,
-        name, about, address, place, mobile
-        }})
+        if(image){
+            const data=await cloudinary.uploader.upload(image,{
+                folder:'docOnline'
+            })
+            await HospitalModel.findByIdAndUpdate(req.hospital._id, {$set:{image:data,
+                name, about, address, place, mobile
+            }})
+        }else{ 
+            await HospitalModel.findByIdAndUpdate(req.hospital._id, {$set:{
+                name, about, address, place, mobile
+            }})
+        }
         res.json({result:data, err:false})
 
     }catch(error){

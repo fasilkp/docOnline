@@ -1,29 +1,53 @@
-.user-booking-container{
+.user-booking-container {
     width: 100%;
     display: flex;
     flex-direction: column;
     gap: 10px;
     padding-top: 20px;
 }
-.user-booking-item{
+
+.user-booking-item {
     background-color: #fff;
     display: flex;
     align-items: center;
     gap: 10px;
     border-radius: 10px;
     box-shadow: var(--defaultShadow);
-    padding: 5px;
+    padding: 10px;
 }
 
-.ub-dr-profile img{
+.ub-dr-profile img {
     width: 120px;
     height: 120px;
     object-fit: cover;
+    border-radius: 10px;
 }
-.ub-dr-desc-item{
+
+.ub-dr-desc {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.ub-dr-desc-item {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+
 }
-.ub-dr-desc-item span{
+
+.ub-dr-desc-item div {
     display: flex;
+    height: 27px;
+    font-size: .9rem;
+}
+
+.ub-dr-desc-item div p:last-child {
+    font-weight: 550;
+    margin-left: 5px;
+}
+
+.ub-dr-desc {
+    padding: 0px 10px;
 }

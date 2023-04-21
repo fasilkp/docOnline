@@ -8,6 +8,7 @@ import '../../assets/css/modalForm.css'
 
 function AddDoctor({ setShowModal, setRefresh, refresh }) {
     const [name, setName] = useState("")
+    const [tags, setTags] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [department, setDepartment] = useState("")
@@ -39,7 +40,7 @@ function AddDoctor({ setShowModal, setRefresh, refresh }) {
         setLoading({ ...loading, submit: true })
         if (validForm()) {
             const { data } = await axios.post("/hospital/doctor", {
-                email, password, name, department, qualification, specialization, fees, about
+                email, password, name, department, qualification, specialization, fees, about, tags
             })
             if (data.err) {
                 setErrMessage(data.message)
@@ -82,6 +83,9 @@ function AddDoctor({ setShowModal, setRefresh, refresh }) {
                 </div>
                 <div className="modal-form-row">
                     <TextField id="outlined-basic" value={about} onChange={(e) => setAbout(e.target.value)} label="About" type="text" variant="outlined" fullWidth className='input' />
+                </div>
+                <div className="modal-form-row">
+                    <TextField id="outlined-basic" value={tags} onChange={(e) => setTags(e.target.value)} label="Symptons" type="text" variant="outlined" fullWidth className='input' />
                 </div>
                 <div className="modal-form-row">
                     <TextField id="outlined-basic" value={fees} onChange={(e) => setFees(e.target.value)} label="Fees" type="number" variant="outlined" fullWidth className='input' />

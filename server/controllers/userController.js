@@ -44,23 +44,23 @@ export async function getAllDoctors(req, res) {
         let doctors = []
         if (sort) {
             if (hospital) {
-                doctors = await DoctorModel.find({ name: new RegExp(name, 'i'), department: department, hospitalId: hospital }, { password: 0 }).populate('hospitalId', 'name').populate('department', 'name').sort({ fees: sort }).lean()
+                doctors = await DoctorModel.find({ $or:[{name: new RegExp(name, 'i'),},{tags: new RegExp(name, 'i')}] , department: department, hospitalId: hospital }, { password: 0 }).populate('hospitalId', 'name').populate('department', 'name').sort({ fees: sort }).lean()
             }
             else if (department) {
-                doctors = await DoctorModel.find({ name: new RegExp(name, 'i'), department: department }, { password: 0 }).populate('hospitalId', 'name').populate('department', 'name').sort({ fees: sort }).lean()
+                doctors = await DoctorModel.find({ $or:[{name: new RegExp(name, 'i'),},{tags: new RegExp(name, 'i')}] ,  department: department }, { password: 0 }).populate('hospitalId', 'name').populate('department', 'name').sort({ fees: sort }).lean()
             }
             else {
-                doctors = await DoctorModel.find({ name: new RegExp(name, 'i') }, { password: 0 }).populate('hospitalId', 'name').populate('department', 'name').sort({ fees: sort }).lean()
+                doctors = await DoctorModel.find({ $or:[{name: new RegExp(name, 'i'),},{tags: new RegExp(name, 'i')}]} ,  { password: 0 }).populate('hospitalId', 'name').populate('department', 'name').sort({ fees: sort }).lean()
             }
         } else {
             if (hospital) {
-                doctors = await DoctorModel.find({ name: new RegExp(name, 'i'), department: department, hospitalId: hospital }, { password: 0 }).populate('hospitalId', 'name').populate('department', 'name').lean()
+                doctors = await DoctorModel.find({ $or:[{name: new RegExp(name, 'i'),},{tags: new RegExp(name, 'i')}] ,  department: department, hospitalId: hospital }, { password: 0 }).populate('hospitalId', 'name').populate('department', 'name').lean()
             }
             else if (department) {
-                doctors = await DoctorModel.find({ name: new RegExp(name, 'i'), department: department }, { password: 0 }).populate('hospitalId', 'name').populate('department', 'name').lean()
+                doctors = await DoctorModel.find({ $or:[{name: new RegExp(name, 'i'),},{tags: new RegExp(name, 'i')}] ,  department: department }, { password: 0 }).populate('hospitalId', 'name').populate('department', 'name').lean()
             }
             else {
-                doctors = await DoctorModel.find({ name: new RegExp(name, 'i') }, { password: 0 }).populate('hospitalId', 'name').populate('department', 'name').lean()
+                doctors = await DoctorModel.find({ $or:[{name: new RegExp(name, 'i'),},{tags: new RegExp(name, 'i')}] }, { password: 0 }).populate('hospitalId', 'name').populate('department', 'name').lean()
             }
         }
         res.json({ doctors })

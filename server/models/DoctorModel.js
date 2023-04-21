@@ -38,6 +38,11 @@ const DoctorSchema = new mongoose.Schema({
         default:""
 
     },
+    tags :{
+        type:String,
+        default:""
+
+    },
     image :{
         type:Object,
         default:{

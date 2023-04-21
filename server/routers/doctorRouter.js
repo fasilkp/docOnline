@@ -1,5 +1,5 @@
 import express from 'express'
-import { editDoctorProfile, getDoctorBookings, getDoctorProfile, getDoctorSchedule, getDoctorTodayBookings } from '../controllers/doctorController.js';
+import { addEMR, editDoctorProfile, getDoctorBookings, getDoctorProfile, getDoctorSchedule, getDoctorTodayBookings, getEMR } from '../controllers/doctorController.js';
 
 const Router = express.Router();
 
@@ -11,6 +11,9 @@ Router.get('/booking', getDoctorBookings)
 Router.get('/booking/today', getDoctorTodayBookings)
 
 Router.get("/schedule", getDoctorSchedule)
+
+Router.post('/emr', addEMR)
+Router.get('/emr/:bookingId', getEMR)
 
 
 

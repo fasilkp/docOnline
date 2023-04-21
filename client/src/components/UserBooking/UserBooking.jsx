@@ -4,6 +4,7 @@ import doctorImg from '../../assets/images/doctor.png'
 import './UserBooking.css'
 import { Container } from 'react-bootstrap'
 import axios from 'axios'
+import { Chip } from '@mui/material'
 
 export default function UserBooking() {
   const [bookingList, setBookingList] = useState([])
@@ -12,6 +13,7 @@ export default function UserBooking() {
     (
       async function () {
         const { data } = await axios.get("/user/booking");
+        console.log(data)
         if (!data.err) {
           setBookingList(data.bookings)
         }
@@ -37,19 +39,22 @@ export default function UserBooking() {
                 <div className="ub-dr-desc">
                   <div className="ub-dr-desc-item">
                     <b>{item.doctorId.name}</b>
-                    <span>
-                      <b>Date: </b>
-                      <p>{new Date(item.time).toLocaleDateString()}</p>
-                    </span>
-                    <span>
-                      <b>Time: </b>
-                      <p>{new Date(item.time).toLocaleTimeString('en-US')}</p>
-                    </span>
-                    <span>
-                      <b>Token: </b>
-                      <p>{item.token}</p>
-                    </span>
+                    <div className="mt-2">
+                      <p>Date : </p>
+                      <p> {new Date(item.date).toLocaleDateString()}</p>
+                    </div>
+                    <div>
+                      <p>Time : </p>
+                      <p> {new Date(item.time).toLocaleTimeString('en-US')}</p>
+                    </div>
+                    <div>
+                      <p>Token : </p>
+                      <p> {item.token}</p>
+                    </div>
 
+                  </div>
+                  <div className="booking-status">
+                  <Chip label="consulted" color="primary" variant="outlined" />
                   </div>
                 </div>
               </div>

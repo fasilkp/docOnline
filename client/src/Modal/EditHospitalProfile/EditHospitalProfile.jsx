@@ -61,7 +61,7 @@ export default function EditHospitalProfile({ setShowModal, setRefresh, refresh,
 
     }
     function validForm() {
-        if (!image || name.trim()==="" || 
+        if ( name.trim()==="" || 
             about.trim()==="" || address.trim()==="" || 
             mobile.toString().length!=10 ) {
             return false
