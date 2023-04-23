@@ -83,6 +83,11 @@ export async function getDoctor(req, res) {
             userId: req.user._id
         }).populate('userId').lean()
 
+        const review = await FeedbackModel.findOne({
+            doctorId: req.params.id,
+            userId: req.user._id
+        }).lean()
+
         for(let item of reviews){
             totalRating+=item.rating
         }
@@ -93,8 +98,7 @@ export async function getDoctor(req, res) {
         res.json({
             err: false, doctor,
             reviewAccess: booking ? true : false,
-            rating,reviews
-
+            rating,reviews, review
         })
 
     } catch (err) {

@@ -30,15 +30,15 @@ function UserDoctor() {
             name: ""
         }
     })
-    const handleSubmitReview=async ()=>{
-        if(rating!=='' && review!==''){
-            const data= await addDoctorReview(rating, review, doctor._id);
-            if(!data.err){
+    const handleSubmitReview = async () => {
+        if (rating !== '' && review !== '') {
+            const data = await addDoctorReview(rating, review, doctor._id);
+            if (!data.err) {
                 Swal.fire(
                     'Success!',
                     'Review Added Successfull',
                     'success'
-                  )
+                )
             }
             setRefresh(!refresh)
         }
@@ -49,7 +49,15 @@ function UserDoctor() {
                 const { data } = await axios.get("/user/doctor/" + id);
                 console.log(data)
                 if (!data.err) {
-                    setDoctor({ ...data.doctor, reviewAccess: data.reviewAccess, reviews:data.reviews, rating:data.rating })
+                    setDoctor({ ...data.doctor, reviewAccess: data.reviewAccess, reviews: data.reviews, rating: data.rating })
+                    if(data.review){
+                        setReview(data.review.review)
+                        setRating(data.review.rating)
+                    }
+                }
+                console.log(data)
+                if (!data.err) {
+                    setDoctor({ ...data.doctor, reviewAccess: data.reviewAccess, reviews: data.reviews, rating: data.rating })
                 }
                 const { data: scheduleData } = await axios.get("/user/doctor/schedule/" + id);
                 if (!scheduleData.err) {
@@ -201,11 +209,11 @@ function UserDoctor() {
                                         {/* </div> */}
                                         <div className='dr-profile-rating mt-3 justify-content-between'>
                                             <Rating name="read-only" value={rating}
-                                            onChange={(e) => setRating(e.target.value)}
-                                            size="large" />
+                                                onChange={(e) => setRating(e.target.value)}
+                                                size="large" />
                                             <button className="btn btn-dark"
-                                            disabled={rating==="" || review===""}
-                                            onClick={handleSubmitReview}
+                                                disabled={rating === "" || review === ""}
+                                                onClick={handleSubmitReview}
                                             >Save</button>
                                         </div>
 
@@ -215,58 +223,32 @@ function UserDoctor() {
                                 }
                                 <div className="dr-profile-sec-row">
                                     <div className="dr-profile-reviews">
-                                        <div className="dr-profile-review">
-                                            <div className="head-sec">
-                                                <Avatar
-                                                    alt="Remy Sharp"
-                                                    src="/static/images/avatar/1.jpg"
-                                                    sx={{ width: 32, height: 32 }}
-                                                />
-                                                <b>Remi Sharp</b>
-                                            </div>
-                                            <p className="dr-profile-review-desc">
-                                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore odio velit sed sit nesciunt repudiandae molestias neque veritatis blanditiis
-                                            </p>
-                                        </div>
-                                        <div className="dr-profile-review">
-                                            <div className="head-sec">
-                                                <Avatar
-                                                    alt="Remy Sharp"
-                                                    src="/static/images/avatar/1.jpg"
-                                                    sx={{ width: 32, height: 32 }}
-                                                />
-                                                <b>Remi Sharp</b>
-                                            </div>
-                                            <p className="dr-profile-review-desc">
-                                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore odio velit sed sit nesciunt repudiandae molestias neque veritatis blanditiis
-                                            </p>
-                                        </div>
-                                        <div className="dr-profile-review">
-                                            <div className="head-sec">
-                                                <Avatar
-                                                    alt="Remy Sharp"
-                                                    src="/static/images/avatar/1.jpg"
-                                                    sx={{ width: 32, height: 32 }}
-                                                />
-                                                <b>Remi Sharp</b>
-                                            </div>
-                                            <p className="dr-profile-review-desc">
-                                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore odio velit sed sit nesciunt repudiandae molestias neque veritatis blanditiis
-                                            </p>
-                                        </div>
-                                        <div className="dr-profile-review">
-                                            <div className="head-sec">
-                                                <Avatar
-                                                    alt="Remy Sharp"
-                                                    src="/static/images/avatar/1.jpg"
-                                                    sx={{ width: 32, height: 32 }}
-                                                />
-                                                <b>Remi Sharp</b>
-                                            </div>
-                                            <p className="dr-profile-review-desc">
-                                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore odio velit sed sit nesciunt repudiandae molestias neque veritatis blanditiis
-                                            </p>
-                                        </div>
+                                        {
+                                            doctor.reviews &&
+                                            doctor.reviews.map((item, index) => {
+
+                                                return <div className="dr-profile-review">
+                                                    <div className="head-sec">
+                                                        <Avatar
+                                                            alt="Remy Sharp"
+                                                            src="/static/images/avatar/1.jpg"
+                                                            sx={{ width: 32, height: 32 }}
+                                                        />
+                                                        <div className="d-flex flex-column">
+                                                            <b>{item.userId.name}</b>
+                                                            <Rating value={item.rating}
+                                                                readOnly
+                                                                size="small" />
+
+                                                        </div>
+                                                    </div>
+                                                    <p className="dr-profile-review-desc">
+                                                        {item.review}
+                                                    </p>
+                                                </div>
+                                            })
+                                        }
+
                                     </div>
                                 </div>
 
