@@ -44,6 +44,10 @@ const schema = new mongoose.Schema({
     token:{
         type:String,
         default: Math.ceil(Math.random() *100000)
+    },
+    status:{
+        type:String,
+        default:"pending"
     }
 })
 

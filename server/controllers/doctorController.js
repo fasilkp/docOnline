@@ -97,6 +97,11 @@ export async function addEMR(req, res) {
             doctorId:req.doctor._id,
             userId, bookingId, prescription, patientName, age, weight, gender
         }, {upsert:true})
+        await BookingModel.findByIdAndUpdate(bookingId, {
+            $set:{
+                status:'consulted'
+            }
+        })
 
         res.json({err:false})
         

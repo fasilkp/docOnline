@@ -63,7 +63,7 @@ function DoctorHome() {
 
                                             </div>
                                             <div className="booking-status">
-                                                <Chip label="pending" color="secondary" variant="outlined" />
+                                                <Chip label={item.status} color="secondary" variant="outlined" />
                                             </div>
                                         </div>
                                     </div>

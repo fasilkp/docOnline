@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { getDoctorEMR } from "../../api/doctorApi";
+import { addDoctorEMR, getDoctorEMR } from "../../api/doctorApi";
 import "./AddEMR.css";
 
 export default function AddEMR({booking, setShowAddEmr}) {
@@ -18,15 +18,8 @@ export default function AddEMR({booking, setShowAddEmr}) {
 
   const handleSave=async ()=>{
     console.log(gender, weight, prescription)
-    const {data} = await axios.post("/doctor/emr",{
-      bookingId:booking._id,
-      userId:booking.userId,
-      patientName:booking.patientName,
-      age:booking.age,
-      weight,
-      prescription,
-      gender
-    })
+    const data = await addDoctorEMR(booking, weight, prescription, gender)
+    setShowAddEmr(false)
   }
   useEffect(()=>{
     (

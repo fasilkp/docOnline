@@ -5,9 +5,12 @@ import './UserBooking.css'
 import { Container } from 'react-bootstrap'
 import axios from 'axios'
 import { Chip } from '@mui/material'
+import ViewEmr from '../../Modal/ViewEmr/ViewEmr'
 
 export default function UserBooking() {
   const [bookingList, setBookingList] = useState([])
+  const [booking, setBooking] = useState({})
+  const [showAddEmr, setShowAddEmr] = useState(false)
 
   useEffect(() => {
     (
@@ -21,6 +24,11 @@ export default function UserBooking() {
       }
     )()
   }, [])
+  const showEmr = (data) => {
+
+    setBooking(data);
+    setShowAddEmr(true)
+  }
   return (
     <div className="user-main">
       <UserHeader />
@@ -32,7 +40,7 @@ export default function UserBooking() {
           {
 
             bookingList.map((item, index) => {
-              return <div className="user-booking-item">
+              return <div className="user-booking-item" key={index} onClick={() => showEmr(item)}>
                 <div className="ub-dr-profile">
                   <img src={item.doctorId.image.url} alt="" />
                 </div>
@@ -54,7 +62,7 @@ export default function UserBooking() {
 
                   </div>
                   <div className="booking-status">
-                  <Chip label="consulted" color="primary" variant="outlined" />
+                    <Chip label={item.status} color={item.status=='consulted' ? "primary" : "secondary"} variant="outlined" />
                   </div>
                 </div>
               </div>
@@ -64,6 +72,11 @@ export default function UserBooking() {
 
         </div>
       </Container>
+      {
+        showAddEmr &&
+        <ViewEmr booking={booking} setShowAddEmr={setShowAddEmr} />
+      }
+
 
     </div>
   )
