@@ -30,16 +30,33 @@ export async function getDoctorProfile(req, res){
 }
 export async function getDoctorBookings(req, res){
     try{
-        const bookings = await BookingModel.find({
-            $and: [
-                {time: {$gt: new Date(new Date(new Date().setHours(0,0,0,0)).setDate(new Date().getDate()-1))}},
-                {time: {$lt: new Date(new Date(new Date().setHours(0,0,0,0)).setDate(new Date().getDate()))}},
-                {doctorId:req.doctor._id}
-                ]
-            
-        }).sort({ _id:-1})
-        return res.json({err:false, bookings})
+        const name= req.query.name ?? "";
+        const bookings = await BookingModel.aggregate([
+            {$lookup:{
+                from:"users",
+                localField:"userId",
+                foreignField:"_id",
+                as:'user'
+            }},
+            {$unwind:"$user"},
+            {
+                $match:{
+                    doctorId:req.doctor._id,
+                    $or:[
+                        {'user.name':new RegExp(name)},
+                        {patientName:new RegExp(name)}
+                    ]
 
+                }
+            },
+            {
+                $sort:{
+                    _id:-1
+                }
+            }
+        ])
+        console.log(bookings)
+        return res.json({err:false, bookings})
     }catch(error){
         console.log(error)
         res.json({err:true, error, message:"something went wrong"})

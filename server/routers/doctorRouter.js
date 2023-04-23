@@ -7,8 +7,8 @@ const Router = express.Router();
 Router.patch('/profile', editDoctorProfile)
 Router.get("/profile", getDoctorProfile)
 
-Router.get('/booking', getDoctorBookings)
 Router.get('/booking/today', getDoctorTodayBookings)
+Router.get('/bookings', getDoctorBookings)
 
 Router.get("/schedule", getDoctorSchedule)
 

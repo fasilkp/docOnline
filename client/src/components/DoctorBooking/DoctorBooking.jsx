@@ -10,22 +10,30 @@ import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import DoctorHeader from '../DoctorHeader/DoctorHeader';
 import DoctorSidebar from '../DoctorSidebar/DoctorSidebar';
+import ViewDoctorEmr from '../../Modal/ViewDoctorEmr/ViewDoctorEmr';
 
 export default function DoctorBooking() {
     const [refresh, setRefresh] = useState(false)
     const [load, setLoad] = useState(false)
     const [bookingList, setBookingList] = useState([])
+    const [booking, setBooking]=useState({})
+    const [showAddEmr,setShowAddEmr]=useState(false)
     const [clicked, setCLicked] = useState(false)
     const [name, setName]=useState("")
     const navigate= useNavigate()
     const handleClick = () => {
-        setCLicked(!clicked)
+        setCLicked(!clicked) 
+        
+    }
+    const handleShowEmr=(data)=>{
+        setBooking(data)
+        setShowAddEmr(true)
     }
 
     useEffect(() => {
         (
             async function () {
-                const { data } = await axios.get("/hospital/booking");
+                const { data } = await axios.get("/doctor/bookings?name="+name);
                 console.log(data)
                 if (!data.err) {
                     setBookingList(data.bookings)
@@ -55,8 +63,8 @@ export default function DoctorBooking() {
                             <thead>
                                 <tr>
                                     <th>#</th>
+                                    <th>User Name</th>
                                     <th>Patient Name</th>
-                                    <th>Doctor</th>
                                     <th>Fees</th>
                                     <th>Date</th>
                                     <th>Time</th>
@@ -70,23 +78,19 @@ export default function DoctorBooking() {
                                             <td>{index + 1}</td>
                                             <td>
                                                 {/* <Link to={"/doctor/"+item._id}> */}
+                                                {item.user.name}
+                                                {/* </Link> */}
+                                                </td>
+                                            <td>
+                                                {/* <Link to={"/doctor/"+item._id}> */}
                                                 {item.patientName}
                                                 {/* </Link> */}
                                                 </td>
-                                            <td>{item.doctorId.name}</td>
                                             <td>{item.fees}</td>
                                             <td>{new Date(item.date).toLocaleDateString()}</td>
                                             <td>{new Date(item.time).toLocaleTimeString('en-US')}</td>
-                                            <td className='option-btn'>
-                                                <Dropdown>
-                                                    <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-                                                        <RiMore2Fill />
-                                                    </Dropdown.Toggle>
-
-                                                    <Dropdown.Menu>
-                                                        {/* <Dropdown.Item href="#" onClick={() => { navigate('/account/hospital/schedule/'+item._id) }}>Schedule</Dropdown.Item> */}
-                                                    </Dropdown.Menu>
-                                                </Dropdown>
+                                            <td>
+                                                <button className='btn btn-outline-dark btn-sm' onClick={()=>handleShowEmr(item)}>Show EMR</button>
                                             </td>
                                         </tr>
                                     })
@@ -96,6 +100,10 @@ export default function DoctorBooking() {
 
                     </div>
                 </Container>
+                {
+                    showAddEmr && 
+                <ViewDoctorEmr setShowAddEmr={setShowAddEmr} booking={booking} />
+                }
             </div>
             <Backdrop
                 sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
