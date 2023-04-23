@@ -49,6 +49,10 @@ const HospitalSchema = new mongoose.Schema({
     block:{
         type:Boolean,
         default:false,
+    },
+    wallet:{
+        type:Number,
+        default:0
     }
 })
 

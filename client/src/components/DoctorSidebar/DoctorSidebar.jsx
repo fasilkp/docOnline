@@ -1,6 +1,6 @@
 import React from 'react'
 import '../AdminSidebar/Sidebar.css'
-import { RiArchiveDrawerLine, RiBuilding4Line, RiHome2Line, RiHospitalLine, RiUser2Line } from "react-icons/ri";
+import { RiArchiveDrawerLine, RiBuilding4Line, RiFileList3Fill, RiFileList3Line, RiHome2Line, RiHospitalLine, RiUser2Line } from "react-icons/ri";
 import { Link } from 'react-router-dom';
 
 function DoctorSidebar({ page }) {
@@ -28,14 +28,14 @@ function DoctorSidebar({ page }) {
             </div>
           </li>
         </Link>
-        <Link to="/account/doctor/patient">
+        <Link to="/account/doctor/booking">
 
-          <li className={`admin-sideitems ${page == "patient" && 'active'}`}>
+          <li className={`admin-sideitems ${page == "booking" && 'active'}`}>
             <div className='side'></div>
             <div className="admin-sideItem">
 
-              <RiUser2Line className='icon' />
-              <span>Patients</span>
+              <RiFileList3Line className='icon' />
+              <span>All Booking</span>
             </div>
           </li>
         </Link>

@@ -31,11 +31,13 @@ const schema = new mongoose.Schema({
     },
     weight:{
         type:Number,
-        required:true
+        required:true,
+        default:""
     },
     gender:{
         type:String,
-        required:true
+        required:true,
+        default:""
     }
 })
 

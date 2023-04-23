@@ -34,6 +34,7 @@ import UserBookingPage from './pages/user/UserBookingPage';
 import UserForgotPage from './pages/user/UserForgotPage';
 import HospitalForgotPage from './pages/hospital/HospitalForgotPage';
 import DoctorForgotPage from './pages/doctor/DoctorForgotPage';
+import DoctorBookingPage from './pages/doctor/DoctorBookingPage';
 
 
 function App() {
@@ -150,12 +151,9 @@ function App() {
             <Route path='/account/doctor/' element={<DoctorHomePage />} />
             <Route path='/account/doctor/profile' element={<DoctorProfilePage />} />
             <Route path='/account/doctor/schedule' element={<DoctorSchedulePage />} />
+            <Route path='/account/doctor/booking' element={<DoctorBookingPage  />} />
           </>
         }
-
-
-
-
 
       </Routes>
 
