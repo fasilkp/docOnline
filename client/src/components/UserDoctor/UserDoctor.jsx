@@ -2,15 +2,19 @@ import { Col, Container, Row } from "react-bootstrap"
 import UserHeader from "../UserHeader/UserHeader"
 import React, { useEffect, useState } from 'react'
 import doctorImg from '../../assets/images/doctor.png'
-import { Avatar, Rating, setRef } from "@mui/material"
+import { Avatar, Rating, setRef, TextField } from "@mui/material"
 import '../DoctorProfile/doctorProfile.css'
 import { useParams } from "react-router-dom"
 import axios from "axios"
 import BookNow from "../../Modal/BookNow/BookNow"
+import { addDoctorReview } from "../../api/userApi"
+import Swal from "sweetalert2"
 function UserDoctor() {
     const { id } = useParams()
-    const [refresh, setRefresh]=useState(false)
+    const [refresh, setRefresh] = useState(false)
     const [doctorSchedule, setDoctorSchedule] = useState({})
+    const [rating, setRating] = useState("")
+    const [review, setReview] = useState("")
     const days = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat']
     const [daysAvailable, setDaysAvailable] = useState([])
     const [showBookNow, setShowBookNow] = useState(false)
@@ -26,15 +30,28 @@ function UserDoctor() {
             name: ""
         }
     })
+    const handleSubmitReview=async ()=>{
+        if(rating!=='' && review!==''){
+            const data= await addDoctorReview(rating, review, doctor._id);
+            if(!data.err){
+                Swal.fire(
+                    'Success!',
+                    'Review Added Successfull',
+                    'success'
+                  )
+            }
+            setRefresh(!refresh)
+        }
+    }
     useEffect(() => {
         (
             async function () {
                 const { data } = await axios.get("/user/doctor/" + id);
+                console.log(data)
                 if (!data.err) {
-                    setDoctor(data.doctor)
+                    setDoctor({ ...data.doctor, reviewAccess: data.reviewAccess, reviews:data.reviews, rating:data.rating })
                 }
                 const { data: scheduleData } = await axios.get("/user/doctor/schedule/" + id);
-                console.log(scheduleData)
                 if (!scheduleData.err) {
                     let n = 0;
                     let date = new Date()
@@ -43,12 +60,11 @@ function UserDoctor() {
                         date = new Date(new Date().setDate(new Date(date).getDate() + 1));
                         let day = new Date(date).getDay();
                         if (scheduleData.schedule[days[day]][0]) {
-                            const {data} = await axios.post("/user/check-time", {
+                            const { data } = await axios.post("/user/check-time", {
                                 date,
                                 schedule: scheduleData.schedule[days[day]]
                             })
-                            console.log(data)
-                            if(!data.err){
+                            if (!data.err) {
                                 console.log(data.result)
                                 tempDaysAvailable.push({
                                     ...data.result
@@ -57,12 +73,12 @@ function UserDoctor() {
                         }
                         n++;
                     }
-                    console.log(tempDaysAvailable)
                     setDaysAvailable([...tempDaysAvailable])
                 }
             }
         )()
     }, [refresh])
+    console.log(doctor)
 
 
     return (
@@ -159,12 +175,44 @@ function UserDoctor() {
                                 <div className="dr-profile-sec-row" style={{ gap: "5px" }}>
                                     <b>Rating and Review</b>
                                     <div className='dr-profile-rating mt-3'>
-                                        <b style={{ fontSize: ".8rem" }}>4.5 Rating</b>
-                                        <Rating name="read-only" value={4} readOnly size='small' />
+                                        <b style={{ fontSize: ".8rem" }}>Rating {doctor.rating} </b>
+                                        <Rating name="read-only" value={doctor.rating} readOnly size='small'
+                                        />
                                     </div>
 
-                                    <p style={{ fontSize: ".8rem" }}>total 341 rating and 219 reviews</p>
+                                    <p style={{ fontSize: ".8rem" }}>total {doctor.reviews && doctor.reviews.length} rating and reviews</p>
                                 </div>
+                                {
+                                    doctor && doctor.reviewAccess &&
+                                    <div className="dr-profile-sec-row border p-3" style={{ gap: "5px", fontSize: ".9rem" }}>
+                                        <h5>Add Rating</h5>
+                                        {/* <div className='dr-profile-rating mt-3'> */}
+                                        <TextField
+                                            id="outlined-multiline-flexible"
+                                            label="Add Review"
+                                            multiline
+                                            fullwidth
+                                            maxRows={4}
+                                            minRows={2}
+                                            value={review}
+                                            onChange={(e) => setReview(e.target.value)}
+                                            className={'mt-2'}
+                                        />
+                                        {/* </div> */}
+                                        <div className='dr-profile-rating mt-3 justify-content-between'>
+                                            <Rating name="read-only" value={rating}
+                                            onChange={(e) => setRating(e.target.value)}
+                                            size="large" />
+                                            <button className="btn btn-dark"
+                                            disabled={rating==="" || review===""}
+                                            onClick={handleSubmitReview}
+                                            >Save</button>
+                                        </div>
+
+
+                                    </div>
+
+                                }
                                 <div className="dr-profile-sec-row">
                                     <div className="dr-profile-reviews">
                                         <div className="dr-profile-review">
@@ -226,7 +274,7 @@ function UserDoctor() {
 
                         </Col>
                         {
-                            showBookNow && 
+                            showBookNow &&
                             <BookNow daysAvailable={daysAvailable} doctor={doctor} setShowBookNow={setShowBookNow} refresh={refresh} setRefresh={setRefresh} />
                         }
 

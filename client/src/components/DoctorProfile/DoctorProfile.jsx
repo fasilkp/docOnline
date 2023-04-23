@@ -53,7 +53,7 @@ export default function DoctorProfile() {
                                     <div className="dr-profile-img">
                                         <img src={doctor.image.url} alt="" />
                                     </div>
-                                    <button className='mt-3 btn btn-dark' onClick={()=>setShowModal(true)}>Edit</button>
+                                    <button className='mt-3 btn btn-dark' onClick={()=>setShowModal(true)}>Edit Profile Picture</button>
 
                                 </div>
 

@@ -68,6 +68,7 @@ export default function DoctorBooking() {
                                     <th>Fees</th>
                                     <th>Date</th>
                                     <th>Time</th>
+                                    <th>Status</th>
                                     <th>option</th>
                                 </tr>
                             </thead>
@@ -89,6 +90,7 @@ export default function DoctorBooking() {
                                             <td>{item.fees}</td>
                                             <td>{new Date(item.date).toLocaleDateString()}</td>
                                             <td>{new Date(item.time).toLocaleTimeString('en-US')}</td>
+                                            <td>{item.status ? item.status : 'pending'}</td>
                                             <td>
                                                 <button className='btn btn-outline-dark btn-sm' onClick={()=>handleShowEmr(item)}>Show EMR</button>
                                             </td>

@@ -5,13 +5,13 @@ import DoctorModel from "../models/DoctorModel.js"
 import FeedbackModel from "../models/FeedbackModel.js"
 import HospitalModel from "../models/HospitalModel.js"
 import ScheduleModel from "../models/ScheduleModel.js"
+import EMRModel from '../models/EMRModel.js'
 
 
 export async function getAllDepartments(req, res) {
     try {
         const departments = await DepartmentModel.find().lean()
         res.json({ departments })
-
     } catch (err) {
         console.log(err)
         res.json({ err: true, error: err })
@@ -44,23 +44,23 @@ export async function getAllDoctors(req, res) {
         let doctors = []
         if (sort) {
             if (hospital) {
-                doctors = await DoctorModel.find({ $or:[{name: new RegExp(name, 'i'),},{tags: new RegExp(name, 'i')}] , department: department, hospitalId: hospital }, { password: 0 }).populate('hospitalId', 'name').populate('department', 'name').sort({ fees: sort }).lean()
+                doctors = await DoctorModel.find({ $or: [{ name: new RegExp(name, 'i'), }, { tags: new RegExp(name, 'i') }], department: department, hospitalId: hospital }, { password: 0 }).populate('hospitalId', 'name').populate('department', 'name').sort({ fees: sort }).lean()
             }
             else if (department) {
-                doctors = await DoctorModel.find({ $or:[{name: new RegExp(name, 'i'),},{tags: new RegExp(name, 'i')}] ,  department: department }, { password: 0 }).populate('hospitalId', 'name').populate('department', 'name').sort({ fees: sort }).lean()
+                doctors = await DoctorModel.find({ $or: [{ name: new RegExp(name, 'i'), }, { tags: new RegExp(name, 'i') }], department: department }, { password: 0 }).populate('hospitalId', 'name').populate('department', 'name').sort({ fees: sort }).lean()
             }
             else {
-                doctors = await DoctorModel.find({ $or:[{name: new RegExp(name, 'i'),},{tags: new RegExp(name, 'i')}]} ,  { password: 0 }).populate('hospitalId', 'name').populate('department', 'name').sort({ fees: sort }).lean()
+                doctors = await DoctorModel.find({ $or: [{ name: new RegExp(name, 'i'), }, { tags: new RegExp(name, 'i') }] }, { password: 0 }).populate('hospitalId', 'name').populate('department', 'name').sort({ fees: sort }).lean()
             }
         } else {
             if (hospital) {
-                doctors = await DoctorModel.find({ $or:[{name: new RegExp(name, 'i'),},{tags: new RegExp(name, 'i')}] ,  department: department, hospitalId: hospital }, { password: 0 }).populate('hospitalId', 'name').populate('department', 'name').lean()
+                doctors = await DoctorModel.find({ $or: [{ name: new RegExp(name, 'i'), }, { tags: new RegExp(name, 'i') }], department: department, hospitalId: hospital }, { password: 0 }).populate('hospitalId', 'name').populate('department', 'name').lean()
             }
             else if (department) {
-                doctors = await DoctorModel.find({ $or:[{name: new RegExp(name, 'i'),},{tags: new RegExp(name, 'i')}] ,  department: department }, { password: 0 }).populate('hospitalId', 'name').populate('department', 'name').lean()
+                doctors = await DoctorModel.find({ $or: [{ name: new RegExp(name, 'i'), }, { tags: new RegExp(name, 'i') }], department: department }, { password: 0 }).populate('hospitalId', 'name').populate('department', 'name').lean()
             }
             else {
-                doctors = await DoctorModel.find({ $or:[{name: new RegExp(name, 'i'),},{tags: new RegExp(name, 'i')}] }, { password: 0 }).populate('hospitalId', 'name').populate('department', 'name').lean()
+                doctors = await DoctorModel.find({ $or: [{ name: new RegExp(name, 'i'), }, { tags: new RegExp(name, 'i') }] }, { password: 0 }).populate('hospitalId', 'name').populate('department', 'name').lean()
             }
         }
         res.json({ doctors })
@@ -72,8 +72,30 @@ export async function getAllDoctors(req, res) {
 }
 export async function getDoctor(req, res) {
     try {
+        const booking = await EMRModel.findOne({
+            doctorId: req.params.id,
+            userId: req.user._id
+        })
+        let totalRating=0;
+
+        const reviews = await FeedbackModel.find({
+            doctorId: req.params.id,
+            userId: req.user._id
+        }).populate('userId').lean()
+
+        for(let item of reviews){
+            totalRating+=item.rating
+        }
+        let reviewCount=reviews.length!=0 ? reviews.length : 1;
+        const rating=totalRating/reviewCount;
+        console.log(reviews, rating)
         const doctor = await DoctorModel.findById(req.params.id, { password: 0 }).populate('department').populate('hospitalId', 'name');
-        res.json({ err: false, doctor })
+        res.json({
+            err: false, doctor,
+            reviewAccess: booking ? true : false,
+            rating,reviews
+
+        })
 
     } catch (err) {
         console.log(err)
@@ -100,11 +122,13 @@ export async function checkTimeSlot(req, res) {
         let scheduleArr = []
         for (let item of schedule) {
             const timeSlot = new Date(item.startDate).toLocaleTimeString('en-US') + " - " + new Date(schedule.endDate).toLocaleTimeString('en-US');
-            const bookingCount = await BookingModel.find({ $and: [
-                {date: {$gt: new Date(new Date(new Date(date).setHours(0,0,0,0)).setDate(new Date(date).getDate()))}},
-                {date: {$lt: new Date(new Date(new Date(date).setHours(0,0,0,0)).setDate(new Date(date).getDate()+1))}},
-                {timeSlot:new Date(item.startDate).toLocaleTimeString('en-US') + " - " + new Date(item.endDate).toLocaleTimeString('en-US')}
-                ]}).count();
+            const bookingCount = await BookingModel.find({
+                $and: [
+                    { date: { $gt: new Date(new Date(new Date(date).setHours(0, 0, 0, 0)).setDate(new Date(date).getDate())) } },
+                    { date: { $lt: new Date(new Date(new Date(date).setHours(0, 0, 0, 0)).setDate(new Date(date).getDate() + 1)) } },
+                    { timeSlot: new Date(item.startDate).toLocaleTimeString('en-US') + " - " + new Date(item.endDate).toLocaleTimeString('en-US') }
+                ]
+            }).count();
             const minuteDifference = minuteDiff(item.endDate, item.startDate);
 
 
@@ -116,20 +140,20 @@ export async function checkTimeSlot(req, res) {
 
             const time = new Date(new Date(item.startDate).setMinutes(new Date(item.startDate).getMinutes() + totalMinutes))
             if (bookingCount < Number(item.slot)) {
-                scheduleArr.push({ 
-                    startDate: item.startDate, 
-                    endDate: item.endDate, 
-                    slot: item.slot, 
-                    time: time, 
+                scheduleArr.push({
+                    startDate: item.startDate,
+                    endDate: item.endDate,
+                    slot: item.slot,
+                    time: time,
                 })
 
             }
         }
-        if(scheduleArr[0]){
+        if (scheduleArr[0]) {
             return res.json({
                 err: false,
                 result: {
-                    schedule:scheduleArr,
+                    schedule: scheduleArr,
                     date
                 }
             })
@@ -167,45 +191,45 @@ export async function getDoctorSchedule(req, res) {
     }
 }
 
-export async function getUserBookings(req, res){
-    try{
+export async function getUserBookings(req, res) {
+    try {
         const bookings = await BookingModel.find({
-            userId:req.user._id
-        }).populate('doctorId').sort({ _id:-1})
-        return res.json({err:false, bookings})
+            userId: req.user._id
+        }).populate('doctorId').sort({ _id: -1 })
+        return res.json({ err: false, bookings })
 
-    }catch(error){
+    } catch (error) {
         console.log(error)
-        res.json({err:true, error, message:"something went wrong"})
+        res.json({ err: true, error, message: "something went wrong" })
     }
 }
 
 
-export async function addDoctorFeedback(req, res){
-    try{
-        const {doctorId, rating, review}=req.body;
-        await FeedbackModel.updateOne({userId:req.user._id, doctorId},{
-            rating,review
-        }, {upsert:true})
-        return res.json({err:false})
+export async function addDoctorFeedback(req, res) {
+    try {
+        const { doctorId, rating, review } = req.body;
+        await FeedbackModel.updateOne({ userId: req.user._id, doctorId }, {
+            rating, review
+        }, { upsert: true })
+        return res.json({ err: false })
 
-    }catch(error){
+    } catch (error) {
         console.log(error)
-        res.json({err:true, error, message:"something went wrong"})
+        res.json({ err: true, error, message: "something went wrong" })
     }
 }
 
 
-export async function addHospitalrFeedback(req, res){
-    try{
-        const {hospitalId, rating, review}=req.body;
-        await FeedbackModel.updateOne({userId:req.user._id, hospitalId},{
-            rating,review
-        }, {upsert:true})
-        return res.json({err:false})
+export async function addHospitalrFeedback(req, res) {
+    try {
+        const { hospitalId, rating, review } = req.body;
+        await FeedbackModel.updateOne({ userId: req.user._id, hospitalId }, {
+            rating, review
+        }, { upsert: true })
+        return res.json({ err: false })
 
-    }catch(error){
+    } catch (error) {
         console.log(error)
-        res.json({err:true, error, message:"something went wrong"})
+        res.json({ err: true, error, message: "something went wrong" })
     }
 }
