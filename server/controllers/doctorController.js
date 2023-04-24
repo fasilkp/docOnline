@@ -2,6 +2,7 @@ import cloudinary from '../config/cloudinary.js'
 import BookingModel from '../models/BookingModel.js';
 import DoctorModel from '../models/DoctorModel.js';
 import EMRModel from '../models/EMRModel.js';
+import FeedbackModel from '../models/FeedbackModel.js';
 import ScheduleModel from '../models/ScheduleModel.js';
 
 
@@ -21,7 +22,10 @@ export async function editDoctorProfile(req, res){
 }
 export async function getDoctorProfile(req, res){
     try{
-        res.json({doctor:req.doctor, err:false})
+        const reviews = await FeedbackModel.find({
+            doctorId: req.doctor._id
+        }).populate('userId').populate('hospitalId').lean()
+        res.json({doctor:req.doctor, err:false, reviews})
 
     }catch(error){
         console.log(error);

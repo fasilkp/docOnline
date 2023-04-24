@@ -11,6 +11,7 @@ import DoctorBottomNava from '../DoctorBottom/DoctorBottom';
 import DoctorBottomNav from '../DoctorBottom/DoctorBottom';
 import EditDoctorProfile from '../../Modal/EditDoctorProfile/EditDoctorProfile';
 import axios from 'axios';
+import { getDoctorProfile } from '../../api/doctorApi';
 
 export default function DoctorProfile() {
     const [value, setValue]=useState('')
@@ -25,10 +26,10 @@ export default function DoctorProfile() {
     useEffect(() => {
         (
             async function(){
-                const {data} =await axios.get('/doctor/profile');
+                const data =await getDoctorProfile();
                 console.log(data)
                 if(!data.err){
-                    setDoctor(data.doctor)
+                    setDoctor({...data.doctor,reviews:data.reviews })
                 }
             }
 
@@ -36,7 +37,6 @@ export default function DoctorProfile() {
         
     }, [refresh]);
 
-    console.log(value)
     return (
         <div className="admin-home">
             <DoctorHeader />
@@ -81,25 +81,21 @@ export default function DoctorProfile() {
                     <Container>
                         <Row>
                             <Col sm={12} md={4}>
-                                <div className="dr-profile-sec sec-1">
-                                    <div className="dr-profile-sec-row">
-                                        <h6>Place</h6>
-                                        <p>Tirur, Malappuram</p>
-                                    </div>
-                                    <div className="dr-profile-sec-row">
-                                        <h6>Address</h6>
-                                        <p>National Complex, Tirur</p>
-                                    </div>
-                                    <div className="dr-profile-sec-row">
-                                        <h6>Mobile</h6>
-                                        <p>9865235695</p>
-                                    </div>
-                                    <div className="dr-profile-sec-row">
-                                        <h6>email</h6>
-                                        <p>mail@example.com</p>
-                                    </div>
-
+                            <div className="dr-profile-sec sec-1">
+                                <div className="dr-profile-sec-row">
+                                    <h6>Email</h6>
+                                    <p>{doctor.email}</p>
                                 </div>
+                                <div className="dr-profile-sec-row">
+                                    <h6>Hospital</h6>
+                                    <p>{doctor.hospitalId && doctor.hospitalId.name}</p>
+                                </div>
+                                <div className="dr-profile-sec-row">
+                                    <h6>About</h6>
+                                    <p>{doctor.about}</p>
+                                </div>
+
+                            </div>
 
                             </Col>
                             <Col sm={12} md={8}>
@@ -115,58 +111,31 @@ export default function DoctorProfile() {
                                     </div>
                                     <div className="dr-profile-sec-row">
                                         <div className="dr-profile-reviews">
-                                            <div className="dr-profile-review">
-                                                <div className="head-sec">
-                                                    <Avatar
-                                                        alt="Remy Sharp"
-                                                        src="/static/images/avatar/1.jpg"
-                                                        sx={{ width: 32, height: 32 }}
-                                                    />
-                                                    <b>Remi Sharp</b>
+                                        {
+                                            doctor.reviews &&
+                                            doctor.reviews.map((item, index) => {
+
+                                                return <div className="dr-profile-review">
+                                                    <div className="head-sec">
+                                                        <Avatar
+                                                            alt="Remy Sharp"
+                                                            src="/static/images/avatar/1.jpg"
+                                                            sx={{ width: 32, height: 32 }}
+                                                        />
+                                                        <div className="d-flex flex-column">
+                                                            <b>{item.userId.name}</b>
+                                                            <Rating value={item.rating}
+                                                                readOnly
+                                                                size="small" />
+
+                                                        </div>
+                                                    </div>
+                                                    <p className="dr-profile-review-desc">
+                                                        {item.review}
+                                                    </p>
                                                 </div>
-                                                <p className="dr-profile-review-desc">
-                                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore odio velit sed sit nesciunt repudiandae molestias neque veritatis blanditiis
-                                                </p>
-                                            </div>
-                                            <div className="dr-profile-review">
-                                                <div className="head-sec">
-                                                    <Avatar
-                                                        alt="Remy Sharp"
-                                                        src="/static/images/avatar/1.jpg"
-                                                        sx={{ width: 32, height: 32 }}
-                                                    />
-                                                    <b>Remi Sharp</b>
-                                                </div>
-                                                <p className="dr-profile-review-desc">
-                                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore odio velit sed sit nesciunt repudiandae molestias neque veritatis blanditiis
-                                                </p>
-                                            </div>
-                                            <div className="dr-profile-review">
-                                                <div className="head-sec">
-                                                    <Avatar
-                                                        alt="Remy Sharp"
-                                                        src="/static/images/avatar/1.jpg"
-                                                        sx={{ width: 32, height: 32 }}
-                                                    />
-                                                    <b>Remi Sharp</b>
-                                                </div>
-                                                <p className="dr-profile-review-desc">
-                                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore odio velit sed sit nesciunt repudiandae molestias neque veritatis blanditiis
-                                                </p>
-                                            </div>
-                                            <div className="dr-profile-review">
-                                                <div className="head-sec">
-                                                    <Avatar
-                                                        alt="Remy Sharp"
-                                                        src="/static/images/avatar/1.jpg"
-                                                        sx={{ width: 32, height: 32 }}
-                                                    />
-                                                    <b>Remi Sharp</b>
-                                                </div>
-                                                <p className="dr-profile-review-desc">
-                                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore odio velit sed sit nesciunt repudiandae molestias neque veritatis blanditiis
-                                                </p>
-                                            </div>
+                                            })
+                                        }
                                         </div>
                                     </div>
 

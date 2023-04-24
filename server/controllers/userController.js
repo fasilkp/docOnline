@@ -76,11 +76,10 @@ export async function getDoctor(req, res) {
             doctorId: req.params.id,
             userId: req.user._id
         })
-        let totalRating=0;
+        let totalRating = 0;
 
         const reviews = await FeedbackModel.find({
-            doctorId: req.params.id,
-            userId: req.user._id
+            doctorId: req.params.id
         }).populate('userId').lean()
 
         const review = await FeedbackModel.findOne({
@@ -88,17 +87,16 @@ export async function getDoctor(req, res) {
             userId: req.user._id
         }).lean()
 
-        for(let item of reviews){
-            totalRating+=item.rating
+        for (let item of reviews) {
+            totalRating += item.rating
         }
-        let reviewCount=reviews.length!=0 ? reviews.length : 1;
-        const rating=totalRating/reviewCount;
-        console.log(reviews, rating)
+        let reviewCount = reviews.length != 0 ? reviews.length : 1;
+        const rating = totalRating / reviewCount;
         const doctor = await DoctorModel.findById(req.params.id, { password: 0 }).populate('department').populate('hospitalId', 'name');
         res.json({
             err: false, doctor,
             reviewAccess: booking ? true : false,
-            rating,reviews, review
+            rating, reviews, review
         })
 
     } catch (err) {
@@ -108,10 +106,34 @@ export async function getDoctor(req, res) {
 }
 export async function getHospital(req, res) {
     try {
+        const booking = await BookingModel.findOne({
+            userId: req.user._id,
+            hospitalId: req.params.id
+        })
+        let totalRating = 0;
+
+        const reviews = await FeedbackModel.find({
+            hospitalId: req.params.id
+        }).populate('userId').lean()
+
+        const review = await FeedbackModel.findOne({
+            hospitalId: req.params.id,
+            userId: req.user._id
+        }).lean()
+
+        for (let item of reviews) {
+            totalRating += item.rating
+        }
+        let reviewCount = reviews.length != 0 ? reviews.length : 1;
+        const rating = totalRating / reviewCount;
         const hospital = await HospitalModel.findById(req.params.id, { password: 0 });
         const departments = await DepartmentModel.find({ hospitalId: hospital._id }, { password: 0 });
-
-        res.json({ err: false, hospital, departments })
+        console.log(rating, reviews, review)
+        res.json({
+            err: false, hospital, departments,
+            reviewAccess: booking ? true : false,
+            rating, reviews, review
+        })
 
     } catch (err) {
         console.log(err)

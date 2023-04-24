@@ -7,7 +7,7 @@ import '../DoctorProfile/doctorProfile.css'
 import { useParams } from "react-router-dom"
 import axios from "axios"
 import BookNow from "../../Modal/BookNow/BookNow"
-import { addDoctorReview } from "../../api/userApi"
+import { addDoctorReview, getDoctor } from "../../api/userApi"
 import Swal from "sweetalert2"
 function UserDoctor() {
     const { id } = useParams()
@@ -46,11 +46,11 @@ function UserDoctor() {
     useEffect(() => {
         (
             async function () {
-                const { data } = await axios.get("/user/doctor/" + id);
+                const data = await getDoctor(id)
                 console.log(data)
                 if (!data.err) {
-                    setDoctor({ ...data.doctor, reviewAccess: data.reviewAccess, reviews: data.reviews, rating: data.rating })
-                    if(data.review){
+                    setDoctor({ ...data.doctor, reviewAccess: data.reviewAccess,  reviews: data.reviews, rating: data.rating })
+                    if (data.review) {
                         setReview(data.review.review)
                         setRating(data.review.rating)
                     }
@@ -150,18 +150,6 @@ function UserDoctor() {
                     <Row>
                         <Col sm={12} md={5}>
                             <div className="dr-profile-sec sec-1">
-                                {/* <div className="dr-profile-sec-row">
-                                        <h6>Place</h6>
-                                        <p>{doctor.place}</p>
-                                    </div>
-                                    <div className="dr-profile-sec-row">
-                                        <h6>Address</h6>
-                                        <p>{doctor.address}</p>
-                                    </div>
-                                    <div className="dr-profile-sec-row">
-                                        <h6>Mobile</h6>
-                                        <p>{doctor.mobile}</p>
-                                    </div> */}
                                 <div className="dr-profile-sec-row">
                                     <h6>Email</h6>
                                     <p>{doctor.email}</p>
@@ -184,8 +172,11 @@ function UserDoctor() {
                                     <b>Rating and Review</b>
                                     <div className='dr-profile-rating mt-3'>
                                         <b style={{ fontSize: ".8rem" }}>Rating {doctor.rating} </b>
-                                        <Rating name="read-only" value={doctor.rating} readOnly size='small'
-                                        />
+                                        {
+                                            doctor.rating &&
+                                            < Rating name="read-only" value={doctor.rating} readOnly size='small'
+                                            />
+                                        }
                                     </div>
 
                                     <p style={{ fontSize: ".8rem" }}>total {doctor.reviews && doctor.reviews.length} rating and reviews</p>
