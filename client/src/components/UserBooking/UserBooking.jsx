@@ -4,18 +4,19 @@ import doctorImg from '../../assets/images/doctor.png'
 import './UserBooking.css'
 import { Container } from 'react-bootstrap'
 import axios from 'axios'
-import { Chip } from '@mui/material'
+import { Chip, FormControl, InputLabel, MenuItem, Select } from '@mui/material'
 import ViewEmr from '../../Modal/ViewEmr/ViewEmr'
 
 export default function UserBooking() {
   const [bookingList, setBookingList] = useState([])
   const [booking, setBooking] = useState({})
+  const [filter, setFilter]=useState('upcoming')
   const [showAddEmr, setShowAddEmr] = useState(false)
 
   useEffect(() => {
     (
       async function () {
-        const { data } = await axios.get("/user/booking");
+        const { data } = await axios.get("/user/booking?filter="+filter);
         console.log(data)
         if (!data.err) {
           setBookingList(data.bookings)
@@ -23,7 +24,7 @@ export default function UserBooking() {
 
       }
     )()
-  }, [])
+  }, [filter])
   const showEmr = (data) => {
 
     setBooking(data);
@@ -36,7 +37,24 @@ export default function UserBooking() {
       >
 
         <div className="user-booking-container">
-          <h4 className='mt-3'>Recent Booking</h4>
+          <div className='d-flex justify-content-between'>
+            <h4 className='mt-3'>Recent Booking</h4>
+            <FormControl sx={{ m: 1, minWidth: 80 }}>
+              <InputLabel id="demo-simple-select-autowidth-label">Booking Status</InputLabel>
+              <Select
+                labelId="demo-simple-select-autowidth-label"
+                id="demo-simple-select-autowidth"
+                onChange={(e)=>setFilter(e.target.value)}
+                value={filter}
+                autoWidth
+                label="Age"
+              >
+                <MenuItem value={'upcoming'}>upcoming</MenuItem>
+                <MenuItem value={'completed'}>completed</MenuItem>
+              </Select>
+            </FormControl>
+
+          </div>
           {
 
             bookingList.map((item, index) => {
@@ -62,7 +80,7 @@ export default function UserBooking() {
 
                   </div>
                   <div className="booking-status">
-                    <Chip label={item.status} color={item.status=='consulted' ? "primary" : "secondary"} variant="outlined" />
+                    <Chip label={item.status} color={item.status == 'consulted' ? "primary" : "secondary"} variant="outlined" />
                   </div>
                 </div>
               </div>
