@@ -9,10 +9,11 @@ import axios from 'axios';
 import { getDashboardDetails } from '../../api/hospitalApi';
 function HospitalHome() {
   const [clicked, setCLicked] = useState(false)
-  const [dashboardData, setDashboardData]= useState({
-    totalBooking:0,
-    totalRevenue:0,
-    totalDoctors:0
+  const [dashboardData, setDashboardData] = useState({
+    totalBooking: 0,
+    totalRevenue: 0,
+    totalDoctors: 0,
+    monthlyData: []
   })
   const handleClick = () => {
     setCLicked(!clicked)
@@ -23,29 +24,31 @@ function HospitalHome() {
         id: "basic-bar"
       },
       xaxis: {
-        categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999]
+        categories: ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"]
       }
     },
     series: [
       {
         name: "series-1",
-        data: [30, 40, 45, 50, 49, 60, 70, 91]
+        data: dashboardData.monthlyData
       }
     ]
   };
-  useEffect(()=>{
+  useEffect(() => {
     (
-      async function(){
+      async function () {
         const data = await getDashboardDetails()
-        if(!data.err){
+        if (!data.err) {
           setDashboardData({
-            ...data.booking, totalDoctors:data.totalDoctors
+            ...data.booking, totalDoctors: data.totalDoctors,
+            monthlyData: data.monthlyData
           })
         }
       }
     )()
 
-  },[])
+  }, [])
+  console.log(dashboardData)
 
   return (
     <div className="admin-home">
@@ -122,13 +125,13 @@ function HospitalHome() {
           </Container>
           <Container>
             <Row>
-            <Chart
-              options={state.options}
-              series={state.series}
-              type="bar"
-              className={'w-100 dashboard-chart'}
-              height={300}
-            />
+                <Chart
+                  options={state.options}
+                  series={state.series}
+                  type="bar"
+                  className={'w-100 dashboard-chart'}
+                  height={300}
+                /> 
             </Row>
 
           </Container>

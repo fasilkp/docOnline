@@ -13,13 +13,23 @@ var salt = bcrypt.genSaltSync(10);
 
 export async function hospitalDashboard(req, res) {
     try {
-        const totalDoctors= await DoctorModel.find({hospitalId:req.hospital._id}).count();
+        const totalDoctors = await DoctorModel.find({ hospitalId: req.hospital._id }).count();
         const booking = await BookingModel.aggregate([
-            {$match:{hospitalId:req.hospital._id}},
-            {$group:{_id:"totalBokingDetails", totalBooking:{$sum:1}, totalRevenue:{$sum:"$fees"}}}
+            { $match: { hospitalId: req.hospital._id } },
+            { $group: { _id: "totalBokingDetails", totalBooking: { $sum: 1 }, totalRevenue: { $sum: "$fees" } } }
         ])
-        console.log(totalDoctors, booking)
-        res.json({ err: false, totalDoctors, booking:booking[0] })
+        const monthlyDataArray = await BookingModel.aggregate([{ $group: { _id: { $month: "$date" }, totalRevenue: { $sum: "$fees" } } }])
+        console.log(monthlyDataArray)
+        let monthlyDataObject = {}
+        monthlyDataArray.map(item => {
+            monthlyDataObject[item._id] = item.totalRevenue
+        })
+        console.log(monthlyDataObject)
+        let monthlyData = []
+        for (let i = 1; i <= 12; i++) {
+            monthlyData[i - 1] = monthlyDataObject[i] ?? 0
+        }
+        res.json({ err: false, totalDoctors, booking: booking[0], monthlyData })
     }
     catch (err) {
         console.log(err)
@@ -156,44 +166,49 @@ export async function getSchedule(req, res) {
         res.json({ err: true, error: err, message: "Something Went Wrong" })
     }
 }
-export async function editHospitalProfile(req, res){
-    try{
-        const {image, name, about, address, place, mobile}= req.body;
-        if(image){
-            const data=await cloudinary.uploader.upload(image,{
-                folder:'docOnline'
+export async function editHospitalProfile(req, res) {
+    try {
+        const { image, name, about, address, place, mobile } = req.body;
+        if (image) {
+            const data = await cloudinary.uploader.upload(image, {
+                folder: 'docOnline'
             })
-            await HospitalModel.findByIdAndUpdate(req.hospital._id, {$set:{image:data,
-                name, about, address, place, mobile
-            }})
-        }else{ 
-            await HospitalModel.findByIdAndUpdate(req.hospital._id, {$set:{
-                name, about, address, place, mobile
-            }})
+            await HospitalModel.findByIdAndUpdate(req.hospital._id, {
+                $set: {
+                    image: data,
+                    name, about, address, place, mobile
+                }
+            })
+        } else {
+            await HospitalModel.findByIdAndUpdate(req.hospital._id, {
+                $set: {
+                    name, about, address, place, mobile
+                }
+            })
         }
-        res.json({result:data, err:false})
+        res.json({ result: data, err: false })
 
-    }catch(error){
+    } catch (error) {
         console.log(error);
-        res.json({err:true, error, message:"something went wrong"})
+        res.json({ err: true, error, message: "something went wrong" })
     }
 }
 
-export async function getBookings(req, res){
-    try{
+export async function getBookings(req, res) {
+    try {
         const bookings = await BookingModel.find({
-            hospitalId:req.hospital._id
-        }).populate('doctorId').sort({ _id:-1})
-        return res.json({err:false, bookings})
+            hospitalId: req.hospital._id
+        }).populate('doctorId').sort({ _id: -1 })
+        return res.json({ err: false, bookings })
 
-    }catch(error){
+    } catch (error) {
         console.log(error)
-        res.json({err:true, error, message:"something went wrong"})
+        res.json({ err: true, error, message: "something went wrong" })
     }
 }
 
-export async function getHospitalProfile(req, res){
-    try{
+export async function getHospitalProfile(req, res) {
+    try {
 
         let totalRating = 0;
 
@@ -207,14 +222,14 @@ export async function getHospitalProfile(req, res){
         let reviewCount = reviews.length != 0 ? reviews.length : 1;
         const rating = totalRating / reviewCount;
         // const hospital = await HospitalModel.findById(req.hospital._id, { password: 0 });
-        const departments = await DepartmentModel.find({ hospitalId: req.hospital._id}, { password: 0 });
+        const departments = await DepartmentModel.find({ hospitalId: req.hospital._id }, { password: 0 });
         res.json({
-            err: false, hospital:req.hospital, departments,
+            err: false, hospital: req.hospital, departments,
             rating, reviews
         })
 
-    }catch(error){
+    } catch (error) {
         console.log(error)
-        res.json({err:true, error, message:"something went wrong"})
+        res.json({ err: true, error, message: "something went wrong" })
     }
 }
