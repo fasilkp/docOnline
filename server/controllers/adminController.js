@@ -1,8 +1,35 @@
 import sentMail from "../helpers/sentMail.js";
+import BookingModel from "../models/BookingModel.js";
 import DepartmentModel from "../models/DepartmentModel.js";
 import DoctorModel from "../models/DoctorModel.js";
 import HospitalModel from "../models/HospitalModel.js"
 import UserModel from '../models/UserModel.js'
+
+export async function adminDashboard(req, res) {
+    try {
+        const totalDoctors = await DoctorModel.find().count();
+        const booking = await BookingModel.aggregate([
+            { $group: { _id: "totalBokingDetails", totalBooking: { $sum: 1 }, totalRevenue: { $sum: "$fees" } } }
+        ])
+        const monthlyDataArray = await BookingModel.aggregate([{ $group: { _id: { $month: "$date" }, totalRevenue: { $sum: "$fees" } } }])
+        console.log(monthlyDataArray)
+        let monthlyDataObject = {}
+        monthlyDataArray.map(item => {
+            monthlyDataObject[item._id] = item.totalRevenue
+        })
+        console.log(monthlyDataObject)
+        let monthlyData = []
+        for (let i = 1; i <= 12; i++) {
+            monthlyData[i - 1] = monthlyDataObject[i] ?? 0
+        }
+        console.log(monthlyData)
+        res.json({ err: false, totalDoctors, booking: booking[0], monthlyData })
+    }
+    catch (err) {
+        console.log(err)
+        res.json({ message: "somrthing went wrong", error: err, err: true })
+    }
+}
 
 export async function getHospitalRequests(req, res) {
     try {
