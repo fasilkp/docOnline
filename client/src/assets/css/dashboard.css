@@ -1,0 +1,31 @@
+.dash-item{
+    background-color: #fff;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 10px;
+    box-shadow: var(--defaultShadow);
+}
+
+.dash-item div{
+    box-shadow: none;
+}
+.dash-item.icon{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+.dash-item.icon .icon-div{
+    width: 70px;
+    height: 70px;
+    border-radius: 20px;
+    background-color: #e6faff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.dash-item.icon .icon-div .icon{
+   font-size: 2rem;
+}
