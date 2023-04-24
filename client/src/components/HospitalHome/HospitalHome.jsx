@@ -1,12 +1,19 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Col, Container, Row } from 'react-bootstrap';
 import HospitalHeader from '../HospitalHeader/HospitalHeader';
 import HospitalSidebar from '../HospitalSidebar/HospitalSidebar';
 import '../../assets/css/dashboard.css'
 import { FcMoneyTransfer, FcPaid, FcPortraitMode, FcTodoList } from 'react-icons/fc'
 import Chart from "react-apexcharts";
+import axios from 'axios';
+import { getDashboardDetails } from '../../api/hospitalApi';
 function HospitalHome() {
   const [clicked, setCLicked] = useState(false)
+  const [dashboardData, setDashboardData]= useState({
+    totalBooking:0,
+    totalRevenue:0,
+    totalDoctors:0
+  })
   const handleClick = () => {
     setCLicked(!clicked)
   }
@@ -26,6 +33,19 @@ function HospitalHome() {
       }
     ]
   };
+  useEffect(()=>{
+    (
+      async function(){
+        const data = await getDashboardDetails()
+        if(!data.err){
+          setDashboardData({
+            ...data.booking, totalDoctors:data.totalDoctors
+          })
+        }
+      }
+    )()
+
+  },[])
 
   return (
     <div className="admin-home">
@@ -41,11 +61,11 @@ function HospitalHome() {
             <Row>
 
 
-              <Col md={3}>
+              <Col md={4}>
                 <div className="dash-item">
                   <div className="dash-item-desc">
                     <b>Total Booking</b>
-                    <h3>435</h3>
+                    <h3>{dashboardData.totalBooking}</h3>
                   </div>
                   <div className="dash-item icon">
                     <div className="icon-div">
@@ -54,11 +74,11 @@ function HospitalHome() {
                   </div>
                 </div>
               </Col>
-              <Col md={3}>
+              <Col md={4}>
                 <div className="dash-item">
                   <div className="dash-item-desc">
                     <b>Total Revenue</b>
-                    <h3>435</h3>
+                    <h3>{dashboardData.totalRevenue}</h3>
                   </div>
                   <div className="dash-item icon">
                     <div className="icon-div">
@@ -67,11 +87,11 @@ function HospitalHome() {
                   </div>
                 </div>
               </Col>
-              <Col md={3}>
+              <Col md={4}>
                 <div className="dash-item">
                   <div className="dash-item-desc">
                     <b>Total Doctors</b>
-                    <h3>435</h3>
+                    <h3>{dashboardData.totalDoctors}</h3>
                   </div>
                   <div className="dash-item icon">
                     <div className="icon-div">
@@ -80,7 +100,7 @@ function HospitalHome() {
                   </div>
                 </div>
               </Col>
-              <Col md={3}>
+              {/* <Col md={3}>
                 <div className="dash-item">
                   <div className="dash-item-desc">
                     <b>Total Booking</b>
@@ -92,7 +112,7 @@ function HospitalHome() {
                     </div>
                   </div>
                 </div>
-              </Col>
+              </Col> */}
             </Row>
 
           </Container>

@@ -11,6 +11,21 @@ import FeedbackModel from "../models/FeedbackModel.js";
 var salt = bcrypt.genSaltSync(10);
 
 
+export async function hospitalDashboard(req, res) {
+    try {
+        const totalDoctors= await DoctorModel.find({hospitalId:req.hospital._id}).count();
+        const booking = await BookingModel.aggregate([
+            {$match:{hospitalId:req.hospital._id}},
+            {$group:{_id:"totalBokingDetails", totalBooking:{$sum:1}, totalRevenue:{$sum:"$fees"}}}
+        ])
+        console.log(totalDoctors, booking)
+        res.json({ err: false, totalDoctors, booking:booking[0] })
+    }
+    catch (err) {
+        console.log(err)
+        res.json({ message: "somrthing went wrong", error: err, err: true })
+    }
+}
 export async function addDepartment(req, res) {
     try {
         await DepartmentModel.updateOne({ name: req.body.department }, { $set: { name: req.body.department.trim().toLowerCase() }, $addToSet: { hospitalId: req.hospital._id } }, { upsert: true })

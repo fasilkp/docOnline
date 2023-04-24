@@ -13,3 +13,15 @@ export async function getHospitalProfile(){
     }
     return data
 }
+export async function getDashboardDetails(){
+    const {data} = await axios.get("/hospital/dashboard") 
+    console.log(data)
+    if(data.err){
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: data.message,
+          })
+    }
+    return data
+}
