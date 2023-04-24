@@ -106,10 +106,17 @@ function App() {
           </>
         }
         {
-          hospital.login && !hospital.details.active &&
+          hospital.login && hospital.details.rejected &&
           <>
-          <Route path='/account/hospital/' element={<HospitalApproalPage />} />
-          <Route path='/account/hospital/*' element={<HospitalApproalPage />} />
+            <Route path='/account/hospital/' element={<HospitalApproalPage rejected hospital={hospital.details} rejectedMessage={hospital.details.rejectedMessage} />} />
+            <Route path='/account/hospital/*' element={<HospitalApproalPage rejected hospital={hospital.details} rejectedMessage={hospital.details.rejectedMessage} />} />
+          </>
+        }
+        {
+          hospital.login && hospital.details.active === false &&
+          <>
+            <Route path='/account/hospital/' element={<HospitalApproalPage rejected={false} />} />
+            <Route path='/account/hospital/*' element={<HospitalApproalPage rejected={false} />} />
           </>
         }
         {
@@ -121,8 +128,8 @@ function App() {
             <Route path='/account/hospital/doctor' element={<HospitalDoctorPage />} />
             <Route path='/account/hospital/login' element={<Navigate to="/account/hospital/" />} />
             <Route path='/account/hospital/signup' element={<Navigate to="/account/hospital/" />} />
-            <Route path='/account/hospital/schedule/:id' element={<HospitalSchedulePage/>} />
-            <Route path='/account/hospital/booking' element={<HospitalBookingPage/>} />
+            <Route path='/account/hospital/schedule/:id' element={<HospitalSchedulePage />} />
+            <Route path='/account/hospital/booking' element={<HospitalBookingPage />} />
           </>
         }
         {
@@ -151,7 +158,7 @@ function App() {
             <Route path='/account/doctor/' element={<DoctorHomePage />} />
             <Route path='/account/doctor/profile' element={<DoctorProfilePage />} />
             <Route path='/account/doctor/schedule' element={<DoctorSchedulePage />} />
-            <Route path='/account/doctor/booking' element={<DoctorBookingPage  />} />
+            <Route path='/account/doctor/booking' element={<DoctorBookingPage />} />
           </>
         }
 

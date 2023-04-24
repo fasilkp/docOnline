@@ -50,6 +50,14 @@ const HospitalSchema = new mongoose.Schema({
         type:Boolean,
         default:false,
     },
+    rejected:{
+        type:Boolean,
+        default:false,
+    },
+    rejectedMessage:{
+        type:String,
+        default:""
+    },
     wallet:{
         type:Number,
         default:0

@@ -1,9 +1,9 @@
 import React from 'react'
 import HospitalApproval from '../../components/HospitaApproval/HospitalApproval'
 
-function HospitalApproalPage() {
+function HospitalApproalPage({rejected, rejectedMessage, hospital}) {
   return (
-        <HospitalApproval/>
+        <HospitalApproval rejected={rejected} hospital={hospital} rejectedMessage={rejectedMessage} />
     )
 }
 

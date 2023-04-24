@@ -6,7 +6,7 @@ import UserModel from '../models/UserModel.js'
 
 export async function getHospitalRequests(req, res) {
     try {
-        const doctorRequests=await HospitalModel.find({active:false}).lean()
+        const doctorRequests=await HospitalModel.find({active:false,rejected:{$ne:true}}).lean()
         res.json({ err:false, doctorRequests })
     }
     catch (err) {
@@ -16,7 +16,7 @@ export async function getHospitalRequests(req, res) {
 export async function acceptHospital(req, res) {
     try {
         const {email}=req.body;
-        await HospitalModel.updateOne({email}, {active:true});
+        await HospitalModel.updateOne({email}, {active:true });
         res.json({ err:false})
         await sentMail(email, 'Doc online has approved your request for registration', 'You can proceed to your account')
     }
@@ -27,7 +27,9 @@ export async function acceptHospital(req, res) {
 export async function rejectHospital(req, res) {
     try {
         const {email}=req.body;
-        await HospitalModel.deleteOne({email});
+        // await HospitalModel.deleteOne({email});
+        await HospitalModel.updateOne({email}, {active:false, rejected:true});
+
         res.json({ err:false})
         await sentMail(email, 'Doc online has rejected your request for registration', 'Please try again sometimes')
     }

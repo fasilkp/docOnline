@@ -190,3 +190,26 @@ export async function resetHospitalPassword(req, res) {
         res.json({ error: err, err: true, message: "something went wrong" })
     }
 }
+
+export async function hospitalReApply(req, res){
+    try{
+        const {image, name, about, address, place, mobile, hospitalId}= req.body;
+        if(image){
+            const data=await cloudinary.uploader.upload(image,{
+                folder:'docOnline'
+            })
+            await HospitalModel.findByIdAndUpdate(hospitalId, {$set:{proof:data,
+                name, about, address, place, mobile, rejected:false
+            }})
+        }else{ 
+            await HospitalModel.findByIdAndUpdate(hospitalId, {$set:{
+                name, about, address, place, mobile, rejected:false
+            }})
+        }
+        res.json({result:data, err:false})
+
+    }catch(error){
+        console.log(error);
+        res.json({err:true, error, message:"something went wrong"})
+    }
+}
