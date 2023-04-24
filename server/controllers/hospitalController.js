@@ -6,6 +6,7 @@ import DepartmentModel from "../models/DepartmentModel.js";
 import ScheduleModel from "../models/ScheduleModel.js";
 import cloudinary from '../config/cloudinary.js'
 import BookingModel from "../models/BookingModel.js";
+import FeedbackModel from "../models/FeedbackModel.js";
 
 var salt = bcrypt.genSaltSync(10);
 
@@ -169,6 +170,33 @@ export async function getBookings(req, res){
             hospitalId:req.hospital._id
         }).populate('doctorId').sort({ _id:-1})
         return res.json({err:false, bookings})
+
+    }catch(error){
+        console.log(error)
+        res.json({err:true, error, message:"something went wrong"})
+    }
+}
+
+export async function getHospitalProfile(req, res){
+    try{
+
+        let totalRating = 0;
+
+        const reviews = await FeedbackModel.find({
+            hospitalId: req.hospital._id
+        }).populate('userId').lean()
+
+        for (let item of reviews) {
+            totalRating += item.rating
+        }
+        let reviewCount = reviews.length != 0 ? reviews.length : 1;
+        const rating = totalRating / reviewCount;
+        // const hospital = await HospitalModel.findById(req.hospital._id, { password: 0 });
+        const departments = await DepartmentModel.find({ hospitalId: req.hospital._id}, { password: 0 });
+        res.json({
+            err: false, hospital:req.hospital, departments,
+            rating, reviews
+        })
 
     }catch(error){
         console.log(error)

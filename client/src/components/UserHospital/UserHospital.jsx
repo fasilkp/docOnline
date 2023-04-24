@@ -111,9 +111,10 @@ function UserHospital() {
                                     <div className='dr-profile-rating mt-3'>
                                         <b style={{ fontSize: ".8rem" }}>Rating {hospital.rating} </b>
                                         {
-                                            hospital.rating &&
+                                            hospital.rating ?
                                             < Rating name="read-only" value={hospital.rating} readOnly size='small'
                                             />
+                                            : null
                                         }
                                     </div>
 
@@ -168,7 +169,6 @@ function UserHospital() {
                                                             <Rating value={item.rating}
                                                                 readOnly
                                                                 size="small" />
-
                                                         </div>
                                                     </div>
                                                     <p className="dr-profile-review-desc">

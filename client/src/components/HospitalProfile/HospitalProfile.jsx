@@ -10,6 +10,7 @@ import { useParams } from "react-router-dom"
 import { useSelector } from "react-redux"
 import HospitalHeader from "../HospitalHeader/HospitalHeader"
 import EditHospitalProfile from "../../Modal/EditHospitalProfile/EditHospitalProfile"
+import { getHospitalProfile } from "../../api/hospitalApi"
 
 export default function HospitalProfile() {
     const id = useSelector((state)=>state.hospital.details._id)
@@ -25,9 +26,11 @@ export default function HospitalProfile() {
       useEffect(()=>{
         (
             async function(){
-                const {data}= await axios.get("/user/hospital/"+id);
+                const data= await getHospitalProfile();
                 if(!data.err){
-                    setHospital(data.hospital)
+                    setHospital({
+                        ...data.hospital,reviews: data.reviews, rating: data.rating
+                    })
                     setDepartmentList(data.departments)
                 }
                 console.log(data)
@@ -86,6 +89,54 @@ export default function HospitalProfile() {
                             <UserDepartmentRow hospitalId={id} hospitalWise={true} list={departmentList}/>
                         </Row>
                     {/* </Container> */}
+                    <Row>
+                    <div className="dr-profile-sec sec-2">
+                                <div className="dr-profile-sec-row" style={{ gap: "5px" }}>
+                                    <b>Rating and Review</b>
+                                    <div className='dr-profile-rating mt-3'>
+                                        <b style={{ fontSize: ".8rem" }}>Rating {hospital.rating} </b>
+                                        {
+                                            hospital.rating ?
+                                            < Rating name="read-only" value={hospital.rating} readOnly size='small'
+                                            />
+                                            : null
+                                        }
+                                    </div>
+
+                                    <p style={{ fontSize: ".8rem" }}>total {hospital.reviews && hospital.reviews.length} rating and reviews</p>
+                                </div>
+                                <div className="dr-profile-sec-row">
+                                    <div className="dr-profile-reviews">
+                                        {
+                                            hospital.reviews &&
+                                            hospital.reviews.map((item, index) => {
+
+                                                return <div className="dr-profile-review">
+                                                    <div className="head-sec">
+                                                        <Avatar
+                                                            alt="Remy Sharp"
+                                                            src="/static/images/avatar/1.jpg"
+                                                            sx={{ width: 32, height: 32 }}
+                                                        />
+                                                        <div className="d-flex flex-column">
+                                                            <b>{item.userId.name}</b>
+                                                            <Rating value={item.rating}
+                                                                readOnly
+                                                                size="small" />
+                                                        </div>
+                                                    </div>
+                                                    <p className="dr-profile-review-desc">
+                                                        {item.review}
+                                                    </p>
+                                                </div>
+                                            })
+                                        }
+
+                                    </div>
+                                </div>
+
+                            </div>
+                    </Row>
 
                 </div>
             </Container>
