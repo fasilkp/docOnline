@@ -6,6 +6,7 @@ import FeedbackModel from "../models/FeedbackModel.js"
 import HospitalModel from "../models/HospitalModel.js"
 import ScheduleModel from "../models/ScheduleModel.js"
 import EMRModel from '../models/EMRModel.js'
+import ComplaintModel from '../models/ComplaintModel.js'
 
 
 export async function getAllDepartments(req, res) {
@@ -266,5 +267,25 @@ export async function addHospitalrFeedback(req, res) {
     } catch (error) {
         console.log(error)
         res.json({ err: true, error, message: "something went wrong" })
+    }
+}
+
+export async function addComplaint(req, res){
+    try{
+        const {doctorId, hospitalId, description} = req.body;
+        if(doctorId){
+            await ComplaintModel.create({
+                userId:req.user._id,doctorId, description
+            })
+        }else{
+            await ComplaintModel.create({
+                userId:req.user._id,hospitalId, description 
+            })
+        }
+        return res.json({
+            err:false
+        })
+    }catch(error){
+        res.json({err:true, error, message:"something went wrong"})
     }
 }

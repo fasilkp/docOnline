@@ -1,9 +1,9 @@
 import mongoose from "mongoose"
 
 const schema = new mongoose.Schema({
-    name:{
-        type: String,
-        required:true
+    userId:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'User'
     },
     hospitalId:{
         type:mongoose.Schema.Types.ObjectId,
@@ -16,7 +16,8 @@ const schema = new mongoose.Schema({
     description:{
         type:String,
         required:true
-    }
+    },
+    
 })
 
 const ComplaintModel=mongoose.model("Complaint", schema)
