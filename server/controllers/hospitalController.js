@@ -197,7 +197,8 @@ export async function editHospitalProfile(req, res) {
 export async function getBookings(req, res) {
     try {
         const bookings = await BookingModel.find({
-            hospitalId: req.hospital._id
+            hospitalId: req.hospital._id,
+            patientName: new RegExp(req.query.name, 'i')
         }).populate('doctorId').sort({ _id: -1 })
         return res.json({ err: false, bookings })
 

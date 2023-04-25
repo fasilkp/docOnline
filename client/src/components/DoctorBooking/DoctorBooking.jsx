@@ -33,6 +33,7 @@ export default function DoctorBooking() {
     useEffect(() => {
         (
             async function () {
+                console.log("hia")
                 const { data } = await axios.get("/doctor/bookings?name="+name);
                 console.log(data)
                 if (!data.err) {

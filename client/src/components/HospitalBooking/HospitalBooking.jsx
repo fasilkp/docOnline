@@ -12,6 +12,7 @@ import AddDoctor from '../../Modal/AddDoctor/AddDoctor';
 import { useEffect } from 'react';
 import EditDoctor from '../../Modal/editDoctor/EditDoctor';
 import { Link, useNavigate } from 'react-router-dom';
+import { getHospitalBookings } from '../../api/hospitalApi';
 
 export default function HospitalBooking() {
     const [refresh, setRefresh] = useState(false)
@@ -21,17 +22,15 @@ export default function HospitalBooking() {
     const [showEditModal, setShowEditModal] = useState(false)
     const [bookingList, setBookingList] = useState([])
     const [clicked, setCLicked] = useState(false)
-    const [name, setName]=useState("")
-    const navigate= useNavigate()
+    const [name, setName] = useState("")
+    const navigate = useNavigate()
     const handleClick = () => {
         setCLicked(!clicked)
     }
-
     useEffect(() => {
         (
             async function () {
-                const { data } = await axios.get("/hospital/booking");
-                console.log(data)
+                const data = await getHospitalBookings(name);
                 if (!data.err) {
                     setBookingList(data.bookings)
                 }
@@ -51,8 +50,8 @@ export default function HospitalBooking() {
                         <div className="container-header">
                             <h5>Doctors</h5>
                             <div className="admin-search-box">
-                                <input type="text" placeholder='Search...' value={name} onChange={(e)=>setName(e.target.value)} />
-                                <button><RiSearch2Line/></button>
+                                <input type="text" placeholder='Search...' value={name} onChange={(e) => setName(e.target.value)} />
+                                <button><RiSearch2Line /></button>
                             </div>
                             {/* <button className='btn btn-dark' onClick={addDoctor}>Add Doctor</button> */}
                         </div>
@@ -77,7 +76,7 @@ export default function HospitalBooking() {
                                                 {/* <Link to={"/doctor/"+item._id}> */}
                                                 {item.patientName}
                                                 {/* </Link> */}
-                                                </td>
+                                            </td>
                                             <td>{item.doctorId.name}</td>
                                             <td>{item.fees}</td>
                                             <td>{new Date(item.date).toLocaleDateString()}</td>

@@ -5,7 +5,6 @@ export async function addDoctorReview(rating, review, doctorId){
     const {data} = await axios.post('/user/feedback/doctor',{
         review, rating, doctorId
     })
-    console.log(data)
     if(data.err){
         Swal.fire({
             icon: 'error',
