@@ -1,5 +1,5 @@
 import express from 'express'
-import { acceptHospital, adminDashboard, blockHospital, blockUser, getDepartments, getDoctors, getHospitalRequests, getHospitals, getUsers, rejectHospital, unBlockHospital, unBlockUser } from '../controllers/adminController.js';
+import { acceptHospital, adminDashboard, blockHospital, blockUser, getAdminComplaints, getDepartments, getDoctors, getHospitalRequests, getHospitals, getUsers, rejectHospital, unBlockHospital, unBlockUser } from '../controllers/adminController.js';
 
 const Router = express.Router();
 
@@ -21,6 +21,8 @@ Router.patch("/user/block", blockUser)
 Router.patch("/user/unblock", unBlockUser)
 
 Router.get("/dashboard",adminDashboard)
+
+Router.get("/complaints",getAdminComplaints)
 
 
 export default Router

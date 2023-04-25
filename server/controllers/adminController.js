@@ -1,5 +1,6 @@
 import sentMail from "../helpers/sentMail.js";
 import BookingModel from "../models/BookingModel.js";
+import ComplaintModel from "../models/ComplaintModel.js";
 import DepartmentModel from "../models/DepartmentModel.js";
 import DoctorModel from "../models/DoctorModel.js";
 import HospitalModel from "../models/HospitalModel.js"
@@ -146,5 +147,15 @@ export async function unBlockUser(req, res) {
     }
     catch (err) {
         res.json({ message: "something went wrong", error: err, err:true })
+    }
+}
+export async function getAdminComplaints(req, res){
+    try{
+        const complaints = await ComplaintModel.find({}).sort({ _id:-1})
+        return res.json({err:false, complaints})
+
+    }catch(error){
+        console.log(error)
+        res.json({err:true, error, message:"something went wrong"})
     }
 }
