@@ -38,3 +38,15 @@ export async function getHospitalBookings(name){
     }
     return data
 }
+
+export async function getHospitalComplaints(name){
+    const {data} = await axios.post("/hospital/complaints");
+    if(data.err){
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: data.message,
+          })
+    }
+    return data
+}

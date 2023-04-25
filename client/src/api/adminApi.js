@@ -13,3 +13,15 @@ export async function getAdminDashboardDetails(){
     }
     return data
 }
+
+export async function getAdminComplaints(){
+    const {data} = await axios.post("/admin/complaints");
+    if(data.err){
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: data.message,
+          })
+    }
+    return data
+}
