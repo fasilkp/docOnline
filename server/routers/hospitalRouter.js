@@ -1,5 +1,5 @@
 import express from 'express'
-import { addDepartment, addDoctor, blockDoctor, editDepartment, editDoctor, editHospitalProfile, getBookings, getDepartments, getDoctors, getHospitalProfile, getSchedule, hospitalDashboard, unBlockDoctor, updateSchedule } from '../controllers/hospitalController.js';
+import { addDepartment, addDoctor, blockDoctor, editDepartment, editDoctor, editHospitalProfile, getBookings, getDepartments, getDoctors, getHospitalComplaints, getHospitalProfile, getSchedule, hospitalDashboard, unBlockDoctor, updateSchedule } from '../controllers/hospitalController.js';
 
 const Router = express.Router();
 
@@ -23,6 +23,8 @@ Router.get("/profile", getHospitalProfile)
 Router.get("/booking", getBookings)
 
 Router.get("/dashboard", hospitalDashboard)
+
+Router.get('/complaints', getHospitalComplaints)
 
 
 

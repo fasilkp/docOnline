@@ -7,6 +7,7 @@ import ScheduleModel from "../models/ScheduleModel.js";
 import cloudinary from '../config/cloudinary.js'
 import BookingModel from "../models/BookingModel.js";
 import FeedbackModel from "../models/FeedbackModel.js";
+import ComplaintModel from "../models/ComplaintModel.js";
 
 var salt = bcrypt.genSaltSync(10);
 
@@ -227,6 +228,40 @@ export async function getHospitalProfile(req, res) {
         res.json({
             err: false, hospital: req.hospital, departments,
             rating, reviews
+        })
+
+    } catch (error) {
+        console.log(error)
+        res.json({ err: true, error, message: "something went wrong" })
+    }
+}
+
+export async function getHospitalComplaints(req, res) {
+    try {
+        const complaints = await ComplaintModel.aggregate([
+            {
+                $lookup: {
+                    from: "doctors",
+                    localField: "doctorId",
+                    foreignField: "_id",
+                    as: 'doctor'
+                }
+            },
+            { $unwind: "$doctor" },
+            {
+                $match: {
+                    'doctor.hospitalId': req.hospital._id
+                }
+            },
+            {
+                $sort: {
+                    _id: -1
+                }
+            }
+        ])
+        res.json({
+            err:false,
+            complaints
         })
 
     } catch (error) {
