@@ -15,7 +15,7 @@ export async function getAdminDashboardDetails(){
 }
 
 export async function getAdminComplaints(){
-    const {data} = await axios.post("/admin/complaints");
+    const {data} = await axios.get("/admin/complaints");
     if(data.err){
         Swal.fire({
             icon: 'error',
