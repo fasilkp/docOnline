@@ -49,7 +49,7 @@ const schema = new mongoose.Schema({
         type:String,
         default:"upcoming"
     }
-})
+},{timestamps:true })
 
 const BookingModel=mongoose.model("Booking", schema)
 export default BookingModel

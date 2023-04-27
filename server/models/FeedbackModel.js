@@ -21,7 +21,7 @@ const schema = new mongoose.Schema({
         type:String,
         required:true,
     }
-})
+},{timestamps:true })
 
 const FeedbackModel=mongoose.model("Feedback", schema)
 export default FeedbackModel

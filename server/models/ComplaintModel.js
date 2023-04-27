@@ -18,7 +18,7 @@ const schema = new mongoose.Schema({
         required:true
     },
     
-})
+},{timestamps:true })
 
 const ComplaintModel=mongoose.model("Complaint", schema)
 export default ComplaintModel

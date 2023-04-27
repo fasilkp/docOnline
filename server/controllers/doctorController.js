@@ -121,7 +121,7 @@ export async function addEMR(req, res) {
         
         await BookingModel.findByIdAndUpdate(bookingId, {
             $set:{
-                status:'consulted'
+                status:'completed'
             }
         })
 

@@ -39,7 +39,7 @@ const schema = new mongoose.Schema({
         required:true,
         default:""
     }
-})
+},{timestamps:true })
 
 const EMRModel=mongoose.model("EMR", schema)
 export default EMRModel

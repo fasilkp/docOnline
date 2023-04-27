@@ -33,7 +33,7 @@ const ScheduleSchema = new mongoose.Schema({
         type:Array,
         default:[]
     },
-})
+},{timestamps:true })
 
 const ScheduleModel=mongoose.model("Schedule", ScheduleSchema)
 export default ScheduleModel

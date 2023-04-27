@@ -53,7 +53,7 @@ export async function getHospital(id){
     return data
 }
 
-export async function addComplaint(doctorId, hospitalId, description, ){
+export async function addComplaint(doctorId, hospitalId, description){
     const {data} = await axios.post("/user/complaint", {doctorId, hospitalId, description});
     if(data.err){
         Swal.fire({
@@ -64,3 +64,4 @@ export async function addComplaint(doctorId, hospitalId, description, ){
     }
     return data
 }
+
