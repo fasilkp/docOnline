@@ -316,14 +316,14 @@ export async function getHospitalReport(req, res) {
     const totalBookings = await BookingModel
         .find({ date: { $gt: startDate, $lt: endDate }, hospitalId:req.hospital._id })
         .count()
-    const totalStatusCount = await BookingModel.aggregate([
+    const totalCount = await BookingModel.aggregate([
         {
             $match:{ date: { $gt: startDate, $lt: endDate }, hospitalId:req.hospital._id }
         },
         {
             $group: {
                 _id: '$status',
-                totalCount: { $sum: 1 }
+                count: { $sum: 1 }
             }
         }
     ])
@@ -340,7 +340,7 @@ export async function getHospitalReport(req, res) {
             }
         },
         { $unwind: "$doctor" },
-        { $group: { _id: "$doctor.department", count: { $sum: 1 }}},
+        { $group: { _id: "$doctor.department",totalProfit:{$sum:"$doctor.fees"}, count: { $sum: 1 }}},
         {
             $lookup: {
                 from: "departments",
@@ -364,10 +364,10 @@ export async function getHospitalReport(req, res) {
             }
         },
         { $unwind: "$doctor" },
-        { $group: { _id: {id:"$doctorId", doctorName:'$doctor.name'},  count: { $sum: 1 }}},
+        { $group: { _id: {id:"$doctorId", doctorName:'$doctor.name'},totalProfit:{$sum:"$doctor.fees"},  count: { $sum: 1 }}},
     ])
 
-    res.json({totalStatusCount:[...totalStatusCount, {_id:"booking", totalCount:totalBookings}], totalBookings, byDepartment, byDoctor})
+    res.json({totalCount:[...totalCount, {_id:"booking", count:totalBookings}], byDepartment, byDoctor})
 
     // let totalOrders = orders.length;
     // let totalRevenue = 0;
