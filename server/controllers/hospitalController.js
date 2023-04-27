@@ -368,47 +368,4 @@ export async function getHospitalReport(req, res) {
     ])
 
     res.json({totalCount:[...totalCount, {_id:"booking", count:totalBookings}], byDepartment, byDoctor})
-
-    // let totalOrders = orders.length;
-    // let totalRevenue = 0;
-    // let totalPending = 0;
-    // let deliveredOrders = orders.filter((item) => {
-
-    //     if (item.orderStatus == "pending" || item.orderStatus == 'outForDelivery') {
-    //         totalPending++;
-    //     }
-
-    //     totalRevenue = totalRevenue + item.product.price;
-    //     return item.paid;
-    // });
-    // let totalDispatch = deliveredOrders.length;
-
-    // let orderTable = []
-    // orders.map(item => {
-    //     orderTable.push([item.product.name, item.total, item.orderStatus, item.quantity, item.createdAt.toLocaleDateString()])
-    // })
-    // let byBrand = await BookingModel.aggregate([{ $match: { createdAt: { $gt: startDate, $lt: endDate } } }, { $group: { _id: "$product.brand", count: { $sum: 1 }, profit: { $sum: "$product.price" } } }])
-
-    // let category = {}
-    // let categoryIds = byCategory.map(item => {
-    //     category[item._id] = { count: item.count, total: item.price }
-    //     return item._id
-    // });
-    // let categories = await categoryModel.find({ _id: { $in: categoryIds } }, { category: 1 }).lean()
-    // categories.forEach((item, index) => {
-    //     categories[index].count = category[item._id].count
-    //     categories[index].profit = category[item._id].total
-    // })
-    // let filter = req.query.filter ?? "";
-    // if (!req.query.filter && !req.query.startDate) {
-    //     filter = "lastWeek"
-    // }
-    // res.render("admin/salesReport", {
-    //     startDate: moment(new Date(startDate).setDate(new Date(startDate).getDate() + 1)).utc().format('YYYY-MM-DD'),
-    //     endDate: moment(endDate).utc().format('YYYY-MM-DD'),
-    //     orderTable,
-    //     categories,
-    //     byBrand,
-    //     filter
-    // });
 }

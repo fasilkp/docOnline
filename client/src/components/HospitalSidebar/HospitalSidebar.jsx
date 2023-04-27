@@ -51,7 +51,7 @@ function HospitalSidebar({ page, clicked }) {
             </div>
           </li>
         </Link>
-        <Link to="/account/admin/complaint">
+        <Link to="/account/hospital/complaint">
 
             <li className={`admin-sideitems ${page=="complaint" && 'active'}`}>
 
@@ -63,18 +63,19 @@ function HospitalSidebar({ page, clicked }) {
               </div>
             </li>
             </Link>
-        {/* <Link to="/account/admin/hospitals/requests">
+        <Link to="/account/hospital/reports">
 
-            <li className={`admin-sideitems ${page=="hospital request" && 'active'}`}>
+            <li className={`admin-sideitems ${page=="reports" && 'active'}`}>
 
               <div className='side'></div>
               <div className="admin-sideItem">
 
-                <RiHospitalLine className='icon' />
-                <span>Hospital Requests</span>
+                <RiFileWarningLine className='icon' />
+                <span>Reports</span>
               </div>
             </li>
-            </Link> */}
+            </Link>
+
 
       </ul>
 
