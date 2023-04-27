@@ -58,9 +58,12 @@ button:disabled {
 }
 
 .table-responsive {
-  padding-bottom: 300px;
+  /* padding-bottom: 300px; */
 }
-
+.table-responsive table{
+  
+  box-shadow: var(--defaultShadow);
+}
 
 .option-btn button,
 .option-btn button:hover,
