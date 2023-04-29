@@ -280,11 +280,13 @@ export async function getAdminReport(req, res) {
 export async function getBookingRefunds(req, res){
     try{
         const bookings= await BookingModel.find({status:'refund processing'}).lean()
+        console.log(bookings)
         return res.json({
             err:false,
             bookings
         })
     }catch(error){
+        console.log(error)
         res.json({err:true, error, message:"something went wrong"})
     }
 }

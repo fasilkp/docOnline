@@ -1,15 +1,17 @@
 import axios from 'axios';
 import * as React from 'react';
 import { useState } from 'react';
-import { Container, Dropdown, Table } from 'react-bootstrap';
+import { Container, Dropdown, Row, Table } from 'react-bootstrap';
 import { RiMore2Fill, RiSearch2Line } from 'react-icons/ri';
 import AdminHeader from '../AdminHeader/AdminHeader';
 import AdminSidebar from '../AdminSidebar/AdminSidebar';
 import Swal from 'sweetalert2'
 import { Backdrop, CircularProgress } from '@mui/material';
+import { getAdminRefundList } from '../../api/adminApi';
+import notFoundImg from '../../assets/images/notFound.png'
 
 export default function AdminRefunds() {
-  const [usersList, setUsersList] = useState([])
+  const [refundList, setRefundList] = useState([])
   const [refresh, setRefresh] = useState(false)
   const [load, setLoad] = useState(false)
   const [clicked, setCLicked] = useState(false)
@@ -21,9 +23,10 @@ export default function AdminRefunds() {
     (
       async function () {
         try {
-          const { data } = await axios.get("/admin/users?name=" + name)
+          const data  = await getAdminRefundList();
+          console.log(data)
           if (!data.err) {
-            setUsersList(data.users)
+            setRefundList(data.bookings)
           }
 
         } catch (err) {
@@ -63,36 +66,45 @@ export default function AdminRefunds() {
           <div className="admin-container">
             <div className="container-header">
               <h5>Hospitals</h5>
-              <div className="admin-search-box">
+              {/* <div className="admin-search-box">
                 <input type="text" placeholder='Search...' value={name} onChange={(e) => setName(e.target.value)} />
                 <button><RiSearch2Line /></button>
-              </div>
+              </div> */}
 
             </div>
             <Table className='table-main' responsive>
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>Name</th>
-                  <th>Email</th>
+                  <th>Booking Id</th>
+                  <th>Payment Id</th>
+                  <th>order Id</th>
+                  <th>Fees</th>
                   <th>Status</th>
-                  <th>option</th>
+                  <th>Options</th>
+
                 </tr>
               </thead>
               <tbody>
                 {
-                  usersList.map((item, index) => {
+                  refundList[0] ?
+                  refundList.map((item, index) => {
                     return <tr key={index}>
                       <td>{index + 1}</td>
-                      <td>{item.name}</td>
-                      <td>{item.email}</td>
-                      <td>{item.block ? "bocked" : "Active"}</td>
-                      {/* <td>{item.mobile}</td> */}
-                      <td className='option-btn'>
-                        <button className='btn btn-outline-dark'>Issue Refund</button>
+                      <td>{item._id}</td>
+                      <td>{item.payment.razorpay_payment_id}</td>
+                      <td>{item.payment.razorpay_order_id}</td>
+                      <td>{item.fees}</td>
+                      <td>{item.status}</td>
+                      <td>
+                        <button className='btn btn-outline-dark btn-sm' onClick={()=>issueRefund(item._id)}>Issue Refund</button>
                       </td>
                     </tr>
                   })
+                  : 
+                  <Row className='d-flex justify-content-center align-items-center'>
+                    <img src={notFoundImg} style={{maxHeight:"300px", maxWidth:"90%"}} alt="" />
+                  </Row>
                 }
 
               </tbody>

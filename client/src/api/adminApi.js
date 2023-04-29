@@ -43,7 +43,7 @@ export async function getAdminReport(startDate, endDate, filter){
     return result.data
 }
 
-export async function getAdminRefundList(startDate, endDate, filter){
+export async function getAdminRefundList(){
     const {data} = await axios.get("/admin/booking/refunds")
     if(data.err){
         Swal.fire({
