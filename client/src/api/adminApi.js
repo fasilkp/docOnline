@@ -42,3 +42,21 @@ export async function getAdminReport(startDate, endDate, filter){
     }
     return result.data
 }
+
+export async function getAdminReport(startDate, endDate, filter){
+    let result;
+    if(filter){
+        result = await axios.get("/admin/reports?filter="+filter);
+    }else{
+        result = await axios.get("/admin/reports?startDate="+startDate+"&endDate="+endDate);
+    }
+    console.log(result.data)
+    if(result.data.err){
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: result.data.message,
+          })
+    }
+    return result.data
+}

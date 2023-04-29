@@ -65,7 +65,7 @@ function HospitalSidebar({ page, clicked }) {
             </Link>
         <Link to="/account/hospital/reports">
 
-            <li className={`admin-sideitems ${page=="reports" && 'active'}`}>
+            <li className={`admin-sideitems ${page=="report" && 'active'}`}>
 
               <div className='side'></div>
               <div className="admin-sideItem">

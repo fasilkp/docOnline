@@ -87,7 +87,7 @@ export default function UserBooking() {
           {
 
             bookingList.map((item, index) => {
-              return <div className="user-booking-item" key={index} onClick={() => showEmr(item)}>
+              return <div className="user-booking-item" key={index} onClick={() => item.status=="completed" && showEmr(item) }>
                 <div className="ub-dr-profile">
                   <img src={item.doctorId.image.url} alt="" />
                 </div>
