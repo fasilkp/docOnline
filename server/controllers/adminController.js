@@ -185,7 +185,7 @@ export async function getAdminReport(req, res) {
             let currentDate = new Date()
             startDate = new Date(currentDate.getFullYear(), 0, 1);
             startDate.setHours(0, 0, 0, 0);
-            endDate = new Date(new Date().setDate(new Date().getDate() + 1))
+            endDate = new Date(currentDate.getFullYear(), 11, 31);
             endDate.setHours(0, 0, 0, 0);
         }
         if (req.query.filter == 'lastYear') {

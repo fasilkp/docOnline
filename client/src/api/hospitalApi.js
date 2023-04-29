@@ -56,7 +56,7 @@ export async function getHospitalReport(startDate, endDate, filter){
     if(filter){
         result = await axios.get("/hospital/reports?filter="+filter);
     }else{
-        result = await axios.get("/hospitalreports?startDate="+startDate+"&endDate="+endDate);
+        result = await axios.get("/hospital/reports?startDate="+startDate+"&endDate="+endDate);
     }
     console.log(result.data)
     if(result.data.err){

@@ -292,7 +292,7 @@ export async function getHospitalReport(req, res) {
             let currentDate = new Date()
             startDate = new Date(currentDate.getFullYear(), 0, 1);
             startDate.setHours(0, 0, 0, 0);
-            endDate = new Date(new Date().setDate(new Date().getDate() + 1))
+            endDate = new Date(currentDate.getFullYear(), 11, 31);
             endDate.setHours(0, 0, 0, 0);
         }
         if (req.query.filter == 'lastYear') {
@@ -373,9 +373,14 @@ export async function getHospitalReport(req, res) {
             { $unwind: "$doctor" },
             { $group: { _id: { id: "$doctorId", doctorName: '$doctor.name' }, totalProfit: { $sum: "$doctor.fees" }, count: { $sum: 1 } } },
         ])
-        console.log(byDoctor)
 
-        res.json({ totalCount: [...totalCount, { _id: "booking", count: totalBookings }], byDepartment, byDoctor, startDate:new Date(new Date(startDate).setDate(new Date(startDate).getDate() +1)), endDate })
+        res.json({
+            totalCount: [...totalCount, { _id: "booking", count: totalBookings }],
+            byDepartment,
+            byDoctor,
+            startDate: new Date(startDate),
+            endDate: new Date(new Date(endDate).setDate(new Date(endDate).getDate() - 1))
+        })
     }catch(error){
         console.log(error)
         res.json({error, err:true, message:"something went wrong"})

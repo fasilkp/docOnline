@@ -170,10 +170,14 @@ export default function AdminReport() {
                                                     </div>
                                                     <div className="report-input-row">
                                                         <div className="report-input-date-picker">
-                                                            <MobileDatePicker className='w-100' value={startDate} onChange={(date) =>  {setStartDate(date); setFilter(""); setRefresh(!refresh)}} />
+                                                            <MobileDatePicker className='w-100' value={startDate} 
+                                                            format="DD-MM-YYYY"
+                                                            onChange={(date) =>  {setStartDate(date); setFilter(""); setRefresh(!refresh)}} />
                                                         </div>
                                                         <div className="report-input-date-picker">
-                                                            <MobileDatePicker className='w-100' value={endDate} onChange={(date) => {setEndDate(date); setFilter(""); setRefresh(!refresh)}} />
+                                                            <MobileDatePicker className='w-100' value={endDate} 
+                                                            format="DD-MM-YYYY"
+                                                            onChange={(date) => {setEndDate(date); setFilter(""); setRefresh(!refresh)}} />
                                                         </div>
                                                     </div>
 
