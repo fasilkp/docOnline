@@ -289,3 +289,22 @@ export async function addComplaint(req, res){
         res.json({err:true, error, message:"something went wrong"})
     }
 }
+
+export async function cancelBooking(req, res){
+    try{
+        const {bookingId} = req.body;
+        await BookingModel.updateOne({
+            _id:bookingId
+        },{
+            $set:{
+                status:"Cancelled",
+                refundPending:true
+            }
+        })
+        return res.json({
+            err:false
+        })
+    }catch(error){
+        res.json({err:true, error, message:"something went wrong"})
+    }
+}

@@ -48,6 +48,10 @@ const schema = new mongoose.Schema({
     status:{
         type:String,
         default:"upcoming"
+    },
+    refundPending:{
+        type:Boolean,
+        default:false
     }
 },{timestamps:true })
 
