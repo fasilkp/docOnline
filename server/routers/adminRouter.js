@@ -1,5 +1,5 @@
 import express from 'express'
-import { acceptHospital, adminDashboard, blockHospital, blockUser, getAdminComplaints, getAdminReport, getBookingRefunds, getDepartments, getDoctors, getHospitalRequests, getHospitals, getUsers, rejectHospital, unBlockHospital, unBlockUser } from '../controllers/adminController.js';
+import { acceptHospital, adminDashboard, blockHospital, blockUser, getAdminComplaints, getAdminReport, getBookingRefunds, getDepartments, getDoctors, getHospitalRequests, getHospitals, getUsers, refundComplete, rejectHospital, unBlockHospital, unBlockUser } from '../controllers/adminController.js';
 
 const Router = express.Router();
 
@@ -27,6 +27,8 @@ Router.get("/complaints",getAdminComplaints)
 Router.get("/reports",getAdminReport)
 
 Router.get("/booking/refunds", getBookingRefunds)
+Router.get("/booking/refunds", getBookingRefunds)
+Router.post("/booking/refund/complete", refundComplete)
 
 
 export default Router

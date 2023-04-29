@@ -7,7 +7,7 @@ import AdminHeader from '../AdminHeader/AdminHeader';
 import AdminSidebar from '../AdminSidebar/AdminSidebar';
 import Swal from 'sweetalert2'
 import { Backdrop, CircularProgress } from '@mui/material';
-import { getAdminRefundList } from '../../api/adminApi';
+import { getAdminRefundList, refundComplete } from '../../api/adminApi';
 import notFoundImg from '../../assets/images/notFound.png'
 
 export default function AdminRefunds() {
@@ -47,9 +47,15 @@ export default function AdminRefunds() {
       cancelButtonText:"Cancel"
     }).then(async (result) => {
       if (result.isConfirmed) {
-        const { data } = await axios.patch("/admin/user/block", { id });
-        console.log(data)
-        setRefresh(!refresh)
+        const data= await refundComplete(id)
+        if(!data.err){
+          Swal.fire(
+            'Success!',
+            'Successfully Issued refund',
+            'success'
+          )
+          setRefresh(!refresh)
+        }
       }
     })
   }

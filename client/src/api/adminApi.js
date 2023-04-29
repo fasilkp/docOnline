@@ -55,8 +55,8 @@ export async function getAdminRefundList(){
     return data
 }
 
-export async function refundCompleted(){
-    const {data} = await axios.get("/admin/booking/refunds")
+export async function refundComplete(id){
+    const {data} = await axios.post("/admin/booking/refund/complete", {id})
     if(data.err){
         Swal.fire({
             icon: 'error',
