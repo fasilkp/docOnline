@@ -4,19 +4,22 @@ import doctorImg from '../../assets/images/doctor.png'
 import './UserBooking.css'
 import { Container } from 'react-bootstrap'
 import axios from 'axios'
-import { Chip, FormControl, InputLabel, MenuItem, Select } from '@mui/material'
+import { Chip, FormControl, InputLabel, MenuItem, Select, setRef } from '@mui/material'
 import ViewEmr from '../../Modal/ViewEmr/ViewEmr'
+import Swal from 'sweetalert2'
+import { cancelBooking } from '../../api/userApi'
 
 export default function UserBooking() {
   const [bookingList, setBookingList] = useState([])
+  const [refresh, setRefresh]= useState(true)
   const [booking, setBooking] = useState({})
-  const [filter, setFilter]=useState('upcoming')
+  const [filter, setFilter] = useState('upcoming')
   const [showAddEmr, setShowAddEmr] = useState(false)
 
   useEffect(() => {
     (
       async function () {
-        const { data } = await axios.get("/user/booking?filter="+filter);
+        const { data } = await axios.get("/user/booking?filter=" + filter);
         console.log(data)
         if (!data.err) {
           setBookingList(data.bookings)
@@ -29,6 +32,32 @@ export default function UserBooking() {
 
     setBooking(data);
     setShowAddEmr(true)
+  }
+
+  const handleCancelBooking = async (bookingId) => {
+    Swal.fire({
+      title: 'Are you sure? Cancel this appointment',
+      text: "Cancel appointment",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#7e3af2',
+      cancelButtonColor: '##a8a8a8',
+      confirmButtonText: 'Yes, Cancel',
+      cancelButtonText: "No"
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const data = await cancelBooking(bookingId);
+        if (!data.err) {
+          Swal.fire(
+            'Success!',
+            'Successfully Cancelled Appoiintments',
+            'success'
+        )
+          setRefresh(!refresh);
+        }
+      }
+    })
+
   }
   return (
     <div className="user-main">
@@ -44,7 +73,7 @@ export default function UserBooking() {
               <Select
                 labelId="demo-simple-select-autowidth-label"
                 id="demo-simple-select-autowidth"
-                onChange={(e)=>setFilter(e.target.value)}
+                onChange={(e) => setFilter(e.target.value)}
                 value={filter}
                 autoWidth
                 label="Age"
@@ -79,8 +108,12 @@ export default function UserBooking() {
                     </div>
 
                   </div>
-                  <div className="booking-status">
+                  <div className="booking-status d-flex align-items-center justify-content-center" style={{gap:"10px", flexWrap:"wrap"}}>
                     <Chip label={item.status} color={item.status == 'consulted' ? "primary" : "secondary"} variant="outlined" />
+                    {
+                      item.status=='upcoming' &&
+                    <button className='btn btn-dark' onClick={()=>handleCancelBooking(item._id)}>Cancel</button>
+                    }
                   </div>
                 </div>
               </div>

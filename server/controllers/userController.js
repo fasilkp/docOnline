@@ -297,7 +297,8 @@ export async function cancelBooking(req, res){
             _id:bookingId
         },{
             $set:{
-                status:"refund processing"
+                status:"refund processing",
+                time:new Date(new Date(0).setFullYear(0))
             }
         })
         return res.json({
