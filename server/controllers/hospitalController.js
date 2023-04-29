@@ -272,100 +272,113 @@ export async function getHospitalComplaints(req, res) {
 }
 
 export async function getHospitalReport(req, res) {
+    try {
+        // console.log(req.query)
+        let startDate = new Date(new Date().setDate(new Date().getDate() - 8))
+        let endDate = new Date()
+        console.log(startDate, endDate)
 
-    let startDate = new Date(new Date().setDate(new Date().getDate() - 8))
-    let endDate = new Date()
-
-    if (req.query.startDate) {
-        startDate = new Date(req.query.startDate)
-        startDate.setHours(0, 0, 0, 0);
-    }
-    if (req.query.endDate) {
-        endDate = new Date(req.query.endDate)
-        endDate.setHours(24, 0, 0, 0);
-    }
-    if (req.query.filter == 'thisYear') {
-        let currentDate = new Date()
-        startDate = new Date(currentDate.getFullYear(), 0, 1);
-        startDate.setHours(0, 0, 0, 0);
-        endDate = new Date(new Date().setDate(new Date().getDate() + 1))
-        endDate.setHours(0, 0, 0, 0);
-    }
-    if (req.query.filter == 'lastYear') {
-        let currentDate = new Date()
-        startDate = new Date(currentDate.getFullYear() - 1, 0, 1);
-        startDate.setHours(0, 0, 0, 0);
-        endDate = new Date(currentDate.getFullYear() - 1, 11, 31);
-        endDate.setHours(0, 0, 0, 0);
-    }
-    if (req.query.filter == 'thisMonth') {
-        let currentDate = new Date()
-        startDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
-        startDate.setHours(0, 0, 0, 0);
-        endDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1);
-        endDate.setHours(0, 0, 0, 0);
-    }
-    if (req.query.filter == 'lastMonth') {
-        let currentDate = new Date()
-        startDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1);
-        startDate.setHours(0, 0, 0, 0);
-        endDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
-        endDate.setHours(0, 0, 0, 0);
-    }
-
-    const totalBookings = await BookingModel
-        .find({ date: { $gt: startDate, $lt: endDate }, hospitalId:req.hospital._id })
-        .count()
-    const totalCount = await BookingModel.aggregate([
-        {
-            $match:{ date: { $gt: startDate, $lt: endDate }, hospitalId:req.hospital._id }
-        },
-        {
-            $group: {
-                _id: '$status',
-                count: { $sum: 1 }
-            }
+        if (req.query.startDate) {
+            startDate = new Date(Number(req.query.startDate))
+            startDate.setHours(0, 0, 0, 0);
         }
-    ])
-    const byDepartment = await BookingModel.aggregate([
-        { $match: 
-            { date: { $gt: startDate, $lt: endDate }, hospitalId:req.hospital._id  } 
-        }, 
-        {
-            $lookup: {
-                from: "doctors",
-                localField: "doctorId",
-                foreignField: "_id",
-                as: 'doctor'
-            }
-        },
-        { $unwind: "$doctor" },
-        { $group: { _id: "$doctor.department",totalProfit:{$sum:"$doctor.fees"}, count: { $sum: 1 }}},
-        {
-            $lookup: {
-                from: "departments",
-                localField: "_id",
-                foreignField: "_id",
-                as: 'department'
-            }
-        },
-        { $unwind: "$department" }
-    ])
-    const byDoctor = await BookingModel.aggregate([
-        { $match: 
-            { date: { $gt: startDate, $lt: endDate }, hospitalId:req.hospital._id  } 
-        }, 
-        {
-            $lookup: {
-                from: "doctors",
-                localField: "doctorId",
-                foreignField: "_id",
-                as: 'doctor'
-            }
-        },
-        { $unwind: "$doctor" },
-        { $group: { _id: {id:"$doctorId", doctorName:'$doctor.name'},totalProfit:{$sum:"$doctor.fees"},  count: { $sum: 1 }}},
-    ])
+        if (req.query.endDate) {
+            endDate = new Date(Number(req.query.endDate))
+            endDate.setHours(24, 0, 0, 0);
+        }
+        console.log(startDate, endDate)
 
-    res.json({totalCount:[...totalCount, {_id:"booking", count:totalBookings}], byDepartment, byDoctor})
+        if (req.query.filter == 'thisYear') {
+            let currentDate = new Date()
+            startDate = new Date(currentDate.getFullYear(), 0, 1);
+            startDate.setHours(0, 0, 0, 0);
+            endDate = new Date(new Date().setDate(new Date().getDate() + 1))
+            endDate.setHours(0, 0, 0, 0);
+        }
+        if (req.query.filter == 'lastYear') {
+            let currentDate = new Date()
+            startDate = new Date(currentDate.getFullYear() - 1, 0, 1);
+            startDate.setHours(0, 0, 0, 0);
+            endDate = new Date(currentDate.getFullYear() - 1, 11, 31);
+            endDate.setHours(0, 0, 0, 0);
+        }
+        if (req.query.filter == 'thisMonth') {
+            let currentDate = new Date()
+            startDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+            startDate.setHours(0, 0, 0, 0);
+            endDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1);
+            endDate.setHours(0, 0, 0, 0);
+        }
+        if (req.query.filter == 'lastMonth') {
+            let currentDate = new Date()
+            startDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1);
+            startDate.setHours(0, 0, 0, 0);
+            endDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+            endDate.setHours(0, 0, 0, 0);
+        }
+
+        const totalBookings = await BookingModel
+            .find({ date: { $gt: startDate, $lt: endDate }, hospitalId: req.hospital._id })
+            .count()
+        const totalCount = await BookingModel.aggregate([
+            {
+                $match: { date: { $gt: startDate, $lt: endDate }, hospitalId: req.hospital._id }
+            },
+            {
+                $group: {
+                    _id: '$status',
+                    count: { $sum: 1 }
+                }
+            }
+        ])
+        const byDepartment = await BookingModel.aggregate([
+            {
+                $match:
+                    { date: { $gt: startDate, $lt: endDate }, hospitalId: req.hospital._id }
+            },
+            {
+                $lookup: {
+                    from: "doctors",
+                    localField: "doctorId",
+                    foreignField: "_id",
+                    as: 'doctor'
+                }
+            },
+            { $unwind: "$doctor" },
+            { $group: { _id: "$doctor.department", totalProfit: { $sum: "$doctor.fees" }, count: { $sum: 1 } } },
+            {
+                $lookup: {
+                    from: "departments",
+                    localField: "_id",
+                    foreignField: "_id",
+                    as: 'department'
+                }
+            },
+            { $unwind: "$department" }
+        ])
+        console.log(byDepartment)
+        const byDoctor = await BookingModel.aggregate([
+            {
+                $match:
+                    { date: { $gt: startDate, $lt: endDate }, hospitalId: req.hospital._id }
+            },
+            {
+                $lookup: {
+                    from: "doctors",
+                    localField: "doctorId",
+                    foreignField: "_id",
+                    as: 'doctor'
+                }
+            },
+            { $unwind: "$doctor" },
+            { $group: { _id: { id: "$doctorId", doctorName: '$doctor.name' }, totalProfit: { $sum: "$doctor.fees" }, count: { $sum: 1 } } },
+        ])
+        console.log(byDoctor)
+
+        res.json({ totalCount: [...totalCount, { _id: "booking", count: totalBookings }], byDepartment, byDoctor, startDate:new Date(new Date(startDate).setDate(new Date(startDate).getDate() +1)), endDate })
+    }catch(error){
+        console.log(error)
+        res.json({error, err:true, message:"something went wrong"})
+    }
+
 }

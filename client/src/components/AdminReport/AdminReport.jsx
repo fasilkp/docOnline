@@ -1,11 +1,10 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { Col, Container, Dropdown, Row, Table } from 'react-bootstrap';
+import { Col, Container, Row, Table } from 'react-bootstrap';
 import { Backdrop, CircularProgress, setRef } from '@mui/material';
 import HospitalSidebar from '../HospitalSidebar/HospitalSidebar';
 import { useDispatch, useSelector } from 'react-redux'
 import HospitalHeader from '../HospitalHeader/HospitalHeader';
-import AddDoctor from '../../Modal/AddDoctor/AddDoctor';
 import { useEffect } from 'react';
 import { getHospitalReport } from '../../api/hospitalApi';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -16,10 +15,9 @@ import './HospitalReport.css'
 import dayjs from 'dayjs';
 import { jsPDF } from "jspdf";
 import autoTable from 'jspdf-autotable'
-import html2pdf from 'html2pdf.js'
 
  
-export default function HospitalReport() {
+export default function AdminReport() {
     const [refresh, setRefresh] = useState(false)
     const [startDate, setStartDate] = useState(dayjs(new Date(new Date().setDate(new Date().getDate() - 7))))
     const [endDate, setEndDate] = useState(dayjs(new Date()))
@@ -77,22 +75,6 @@ const downloadPdf=()=>{
         startY: doc.lastAutoTable.finalY + 10
     })
 
-    // doc.text("Hello world!", 10, 10);
-    // // autoTable(doc, { html: '#textHtml' })
-    // var elementHTML = document.querySelector("#textHtml");
-    // console.log(elementHTML)
-    // doc.html(elementHTML, {
-    //     callback: function(doc) {
-    //         // Save the PDF
-    //         doc.save('sample-document.pdf');
-    //     },
-    //     x: 15,
-    //     y: 15,
-    //     width: 170, //target width in the PDF document
-    //     windowWidth: 650 //window width in CSS pixels
-    // });
-    // var worker = html2pdf().from(elementHTML).save();
-    
     doc.save("a4.pdf");
 }
 

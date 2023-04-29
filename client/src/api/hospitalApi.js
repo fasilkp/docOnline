@@ -50,3 +50,16 @@ export async function getHospitalComplaints(name){
     }
     return data
 }
+
+export async function getHospitalReport(startDate, endDate){
+    console.log(new Date(startDate))
+    const {data} = await axios.get("/hospital/reports?startDate="+startDate+"&endDate="+endDate);
+    if(data.err){
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: data.message,
+          })
+    }
+    return data
+}

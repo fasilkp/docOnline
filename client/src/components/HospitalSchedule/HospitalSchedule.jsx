@@ -40,8 +40,8 @@ export default function HospitalSchedule() {
       }
     })()
   }, [])
+  
   const [scheduleState, scheduleDispatch] = useReducer(scheduleReducer, scheduleInititalState)
-
   const [mon, setMon] = useState({ startDate: null, endDate: null, slot: 0 })
   const [tue, setTue] = useState({ startDate: null, endDate: null, slot: 0 })
   const [wed, setWed] = useState({ startDate: null, endDate: null, slot: 0 })
