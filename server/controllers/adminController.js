@@ -290,3 +290,19 @@ export async function getBookingRefunds(req, res){
         res.json({err:true, error, message:"something went wrong"})
     }
 }
+export async function refundComplete(req, res){
+    try{
+        const {id}=req.body; 
+        await BookingModel.findByIdAndUpdate(id,{
+            $set:{
+                status:"cancelled"
+            }
+        })
+        return res.json({
+            err:false
+        })
+    }catch(error){
+        console.log(error)
+        res.json({err:true, error, message:"something went wrong"})
+    }
+}

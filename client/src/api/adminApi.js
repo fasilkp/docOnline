@@ -54,3 +54,15 @@ export async function getAdminRefundList(){
     }
     return data
 }
+
+export async function refundCompleted(){
+    const {data} = await axios.get("/admin/booking/refunds")
+    if(data.err){
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: data.message,
+          })
+    }
+    return data
+}
