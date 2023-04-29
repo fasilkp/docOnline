@@ -108,9 +108,13 @@ export default function AdminRefunds() {
                     </tr>
                   })
                   : 
-                  <Row className='d-flex justify-content-center align-items-center'>
-                    <img src={notFoundImg} style={{maxHeight:"300px", maxWidth:"90%"}} alt="" />
+                  <tr>
+
+                  <Row className='d-flex justify-content-center flex-column align-items-center'>
+                    <img src={notFoundImg} style={{maxHeight:"300px", maxWidth:"90%", width:"300px"}} alt="" />
+                    <h6 className='text-center'>No data found</h6>
                   </Row>
+                  </tr>
                 }
 
               </tbody>
