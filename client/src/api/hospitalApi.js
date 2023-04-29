@@ -51,15 +51,20 @@ export async function getHospitalComplaints(name){
     return data
 }
 
-export async function getHospitalReport(startDate, endDate){
-    console.log(new Date(startDate))
-    const {data} = await axios.get("/hospital/reports?startDate="+startDate+"&endDate="+endDate);
-    if(data.err){
+export async function getHospitalReport(startDate, endDate, filter){
+    let result;
+    if(filter){
+        result = await axios.get("/hospital/reports?filter="+filter);
+    }else{
+        result = await axios.get("/hospitalreports?startDate="+startDate+"&endDate="+endDate);
+    }
+    console.log(result.data)
+    if(result.data.err){
         Swal.fire({
             icon: 'error',
             title: 'Oops...',
-            text: data.message,
+            text: result.data.message,
           })
     }
-    return data
+    return result.data
 }

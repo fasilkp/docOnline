@@ -3,7 +3,6 @@ import Swal from "sweetalert2"
 
 export async function getAdminDashboardDetails(){
     const {data} = await axios.get("/admin/dashboard") 
-    console.log(data)
     if(data.err){
         Swal.fire({
             icon: 'error',
@@ -26,15 +25,20 @@ export async function getAdminComplaints(){
     return data
 }
 
-export async function getAdminReport(startDate, endDate){
-    console.log(new Date(startDate))
-    const {data} = await axios.get("/hospital/reports?startDate="+startDate+"&endDate="+endDate);
-    if(data.err){
+export async function getAdminReport(startDate, endDate, filter){
+    let result;
+    if(filter){
+        result = await axios.get("/admin/reports?filter="+filter);
+    }else{
+        result = await axios.get("/admin/reports?startDate="+startDate+"&endDate="+endDate);
+    }
+    console.log(result.data)
+    if(result.data.err){
         Swal.fire({
             icon: 'error',
             title: 'Oops...',
-            text: data.message,
+            text: result.data.message,
           })
     }
-    return data
+    return result.data
 }

@@ -168,12 +168,18 @@ export async function getAdminReport(req, res) {
         let endDate = new Date()
 
         if (req.query.startDate) {
-            startDate = new Date(req.query.startDate)
+            startDate = new Date(Number(req.query.startDate))
             startDate.setHours(0, 0, 0, 0);
         }
         if (req.query.endDate) {
-            endDate = new Date(req.query.endDate)
+            endDate = new Date(Number(req.query.endDate))
             endDate.setHours(24, 0, 0, 0);
+        }
+        if (req.query.filter == 'lastWeek') {
+            let startDate = new Date(new Date().setDate(new Date().getDate() - 8))
+            startDate.setHours(0, 0, 0, 0);
+            let endDate = new Date()
+            endDate.setHours(0, 0, 0, 0);
         }
         if (req.query.filter == 'thisYear') {
             let currentDate = new Date()
@@ -205,11 +211,11 @@ export async function getAdminReport(req, res) {
         }
 
         const totalBookings = await BookingModel
-            .find({ date: { $gt: startDate, $lt: endDate }})
+            .find({ date: { $gt: startDate, $lt: endDate } })
             .count()
         const totalCount = await BookingModel.aggregate([
             {
-                $match: { date: { $gt: startDate, $lt: endDate }}
+                $match: { date: { $gt: startDate, $lt: endDate } }
             },
             {
                 $group: {
@@ -221,7 +227,7 @@ export async function getAdminReport(req, res) {
         const byDepartment = await BookingModel.aggregate([
             {
                 $match:
-                    { date: { $gt: startDate, $lt: endDate }}
+                    { date: { $gt: startDate, $lt: endDate } }
             },
             {
                 $lookup: {
@@ -246,7 +252,7 @@ export async function getAdminReport(req, res) {
         const byDoctor = await BookingModel.aggregate([
             {
                 $match:
-                    { date: { $gt: startDate, $lt: endDate }}
+                    { date: { $gt: startDate, $lt: endDate } }
             },
             {
                 $lookup: {
@@ -259,7 +265,13 @@ export async function getAdminReport(req, res) {
             { $unwind: "$doctor" },
             { $group: { _id: { id: "$doctorId", doctorName: '$doctor.name' }, totalProfit: { $sum: "$doctor.fees" }, count: { $sum: 1 } } },
         ])
-        res.json({ totalCount: [...totalCount, { _id: "booking", count: totalBookings }], byDepartment, byDoctor, startDate: new Date(new Date(startDate).setDate(new Date(startDate).getDate() + 1)), endDate })
+        res.json({
+            totalCount: [...totalCount, { _id: "booking", count: totalBookings }],
+            byDepartment,
+            byDoctor,
+            startDate: new Date(startDate),
+            endDate: new Date(new Date(endDate).setDate(new Date(endDate).getDate() - 1))
+        })
     } catch (error) {
         console.log(error)
         res.json({ error, err: true, message: "something went wrong" })

@@ -160,4 +160,12 @@ button:disabled {
   .def-padding {
     padding: 0px 10px;
   }
+  .container-header{
+    flex-direction: column;
+    align-items: start;
+  }
+  .container-header .admin-search-box{
+    display: flex;
+    max-width: 100%;
+  }
 }

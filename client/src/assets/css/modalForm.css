@@ -58,3 +58,10 @@
         transform: scale(1);
     }
 }
+
+/* @media(max-width:600px){
+    .modal-container{
+        height: 100%;
+        justify-content: center;
+    }
+} */

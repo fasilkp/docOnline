@@ -1,11 +1,11 @@
 import React from 'react'
 import './Sidebar.css'
-import { RiArchiveDrawerLine, RiBuilding4Line, RiFileWarningLine, RiHome2Line, RiHospitalLine, RiUser2Line, RiUserLine } from "react-icons/ri";
+import { RiBuilding4Line, RiFileWarningLine, RiHome2Line, RiHospitalLine, RiUser2Line, RiUserLine } from "react-icons/ri";
 import { Link } from 'react-router-dom';
 
-function AdminSidebar({page}) {
+function AdminSidebar({page, clicked}) {
   return (
-    <div className="admin-sidebar">
+    <div className={`admin-sidebar ${clicked && 'open'}`}>
           <ul>
               <Link to="/account/admin/">
             <li className={`admin-sideitems ${page=="dashboard" && 'active'}`}>
@@ -65,7 +65,7 @@ function AdminSidebar({page}) {
               </div>
             </li>
             </Link>
-            <Link to="/account/admin/hospitals/requests">
+            <Link to="/account/admin/complaint">
 
             <li className={`admin-sideitems ${page=="complain" && 'active'}`}>
 
@@ -74,6 +74,18 @@ function AdminSidebar({page}) {
 
                 <RiFileWarningLine className='icon' />
                 <span>Complaints</span>
+              </div>
+            </li>
+            </Link>
+            <Link to="/account/admin/reports">
+
+            <li className={`admin-sideitems ${page=="report" && 'active'}`}>
+
+              <div className='side'></div>
+              <div className="admin-sideItem">
+
+                <RiFileWarningLine className='icon' />
+                <span>Reports</span>
               </div>
             </li>
             </Link>
