@@ -43,20 +43,14 @@ export async function getAdminReport(startDate, endDate, filter){
     return result.data
 }
 
-export async function getAdminReport(startDate, endDate, filter){
-    let result;
-    if(filter){
-        result = await axios.get("/admin/reports?filter="+filter);
-    }else{
-        result = await axios.get("/admin/reports?startDate="+startDate+"&endDate="+endDate);
-    }
-    console.log(result.data)
-    if(result.data.err){
+export async function getAdminRefundList(startDate, endDate, filter){
+    const {data} = await axios.get("/admin/booking/refunds")
+    if(data.err){
         Swal.fire({
             icon: 'error',
             title: 'Oops...',
-            text: result.data.message,
+            text: data.message,
           })
     }
-    return result.data
+    return data
 }
