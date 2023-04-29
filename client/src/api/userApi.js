@@ -65,3 +65,15 @@ export async function addComplaint(doctorId, hospitalId, description){
     return data
 }
 
+export async function cancelBooking(bookingId){
+    const {data} = await axios.patch("/user/booking/cancel", {bookingId});
+    if(data.err){
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: data.message,
+          })
+    }
+    return data
+}
+

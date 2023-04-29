@@ -277,3 +277,14 @@ export async function getAdminReport(req, res) {
         res.json({ error, err: true, message: "something went wrong" })
     }
 }
+export async function getBookingRefunds(req, res){
+    try{
+        const bookings= await BookingModel.find({status:'refund processing'}).lean()
+        return res.json({
+            err:false,
+            bookings
+        })
+    }catch(error){
+        res.json({err:true, error, message:"something went wrong"})
+    }
+}
