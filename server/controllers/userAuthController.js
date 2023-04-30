@@ -12,6 +12,7 @@ export async function userLogin(req, res) {
     try {
         const { email, password } = req.body;
         const user = await UserModel.findOne({ email })
+        console.log(email, user)
         if (!user)
             return res.json({ err: true, message: "No User found" })
         if (user.block)
@@ -33,6 +34,7 @@ export async function userLogin(req, res) {
         }).json({ err: false, user: user._id })
     }
     catch (err) {
+        console.log(err)
         res.json({ message: "server error", err: true, error: err })
     }
 }

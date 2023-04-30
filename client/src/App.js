@@ -42,7 +42,8 @@ import AdminRefundPage from './pages/admin/AdminRefundPage';
 
 function App() {
   axios.defaults.withCredentials = true;
-  axios.defaults.baseURL = "https://doconlineapi.cartgenie.store/";
+  axios.defaults.baseURL = "http://localhost:5000/";
+  // axios.defaults.baseURL = "https://doconlineapi.cartgenie.store/";
 
 
   const { user, refresh, admin, hospital, doctor } = useSelector((state) => {
@@ -66,29 +67,7 @@ function App() {
   return (
     <div className='App'>
       <Routes>
-        {
-          user.login &&
-          <>
-            <Route path='/login' element={<Navigate to={"/"} />} />
-            <Route path='/signup' element={<Navigate to="/" />} />
-            <Route path='/' element={<UserHomePage />} />
-            <Route path='/search' element={<UserSearchPage />} />
-            <Route path='/doctor/:id' element={<UserDoctorPage />} />
-            <Route path='/hospital/:id' element={<UserHospitalPage />} />
-            <Route path='/department/:id' element={<UserDepartmentPage />} />
-            <Route path='/booking' element={<UserBookingPage />} />
-          </>
-        }
-        {
-          user.login === false &&
-          <>
-            <Route path='/login' element={<LoginPage />} />
-            <Route path='/signup' element={<UserSignupPage />} />
-            <Route path='/forgot' element={<UserForgotPage />} />
-            <Route path='/' element={<Navigate to="/login" />} />
-            <Route path='/doctor/*' element={<Navigate to="/login" />} />
-          </>
-        }
+        
         {
           admin.login &&
           <>
@@ -166,6 +145,33 @@ function App() {
             <Route path='/account/doctor/profile' element={<DoctorProfilePage />} />
             <Route path='/account/doctor/schedule' element={<DoctorSchedulePage />} />
             <Route path='/account/doctor/booking' element={<DoctorBookingPage />} />
+          </>
+        }
+        {
+          user.login &&
+          <>
+            <Route path='/login' element={<Navigate to={"/"} />} />
+            <Route path='/signup' element={<Navigate to="/" />} />
+            <Route path='/' element={<UserHomePage />} />
+            <Route path='/search' element={<UserSearchPage />} />
+            <Route path='/doctor/:id' element={<UserDoctorPage />} />
+            <Route path='/hospital/:id' element={<UserHospitalPage />} />
+            <Route path='/department/:id' element={<UserDepartmentPage />} />
+            <Route path='/booking' element={<UserBookingPage />} />
+          </>
+        }
+        {
+          user.login === false &&
+          <>
+            <Route path='/login' element={<LoginPage />} />
+            <Route path='/signup' element={<UserSignupPage />} />
+            <Route path='/forgot' element={<UserForgotPage />} />
+            <Route path='/' element={<Navigate to="/login" />} />
+            <Route path='/search' element={<Navigate to="/login" />} />
+            <Route path='/doctor/:id' element={<Navigate to="/login" />} />
+            <Route path='/hospital/:id' element={<Navigate to="/login" />} />
+            <Route path='/department/:id' element={<Navigate to="/login" />} />
+            <Route path='/booking' element={<Navigate to="/login" />} />
           </>
         }
 

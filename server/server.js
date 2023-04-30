@@ -32,7 +32,6 @@ app.use(
 );
 dbConnect();
 
-
 app.use("/user/auth/", userAuthRouter)
 app.use("/admin/auth/", adminAuthRouter)
 app.use("/hospital/auth/", hospitalAuthRouter)
@@ -41,7 +40,6 @@ app.use("/admin/",verifyAdmin, adminRouter)
 app.use("/hospital/",verifyHospital, hospitalRouter)
 app.use("/user/",verifyUser, userRouter)
 app.use("/doctor/",verifyDoctor, doctorRouter)
-
 
 app.listen(5000, ()=>{
     console.log("server running on port 5000")
