@@ -400,3 +400,13 @@ export async function getHospitalReport(req, res) {
     }
 
 }
+
+export async function withdrawModal(req, res){
+    try{
+        const {accountHolder, accountNo, branch, ifsc} = req.body;
+        
+    }catch(error){
+        console.log(error)
+        res.json({error, err:true, message:"something went wrong"})
+    }
+}
