@@ -1,7 +1,7 @@
 {
   "main.css": "/static/css/main.baffdf04.chunk.css",
-  "main.js": "/static/js/main.ad19226d.chunk.js",
-  "main.js.map": "/static/js/main.ad19226d.chunk.js.map",
+  "main.js": "/static/js/main.18427327.chunk.js",
+  "main.js.map": "/static/js/main.18427327.chunk.js.map",
   "static/css/1.89fd01e7.chunk.css": "/static/css/1.89fd01e7.chunk.css",
   "static/js/1.105d6147.chunk.js": "/static/js/1.105d6147.chunk.js",
   "static/js/1.105d6147.chunk.js.map": "/static/js/1.105d6147.chunk.js.map",
@@ -23,9 +23,9 @@
   "static/media/hospital.jpg": "/static/media/hospital.c64099aa.jpg",
   "static/media/01.jpg": "/static/media/01.9024d486.jpg",
   "static/media/UserHome.css": "/static/media/user-banner.44771240.png",
-  "static/css/main.baffdf04.chunk.css.map": "/static/css/main.baffdf04.chunk.css.map",
   "static/css/1.89fd01e7.chunk.css.map": "/static/css/1.89fd01e7.chunk.css.map",
+  "static/css/main.baffdf04.chunk.css.map": "/static/css/main.baffdf04.chunk.css.map",
   "index.html": "/index.html",
-  "precache-manifest.921c9fdaa98e8dd69b32d1c636fcbb1d.js": "/precache-manifest.921c9fdaa98e8dd69b32d1c636fcbb1d.js",
+  "precache-manifest.38ca69b0dc3ceb25347cddae0eaf8ea5.js": "/precache-manifest.38ca69b0dc3ceb25347cddae0eaf8ea5.js",
   "service-worker.js": "/service-worker.js"
 }

@@ -25,19 +25,13 @@ app.use(express.static(path.resolve()+"/public"))
 app.use(
   cors({
     origin: [
-      "http://localhost:3000", 
+      "http://localhost:3000", "https://doconline.netlify.app"
     ],
     credentials: true,
   })
 );
 dbConnect();
 
-app.get("/", (req, res)=>{
-  res.json({
-    message:"App runnng successfull",
-    attempt:1
-  })
-})
 
 app.use("/user/auth/", userAuthRouter)
 app.use("/admin/auth/", adminAuthRouter)
