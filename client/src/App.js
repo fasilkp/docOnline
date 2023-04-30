@@ -44,8 +44,8 @@ import AdminWithdrawalsPage from './pages/admin/AdminWithdrawalsPage';
 
 function App() {
   axios.defaults.withCredentials = true;
-  axios.defaults.baseURL = "http://localhost:5000/";
-  // axios.defaults.baseURL = "https://doconlineapi.cartgenie.store/";
+  // axios.defaults.baseURL = "http://localhost:5000/";
+  axios.defaults.baseURL = "https://doconlineapi.cartgenie.store/";
 
 
   const { user, refresh, admin, hospital, doctor } = useSelector((state) => {
