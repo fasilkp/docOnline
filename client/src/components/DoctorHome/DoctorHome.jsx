@@ -12,6 +12,7 @@ import notFoundImg from '../../assets/images/notFound.png'
 
 function DoctorHome() {
     const [bookingList, setBookingList] = useState([])
+    const [refresh, setRefresh] = useState(false)
     const [booking, setBooking] = useState({})
     const [showAddEmr, setShowAddEmr] = useState(false)
     useEffect(() => {
@@ -23,7 +24,7 @@ function DoctorHome() {
                 }
             }
         )()
-    }, []);
+    }, [refresh]);
 
     const showEmr = (data) => {
         setBooking(data);
@@ -83,7 +84,7 @@ function DoctorHome() {
             </div>
             {
                 showAddEmr &&
-                <AddEMR booking={booking} setShowAddEmr={setShowAddEmr} />
+                <AddEMR booking={booking} setShowAddEmr={setShowAddEmr} refresh={refresh} setRefresh={setRefresh} />
             }
             <DoctorBottomNav page={'home'} />
         </div>

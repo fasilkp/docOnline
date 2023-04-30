@@ -77,8 +77,8 @@ export async function getHospital(id){
     return data
 }
 
-export async function addComplaint(doctorId, hospitalId, description){
-    const {data} = await axios.post("/user/complaint", {doctorId, hospitalId, description});
+export async function addComplaint(complaintAgainst, type, description){
+    const {data} = await axios.post("/user/complaint", {complaintAgainst, type, description});
     if(data.err){
         Swal.fire({
             icon: 'error',

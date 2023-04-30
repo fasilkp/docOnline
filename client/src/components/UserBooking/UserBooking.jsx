@@ -9,6 +9,7 @@ import ViewEmr from '../../Modal/ViewEmr/ViewEmr'
 import Swal from 'sweetalert2'
 import { cancelBooking } from '../../api/userApi'
 import notFoundImg from '../../assets/images/notFound.png'
+import { useSelector } from 'react-redux'
 
 export default function UserBooking() {
   const [bookingList, setBookingList] = useState([])
@@ -17,6 +18,8 @@ export default function UserBooking() {
   const [filter, setFilter] = useState('all')
   const [showAddEmr, setShowAddEmr] = useState(false)
 
+  const user = useSelector((state)=>state.user.details)
+
   useEffect(() => {
     (
       async function () {
@@ -24,7 +27,6 @@ export default function UserBooking() {
         if (!data.err) {
           setBookingList(data.bookings)
         }
-
       }
     )()
   }, [filter])
@@ -69,7 +71,8 @@ export default function UserBooking() {
           
           <div className="profile-comp">
             <img src="https://png.pngtree.com/png-vector/20220709/ourmid/pngtree-businessman-user-avatar-wearing-suit-with-red-tie-png-image_5809521.png" alt="" />
-            <h6 className="text-center">Mohamed Fasil KP</h6>
+            <h6 className="text-center mt-2">{user.name.toUpperCase()}</h6>
+            <span className="text-center">{user.email}</span>
           </div>
           <div className='d-flex justify-content-between'>
             <h4 className='mt-3'>Recent Booking</h4>

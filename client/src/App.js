@@ -38,6 +38,7 @@ import HospitalReportPage from './pages/hospital/HospitalReportPage';
 import AdminReportPage from './pages/admin/AdminReportPage';
 import AdminRefundPage from './pages/admin/AdminRefundPage';
 import UserProfilePage from './pages/user/UserProfilePage';
+import AdminComplaintPage from './pages/admin/AdminComplaintPage';
 
 
 function App() {
@@ -78,6 +79,7 @@ function App() {
             <Route path='/account/admin/hospitals' element={<AdminHospitalPage />} />
             <Route path='/account/admin/users' element={<AdminUsersPage />} />
             <Route path='/account/admin/reports' element={<AdminReportPage />} />
+            <Route path='/account/admin/complaints' element={<AdminComplaintPage />} />
           </>
         }
         {

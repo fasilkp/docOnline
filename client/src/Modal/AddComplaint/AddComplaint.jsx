@@ -4,7 +4,8 @@ import React, { useEffect, useState } from 'react'
 import { Form, FormControl } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { ClipLoader } from 'react-spinners'
-import { getAllDoctors, getAllHospitals } from '../../api/userApi'
+import Swal from 'sweetalert2'
+import { addComplaint, getAllDoctors, getAllHospitals } from '../../api/userApi'
 import '../../assets/css/modalForm.css'
 
 function AddComplaint({ setShowModal }) {
@@ -39,6 +40,15 @@ function AddComplaint({ setShowModal }) {
         e.preventDefault();
         setLoading({ ...loading, submit: true })
         if (validForm()) {
+            const data = await addComplaint(complaintAgainst, type, description);
+            if(!data.err){
+                Swal.fire(
+                    'Success!',
+                    'Your complaint is registered with complaint Id "'+data.complaint.complaintId+'". We will contact you within 2 days.',
+                    'success'
+                )
+                setShowModal(false)
+            }
 
             setLoading({ ...loading, submit: false })
         }

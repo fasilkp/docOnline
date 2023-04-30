@@ -147,7 +147,7 @@ export async function unBlockUser(req, res) {
 }
 export async function getAdminComplaints(req, res) {
     try {
-        const complaints = await ComplaintModel.find({}).sort({ _id: -1 })
+        const complaints = await ComplaintModel.find({}).populate('userId').populate('doctorId').populate('hospitalId').sort({ _id: -1 })
         return res.json({ err: false, complaints })
 
     } catch (error) {

@@ -11,7 +11,7 @@ import React, { useEffect, useState } from "react";
 import { addDoctorEMR, getDoctorEMR } from "../../api/doctorApi";
 import "./AddEMR.css";
 
-export default function AddEMR({booking, setShowAddEmr}) {
+export default function AddEMR({booking, setShowAddEmr, refresh, setRefresh}) {
   const [gender, setGender] = useState("");
   const [weight, setWeight] = useState("");
   const [hospitalId, sethospitalId] = useState("");
@@ -19,6 +19,7 @@ export default function AddEMR({booking, setShowAddEmr}) {
 
   const handleSave=async ()=>{
     const data = await addDoctorEMR(booking, weight, prescription, gender)
+    setRefresh(!refresh)
     setShowAddEmr(false)
   }
   useEffect(()=>{

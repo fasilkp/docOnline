@@ -276,25 +276,6 @@ export async function addHospitalrFeedback(req, res) {
     }
 }
 
-export async function addComplaint(req, res){
-    try{
-        const {doctorId, hospitalId, description} = req.body;
-        if(doctorId){
-            await ComplaintModel.create({
-                userId:req.user._id,doctorId, description
-            })
-        }else{
-            await ComplaintModel.create({
-                userId:req.user._id,hospitalId, description 
-            })
-        }
-        return res.json({
-            err:false
-        })
-    }catch(error){
-        res.json({err:true, error, message:"something went wrong"})
-    }
-}
 
 export async function cancelBooking(req, res){
     try{
@@ -319,8 +300,9 @@ export async function cancelBooking(req, res){
 export async function addComplaint(req, res){
     try{
         const {complaintAgainst, description, type}= req.body;
+        let complaint;
         if(type==='doctor'){
-            const complaint = await ComplaintModel.create({
+            complaint = await ComplaintModel.create({
                 doctorId:complaintAgainst,
                 description,
                 type,
@@ -328,7 +310,7 @@ export async function addComplaint(req, res){
             })
         }
         else{
-            const complaint = await ComplaintModel.create({
+            complaint = await ComplaintModel.create({
                 hospitalId:complaintAgainst,
                 description,
                 type,
@@ -339,8 +321,14 @@ export async function addComplaint(req, res){
             'Your Complaint Against the '+type+" is Registered",
             'Your complaint id is '+complaint.complaintId+'. We will contact you later'
             )
+            res.json(
+                {
+                    err:false, complaint
+                }
+            )
 
     }catch(error){
+        console.log(error)
         res.json({err:true, message:"something went wrong", error})
     }
 
