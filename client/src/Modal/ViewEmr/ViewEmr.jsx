@@ -18,7 +18,6 @@ import {
     const [noData, setNoData]=useState(true)
   
     const downloadReport=async ()=>{
-      console.log(gender, weight, prescription)
       const {data} = await axios.post("/doctor/emr",{
         bookingId:booking._id,
         userId:booking.userId,
@@ -33,7 +32,6 @@ import {
       (
         async function(){
           const data=await getDoctorEMR(booking._id);
-          console.log(data)
           if(!data.err && data.emr){
             setNoData(false)
             setGender(data.emr.gender);

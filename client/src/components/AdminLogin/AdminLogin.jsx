@@ -27,7 +27,6 @@ function AdminLogin() {
         e.preventDefault();
         setLoading({ ...loading, submit: true })
         const { data } = await axios.post("/admin/auth/login", { email, password });
-        console.log(data)
         if (data.err) {
             setErrMessage(data.message)
         } else {

@@ -14,7 +14,6 @@ import { getHospitalProfile } from "../../api/hospitalApi"
 
 export default function HospitalProfile() {
     const id = useSelector((state)=>state.hospital.details._id)
-    console.log(id);
     const [departmentList, setDepartmentList]=useState([])
     const [showModal, setShowModal]=useState(false)
     const [refresh, setRefresh]=useState(false)
@@ -33,7 +32,6 @@ export default function HospitalProfile() {
                     })
                     setDepartmentList(data.departments)
                 }
-                console.log(data)
             }
         )()
     },[refresh])

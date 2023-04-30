@@ -34,7 +34,6 @@ export default function HospitalSchedule() {
   useEffect(() => {
     (async function () {
       const { data } = await axios.get("/hospital/doctor/schedule/" + doctorId);
-      console.log(data)
       if(!data.err){
         scheduleDispatch({type:'all', payload:data.schedule})
       }
@@ -50,7 +49,6 @@ export default function HospitalSchedule() {
   const [sat, setSat] = useState({ startDate: null, endDate: null, slot: 0 })
   const [sun, setSun] = useState({ startDate: null, endDate: null, slot: 0 })
   const [time, setTime] = useState(null)
-  console.log(scheduleState)
 
   const validateRow = (item) => {
     let obj = eval(item)
@@ -69,7 +67,6 @@ export default function HospitalSchedule() {
   let count = 0
   const removeTime = (type, index) => {
     count++;
-    console.log(count)
     scheduleDispatch({ type, payload: index })
   }
   const handleSubmit = async() => {

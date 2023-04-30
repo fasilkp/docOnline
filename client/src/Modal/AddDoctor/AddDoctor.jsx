@@ -20,7 +20,6 @@ function AddDoctor({ setShowModal, setRefresh, refresh }) {
     const [departmentList, setDepartmentList]=useState([])
 
     const dispatch = useDispatch()
-    console.log(departmentList)
     const [loading, setLoading] = useState({
         submit: false
     })

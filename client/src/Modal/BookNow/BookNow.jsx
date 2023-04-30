@@ -16,19 +16,16 @@ function BookNow({ daysAvailable, doctor, setShowBookNow, refresh, setRefresh}) 
     }, [])
     const handleDateChange = (e, index) => {
         setBookDate(e.target.value)
-        // console.log(daysAvailable[index].schedule)
         setTimes([...daysAvailable[index].schedule])
         setBookTimeSlot("")
         setBookingTime("")
     }
     const handleTimeSlot = (e, data) => {
-        // console.log(e.target.value)
         setBookTimeSlot(e.target.value)
         setBookingTime(data.time)
     }
     const handleBooking = async () => {
         const { data } = await axios.post("/user/payment", {fees:doctor.fees});
-        console.log(data)
         if (!data.err) {
             handleRazorPay(data.order);
         }
@@ -43,7 +40,6 @@ function BookNow({ daysAvailable, doctor, setShowBookNow, refresh, setRefresh}) 
             order_id: order.id,
             handler: async (response) => {
                 const { data } = await axios.post("/user/payment/verify", { response, bookDate, bookTimeSlot,bookingTime,name, age, doctorId: doctor._id, hospitalId: doctor.hospitalId, fees:doctor.fees });
-                console.log(data)
                 if(data.err){
                     Swal.fire({
                         icon: 'error',
@@ -64,7 +60,6 @@ function BookNow({ daysAvailable, doctor, setShowBookNow, refresh, setRefresh}) 
         var rzp1 = new window.Razorpay(options);
         rzp1.open();
         rzp1.on('payment.failed', (response) => {
-            console.log(response.error.description)
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
@@ -88,7 +83,6 @@ function BookNow({ daysAvailable, doctor, setShowBookNow, refresh, setRefresh}) 
 
         })()
     }, [])
-    console.log(bookDate, bookTimeSlot)
 
     return (
         <div className="book-now-main">

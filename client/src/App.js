@@ -63,7 +63,6 @@ function App() {
       dispatch({ type: "doctor", payload: { login: doctorData.loggedIn, details: doctorData.doctor } })
     })()
   }, [refresh])
-  console.log(user)
   return (
     <div className='App'>
       <Routes>

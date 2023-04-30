@@ -32,7 +32,6 @@ export default function AdminReport() {
         (
             async function () {
                 const data = await getAdminReport(startDate, endDate, filter);
-                console.log(data)
                 if (!data.err) {
                     setData(data)
                     setStartDate(dayjs(data.startDate))
@@ -215,7 +214,7 @@ export default function AdminReport() {
                                     <Row>
 
                                         <Col md={6} >
-                                            <Table className='table-main' responsive>
+                                            <Table className='table-main  report' responsive>
                                                 <thead>
                                                     <tr>
                                                         <th>#</th>
@@ -247,7 +246,7 @@ export default function AdminReport() {
                                             </Table>
                                         </Col>
                                         <Col md={6} >
-                                            <Table className='table-main' responsive>
+                                            <Table className='table-main report' responsive>
                                                 <thead>
                                                     <tr>
                                                         <th>#</th>

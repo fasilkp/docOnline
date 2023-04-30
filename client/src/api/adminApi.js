@@ -32,7 +32,6 @@ export async function getAdminReport(startDate, endDate, filter){
     }else{
         result = await axios.get("/admin/reports?startDate="+startDate+"&endDate="+endDate);
     }
-    console.log(result.data)
     if(result.data.err){
         Swal.fire({
             icon: 'error',

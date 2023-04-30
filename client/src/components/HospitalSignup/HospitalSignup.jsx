@@ -41,7 +41,6 @@ function HospitalSignup() {
         }else{
             setErrMessage("Invalid File type")
         }
-      console.log(e.target.files[0])
     }
 
     const ImageTOBase=(file)=>{
@@ -49,7 +48,6 @@ function HospitalSignup() {
       reader.readAsDataURL(file);
       reader.onloadend=()=>{
         setFinalImage(reader.result)
-        console.log(reader.result)
       }
     }
     async function handleSubmit(e) {

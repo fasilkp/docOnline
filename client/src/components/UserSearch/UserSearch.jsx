@@ -41,11 +41,9 @@ function UserSearch() {
                 if (!departmentData.err) {
                     setDepartmentList(departmentData.departments)
                 }
-                console.log("department", departmentData)
             }
         )()
     }, [])
-    console.log(doctorList, hospitalList)
 
 
     return (

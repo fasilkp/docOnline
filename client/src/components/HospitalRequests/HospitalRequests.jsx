@@ -45,7 +45,6 @@ export default function HospitalRequests() {
       if (result.isConfirmed) {
         setLoad(true)
         const { data } = await axios.post("/admin/hospital/accept", { email });
-        console.log(data)
         if (!data.err) {
           Swal.fire(
             'Success!',

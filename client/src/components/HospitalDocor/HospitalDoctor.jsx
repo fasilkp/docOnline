@@ -68,7 +68,6 @@ export default function HospitalDoctor() {
         (
             async function () {
                 const { data } = await axios.get("/hospital/doctors?name="+name);
-                console.log(data)
                 if (!data.err) {
                     setDoctorList(data.doctors)
                 }

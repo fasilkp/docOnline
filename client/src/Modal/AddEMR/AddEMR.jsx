@@ -14,10 +14,10 @@ import "./AddEMR.css";
 export default function AddEMR({booking, setShowAddEmr}) {
   const [gender, setGender] = useState("");
   const [weight, setWeight] = useState("");
+  const [hospitalId, sethospitalId] = useState("");
   const [prescription, setPrescription] = useState("");
 
   const handleSave=async ()=>{
-    console.log(gender, weight, prescription)
     const data = await addDoctorEMR(booking, weight, prescription, gender)
     setShowAddEmr(false)
   }
@@ -25,7 +25,6 @@ export default function AddEMR({booking, setShowAddEmr}) {
     (
       async function(){
         const data=await getDoctorEMR(booking._id);
-        console.log(data)
         if(!data.err && data.emr){
           setGender(data.emr.gender);
           setWeight(data.emr.weight)
@@ -39,7 +38,7 @@ export default function AddEMR({booking, setShowAddEmr}) {
       <div className="add-emr-container">
         <div className="add-emr-row head">
           <h4>Medical Report</h4>
-          <b>International Hospital, tirur, 9809786756</b>
+          {/* <b>International Hospital, tirur, 9809786756</b> */}
         </div>
         <div className="add-emr-row header mt-3">
           <div className="emr-header-item">

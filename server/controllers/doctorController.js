@@ -59,7 +59,6 @@ export async function getDoctorBookings(req, res){
                 }
             }
         ])
-        console.log(bookings)
         return res.json({err:false, bookings})
     }catch(error){
         console.log(error)
@@ -68,7 +67,6 @@ export async function getDoctorBookings(req, res){
 }
 export async function getDoctorTodayBookings(req, res){
     try{
-        console.log(req.doctor)
         const bookings = await BookingModel.find({
              $and: [
                 {date: {$gt: new Date(new Date(new Date().setHours(0,0,0,0)).setDate(new Date().getDate()))}},
@@ -128,7 +126,6 @@ export async function addEMR(req, res) {
         res.json({err:false})
         
     } catch (err) {
-        console.log(err)
         res.json({ err: true, error: err, message: "Something Went Wrong" })
     }
 }
@@ -136,13 +133,10 @@ export async function addEMR(req, res) {
 export async function getEMR(req, res) {
     try {
         const {bookingId}=req.params;
-        console.log(bookingId)
-        const emr= await EMRModel.findOne({bookingId})
-        console.log(emr)
+        const emr= await EMRModel.findOne({bookingId}).populate('doctorId')
         res.json({err:false, emr})
         
     } catch (err) {
-        console.log(err)
         res.json({ err: true, error: err, message: "Something Went Wrong" })
     }
 }

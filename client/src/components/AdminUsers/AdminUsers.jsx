@@ -44,7 +44,6 @@ export default function AdminUsers() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         const { data } = await axios.patch("/admin/user/block", { id });
-        console.log(data)
         setRefresh(!refresh)
       }
     })

@@ -27,7 +27,6 @@ export default function DoctorProfile() {
         (
             async function(){
                 const data =await getDoctorProfile();
-                console.log(data)
                 if(!data.err){
                     setDoctor({...data.doctor,reviews:data.reviews })
                 }

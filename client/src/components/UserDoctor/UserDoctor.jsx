@@ -47,7 +47,6 @@ function UserDoctor() {
         (
             async function () {
                 const data = await getDoctor(id)
-                console.log(data)
                 if (!data.err) {
                     setDoctor({ ...data.doctor, reviewAccess: data.reviewAccess,  reviews: data.reviews, rating: data.rating })
                     if (data.review) {
@@ -55,7 +54,6 @@ function UserDoctor() {
                         setRating(data.review.rating)
                     }
                 }
-                console.log(data)
                 if (!data.err) {
                     setDoctor({ ...data.doctor, reviewAccess: data.reviewAccess, reviews: data.reviews, rating: data.rating })
                 }
@@ -73,7 +71,6 @@ function UserDoctor() {
                                 schedule: scheduleData.schedule[days[day]]
                             })
                             if (!data.err) {
-                                console.log(data.result)
                                 tempDaysAvailable.push({
                                     ...data.result
                                 })
@@ -86,7 +83,6 @@ function UserDoctor() {
             }
         )()
     }, [refresh])
-    console.log(doctor)
 
 
     return (

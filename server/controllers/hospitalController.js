@@ -21,12 +21,10 @@ export async function hospitalDashboard(req, res) {
             { $group: { _id: "totalBokingDetails", totalBooking: { $sum: 1 }, totalRevenue: { $sum: "$fees" } } }
         ])
         const monthlyDataArray = await BookingModel.aggregate([{ $group: { _id: { $month: "$date" }, totalRevenue: { $sum: "$fees" } } }])
-        console.log(monthlyDataArray)
         let monthlyDataObject = {}
         monthlyDataArray.map(item => {
             monthlyDataObject[item._id] = item.totalRevenue
         })
-        console.log(monthlyDataObject)
         let monthlyData = []
         for (let i = 1; i <= 12; i++) {
             monthlyData[i - 1] = monthlyDataObject[i] ?? 0
@@ -273,10 +271,8 @@ export async function getHospitalComplaints(req, res) {
 
 export async function getHospitalReport(req, res) {
     try {
-        // console.log(req.query)
         let startDate = new Date(new Date().setDate(new Date().getDate() - 8))
         let endDate = new Date()
-        console.log(startDate, endDate)
 
         if (req.query.startDate) {
             startDate = new Date(Number(req.query.startDate))
@@ -286,7 +282,6 @@ export async function getHospitalReport(req, res) {
             endDate = new Date(Number(req.query.endDate))
             endDate.setHours(24, 0, 0, 0);
         }
-        console.log(startDate, endDate)
 
         if (req.query.filter == 'thisYear') {
             let currentDate = new Date()

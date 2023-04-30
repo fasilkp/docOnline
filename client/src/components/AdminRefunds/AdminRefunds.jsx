@@ -22,16 +22,10 @@ export default function AdminRefunds() {
   React.useEffect(() => {
     (
       async function () {
-        try {
           const data  = await getAdminRefundList();
-          console.log(data)
           if (!data.err) {
             setRefundList(data.bookings)
           }
-
-        } catch (err) {
-          console.log(err)
-        }
       }
     )()
   }, [refresh, name])

@@ -41,6 +41,30 @@ export async function getDoctor(id){
     return data
 }
 
+export async function getAllDoctors(id){
+    const {data} = await axios.get("/user/doctors");
+    if(data.err){
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: data.message,
+          })
+    }
+    return data
+}
+
+export async function getAllHospitals(id){
+    const {data} = await axios.get("/user/hospitals");
+    if(data.err){
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: data.message,
+          })
+    }
+    return data
+}
+
 export async function getHospital(id){
     const {data} = await axios.get("/user/hospital/" + id);
     if(data.err){

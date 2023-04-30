@@ -48,7 +48,6 @@ function HospitalHome() {
     )()
 
   }, [])
-  console.log(dashboardData)
 
   return (
     <div className="admin-home">
@@ -56,7 +55,7 @@ function HospitalHome() {
       <div className="admin-main">
         <HospitalSidebar page={'dashboard'} clicked={clicked} />
         <div className="admin-container">
-          <Container fluid>
+          <Container>
 
             <h5>Dashboard</h5>
           </Container>
@@ -119,7 +118,7 @@ function HospitalHome() {
             </Row>
 
           </Container>
-          <Container fluid>
+          <Container>
 
             <h5>Analysis</h5>
           </Container>

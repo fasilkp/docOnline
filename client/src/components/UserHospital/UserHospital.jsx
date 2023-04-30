@@ -35,7 +35,6 @@ function UserHospital() {
                     }
                     setDepartmentList(data.departments)
                 }
-                console.log(data)
             }
         )()
     }, [refresh])

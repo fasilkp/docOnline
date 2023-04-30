@@ -32,7 +32,6 @@ export default function EditHospitalProfile({ setShowModal, setRefresh, refresh,
         }else{
             setErrMessage("Invalid File type")
         }
-      console.log(e.target.files[0])
     }
 
     const ImageTOBase=(file)=>{
@@ -40,7 +39,6 @@ export default function EditHospitalProfile({ setShowModal, setRefresh, refresh,
       reader.readAsDataURL(file);
       reader.onloadend=()=>{
         setFinalImage(reader.result)
-        console.log(reader.result)
       }
     }
 
@@ -48,7 +46,6 @@ export default function EditHospitalProfile({ setShowModal, setRefresh, refresh,
         e.preventDefault();
         setLoading({ ...loading, submit: true })
         const {data}= await axios.patch("/hospital/profile", {image:finalImage, name, about, address, place, mobile});
-        console.log(data)
         if(data.err){
             setErrMessage(data.message)
         }

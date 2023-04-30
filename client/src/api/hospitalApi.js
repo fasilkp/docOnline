@@ -3,7 +3,6 @@ import Swal from "sweetalert2";
 
 export async function getHospitalProfile(){
     const {data} = await axios.get("/hospital/profile/");
-    console.log(data)
     if(data.err){
         Swal.fire({
             icon: 'error',
@@ -16,7 +15,6 @@ export async function getHospitalProfile(){
 
 export async function getDashboardDetails(){
     const {data} = await axios.get("/hospital/dashboard") 
-    console.log(data)
     if(data.err){
         Swal.fire({
             icon: 'error',
@@ -58,7 +56,6 @@ export async function getHospitalReport(startDate, endDate, filter){
     }else{
         result = await axios.get("/hospital/reports?startDate="+startDate+"&endDate="+endDate);
     }
-    console.log(result.data)
     if(result.data.err){
         Swal.fire({
             icon: 'error',

@@ -18,8 +18,6 @@ function DoctorHome() {
         (
             async function () {
                 const { data } = await axios.get("/doctor/booking/today");
-                console.log(data)
-                console.log(data)
                 if (!data.err) {
                     setBookingList(data.bookings)
                 }

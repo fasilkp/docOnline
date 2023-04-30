@@ -20,9 +20,7 @@ function VerifyOtp(props) {
     async function handleSubmit(e) {
         e.preventDefault();
         setLoading({ ...loading, submit: true })
-        console.log(otp)
         let { data } = await axios.post("/user/auth/register/verify", { otp, ...props.data });
-        console.log(data)
         if (data.err) {
             setErrMessage(data.message)
         } else {

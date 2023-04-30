@@ -24,7 +24,6 @@ import {
       (
         async function(){
           const data=await getDoctorEMR(booking._id);
-          console.log(data)
           if(!data.err && data.emr){
             setNoData(false)
             setGender(data.emr.gender);

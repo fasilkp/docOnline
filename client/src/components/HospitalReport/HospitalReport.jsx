@@ -34,7 +34,6 @@ export default function HospitalReport() {
         (
             async function () {
                 const data = await getHospitalReport(startDate, endDate, filter);
-                console.log(data)
                 if (!data.err) {
                     setData(data)
                     setStartDate(dayjs(data.startDate))

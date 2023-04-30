@@ -7,7 +7,6 @@ import noResultImg from '../../assets/images/no-result.png'
 import './doctorlist.css'
 
 function DoctorList({ list }) {
-    console.log(list)
     return (
         <div>
             <Row>

@@ -8,7 +8,6 @@ function HospitalApproval({rejected, hospital}) {
     const [showModal, setShowModal]=useState(false)
     async function handleLogout(){
         let {data}=await axios.get("/hospital/auth/logout");
-        console.log(data)
         dispatch({type:"refresh"})
     }
   return (

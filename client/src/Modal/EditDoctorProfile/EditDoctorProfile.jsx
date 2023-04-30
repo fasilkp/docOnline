@@ -26,14 +26,12 @@ export default function EditDoctorProfile({ setShowModal, setRefresh, refresh })
         }else{
             setErrMessage("Invalid File type")
         }
-      console.log(e.target.files[0])
     }
     const ImageTOBase=(file)=>{
       const reader= new FileReader();
       reader.readAsDataURL(file);
       reader.onloadend=()=>{
         setFinalImage(reader.result)
-        console.log(reader.result)
       }
     }
 
@@ -41,7 +39,6 @@ export default function EditDoctorProfile({ setShowModal, setRefresh, refresh })
         e.preventDefault();
         setLoading({ ...loading, submit: true })
         const {data}= await axios.patch("/doctor/profile", {image:finalImage});
-        console.log(data)
         if(data.err){
             setErrMessage(data.message)
         }

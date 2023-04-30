@@ -5,13 +5,21 @@ const schema = new mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:'User'
     },
+    doctorId:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Doctor'
+    },
     hospitalId:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'Hospital'
     },
-    doctorId:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'Doctor'
+    type:{
+        type:String,
+        default:""
+    },
+    complaintId:{
+        type:String,
+        default:"ComplaintId"+Date.now()
     },
     description:{
         type:String,

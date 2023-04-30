@@ -17,7 +17,7 @@ export default function sentMail(email, message1, message2){
               to: email,
               subject: "DocOnline",
               html: `
-              <h1>DocOnline Registration</h1>
+              <h1>DocOnline</h1>
                 <h2>${message1}</h2>
                 <h3>${message2}</h3>
               `,

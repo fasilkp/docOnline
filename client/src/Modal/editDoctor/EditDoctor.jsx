@@ -16,7 +16,6 @@ function EditDoctor({ setShowModal, setRefresh, refresh, id }) {
     const [fees, setFees] = useState("")
     const [departmentList, setDepartmentList] = useState([])
 
-    console.log(departmentList)
     const [loading, setLoading] = useState({
         submit: false
     })
@@ -24,7 +23,6 @@ function EditDoctor({ setShowModal, setRefresh, refresh, id }) {
         (
             async function () {
                 const { data: doctorData } = await axios.get("/user/doctor/" + id);
-                console.log("doctordata", doctorData)
                 if (!doctorData.err) {
                     setName(doctorData.doctor.name)
                     setEmail(doctorData.doctor.email)

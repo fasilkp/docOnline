@@ -13,17 +13,14 @@ export async function adminDashboard(req, res) {
             { $group: { _id: "totalBokingDetails", totalBooking: { $sum: 1 }, totalRevenue: { $sum: "$fees" } } }
         ])
         const monthlyDataArray = await BookingModel.aggregate([{ $group: { _id: { $month: "$date" }, totalRevenue: { $sum: "$fees" } } }])
-        console.log(monthlyDataArray)
         let monthlyDataObject = {}
         monthlyDataArray.map(item => {
             monthlyDataObject[item._id] = item.totalRevenue
         })
-        console.log(monthlyDataObject)
         let monthlyData = []
         for (let i = 1; i <= 12; i++) {
             monthlyData[i - 1] = monthlyDataObject[i] ?? 0
         }
-        console.log(monthlyData)
         res.json({ err: false, totalDoctors, booking: booking[0], monthlyData })
     }
     catch (err) {
@@ -55,7 +52,6 @@ export async function acceptHospital(req, res) {
 export async function rejectHospital(req, res) {
     try {
         const { email } = req.body;
-        // await HospitalModel.deleteOne({email});
         await HospitalModel.updateOne({ email }, { active: false, rejected: true });
 
         res.json({ err: false })
@@ -280,7 +276,6 @@ export async function getAdminReport(req, res) {
 export async function getBookingRefunds(req, res){
     try{
         const bookings= await BookingModel.find({status:'refund processing'}).lean()
-        console.log(bookings)
         return res.json({
             err:false,
             bookings

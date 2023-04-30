@@ -7,6 +7,7 @@ import HospitalModel from "../models/HospitalModel.js"
 import ScheduleModel from "../models/ScheduleModel.js"
 import EMRModel from '../models/EMRModel.js'
 import ComplaintModel from '../models/ComplaintModel.js'
+import sentMail from "../helpers/sentMail.js"
 
 
 export async function getAllDepartments(req, res) {
@@ -129,7 +130,6 @@ export async function getHospital(req, res) {
         const rating = totalRating / reviewCount;
         const hospital = await HospitalModel.findById(req.params.id, { password: 0 });
         const departments = await DepartmentModel.find({ hospitalId: hospital._id }, { password: 0 });
-        console.log(rating, reviews, review)
         res.json({
             err: false, hospital, departments,
             reviewAccess: booking ? true : false,
@@ -220,7 +220,6 @@ export async function getDoctorSchedule(req, res) {
 
 export async function getUserBookings(req, res) {
     try {
-        console.log(req.query)
         let bookings=[]
         if(req.query.filter==='completed'){
             bookings = await BookingModel.find({
@@ -314,4 +313,35 @@ export async function cancelBooking(req, res){
     }catch(error){
         res.json({err:true, error, message:"something went wrong"})
     }
+}
+
+
+export async function addComplaint(req, res){
+    try{
+        const {complaintAgainst, description, type}= req.body;
+        if(type==='doctor'){
+            const complaint = await ComplaintModel.create({
+                doctorId:complaintAgainst,
+                description,
+                type,
+                userId:req.user._id
+            })
+        }
+        else{
+            const complaint = await ComplaintModel.create({
+                hospitalId:complaintAgainst,
+                description,
+                type,
+                userId:req.user._id
+            })
+        }
+        await sentMail(req.user.email, 
+            'Your Complaint Against the '+type+" is Registered",
+            'Your complaint id is '+complaint.complaintId+'. We will contact you later'
+            )
+
+    }catch(error){
+        res.json({err:true, message:"something went wrong", error})
+    }
+
 }

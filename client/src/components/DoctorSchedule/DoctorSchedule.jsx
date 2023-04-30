@@ -31,10 +31,8 @@ export default function DoctorSchedule() {
 
     useEffect(() => {
         (async function () {
-            console.log(doctorId)
             if(doctorId){
                 const { data } = await axios.get("/doctor/schedule/");
-                console.log('data',data)
                 if (!data.err) {
                     scheduleDispatch({ type: 'all', payload: data.schedule })
                 }
@@ -43,7 +41,6 @@ export default function DoctorSchedule() {
     }, [doctorId])
     const [scheduleState, scheduleDispatch] = useReducer(scheduleReducer, scheduleInititalState)
 
-    console.log(scheduleState)
 
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}>

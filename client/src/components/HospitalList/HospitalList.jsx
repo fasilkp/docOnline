@@ -8,7 +8,6 @@ import noResultImg from '../../assets/images/no-result.png'
 import './hospitallist.css'
 
 function HospitalList({ list }) {
-    console.log(list)
     return (
         <div>
             <Row>

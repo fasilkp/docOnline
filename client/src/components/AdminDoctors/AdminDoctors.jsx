@@ -24,7 +24,6 @@ export default function AdminDoctors() {
       async function () {
         try {
           const { data } = await axios.get("/admin/doctors?name="+name)
-          console.log(data)
           if (!data.err) {
             setDoctorList(data.doctors)
           }
@@ -49,7 +48,6 @@ export default function AdminDoctors() {
       if (result.isConfirmed) {
         setLoad(true)
         const { data } = await axios.post("/admin/hospital/accept", { email });
-        console.log(data)
         if (!data.err) {
           Swal.fire(
             'Success!',
