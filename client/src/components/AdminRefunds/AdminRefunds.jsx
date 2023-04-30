@@ -22,10 +22,10 @@ export default function AdminRefunds() {
   React.useEffect(() => {
     (
       async function () {
-          const data  = await getAdminRefundList();
-          if (!data.err) {
-            setRefundList(data.bookings)
-          }
+        const data = await getAdminRefundList();
+        if (!data.err) {
+          setRefundList(data.bookings)
+        }
       }
     )()
   }, [refresh, name])
@@ -38,11 +38,11 @@ export default function AdminRefunds() {
       confirmButtonColor: '#7e3af2',
       cancelButtonColor: '##a8a8a8',
       confirmButtonText: 'Yes, Refund!',
-      cancelButtonText:"Cancel"
+      cancelButtonText: "Cancel"
     }).then(async (result) => {
       if (result.isConfirmed) {
-        const data= await refundComplete(id)
-        if(!data.err){
+        const data = await refundComplete(id)
+        if (!data.err) {
           Swal.fire(
             'Success!',
             'Successfully Issued refund',
@@ -72,47 +72,48 @@ export default function AdminRefunds() {
               </div> */}
 
             </div>
-            <Table className='table-main' responsive>
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Booking Id</th>
-                  <th>Payment Id</th>
-                  <th>order Id</th>
-                  <th>Fees</th>
-                  <th>Status</th>
-                  <th>Options</th>
+            {
+              refundList[0] ?
 
-                </tr>
-              </thead>
-              <tbody>
-                {
-                  refundList[0] ?
-                  refundList.map((item, index) => {
-                    return <tr key={index}>
-                      <td>{index + 1}</td>
-                      <td>{item._id}</td>
-                      <td>{item.payment.razorpay_payment_id}</td>
-                      <td>{item.payment.razorpay_order_id}</td>
-                      <td>{item.fees}</td>
-                      <td>{item.status}</td>
-                      <td>
-                        <button className='btn btn-outline-dark btn-sm' onClick={()=>issueRefund(item._id)}>Issue Refund</button>
-                      </td>
+                <Table className='table-main' responsive>
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Booking Id</th>
+                      <th>Payment Id</th>
+                      <th>order Id</th>
+                      <th>Fees</th>
+                      <th>Status</th>
+                      <th>Options</th>
+
                     </tr>
-                  })
-                  : 
-                  <tr>
+                  </thead>
+                  <tbody>
+                    {
+                      refundList.map((item, index) => {
+                        return <tr key={index}>
+                          <td>{index + 1}</td>
+                          <td>{item._id}</td>
+                          <td>{item.payment.razorpay_payment_id}</td>
+                          <td>{item.payment.razorpay_order_id}</td>
+                          <td>{item.fees}</td>
+                          <td>{item.status}</td>
+                          <td>
+                            <button className='btn btn-outline-dark btn-sm' onClick={() => issueRefund(item._id)}>Issue Refund</button>
+                          </td>
+                        </tr>
+                      })
+                    }
 
-                  <Row className='d-flex justify-content-center flex-column align-items-center'>
-                    <img src={notFoundImg} style={{maxHeight:"300px", maxWidth:"90%", width:"300px"}} alt="" />
-                    <h6 className='text-center'>No data found</h6>
-                  </Row>
-                  </tr>
-                }
+                  </tbody>
+                </Table>
+                :
+                <Row className='d-flex justify-content-center flex-column align-items-center'>
+                  <img src={notFoundImg} style={{ maxHeight: "300px", maxWidth: "90%", width: "300px" }} alt="" />
+                  <h6 className='text-center'>No data found</h6>
+                </Row>
+            }
 
-              </tbody>
-            </Table>
 
           </div>
         </Container>

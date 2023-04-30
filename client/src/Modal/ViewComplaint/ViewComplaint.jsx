@@ -21,8 +21,7 @@ export default function ViewComplaint({ setShowModal, complaint }) {
 
                 <div className="modal-form-row flex-column">
                     <label>Complaint against</label>
-
-                    <Form.Select aria-label="Default select example" value={complaint.type} readOnly>
+                    <Form.Select aria-label="Default select example" value={complaint.type} disabled>
                         <option value="doctor">Doctor</option>
                         <option value="hospital">Hospital</option>
 

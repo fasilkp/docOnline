@@ -38,7 +38,16 @@ export async function hospitalDashboard(req, res) {
 }
 export async function addDepartment(req, res) {
     try {
-        await DepartmentModel.updateOne({ name: req.body.department }, { $set: { name: req.body.department.trim().toLowerCase() }, $addToSet: { hospitalId: req.hospital._id } }, { upsert: true })
+        const department = await DepartmentModel.findOne({
+            name:req.body.department.trim().toLowerCase(),
+            hospitalId:req.hospital._id
+        })
+        if(department){
+            return req.json({
+                err:true, message:"Department Already Exist"
+            })
+        }
+        await DepartmentModel.updateOne({ name: req.body.department.trim().toLowerCase() }, { $set: { name: req.body.department.trim().toLowerCase() }, $addToSet: { hospitalId: req.hospital._id } }, { upsert: true })
         res.json({ err: false })
     }
     catch (err) {
@@ -47,6 +56,15 @@ export async function addDepartment(req, res) {
 }
 export async function editDepartment(req, res) {
     try {
+        const department = await DepartmentModel.findOne({
+            name:req.body.department.trim().toLowerCase(),
+            hospitalId:req.hospital._id
+        })
+        if(department){
+            return req.json({
+                err:true, message:"Department Already Exist"
+            })
+        }
         await DepartmentModel.findByIdAndUpdate(req.body.id, { $set: { name: req.body.department.trim().toLowerCase() } })
         res.json({ err: false })
     }

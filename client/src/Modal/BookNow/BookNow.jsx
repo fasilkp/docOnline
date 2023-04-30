@@ -4,6 +4,7 @@ import axios from 'axios'
 import './BookNow.css'
 import Swal from 'sweetalert2'
 import { TextField } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
 function BookNow({ daysAvailable, doctor, setShowBookNow, refresh, setRefresh}) {
     const [bookDate, setBookDate] = useState('')
     const [bookTimeSlot, setBookTimeSlot] = useState('')
@@ -11,6 +12,7 @@ function BookNow({ daysAvailable, doctor, setShowBookNow, refresh, setRefresh}) 
     const [times, setTimes] = useState([])
     const [name, setName] = useState("")
     const [age, setAge] = useState("")
+    const navigate = useNavigate()
     useEffect(() => {
 
     }, [])
@@ -52,6 +54,7 @@ function BookNow({ daysAvailable, doctor, setShowBookNow, refresh, setRefresh}) 
                         'Successfully Booked',
                         'success'
                       )
+                      navigate("/profile")
                 }
                 setShowBookNow(false)
                 setRefresh(!refresh)

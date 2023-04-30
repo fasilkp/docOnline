@@ -89,7 +89,7 @@ export default function HospitalReport() {
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <div className="admin-container" id="textHtml">
                             <div className="container-header">
-                                <h5>Bookking report</h5>
+                                <h5>Booking report</h5>
                                 <button className='btn btn-dark' onClick={downloadPdf}>Download Pdf</button>
                             </div>
                             <Row>

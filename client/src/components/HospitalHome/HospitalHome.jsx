@@ -7,8 +7,13 @@ import { FcMoneyTransfer, FcPaid, FcPortraitMode, FcTodoList } from 'react-icons
 import Chart from "react-apexcharts";
 import axios from 'axios';
 import { getDashboardDetails } from '../../api/hospitalApi';
+import { useSelector } from 'react-redux';
+import WithdrawModal from '../../Modal/WithdrawModal/WithdrawModal';
 function HospitalHome() {
   const [clicked, setCLicked] = useState(false)
+  const [refresh, setRefresh] = useState(false)
+  const [showModal, setShowModal] = useState(false)
+  const hospital = useSelector((state)=>state.hospital.details)
   const [dashboardData, setDashboardData] = useState({
     totalBooking: 0,
     totalRevenue: 0,
@@ -47,7 +52,7 @@ function HospitalHome() {
       }
     )()
 
-  }, [])
+  }, [refresh])
 
   return (
     <div className="admin-home">
@@ -63,7 +68,7 @@ function HospitalHome() {
             <Row>
 
 
-              <Col md={4}>
+              <Col md={3}>
                 <div className="dash-item">
                   <div className="dash-item-desc">
                     <b>Total Booking</b>
@@ -76,7 +81,7 @@ function HospitalHome() {
                   </div>
                 </div>
               </Col>
-              <Col md={4}>
+              <Col md={3}>
                 <div className="dash-item">
                   <div className="dash-item-desc">
                     <b>Total Revenue</b>
@@ -89,7 +94,7 @@ function HospitalHome() {
                   </div>
                 </div>
               </Col>
-              <Col md={4}>
+              <Col md={3}>
                 <div className="dash-item">
                   <div className="dash-item-desc">
                     <b>Total Doctors</b>
@@ -102,11 +107,14 @@ function HospitalHome() {
                   </div>
                 </div>
               </Col>
-              {/* <Col md={3}>
+              <Col md={3}>
                 <div className="dash-item">
                   <div className="dash-item-desc">
-                    <b>Total Booking</b>
-                    <h3>435</h3>
+                    <b>Wallet</b>
+                    <h3>{hospital.wallet}</h3>
+                    <button className='btn btn-outline-dark btn-sm' 
+                    onClick={()=>setShowModal(true)}
+                    disabled={hospital.wallet<100}>Withdraw</button>
                   </div>
                   <div className="dash-item icon">
                     <div className="icon-div">
@@ -114,7 +122,7 @@ function HospitalHome() {
                     </div>
                   </div>
                 </div>
-              </Col> */}
+              </Col>
             </Row>
 
           </Container>
@@ -136,6 +144,10 @@ function HospitalHome() {
           </Container>
         </div>
       </div>
+      {
+        showModal &&
+        <WithdrawModal setShowModal={setShowModal} refresh={refresh} setRefresh={setRefresh} />
+      }
     </div>
   )
 }
