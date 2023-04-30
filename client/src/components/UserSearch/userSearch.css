@@ -58,8 +58,17 @@
     .user-search-btn{
         display: none;
     }
-    .user-search-input{
-        flex: 65%;
+
+    .user-search-cat, .user-search-input{
+        flex: 100%;
+        width: 100%;
+        height: 50px;
+        border: none;
+    }
+    .user-search-cat{
+        border-top: 1px solid rgba(128, 128, 128, 0.253);
+        display: flex;
+        align-items: center;
     }
     .user-search-category{
         flex: 35%;
@@ -67,7 +76,10 @@
     }
     .user-search-box{
         width: 95%;
+        height: auto;
         margin: 10px;
+        display: flex;
+        flex-wrap: wrap;
     }
     .user-search-category .icon{
         display: none;
