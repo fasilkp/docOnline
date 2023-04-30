@@ -32,6 +32,13 @@ app.use(
 );
 dbConnect();
 
+app.get("/", (req, res)=>{
+  res.json({
+    message:"App runnng successfull",
+    attempt:1
+  })
+})
+
 app.use("/user/auth/", userAuthRouter)
 app.use("/admin/auth/", adminAuthRouter)
 app.use("/hospital/auth/", hospitalAuthRouter)
