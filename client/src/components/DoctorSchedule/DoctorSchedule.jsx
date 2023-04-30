@@ -12,6 +12,7 @@ import axios from 'axios';
 import DoctorHeader from '../DoctorHeader/DoctorHeader';
 import DoctorSidebar from '../DoctorSidebar/DoctorSidebar';
 import { useSelector } from 'react-redux';
+import DoctorBottomNav from '../DoctorBottom/DoctorBottom';
 
 export default function DoctorSchedule() {
     const navigate = useNavigate()
@@ -265,6 +266,8 @@ export default function DoctorSchedule() {
 
                     </div>
                 </div>
+            <DoctorBottomNav page={'schedule'} />
+
             </div>
         </LocalizationProvider>
     )

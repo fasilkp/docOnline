@@ -220,16 +220,23 @@ export async function getDoctorSchedule(req, res) {
 
 export async function getUserBookings(req, res) {
     try {
+        console.log(req.query)
         let bookings=[]
         if(req.query.filter==='completed'){
             bookings = await BookingModel.find({
                 userId: req.user._id,
-                status:req.query.filter
+                status:"completed"
             }).populate('doctorId').sort({ _id: -1 })
-        }else{
+        }
+        else if(req.query.filter==='upcoming'){
             bookings = await BookingModel.find({
                 userId: req.user._id,
-                status:{$ne:"completed"}
+                status:'upcoming'
+            }).populate('doctorId').sort({ _id: -1 })
+        }
+        else{
+            bookings = await BookingModel.find({
+                userId: req.user._id
             }).populate('doctorId').sort({ _id: -1 })
         }
         return res.json({ err: false, bookings })

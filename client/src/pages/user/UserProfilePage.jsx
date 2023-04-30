@@ -1,7 +1,7 @@
 import React from 'react'
 import UserBooking from '../../components/UserBooking/UserBooking'
 
-export default function UserBookingPage() {
+export default function UserProfilePage() {
   return (
     <UserBooking/>
   )

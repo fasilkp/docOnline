@@ -51,18 +51,7 @@ function DoctorSidebar({ page }) {
               </div>
             </li>
             </Link>
-        {/* <Link to="/account/admin/hospitals/requests">
 
-            <li className={`admin-sideitems ${page=="hospital request" && 'active'}`}>
-
-              <div className='side'></div>
-              <div className="admin-sideItem">
-
-                <RiHospitalLine className='icon' />
-                <span>Hospital Requests</span>
-              </div>
-            </li>
-            </Link> */}
 
       </ul>
 

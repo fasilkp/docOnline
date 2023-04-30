@@ -2,25 +2,25 @@ import React, { useEffect, useState } from 'react'
 import UserHeader from '../UserHeader/UserHeader'
 import doctorImg from '../../assets/images/doctor.png'
 import './UserBooking.css'
-import { Container } from 'react-bootstrap'
+import { Container, Row } from 'react-bootstrap'
 import axios from 'axios'
 import { Chip, FormControl, InputLabel, MenuItem, Select, setRef } from '@mui/material'
 import ViewEmr from '../../Modal/ViewEmr/ViewEmr'
 import Swal from 'sweetalert2'
 import { cancelBooking } from '../../api/userApi'
+import notFoundImg from '../../assets/images/notFound.png'
 
 export default function UserBooking() {
   const [bookingList, setBookingList] = useState([])
-  const [refresh, setRefresh]= useState(true)
+  const [refresh, setRefresh] = useState(true)
   const [booking, setBooking] = useState({})
-  const [filter, setFilter] = useState('upcoming')
+  const [filter, setFilter] = useState('all')
   const [showAddEmr, setShowAddEmr] = useState(false)
 
   useEffect(() => {
     (
       async function () {
         const { data } = await axios.get("/user/booking?filter=" + filter);
-        console.log(data)
         if (!data.err) {
           setBookingList(data.bookings)
         }
@@ -52,7 +52,7 @@ export default function UserBooking() {
             'Success!',
             'Successfully Cancelled Appoiintments',
             'success'
-        )
+          )
           setRefresh(!refresh);
         }
       }
@@ -66,10 +66,15 @@ export default function UserBooking() {
       >
 
         <div className="user-booking-container">
+          
+          <div className="profile-comp">
+            <img src="https://png.pngtree.com/png-vector/20220709/ourmid/pngtree-businessman-user-avatar-wearing-suit-with-red-tie-png-image_5809521.png" alt="" />
+            <h6 className="text-center">Mohamed Fasil KP</h6>
+          </div>
           <div className='d-flex justify-content-between'>
             <h4 className='mt-3'>Recent Booking</h4>
             <FormControl sx={{ m: 1, minWidth: 80 }}>
-              <InputLabel id="demo-simple-select-autowidth-label">Booking Status</InputLabel>
+              <InputLabel id="demo-simple-select-autowidth-label">Status</InputLabel>
               <Select
                 labelId="demo-simple-select-autowidth-label"
                 id="demo-simple-select-autowidth"
@@ -78,16 +83,16 @@ export default function UserBooking() {
                 autoWidth
                 label="Age"
               >
+                <MenuItem value={'all'}>All</MenuItem>
                 <MenuItem value={'upcoming'}>upcoming</MenuItem>
                 <MenuItem value={'completed'}>completed</MenuItem>
               </Select>
             </FormControl>
-
           </div>
           {
 
             bookingList.map((item, index) => {
-              return <div className="user-booking-item" key={index} onClick={() => item.status=="completed" && showEmr(item) }>
+              return <div className="user-booking-item" key={index} onClick={() => item.status == "completed" && showEmr(item)}>
                 <div className="ub-dr-profile">
                   <img src={item.doctorId.image.url} alt="" />
                 </div>
@@ -108,17 +113,24 @@ export default function UserBooking() {
                     </div>
 
                   </div>
-                  <div className="booking-status d-flex align-items-center justify-content-center" style={{gap:"10px", flexWrap:"wrap"}}>
+                  <div className="booking-status d-flex align-items-center justify-content-center" style={{ gap: "10px", flexWrap: "wrap" }}>
                     <Chip label={item.status} color={item.status == 'consulted' ? "primary" : "secondary"} variant="outlined" />
                     {
-                      item.status=='upcoming' &&
-                    <button className='btn btn-dark' onClick={()=>handleCancelBooking(item._id)}>Cancel</button>
+                      item.status == 'upcoming' &&
+                      <button className='btn btn-dark' onClick={() => handleCancelBooking(item._id)}>Cancel</button>
                     }
                   </div>
                 </div>
               </div>
             })
 
+          }
+          {
+            !bookingList[0] &&
+            <Row className='d-flex justify-content-center flex-column align-items-center'>
+              <img src={notFoundImg} style={{ maxHeight: "300px", width: "400px", maxWidth: "90%" }} alt="" />
+              <h6 className='text-center'>No data found</h6>
+            </Row>
           }
 
         </div>

@@ -11,6 +11,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import DoctorHeader from '../DoctorHeader/DoctorHeader';
 import DoctorSidebar from '../DoctorSidebar/DoctorSidebar';
 import ViewDoctorEmr from '../../Modal/ViewDoctorEmr/ViewDoctorEmr';
+import DoctorBottomNav from '../DoctorBottom/DoctorBottom';
 
 export default function DoctorBooking() {
     const [refresh, setRefresh] = useState(false)
@@ -108,6 +109,8 @@ export default function DoctorBooking() {
                 <ViewDoctorEmr setShowAddEmr={setShowAddEmr} booking={booking} />
                 }
             </div>
+            <DoctorBottomNav page={'booking'} />
+
             <Backdrop
                 sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
                 open={load}

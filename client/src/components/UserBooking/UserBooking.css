@@ -43,7 +43,7 @@
     font-size: .9rem;
 }
 
-.ub-dr-desc-item div p:last-child {
+.ub-dr-desc-item div p:last-child{
     font-weight: 550;
     margin-left: 5px;
 }
@@ -51,6 +51,21 @@
 .ub-dr-desc {
     padding: 0px 10px;
 }
+
+.profile-comp{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+}
+.profile-comp img{
+    width: 200px;
+    height: 200px;
+    border-radius: 100px;
+    box-shadow: var(--defaultShadow);
+}
+
 @media(max-width:600px){
     .booking-status{
         width: 100px;

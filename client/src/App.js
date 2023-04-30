@@ -30,7 +30,6 @@ import HospitalProfilePage from './pages/hospital/HospitalProfilePage';
 import HospitalSchedulePage from './pages/hospital/HospitalSchedulePage';
 import HospitalBookingPage from './pages/hospital/HospitalBookingPage';
 import DoctorSchedulePage from './pages/doctor/DoctorSchedulePage';
-import UserBookingPage from './pages/user/UserBookingPage';
 import UserForgotPage from './pages/user/UserForgotPage';
 import HospitalForgotPage from './pages/hospital/HospitalForgotPage';
 import DoctorForgotPage from './pages/doctor/DoctorForgotPage';
@@ -38,6 +37,7 @@ import DoctorBookingPage from './pages/doctor/DoctorBookingPage';
 import HospitalReportPage from './pages/hospital/HospitalReportPage';
 import AdminReportPage from './pages/admin/AdminReportPage';
 import AdminRefundPage from './pages/admin/AdminRefundPage';
+import UserProfilePage from './pages/user/UserProfilePage';
 
 
 function App() {
@@ -157,7 +157,7 @@ function App() {
             <Route path='/doctor/:id' element={<UserDoctorPage />} />
             <Route path='/hospital/:id' element={<UserHospitalPage />} />
             <Route path='/department/:id' element={<UserDepartmentPage />} />
-            <Route path='/booking' element={<UserBookingPage />} />
+            <Route path='/profile' element={<UserProfilePage />} />
           </>
         }
         {
@@ -171,7 +171,7 @@ function App() {
             <Route path='/doctor/:id' element={<Navigate to="/login" />} />
             <Route path='/hospital/:id' element={<Navigate to="/login" />} />
             <Route path='/department/:id' element={<Navigate to="/login" />} />
-            <Route path='/booking' element={<Navigate to="/login" />} />
+            <Route path='/profile' element={<Navigate to="/login" />} />
           </>
         }
 

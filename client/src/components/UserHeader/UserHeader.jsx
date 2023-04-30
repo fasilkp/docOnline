@@ -37,7 +37,7 @@ function UserHeader() {
         aria-expanded={open ? 'true' : undefined}
         onClick={(e)=>{setOpen(true); setAnchorEl(e.currentTarget);}}
         >
-        <Avatar alt="Femy Sharp" src="/static/images/avatar/1.jpg" sx={{ width: 32, height: 32 }} />
+        <Avatar alt="Femy Sharp" src="https://png.pngtree.com/png-vector/20220709/ourmid/pngtree-businessman-user-avatar-wearing-suit-with-red-tie-png-image_5809521.png" sx={{ width: 32, height: 32 }} />
       </Button>
       <Menu
         id="basic-menu"
@@ -48,8 +48,7 @@ function UserHeader() {
           'aria-labelledby': 'basic-button',
         }}
       >
-        <MenuItem >Profile</MenuItem>
-        <MenuItem onClick={()=>navigate('/booking')} >Booking</MenuItem>
+        <MenuItem onClick={()=>navigate("/profile")} >Profile</MenuItem>
         <MenuItem onClick={handleLogout} >Logout</MenuItem>
       </Menu>
         </div>

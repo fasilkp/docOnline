@@ -63,7 +63,6 @@ function DoctorHome() {
                                                         <p>Token : </p>
                                                         <p> {item.token}</p>
                                                     </div>
-
                                                 </div>
                                                 <div className="booking-status">
                                                     <Chip label={item.status} color="secondary" variant="outlined" />
@@ -74,7 +73,7 @@ function DoctorHome() {
                                     :
                                     <Row className='d-flex justify-content-center flex-column align-items-center'>
                                         <img src={notFoundImg} style={{ maxHeight: "300px",width:"400px", maxWidth: "90%" }} alt="" />
-                                        <h6 className='text-center'>No data found</h6>
+                                        <h6 className='text-center'>No Appointments</h6>
                                     </Row>
                             }
 
