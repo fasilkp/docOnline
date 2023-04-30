@@ -5,6 +5,7 @@ import DepartmentModel from "../models/DepartmentModel.js";
 import DoctorModel from "../models/DoctorModel.js";
 import HospitalModel from "../models/HospitalModel.js"
 import UserModel from '../models/UserModel.js'
+import WithdrawModel from "../models/WithdrawModel.js";
 
 export async function adminDashboard(req, res) {
     try {
@@ -296,6 +297,35 @@ export async function refundComplete(req, res){
         return res.json({
             err:false
         })
+    }catch(error){
+        console.log(error)
+        res.json({err:true, error, message:"something went wrong"})
+    }
+}
+
+export async function getWithdrawals(req, res){
+    try{
+        const withdrawals= await WithdrawModel.find().populate('hospitalId').sort({_id:-1})
+        res.json({withdrawals, err:false})
+    }catch(error){
+        console.log(error)
+        res.json({err:true, error, message:"something went wrong"})
+    }
+}
+
+export async function completeWithdraw(req, res){
+    try{
+        const withdraws = await WithdrawModel.updateOne({hospitalId:req.body.id},{
+            $set:{
+                status:true
+            }
+        })
+        const walletUpdate = await HospitalModel.findByIdAndUpdate(req.body.id,{
+            $set:{
+                wallet:0
+            }
+        })
+        res.json({ err:false})
     }catch(error){
         console.log(error)
         res.json({err:true, error, message:"something went wrong"})

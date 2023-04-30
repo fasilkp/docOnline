@@ -4,6 +4,8 @@ import React, { useEffect, useState } from 'react'
 import { Form, FormControl } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { ClipLoader } from 'react-spinners'
+import Swal from 'sweetalert2'
+import { withdrawHospitalWallet } from '../../api/hospitalApi'
 import '../../assets/css/modalForm.css'
 
 export default function WithdrawModal({ setShowModal, setRefresh, refresh }) {
@@ -23,11 +25,16 @@ export default function WithdrawModal({ setShowModal, setRefresh, refresh }) {
         e.preventDefault();
         setLoading({ ...loading, submit: true })
         if (validForm()) {
-            const { data } = await axios.post("/hospital/doctor")
+            const data = await withdrawHospitalWallet(accountHolder, accountNo, branch, ifsc)
             if (data.err) {
                 setErrMessage(data.message)
             } else {
                 setRefresh(!refresh)
+                Swal.fire(
+                    'Success!',
+                    'Your Money will be withdrawn in 3 days',
+                    'success'
+                )
                 setShowModal(false)
             }
             setLoading({ ...loading, submit: false })
@@ -55,7 +62,7 @@ export default function WithdrawModal({ setShowModal, setRefresh, refresh }) {
                     <TextField id="outlined-basic" value={accountHolder} onChange={(e) => setAccountHolder(e.target.value)} label="Account Holder Name" type="text" variant="outlined" fullWidth className='input' />
                 </div>
                 <div className="modal-form-row">
-                    <TextField id="outlined-basic" value={accountNo} onChange={(e) => setAccountNo(e.target.value)} label="EmAccount No" type="text" variant="outlined" fullWidth className='input' />
+                    <TextField id="outlined-basic" value={accountNo} onChange={(e) => setAccountNo(e.target.value)} label="Account No" type="text" variant="outlined" fullWidth className='input' />
                 </div>
                 <div className="modal-form-row">
                     <TextField id="outlined-basic" value={ifsc} onChange={(e) => setIfsc(e.target.value)} label="IFSC Code" type="text" variant="outlined" fullWidth className='input' />

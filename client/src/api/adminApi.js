@@ -66,3 +66,27 @@ export async function refundComplete(id){
     return data
 }
 
+export async function getAdminWitdrawals(){
+    const {data} = await axios.get("/admin/withdrawals")
+    if(data.err){
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: data.message,
+          })
+    }
+    return data
+
+}
+export async function withdrawComplete(hospitalId){
+    const {data} = await axios.post("/admin/withdrawal", {id:hospitalId})
+    if(data.err){
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: data.message,
+          })
+    }
+    return data
+
+}

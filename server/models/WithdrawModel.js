@@ -17,6 +17,10 @@ const Schema = new mongoose.Schema({
         type:String,
         required:true
     },
+    hospitalId:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Hospital'
+    },
     status:{
         type:Boolean,
         default:false

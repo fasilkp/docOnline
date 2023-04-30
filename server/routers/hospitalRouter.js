@@ -1,5 +1,5 @@
 import express from 'express'
-import { addDepartment, addDoctor, blockDoctor, editDepartment, editDoctor, editHospitalProfile, getBookings, getDepartments, getDoctors, getHospitalComplaints, getHospitalProfile, getHospitalReport, getSchedule, hospitalDashboard, unBlockDoctor, updateSchedule } from '../controllers/hospitalController.js';
+import { addDepartment, addDoctor, blockDoctor, editDepartment, editDoctor, editHospitalProfile, getBookings, getDepartments, getDoctors, getHospitalComplaints, getHospitalProfile, getHospitalReport, getSchedule, hospitalDashboard, unBlockDoctor, updateSchedule, withdrawWallet } from '../controllers/hospitalController.js';
 
 const Router = express.Router();
 
@@ -27,6 +27,8 @@ Router.get("/dashboard", hospitalDashboard)
 Router.get('/complaints', getHospitalComplaints)
 
 Router.get("/reports", getHospitalReport )
+
+Router.post("/withdraw", withdrawWallet)
 
 
 

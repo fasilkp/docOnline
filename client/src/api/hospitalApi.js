@@ -65,3 +65,17 @@ export async function getHospitalReport(startDate, endDate, filter){
     }
     return result.data
 }
+
+export async function withdrawHospitalWallet(accountHolder, accountNo, branch, ifsc){
+    const {data} = await axios.post("/hospital/withdraw", {
+        accountHolder, accountNo, branch, ifsc
+    })
+    if(data.err){
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: data.message,
+          })
+    }
+    return data
+}

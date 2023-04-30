@@ -3,6 +3,7 @@ import BookingModel from '../models/BookingModel.js';
 import DoctorModel from '../models/DoctorModel.js';
 import EMRModel from '../models/EMRModel.js';
 import FeedbackModel from '../models/FeedbackModel.js';
+import HospitalModel from '../models/HospitalModel.js';
 import ScheduleModel from '../models/ScheduleModel.js';
 
 
@@ -122,7 +123,11 @@ export async function addEMR(req, res) {
                 status:'completed'
             }
         })
-
+        await HospitalModel.updateOne({_id:req.doctor.hospitalId},{
+            $inc:{
+                wallet:doctor.fees
+            }
+        })
         res.json({err:false})
         
     } catch (err) {

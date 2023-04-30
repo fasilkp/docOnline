@@ -9,6 +9,7 @@ import BookingModel from "../models/BookingModel.js";
 import FeedbackModel from "../models/FeedbackModel.js";
 import ComplaintModel from "../models/ComplaintModel.js";
 import EMRModel from "../models/EMRModel.js";
+import WithdrawModel from "../models/WithdrawModel.js";
 
 var salt = bcrypt.genSaltSync(10);
 
@@ -401,10 +402,20 @@ export async function getHospitalReport(req, res) {
 
 }
 
-export async function withdrawModal(req, res){
+export async function withdrawWallet(req, res){
     try{
         const {accountHolder, accountNo, branch, ifsc} = req.body;
-        
+        if (branch.trim() === "" || accountHolder.trim()==="" || ifsc.trim().length!==11) {
+            return res.json({err:true, message:"all fields required"})
+        }
+        if(accountNo.toString().length <12 || accountNo.toString.length>17){
+            return res.json({err:true, message:"Account number must be between 12 and 17"})
+        }
+        const withdraw= await WithdrawModel.create({
+            accountHolder, accountNo,branch, ifsc, hospitalId:req.hospital._id
+        })
+        res.json({err:false})
+
     }catch(error){
         console.log(error)
         res.json({error, err:true, message:"something went wrong"})

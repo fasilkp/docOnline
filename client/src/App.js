@@ -39,12 +39,13 @@ import AdminReportPage from './pages/admin/AdminReportPage';
 import AdminRefundPage from './pages/admin/AdminRefundPage';
 import UserProfilePage from './pages/user/UserProfilePage';
 import AdminComplaintPage from './pages/admin/AdminComplaintPage';
+import AdminWithdrawalsPage from './pages/admin/AdminWithdrawalsPage';
 
 
 function App() {
   axios.defaults.withCredentials = true;
-  // axios.defaults.baseURL = "http://localhost:5000/";
-  axios.defaults.baseURL = "https://doconlineapi.cartgenie.store/";
+  axios.defaults.baseURL = "http://localhost:5000/";
+  // axios.defaults.baseURL = "https://doconlineapi.cartgenie.store/";
 
 
   const { user, refresh, admin, hospital, doctor } = useSelector((state) => {
@@ -80,6 +81,7 @@ function App() {
             <Route path='/account/admin/users' element={<AdminUsersPage />} />
             <Route path='/account/admin/reports' element={<AdminReportPage />} />
             <Route path='/account/admin/complaints' element={<AdminComplaintPage />} />
+            <Route path='/account/admin/withdrawals' element={<AdminWithdrawalsPage />} />
           </>
         }
         {
