@@ -40,6 +40,7 @@ import AdminRefundPage from './pages/admin/AdminRefundPage';
 import UserProfilePage from './pages/user/UserProfilePage';
 import AdminComplaintPage from './pages/admin/AdminComplaintPage';
 import AdminWithdrawalsPage from './pages/admin/AdminWithdrawalsPage';
+import NotFoundPage from './pages/NotFoundPage';
 
 
 function App() {
@@ -82,6 +83,8 @@ function App() {
             <Route path='/account/admin/reports' element={<AdminReportPage />} />
             <Route path='/account/admin/complaints' element={<AdminComplaintPage />} />
             <Route path='/account/admin/withdrawals' element={<AdminWithdrawalsPage />} />
+            <Route path='/account/admin/*' element={<NotFoundPage />} />
+
           </>
         }
         {
@@ -119,6 +122,8 @@ function App() {
             <Route path='/account/hospital/schedule/:id' element={<HospitalSchedulePage />} />
             <Route path='/account/hospital/booking' element={<HospitalBookingPage />} />
             <Route path='/account/hospital/reports' element={<HospitalReportPage />} />
+            <Route path='/account/hospital/*' element={<NotFoundPage />} />
+
           </>
         }
         {
@@ -148,6 +153,8 @@ function App() {
             <Route path='/account/doctor/profile' element={<DoctorProfilePage />} />
             <Route path='/account/doctor/schedule' element={<DoctorSchedulePage />} />
             <Route path='/account/doctor/booking' element={<DoctorBookingPage />} />
+            <Route path='/account/doctor/*' element={<NotFoundPage />} />
+
           </>
         }
         {
