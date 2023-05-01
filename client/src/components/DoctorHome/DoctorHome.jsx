@@ -52,7 +52,7 @@ function DoctorHome() {
                                                     <b>{item.patientName}</b>
                                                     <div className="mt-2">
                                                         <p>Date : </p>
-                                                        <p> {new Date(item.date).toLocaleDateString()}</p>
+                                                        <p> {new Date(new Date(item.date).setDate(new Date(item.date).getDate()-1)).toLocaleDateString('en-US')}</p>
                                                     </div>
                                                     <div>
                                                         <p>Time : </p>
