@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import Swal from "sweetalert2";
 import { addDoctorEMR, getDoctorEMR } from "../../api/doctorApi";
 import "./AddEMR.css";
 
@@ -20,6 +21,11 @@ export default function AddEMR({booking, setShowAddEmr, refresh, setRefresh}) {
   const handleSave=async ()=>{
     const data = await addDoctorEMR(booking, weight, prescription, gender)
     setRefresh(!refresh)
+    Swal.fire(
+      'Success!',
+      'Successfully Added EMR',
+      'success'
+    )
     setShowAddEmr(false)
   }
   useEffect(()=>{
