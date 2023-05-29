@@ -54,9 +54,11 @@ function App() {
   });
   const dispatch = useDispatch()
 
+  console.log("hai")
   useEffect(() => {
     (async function () {
       let { data } = await axios.get("/user/auth/check");
+      console.log(data)
       dispatch({ type: "user", payload: { login: data.loggedIn, details: data.user } })
       let { data: adminData } = await axios.get("/admin/auth/check");
       dispatch({ type: "admin", payload: { login: adminData.loggedIn, details: adminData.admin } })
@@ -84,13 +86,11 @@ function App() {
             <Route path='/account/admin/complaints' element={<AdminComplaintPage />} />
             <Route path='/account/admin/withdrawals' element={<AdminWithdrawalsPage />} />
             <Route path='/account/admin/*' element={<NotFoundPage />} />
-
           </>
         }
         {
           admin.login === false &&
           <>
-
             <Route path='/account/admin/login' element={<AdminLoginPage />} />
             <Route path='/account/admin' element={<Navigate to="/account/admin/login" />} />
             <Route path='/account/admin/*' element={<Navigate to="/account/admin/login" />} />

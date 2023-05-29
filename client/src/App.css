@@ -30,7 +30,7 @@ a {
 }
 
 button:disabled {
-  opacity: 70%;
+  opacity: 50% !important;
 }
 .admin-home{
   max-height: 100vh;
