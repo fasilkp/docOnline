@@ -6,11 +6,11 @@ import doctorImg from '../../assets/images/doctor.png'
 import noResultImg from '../../assets/images/no-result.png'
 import './doctorlist.css'
 
-function DoctorList({ list }) {
+function DoctorList({ list, title }) {
     return (
         <div>
             <Row>
-                <h5>Doctors</h5>
+                <h5>{title ? title : "Doctors"}</h5>
 
             </Row>
             <Row>

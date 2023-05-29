@@ -101,3 +101,16 @@ export async function cancelBooking(bookingId){
     return data
 }
 
+export async function getTop3Doctors(bookingId){
+    const {data} = await axios.get("/user/doctors/top");
+    console.log(data)
+    if(data.err){
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: data.message,
+          })
+    }
+    return data
+}
+

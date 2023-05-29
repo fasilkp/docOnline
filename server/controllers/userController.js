@@ -220,20 +220,20 @@ export async function getDoctorSchedule(req, res) {
 
 export async function getUserBookings(req, res) {
     try {
-        let bookings=[]
-        if(req.query.filter==='completed'){
+        let bookings = []
+        if (req.query.filter === 'completed') {
             bookings = await BookingModel.find({
                 userId: req.user._id,
-                status:"completed"
+                status: "completed"
             }).populate('doctorId').sort({ _id: -1 })
         }
-        else if(req.query.filter==='upcoming'){
+        else if (req.query.filter === 'upcoming') {
             bookings = await BookingModel.find({
                 userId: req.user._id,
-                status:'upcoming'
+                status: 'upcoming'
             }).populate('doctorId').sort({ _id: -1 })
         }
-        else{
+        else {
             bookings = await BookingModel.find({
                 userId: req.user._id
             }).populate('doctorId').sort({ _id: -1 })
@@ -277,59 +277,143 @@ export async function addHospitalrFeedback(req, res) {
 }
 
 
-export async function cancelBooking(req, res){
-    try{
-        const {bookingId} = req.body;
+export async function cancelBooking(req, res) {
+    try {
+        const { bookingId } = req.body;
         await BookingModel.updateOne({
-            _id:bookingId
-        },{
-            $set:{
-                status:"refund processing",
-                time:new Date(new Date(0).setFullYear(0))
+            _id: bookingId
+        }, {
+            $set: {
+                status: "refund processing",
+                time: new Date(new Date(0).setFullYear(0))
             }
         })
         return res.json({
-            err:false
+            err: false
         })
-    }catch(error){
-        res.json({err:true, error, message:"something went wrong"})
+    } catch (error) {
+        res.json({ err: true, error, message: "something went wrong" })
     }
 }
 
 
-export async function addComplaint(req, res){
-    try{
-        const {complaintAgainst, description, type}= req.body;
+export async function addComplaint(req, res) {
+    try {
+        const { complaintAgainst, description, type } = req.body;
         let complaint;
-        if(type==='doctor'){
+        if (type === 'doctor') {
             complaint = await ComplaintModel.create({
-                doctorId:complaintAgainst,
+                doctorId: complaintAgainst,
                 description,
                 type,
-                userId:req.user._id
+                userId: req.user._id
             })
         }
-        else{
+        else {
             complaint = await ComplaintModel.create({
-                hospitalId:complaintAgainst,
+                hospitalId: complaintAgainst,
                 description,
                 type,
-                userId:req.user._id
+                userId: req.user._id
             })
         }
-        await sentMail(req.user.email, 
-            'Your Complaint Against the '+type+" is Registered",
-            'Your complaint id is '+complaint.complaintId+'. We will contact you later'
-            )
-            res.json(
-                {
-                    err:false, complaint
-                }
-            )
+        await sentMail(req.user.email,
+            'Your Complaint Against the ' + type + " is Registered",
+            'Your complaint id is ' + complaint.complaintId + '. We will contact you later'
+        )
+        res.json(
+            {
+                err: false, complaint
+            }
+        )
 
-    }catch(error){
+    } catch (error) {
         console.log(error)
-        res.json({err:true, message:"something went wrong", error})
+        res.json({ err: true, message: "something went wrong", error })
     }
 
+}
+
+export async function getTop3Doctors(req, res) {
+    try {
+        let doctors = await FeedbackModel.aggregate([
+            {
+                $group: {
+                    _id: "$doctorId",
+                    totalRating: { $avg: "$rating" }
+                }
+            },
+            {
+                $match:{
+                    _id:{$ne:null}
+                }
+            },
+            {
+                $lookup:{
+                    from:"doctors",
+                    localField:"_id",
+                    foreignField:"_id",
+                    as:"doctor"
+                }
+            },
+            {
+                $sort:{
+                    totalRating:1
+                }
+            },
+            {
+                $limit:3
+            }
+        ])
+        doctors= doctors.map(item=>{
+            console.log(item.doctor)
+            return item.doctor[0]
+        })
+        return res.json(doctors)
+    } catch (error) {
+        console.log(error)
+        res.json({ err: true, message: "something went wrong", error })
+    }
+}
+
+export async function getTop3Hospitals(req, res) {
+    try {
+        let doctors = await FeedbackModel.aggregate([
+            {
+                $group: {
+                    _id: "$hospitalId",
+                    totalRating: { $avg: "$rating" }
+                }
+            },
+            {
+                $match:{
+                    _id:{$ne:null}
+                }
+            },
+            {
+                $lookup:{
+                    from:"hospitals",
+                    localField:"_id",
+                    foreignField:"_id",
+                    as:"hospital"
+                }
+            },
+            {
+                $sort:{
+                    totalRating:1
+                }
+            },
+            {
+                $limit:3
+            }
+        ])
+        doctors= doctors.map(item=>{
+            console.log(item.doctor)
+            return item.doctor[0]
+        })
+        return res.json(doctors)
+    } catch (error) {
+        console.log(error)
+        res.json({ err: true, message: "something went wrong", error })
+    }
 }
