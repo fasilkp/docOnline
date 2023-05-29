@@ -30,7 +30,8 @@ a {
 }
 
 button:disabled {
-  opacity: 50% !important;
+  background: none;
+  background-color: #93acd3 !important;
 }
 .admin-home{
   max-height: 100vh;
@@ -157,7 +158,6 @@ button:disabled {
   width: 60px;
   height: 60px;
   object-fit: contain;
-
 }
 
 @media(max-width:600px) {

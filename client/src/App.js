@@ -10,7 +10,6 @@ import axios from 'axios'
 import AdminHomePage from './pages/admin/AdminHomePage';
 import { useDispatch, useSelector } from 'react-redux';
 import UserHomePage from './pages/user/UserHomePage';
-import './App.css'
 import HospitalrequestPage from './pages/admin/HospitalrequestPage';
 import HospitalHomePage from './pages/hospital/HospitalHomePage';
 import HospitalSignupPage from './pages/hospital/HospitalSignupPage';
@@ -41,6 +40,7 @@ import UserProfilePage from './pages/user/UserProfilePage';
 import AdminComplaintPage from './pages/admin/AdminComplaintPage';
 import AdminWithdrawalsPage from './pages/admin/AdminWithdrawalsPage';
 import NotFoundPage from './pages/NotFoundPage';
+import './App.css'
 
 
 function App() {
