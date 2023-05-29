@@ -378,7 +378,7 @@ export async function getTop3Doctors(req, res) {
 
 export async function getTop3Hospitals(req, res) {
     try {
-        let doctors = await FeedbackModel.aggregate([
+        let hospitals = await FeedbackModel.aggregate([
             {
                 $group: {
                     _id: "$hospitalId",
@@ -407,11 +407,11 @@ export async function getTop3Hospitals(req, res) {
                 $limit:3
             }
         ])
-        doctors= doctors.map(item=>{
-            console.log(item.doctor)
-            return item.doctor[0]
+        hospitals= hospitals.map(item=>{
+            console.log(item.hospital)
+            return item.hospital[0]
         })
-        return res.json(doctors)
+        return res.json(hospitals)
     } catch (error) {
         console.log(error)
         res.json({ err: true, message: "something went wrong", error })

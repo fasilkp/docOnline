@@ -6,11 +6,13 @@ import UserDepartmentRow from '../UserDepartmentRow/UserDepartmentRow'
 import UserHeader from '../UserHeader/UserHeader'
 import "./UserHome.css"
 import DoctorList from '../DoctorList/DoctorList'
-import { getTop3Doctors } from '../../api/userApi'
+import { getTop3Doctors, getTop3Hospitals } from '../../api/userApi'
+import HospitalList from '../HospitalList/HospitalList'
 
 function UserHome() {
   const [departmentList, setDepartmentList] = useState([])
-  const [doctorList, setDoctorList]= useState([])
+  const [doctorList, setDoctorList] = useState([])
+  const [hospitalList, setHospitalList] = useState([])
 
   useEffect(() => {
     (
@@ -20,13 +22,17 @@ function UserHome() {
           setDepartmentList(data.departments)
         }
         const doctors = await getTop3Doctors();
-        if(!doctors.err){
+        if (!doctors.err) {
           setDoctorList(doctors)
+        }
+        const hospitals = await getTop3Hospitals();
+        if (!doctors.err) {
+          setHospitalList(hospitals)
         }
       }
     )()
   }, [])
-  console.log(doctorList)
+  console.log(hospitalList)
   return (
     <div className="user-main">
 
@@ -51,11 +57,16 @@ function UserHome() {
       <Row>
         <UserDepartmentRow hospitalWise={false} list={departmentList} />
       </Row>
-        <Container>
-      <Row className='mt-5'>
-        <DoctorList list={doctorList} title="Top Doctors" />
-      </Row>
-        </Container>
+      <Container>
+        <Row className='mt-5'>
+          <DoctorList list={doctorList} title="Top Doctors" />
+        </Row>
+      </Container>
+      <Container>
+        <Row className='mt-5'>
+          <HospitalList list={hospitalList} />
+        </Row>
+      </Container>
     </div>
   )
 }

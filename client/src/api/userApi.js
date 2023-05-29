@@ -114,3 +114,16 @@ export async function getTop3Doctors(bookingId){
     return data
 }
 
+export async function getTop3Hospitals(bookingId){
+    const {data} = await axios.get("/user/hospitals/top");
+    console.log(data)
+    if(data.err){
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: data.message,
+          })
+    }
+    return data
+}
+
