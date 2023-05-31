@@ -8,7 +8,7 @@
     position: sticky;
     top: 0px;
     z-index: 150;
-
+    box-shadow: 0px 3px 10px -9px rgb(209, 209, 209);
 }
 .admin-header-item p{
     margin-top: -10px;

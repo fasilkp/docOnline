@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import LoginPage from './pages/user/UserLoginPage'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import AdminLoginPage from './pages/admin/AdminLoginPage';
@@ -41,6 +42,7 @@ import AdminComplaintPage from './pages/admin/AdminComplaintPage';
 import AdminWithdrawalsPage from './pages/admin/AdminWithdrawalsPage';
 import NotFoundPage from './pages/NotFoundPage';
 import './App.css'
+import Chat from './components/Chat/Chat';
 
 
 function App() {
@@ -184,6 +186,7 @@ function App() {
             <Route path='/profile' element={<Navigate to="/login" />} />
           </>
         }
+        <Route path="/chat" element={<Chat/>} />
 
       </Routes>
 

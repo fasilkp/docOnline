@@ -1,0 +1,63 @@
+#chat3 .form-control {
+    border-color: transparent;
+    }
+    
+    #chat3 .form-control:focus {
+    border-color: transparent;
+    box-shadow: inset 0px 0px 0px 1px transparent;
+    }
+    
+    .badge-dot {
+    border-radius: 50%;
+    height: 10px;
+    width: 10px;
+    margin-left: 2.9rem;
+    margin-top: -.75rem;
+}
+#chat3{
+    height: 94vh;
+    border-radius: 0px;
+}
+.card-body{
+    padding-top: 0px !important;
+}
+.message-box{
+    max-height: 77%;
+    overflow-y: scroll;
+}
+.chat-list{
+    border-right: 1px solid rgb(240, 240, 240);
+    overflow-y: scroll;
+}
+.chat-main{
+    max-height: 100vh;
+    overflow: hidden;
+}
+.input-group.srch{
+        box-shadow: 0px 3px 10px -9px grey;
+}
+
+.message-box::-webkit-scrollbar, .chat-list::-webkit-scrollbar {
+  display: none;
+}
+
+.message-box, .chat-list {
+  -ms-overflow-style: none; 
+  scrollbar-width: none;
+}
+.message-head{
+    box-shadow: 0px 2px 10px -8px grey;
+}
+
+.chat-list, .message-list{
+    min-height: 90vh;
+}
+
+.chat-input-box{
+    position: absolute;
+    bottom: 15px;
+    width: 62%;
+    box-shadow: 0px -2px 10px -8px grey;
+    background-color: white;
+    z-index: 100;
+}
