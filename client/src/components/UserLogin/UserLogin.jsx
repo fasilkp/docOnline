@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import { Col, Container, Row } from 'react-bootstrap';
-import { TextField } from '@mui/material';
+import { Button, TextField } from '@mui/material';
 import loginImage from '../../assets/images/login.jpg'
 import "./userlogin.css"
 import { Link } from 'react-router-dom';
 import { ClipLoader } from 'react-spinners';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
+import { FcGoogle } from "react-icons/fc";
 // import GoogleLogin from 'react-google-login';
 // import { GoogleLogin } from "@react-oauth/google";
 
@@ -24,16 +25,17 @@ function UserLogin() {
         }
         return true
     }
-    const handleGoogleLogin = async () => {
+    const handleGoogleLogin = async (e) => {
+        e.preventDefault()
         let redirectUri = "http://localhost:5000/user/auth/google/callback"
-        let clientId= "572510792166-vpf7ki1vmt5t7u4er1afdsgn7oe1l1l9.apps.googleusercontent.com"
+        let clientId = "572510792166-vpf7ki1vmt5t7u4er1afdsgn7oe1l1l9.apps.googleusercontent.com"
         try {
             window.open(
                 `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&scope=email%20profile`,
                 "_self"
             )
         } catch (error) {
-            console.log('Google login error:', error); 
+            console.log('Google login error:', error);
         }
     };
     const [loading, setLoading] = useState({
@@ -97,24 +99,20 @@ function UserLogin() {
                                             <ClipLoader size={20} color="white" loading={loading.submit} />
                                         </button>
                                     </div>
+                                    <div className="login-row">
+                                        OR
+                                    </div>
+                                    <div className="login-row google-btn">
+                                    <Button variant="contained" onClick={handleGoogleLogin}>
+                                            <FcGoogle className='icon' />
+                                            Login with Google
+                                    </Button>
+                                        
+                                    </div>
                                     <div className="login-row mt-3">
                                         <Link to="/signup">Don't Have an Account? Signin</Link>
                                     </div>
                                 </form>
-                                    <div className="login-row">
-                                        {/* <GoogleLogin
-                                            clientId="572510792166-vpf7ki1vmt5t7u4er1afdsgn7oe1l1l9.apps.googleusercontent.com"
-                                            buttonText="Login with Google"
-                                            onSuccess={googleAuth}
-                                            onFailure={googleAuth}
-                                            cookiePolicy={'single_host_origin'}
-                                        />
-                                        <GoogleLogin
-                                            onSuccess={handleGoogleLogin}
-                                            onError={console.error}
-                                        /> */}
-                                        <button onClick={handleGoogleLogin}>Login with Google</button>
-                                    </div>
                             </div>
                         </Col>
                     </Row>

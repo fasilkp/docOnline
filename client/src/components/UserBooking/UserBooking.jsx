@@ -69,7 +69,7 @@ export default function UserBooking() {
         <div className="user-booking-container">
           
           <div className="profile-comp">
-            <img src="https://png.pngtree.com/png-vector/20220709/ourmid/pngtree-businessman-user-avatar-wearing-suit-with-red-tie-png-image_5809521.png" alt="" />
+            <img src={user.picture ? user.picture.replace('=s96-c', '') : "https://png.pngtree.com/png-vector/20220709/ourmid/pngtree-businessman-user-avatar-wearing-suit-with-red-tie-png-image_5809521.png"} alt="" />
             <h6 className="text-center mt-2">{user.name.toUpperCase()}</h6>
             <span className="text-center">{user.email}</span>
           </div>

@@ -32,7 +32,6 @@ function UserHome() {
       }
     )()
   }, [])
-  console.log(hospitalList)
   return (
     <div className="user-main">
 

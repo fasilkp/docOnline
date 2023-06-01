@@ -57,7 +57,6 @@ function App() {
   });
   const dispatch = useDispatch()
 
-  console.log("hai")
   useEffect(() => {
     (async function () {
       let { data } = await axios.get("/user/auth/check");
