@@ -164,7 +164,7 @@ function BookNow({ daysAvailable, doctor, setShowBookNow, refresh, setRefresh}) 
                 <TextField id="outlined-basic" value={age} onChange={(e) => setAge(e.target.value)} label="Age" type="number" variant="outlined" fullWidth className='input' />
                 </div>
 
-                <div className="btn">
+                <div className="bttn">
                     <button onClick={() => setShowBookNow(false)}>Cancel</button>
                     <button onClick={handleBooking} disabled={!validForm()} >Book Now</button>
 

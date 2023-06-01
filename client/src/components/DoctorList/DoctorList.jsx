@@ -6,7 +6,7 @@ import doctorImg from '../../assets/images/doctor.png'
 import noResultImg from '../../assets/images/no-result.png'
 import './doctorlist.css'
 
-function DoctorList({ list, title }) {
+function DoctorList({ list, title, rating }) {
     return (
         <div>
             <Row>
@@ -26,7 +26,7 @@ function DoctorList({ list, title }) {
                                     </div>
                                     <div className="dr-container-profile-desc">
                                         <h5>{item.name}</h5>
-                                        <Rating name="size-small" readOnly defaultValue={2} size="small" />
+                                        <Rating name="size-small" readOnly defaultValue={rating[item._id]} size="small" />
                                         <div className="desc">
                                             <b>₹{item.fees}</b>
                                             <span>{item.department.name}</span>

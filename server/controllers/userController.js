@@ -65,7 +65,22 @@ export async function getAllDoctors(req, res) {
                 doctors = await DoctorModel.find({ $or: [{ name: new RegExp(name, 'i'), }, { tags: new RegExp(name, 'i') }] }, { password: 0 }).populate('hospitalId', 'name').populate('department', 'name').lean()
             }
         }
-        res.json({ doctors })
+        const ratingData = await FeedbackModel.aggregate([
+            {
+                $group:{
+                    _id:"$doctorId",
+                    rating:{$avg:"$rating"}
+                }
+            }
+        ])
+        const rating = {}
+        ratingData.map((item)=>{
+            if(item._id!==null){
+                rating[item._id.valueOf()]=item.rating
+            }
+        })
+        console.log(rating)
+        res.json({ doctors, rating })
 
     } catch (err) {
         console.log(err)
