@@ -10,8 +10,10 @@ const UserSchema = new mongoose.Schema({
         required:true
     },
     password :{
-        type:String,
-        required:true
+        type:String
+    },
+    googleId:{
+        type:String
     },
     block:{
         type:Boolean,
