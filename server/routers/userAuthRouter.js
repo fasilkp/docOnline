@@ -1,5 +1,6 @@
 import express from 'express';
-import { checkUserLoggedIn,userForgot,verifyForgotOtp,resetUserPassword, userLogin, userLogout, userRegister, userRegisterVerify } from '../controllers/userAuthController.js';
+import { checkUserLoggedIn,userForgot,verifyForgotOtp,resetUserPassword, userLogin, userLogout, userRegister, userRegisterVerify, googleAuthRedirect, verifyGAuth } from '../controllers/userAuthController.js';
+// import passport from 'passport';
 
 const router=express.Router();
 
@@ -13,5 +14,8 @@ router.post("/forgot", userForgot)
 router.post("/forgot/verify", verifyForgotOtp)
 router.post("/forgot/reset", resetUserPassword)
 
+// router.get('/google',passport.authenticate('google', { scope:[ 'email', 'profile' ] }));
+router.get( '/google/callback', googleAuthRedirect );
+router.get( '/google/verify', verifyGAuth );
 
 export default router

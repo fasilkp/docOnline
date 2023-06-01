@@ -7,6 +7,9 @@ import { Link } from 'react-router-dom';
 import { ClipLoader } from 'react-spinners';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
+// import GoogleLogin from 'react-google-login';
+// import { GoogleLogin } from "@react-oauth/google";
+
 
 function UserLogin() {
     const [email, setEmail] = useState("")
@@ -21,19 +24,31 @@ function UserLogin() {
         }
         return true
     }
+    const handleGoogleLogin = async () => {
+        let redirectUri = "http://localhost:5000/user/auth/google/callback"
+        let clientId= "572510792166-vpf7ki1vmt5t7u4er1afdsgn7oe1l1l9.apps.googleusercontent.com"
+        try {
+            window.open(
+                `https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id=${clientId}&redirect_uri=${redirectUri}&scope=email%20profile`,
+                "_self"
+            )
+        } catch (error) {
+            console.log('Google login error:', error); 
+        }
+    };
     const [loading, setLoading] = useState({
         submit: false
     })
-    const handleSubmit=async (e)=>{
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        setLoading({...loading, submit:true})
-        const {data}= await axios.post("/user/auth/login", {email, password});
-        if(data.err){
+        setLoading({ ...loading, submit: true })
+        const { data } = await axios.post("/user/auth/login", { email, password });
+        if (data.err) {
             setErrMessage(data.message)
-        }else{
+        } else {
             dispatch({ type: "refresh" })
         }
-        setLoading({...loading, submit:false})
+        setLoading({ ...loading, submit: false })
     }
     return (
         <div className="login-main">
@@ -80,12 +95,26 @@ function UserLogin() {
                                         <button type='submit' disabled={!validForm()}>
                                             login
                                             <ClipLoader size={20} color="white" loading={loading.submit} />
-                                            </button>
+                                        </button>
                                     </div>
                                     <div className="login-row mt-3">
                                         <Link to="/signup">Don't Have an Account? Signin</Link>
                                     </div>
                                 </form>
+                                    <div className="login-row">
+                                        {/* <GoogleLogin
+                                            clientId="572510792166-vpf7ki1vmt5t7u4er1afdsgn7oe1l1l9.apps.googleusercontent.com"
+                                            buttonText="Login with Google"
+                                            onSuccess={googleAuth}
+                                            onFailure={googleAuth}
+                                            cookiePolicy={'single_host_origin'}
+                                        />
+                                        <GoogleLogin
+                                            onSuccess={handleGoogleLogin}
+                                            onError={console.error}
+                                        /> */}
+                                        <button onClick={handleGoogleLogin}>Login with Google</button>
+                                    </div>
                             </div>
                         </Col>
                     </Row>

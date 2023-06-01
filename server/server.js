@@ -16,7 +16,7 @@ import userRouter from './routers/userRouter.js'
 import verifyUser from './middlewares/verifyUser.js'
 import doctorRouter from "./routers/doctorRouter.js"
 import verifyDoctor from './middlewares/verifyDoctor.js'
-import './config/passport.js'
+// import './config/passport.js'
 
 const app=express();
 app.use(express.json({limit: '50mb'}))

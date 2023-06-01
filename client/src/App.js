@@ -43,6 +43,7 @@ import AdminWithdrawalsPage from './pages/admin/AdminWithdrawalsPage';
 import NotFoundPage from './pages/NotFoundPage';
 import './App.css'
 import Chat from './components/Chat/Chat';
+import UserAuthCallbackPage from './pages/user/UserAuthCallbackPage';
 
 
 function App() {
@@ -184,6 +185,7 @@ function App() {
             <Route path='/hospital/:id' element={<Navigate to="/login" />} />
             <Route path='/department/:id' element={<Navigate to="/login" />} />
             <Route path='/profile' element={<Navigate to="/login" />} />
+            <Route path='/callback' element={<UserAuthCallbackPage />} />
           </>
         }
         <Route path="/chat" element={<Chat/>} />

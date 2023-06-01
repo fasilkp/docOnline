@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs"
 import jwt from 'jsonwebtoken'
 import sentOTP from '../helpers/sentOTP.js';
 import crypto from 'crypto'
+import axios from 'axios'
 
 
 var salt = bcrypt.genSaltSync(10);
@@ -117,7 +118,6 @@ export const checkUserLoggedIn = async (req, res) => {
         const token = req.cookies.token;
         if (!token)
             return res.json({ loggedIn: false, error: true, message: "no token" });
-
         const verifiedJWT = jwt.verify(token, process.env.JWT_SECRET_KEY);
         const user = await UserModel.findById(verifiedJWT.id, { password: 0 });
         if (!user) {
@@ -226,5 +226,72 @@ export async function resetUserPassword(req, res) {
     catch (err) {
         console.log(err)
         res.json({ error: err, err: true, message: "something went wrong" })
+    }
+}
+
+export async function googleAuthRedirect(req, res) {
+    try {
+        const CLIENT_ID = process.env.GOOGLE_CLIENT_ID
+        const CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
+        const REDIRECT_URI = 'http://localhost:5000/user/auth/google/callback';
+        const { code } = req.query;
+        const tokenResponse = await axios.post('https://oauth2.googleapis.com/token', {
+            code,
+            client_id: CLIENT_ID,
+            client_secret: CLIENT_SECRET,
+            redirect_uri: REDIRECT_URI,
+            grant_type: 'authorization_code'
+        });
+
+        const { access_token, id_token } = tokenResponse.data;
+        const userInfo = await axios.get(`https://www.googleapis.com/oauth2/v3/userinfo?access_token=${access_token}`);
+
+        const user = {
+            email: userInfo.data.email,
+            name: userInfo.data.name,
+            picture: userInfo.data.picture
+        };
+
+        await UserModel.findOneAndUpdate({ email: user.email }, { $set: { picture: user.picture, name: user.name } }, {upsert:true});
+        let newUser= await UserModel.findOne({email:user.email});
+        console.log("hello", newUser)
+        const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET_KEY);
+        res.redirect(`http://localhost:3000/callback?token=${token}`);
+
+    } catch (error) {
+        console.error('Google authentication error:', error.message);
+        res.json({ err: true, error, message: "Google Authentication failed" })
+    }
+}
+
+export async function verifyGAuth(req, res) {
+    try {
+        const token= req.query.token;
+        if (!token){
+            return res.json({ loggedIn: false, err: true, message: "no token" });
+        }
+        const verifiedJWT = jwt.verify(token, process.env.JWT_SECRET_KEY);
+        if (!verifiedJWT){
+            return res.json({ loggedIn: false, err: true, message: "no token" });
+        }
+        const user = await UserModel.findById(verifiedJWT.id, { password: 0 });
+        console.log(user)
+        if (!user) {
+            return res.json({ loggedIn: false, err:true, message:"no user found" });
+        }
+        if (user.block) {
+            return res.json({ loggedIn: false, err:true, message:"user blocked" });
+        }
+        return res.cookie("token", token, {
+            httpOnly: true,
+            secure: true,
+            maxAge: 1000 * 60 * 60 * 24 * 7 * 30,
+            sameSite: "none",
+        }).json({ err: false, user: user._id })
+
+
+    } catch (error) {
+        console.log('Google authentication failed:', error);
+        res.json({ err: true, error, message: "Google Authentication failed" })
     }
 }

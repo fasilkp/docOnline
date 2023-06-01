@@ -366,7 +366,6 @@ export async function getTop3Doctors(req, res) {
             }
         ])
         doctors= doctors.map(item=>{
-            console.log(item.doctor)
             return item.doctor[0]
         })
         return res.json(doctors)
@@ -408,7 +407,6 @@ export async function getTop3Hospitals(req, res) {
             }
         ])
         hospitals= hospitals.map(item=>{
-            console.log(item.hospital)
             return item.hospital[0]
         })
         return res.json(hospitals)
