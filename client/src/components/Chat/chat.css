@@ -86,3 +86,35 @@
     background-color: #57575760;
     z-index: 110;
 }
+.tap-on-chat-main{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.tap-on-chat-main .tap-container{
+    max-width: 300px;
+    text-align: center;
+}
+
+.chat-avatar{
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+    object-fit: cover;
+}
+
+.single-chat{
+    background-color: #f5f6f7;
+}
+
+.single-chat.me{
+    background-color: var(--mainColor);
+}
+.single-chat-container{
+    justify-content: flex-start;
+}
+.single-chat-container.me{
+    justify-content: flex-end;
+}

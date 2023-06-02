@@ -16,9 +16,9 @@ export const createChat = async (req, res) => {
 export const userChats = async (req, res) => {
     try {
         const chat = await ChatModel.find({
-            members: { $in: [req.params.userId] },
-        });
-        res.json({err:false, chat})
+            userId: req.params.userId,
+        }).populate('doctorId');
+        res.json({ err: false, chat })
     } catch (error) {
         res.json({ err: true });
 
@@ -27,11 +27,18 @@ export const userChats = async (req, res) => {
 
 export const findChat = async (req, res) => {
     try {
-      const chat = await ChatModel.findOne({
-        members: { $all: [req.params.firstId, req.params.secondId] },
-      });
-      res.json({err:false, chat})
+        let chat = await ChatModel.findOne({
+            userId: req.params.userId,
+            doctorId: req.params.doctorId
+        }).populate('doctorId');
+        if (!chat) {
+            chat = await ChatModel.create({
+                userId: req.params.userId,
+                doctorId: req.params.doctorId
+            }).populate('doctorId')
+        }
+        res.json({ err: false, chat })
     } catch (error) {
         res.json({ err: true });
     }
-  };
+};

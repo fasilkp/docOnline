@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import doctorImg from '../../assets/images/doctor.png'
 import { Avatar, Rating, setRef, TextField } from "@mui/material"
 import '../DoctorProfile/doctorProfile.css'
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import axios from "axios"
 import BookNow from "../../Modal/BookNow/BookNow"
 import { addDoctorReview, getDoctor } from "../../api/userApi"
@@ -30,6 +30,7 @@ function UserDoctor() {
             name: ""
         }
     })
+    const navigate= useNavigate()
     const handleSubmitReview = async () => {
         if (rating !== '' && review !== '') {
             const data = await addDoctorReview(rating, review, doctor._id);
@@ -135,6 +136,7 @@ function UserDoctor() {
                                     </div>
                                 </div>
                                 <div className="dr-profile-sec-row button">
+                                    <button onClick={()=>navigate("/chat?id="+doctor._id)}>Chat</button>
                                     <button onClick={() => setShowBookNow(true)} disabled={!daysAvailable[0]} >Book Now</button>
                                 </div>
                             </div>

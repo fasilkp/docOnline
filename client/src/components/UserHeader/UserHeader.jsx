@@ -14,8 +14,6 @@ function UserHeader() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const user = useSelector((state) => state.user.details)
-  console.log(user)
-
   async function handleLogout() {
     await axios.get("/user/auth/logout");
     dispatch({ type: "refresh" })

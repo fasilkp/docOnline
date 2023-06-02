@@ -6,7 +6,7 @@
     background-color: white;
 }
 .header-main{
-    box-shadow: var(--defaultShadow);
+    /* box-shadow: var(--defaultShadow); */
     background-color: #fff;
     
 }

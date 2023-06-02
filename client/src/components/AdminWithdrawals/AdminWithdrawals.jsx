@@ -22,7 +22,6 @@ export default function AdminWithdrawals() {
       async function () {
         const data = await getAdminWitdrawals()
         if (!data.err) {
-          console.log(data.withdrawals)
           setWithdrawals(data.withdrawals)
 
         }
