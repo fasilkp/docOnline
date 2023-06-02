@@ -35,7 +35,6 @@ export async function addDoctorEMR(booking, weight, prescription, gender) {
 
 export async function getDoctorProfile(){
     const {data} = await axios.get("/doctor/profile/");
-    console.log(data)
     if(data.err){
         Swal.fire({
             icon: 'error',

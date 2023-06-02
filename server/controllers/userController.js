@@ -30,8 +30,24 @@ export async function getAllHospitals(req, res) {
         } else {
             hospitals = await HospitalModel.find({ name: new RegExp(name, 'i') }, { password: 0 }).lean()
         }
-        res.json({ hospitals })
+        const ratingData = await FeedbackModel.aggregate([
+            {
+                $group:{
+                    _id:"$hospitalId",
+                    rating:{$avg:"$rating"}
+                }
+            }
+        ])
 
+        const rating = {}
+
+        ratingData.map((item)=>{
+            if(item._id!==null){
+                rating[item._id.valueOf()]=item.rating
+            }
+        })
+
+        res.json({ hospitals, rating })
     } catch (err) {
         console.log(err)
         res.json({ err: true, error: err })
@@ -79,7 +95,6 @@ export async function getAllDoctors(req, res) {
                 rating[item._id.valueOf()]=item.rating
             }
         })
-        console.log(rating)
         res.json({ doctors, rating })
 
     } catch (err) {
@@ -383,7 +398,23 @@ export async function getTop3Doctors(req, res) {
         doctors= doctors.map(item=>{
             return item.doctor[0]
         })
-        return res.json(doctors)
+        const ratingData = await FeedbackModel.aggregate([
+            {
+                $group:{
+                    _id:"$doctorId",
+                    rating:{$avg:"$rating"}
+                }
+            }
+        ])
+
+        const rating = {}
+        
+        ratingData.map((item)=>{
+            if(item._id!==null){
+                rating[item._id.valueOf()]=item.rating
+            }
+        })
+        return res.json({doctors, rating})
     } catch (error) {
         console.log(error)
         res.json({ err: true, message: "something went wrong", error })
@@ -424,7 +455,23 @@ export async function getTop3Hospitals(req, res) {
         hospitals= hospitals.map(item=>{
             return item.hospital[0]
         })
-        return res.json(hospitals)
+        const ratingData = await FeedbackModel.aggregate([
+            {
+                $group:{
+                    _id:"$hospitalId",
+                    rating:{$avg:"$rating"}
+                }
+            }
+        ])
+
+        const rating = {}
+        
+        ratingData.map((item)=>{
+            if(item._id!==null){
+                rating[item._id.valueOf()]=item.rating
+            }
+        })
+        return res.json({hospitals, rating})
     } catch (error) {
         console.log(error)
         res.json({ err: true, message: "something went wrong", error })

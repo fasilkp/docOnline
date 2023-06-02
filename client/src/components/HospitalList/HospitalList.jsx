@@ -7,7 +7,7 @@ import noResultImg from '../../assets/images/no-result.png'
 
 import './hospitallist.css'
 
-function HospitalList({ list }) {
+function HospitalList({ list, rating }) {
     return (
         <div>
             <Row>
@@ -27,7 +27,7 @@ function HospitalList({ list }) {
                                     </div>
                                     <div className="hs-container-profile-desc">
                                         <h5>{item.name}</h5>
-                                        <Rating name="size-small" defaultValue={3} readOnly size="small" />
+                                        <Rating name="size-small" defaultValue={rating[item._id]} readOnly size="small" />
                                         <div className="desc">
                                             <span>{item.address}</span>
                                             <span>{item.place}</span>

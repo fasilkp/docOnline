@@ -103,7 +103,6 @@ export async function cancelBooking(bookingId){
 
 export async function getTop3Doctors(bookingId){
     const {data} = await axios.get("/user/doctors/top");
-    console.log(data)
     if(data.err){
         Swal.fire({
             icon: 'error',
@@ -116,7 +115,6 @@ export async function getTop3Doctors(bookingId){
 
 export async function getTop3Hospitals(bookingId){
     const {data} = await axios.get("/user/hospitals/top");
-    console.log(data)
     if(data.err){
         Swal.fire({
             icon: 'error',

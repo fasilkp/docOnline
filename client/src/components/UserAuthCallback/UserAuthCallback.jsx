@@ -12,9 +12,7 @@ export default function UserAuthCallback() {
   useEffect(()=>{
     (async function(){
       const token= searchParams.get('token')
-      console.log(token)
       const {data}= await axios.get("/user/auth/google/verify?token="+token);
-      console.log(data)
       if(!data.err){
         dispatch({type:"refresh"})
         navigate("/")

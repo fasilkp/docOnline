@@ -60,7 +60,6 @@ function App() {
   useEffect(() => {
     (async function () {
       let { data } = await axios.get("/user/auth/check");
-      console.log(data)
       dispatch({ type: "user", payload: { login: data.loggedIn, details: data.user } })
       let { data: adminData } = await axios.get("/admin/auth/check");
       dispatch({ type: "admin", payload: { login: adminData.loggedIn, details: adminData.admin } })

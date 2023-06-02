@@ -12,6 +12,7 @@ function UserSearch() {
     const [searchType, setSearchType] = useState("doctor")
     const [doctorList, setDoctorList] = useState([])
     const [doctorRating, setDoctorRating] = useState({})
+    const [hospitalRating, setHospitalRating] = useState({})
     const [hospitalList, setHospitalList] = useState([])
     const [departmentList, setDepartmentList] = useState([])
     const [department, setDepartment] = useState("")
@@ -21,6 +22,7 @@ function UserSearch() {
         if (searchType === 'hospital') {
             let { data } = await axios.get("/user/hospitals?name=" + name + "&department=" + department);
             if (!data.err) {
+                setHospitalRating(data.rating)
                 setHospitalList(data.hospitals)
             }
         } else {
@@ -108,7 +110,7 @@ function UserSearch() {
                 {
                     searchType === 'hospital' &&
                     <Row className='mt-5'>
-                        <HospitalList list={hospitalList} />
+                        <HospitalList list={hospitalList} rating={hospitalRating} />
                     </Row>
                 }
             </Container>

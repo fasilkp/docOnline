@@ -159,8 +159,8 @@ function UserHospital() {
                                                 return <div className="dr-profile-review">
                                                     <div className="head-sec">
                                                         <Avatar
-                                                            alt="Remy Sharp"
-                                                            src="/static/images/avatar/1.jpg"
+                                                            alt={item.userId.name}
+                                                            src={item.userId.picture.replace('=s96-c', '')}
                                                             sx={{ width: 32, height: 32 }}
                                                         />
                                                         <div className="d-flex flex-column">

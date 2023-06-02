@@ -12,6 +12,8 @@ import HospitalList from '../HospitalList/HospitalList'
 function UserHome() {
   const [departmentList, setDepartmentList] = useState([])
   const [doctorList, setDoctorList] = useState([])
+  const [doctorRating, setDoctorRating]=useState({})
+  const [hospitalRating, setHospitalRating]=useState({})
   const [hospitalList, setHospitalList] = useState([])
 
   useEffect(() => {
@@ -21,13 +23,15 @@ function UserHome() {
         if (data.departments) {
           setDepartmentList(data.departments)
         }
-        const doctors = await getTop3Doctors();
-        if (!doctors.err) {
-          setDoctorList(doctors)
+        const doctorsData = await getTop3Doctors();
+        if (!doctorsData.err) {
+          setDoctorList(doctorsData.doctors)
+          setDoctorRating(doctorsData.rating)
         }
-        const hospitals = await getTop3Hospitals();
-        if (!doctors.err) {
-          setHospitalList(hospitals)
+        const hospitalData = await getTop3Hospitals();
+        if (!hospitalData.err) {
+          setHospitalList(hospitalData.hospitals)
+          setHospitalRating(hospitalData.rating)
         }
       }
     )()
@@ -58,12 +62,12 @@ function UserHome() {
       </Row>
       <Container>
         <Row className='mt-5'>
-          <DoctorList list={doctorList} title="Top Doctors" />
+          <DoctorList list={doctorList} rating={doctorRating} title="Top Doctors" />
         </Row>
       </Container>
       <Container>
         <Row className='mt-5'>
-          <HospitalList list={hospitalList} />
+          <HospitalList list={hospitalList} rating={hospitalRating} />
         </Row>
       </Container>
     </div>

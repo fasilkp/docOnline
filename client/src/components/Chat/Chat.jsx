@@ -11,7 +11,7 @@ export default function Chat() {
       <UserHeader></UserHeader>
       <section className="chat-main container">
         <div className>
-          <div className="col-md-12">
+          <div className="col-md-12" style={{boxShadow:"none"}}>
             <div className="card" id="chat3">
               <div className="card-body">
                 <div className="row">

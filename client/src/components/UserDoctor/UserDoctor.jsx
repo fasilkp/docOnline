@@ -217,7 +217,7 @@ function UserDoctor() {
                                                 return <div className="dr-profile-review">
                                                     <div className="head-sec">
                                                         <Avatar
-                                                            alt="Remy Sharp"
+                                                            alt={item.userId.name}
                                                             src="/static/images/avatar/1.jpg"
                                                             sx={{ width: 32, height: 32 }}
                                                         />

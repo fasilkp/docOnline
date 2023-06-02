@@ -16,6 +16,8 @@ import userRouter from './routers/userRouter.js'
 import verifyUser from './middlewares/verifyUser.js'
 import doctorRouter from "./routers/doctorRouter.js"
 import verifyDoctor from './middlewares/verifyDoctor.js'
+import chatRouter from './routers/chatRouter.js'
+import messageRouter from './routers/messageRouter.js'
 // import './config/passport.js'
 
 const app=express();
@@ -41,6 +43,8 @@ app.use("/admin/",verifyAdmin, adminRouter)
 app.use("/hospital/",verifyHospital, hospitalRouter)
 app.use("/user/",verifyUser, userRouter)
 app.use("/doctor/",verifyDoctor, doctorRouter)
+app.use("/chat", chatRouter)
+app.use("/message", messageRouter)
 
 app.listen(5000, ()=>{
     console.log("server running on port 5000")

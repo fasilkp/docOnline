@@ -52,7 +52,6 @@ export default function HospitalDepartment() {
 
         if (department) {
             let { data } = await axios.post("/hospital/department", { department });
-            console.log(data)
             if (!data.err) {
                 Swal.fire(
                     'Success!',
