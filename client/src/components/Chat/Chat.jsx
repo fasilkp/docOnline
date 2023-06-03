@@ -20,6 +20,11 @@ export default function Chat({ }) {
   useEffect(() => {
     (async function () {
       try {
+        if(id){
+          setChatClicked(true)
+        }else{
+          setChatClicked(false)
+        }
         if (id && user) {
           let { data } = await findChat(user._id, id)
           if (!data.err) {
@@ -40,8 +45,8 @@ export default function Chat({ }) {
   }, [user, id])
 
   return (
-    <div>
-      <UserHeader></UserHeader>
+    <div className='container'>
+      <UserHeader fullWidth></UserHeader>
       <section className="chat-main containers">
         <div className>
           <div className="col-md-12" style={{ boxShadow: "none" }}>

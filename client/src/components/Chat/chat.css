@@ -27,7 +27,7 @@
 }
 
 .message-box {
-    max-height: 77%;
+    max-height: 78vh;
     overflow-y: scroll;
 }
 
@@ -131,6 +131,27 @@
     font-size: 1.3rem;
     color: black;
     margin-bottom: 5px;
+}
+.single-chat-container .sg-chat{
+    position: relative;
+}
+.single-chat-container .sg-chat::before{
+    content: '';
+  position: absolute;
+  left: 14px;
+  top: 5px;
+  width: 8px;
+  height: 10px;
+  transform: rotate(-45deg);
+  background-color: #f5f6f7;
+}
+.single-chat-container.me .sg-chat::before{
+    left: auto;
+    right: 14px;
+  width: 8px;
+  height: 10px;
+  transform: rotate(45deg);
+  background-color: var(--mainColor);
 }
 
 @media(max-width:600px){

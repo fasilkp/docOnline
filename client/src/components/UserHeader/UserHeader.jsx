@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import AddComplaint from '../../Modal/AddComplaint/AddComplaint'
 
-function UserHeader() {
+function UserHeader({fullWidth}) {
   const [open, setOpen] = useState(false)
   const [anchorEl, setAnchorEl] = useState(null)
   const [showModal, setShowModal] = useState(false)
@@ -21,7 +21,7 @@ function UserHeader() {
 
   return (
     <div className="header-main">
-      <Container >
+      <Container fluid={fullWidth ? true : false} >
         <div className="user-header ">
           <div className="user-header-item">
             <Link to="/">

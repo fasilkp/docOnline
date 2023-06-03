@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import EmojiPicker from 'emoji-picker-react';
 import { AiFillCloseCircle } from 'react-icons/ai'
 import { addMessage, getMessages } from '../../api/messageRequests';
@@ -6,15 +6,23 @@ import { useSelector } from 'react-redux';
 import { Avatar } from '@mui/material';
 import { format } from 'timeago.js';
 import { BounceLoader, PuffLoader } from 'react-spinners';
+import { useNavigate } from 'react-router-dom';
 
-export default function MessageList({ currentChat, setChatClicked, chatClicked }) {
+export default function MessageList({ currentChat, chatClicked }) {
   const [showEmoji, setShowEmoji] = useState(false)
   const [message, setMessage] = useState("")
   const [messages, setMessages] = useState([])
   const [sendLoading, setSendLoading] = useState(false)
+  const navigate= useNavigate()
   const user = useSelector((state) => state.user.details)
+  const scrollRef = useRef()
+
   const sentMessage = async (e) => {
     e.preventDefault()
+    
+    if(message.trim()===""){
+      return;
+    }
     setSendLoading(true)
     try {
       const { data } = await addMessage({
@@ -22,6 +30,12 @@ export default function MessageList({ currentChat, setChatClicked, chatClicked }
         senderId: user._id,
         text: message
       })
+      const tempMessage={
+        text:message,
+        createdAt:new Date(),
+        senderId:user._id,
+      }
+      setMessages([...messages, tempMessage])
       setMessage("")
 
     } catch (err) {
@@ -44,6 +58,12 @@ export default function MessageList({ currentChat, setChatClicked, chatClicked }
     }
   }, [currentChat])
 
+  useEffect(()=>{
+    if(scrollRef.current){
+      scrollRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  },[messages])
+
   console.log(messages, currentChat)
 
   return (
@@ -54,12 +74,142 @@ export default function MessageList({ currentChat, setChatClicked, chatClicked }
           <>
             <div className="row ps-2 d-flex align-items-center message-head" style={{ height: "45px" }}>
               <div className='d-flex align-items-center' style={{ gap: "10px" }} >
-                <i className="fa-sharp fa-solid fa-arrow-left-long" onClick={()=>setChatClicked(false)}  />
+                <i className="fa-sharp fa-solid fa-arrow-left-long" onClick={()=>navigate("/chat")}  />
                 <Avatar alt="Remy Sharp" sx={{ width: 32, height: 32 }} src={currentChat.doctorId.image && currentChat.doctorId.image.url} />
                 <b className="ps-1">{currentChat.doctorId.name}</b>
               </div>
             </div>
-            <div className="pt-3 pe-3 message-box" data-mdb-perfect-scrollbar="true" style={{ position: 'relative' }}>
+            <div className="pt-3 pe-3 message-box" data-mdb-perfect-scrollbar="true" style={{ position: 'relative'}}>
+              <div className="d-flex flex-row single-chat-container">
+                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp" alt="avatar 1" style={{ width: 45, height: '100%' }} />
+                <div className='sg-chat'>
+                  <p className="small p-2 ms-3 mb-1 rounded-3 single-chat">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing
+                    elit, sed do eiusmod tempor incididunt ut labore et
+                    dolore magna aliqua.
+                  </p>
+                  <p className="small ms-3 mb-3 rounded-3 text-muted float-end">
+                    12:00 PM | Aug 13
+                  </p>
+                </div>
+              </div>
+              <div className="d-flex flex-row single-chat-container">
+                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp" alt="avatar 1" style={{ width: 45, height: '100%' }} />
+                <div>
+                  <p className="small p-2 ms-3 mb-1 rounded-3 single-chat">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing
+                    elit, sed do eiusmod tempor incididunt ut labore et
+                    dolore magna aliqua.
+                  </p>
+                  <p className="small ms-3 mb-3 rounded-3 text-muted float-end">
+                    12:00 PM | Aug 13
+                  </p>
+                </div>
+              </div>
+              <div className="d-flex flex-row single-chat-container">
+                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp" alt="avatar 1" style={{ width: 45, height: '100%' }} />
+                <div>
+                  <p className="small p-2 ms-3 mb-1 rounded-3 single-chat">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing
+                    elit, sed do eiusmod tempor incididunt ut labore et
+                    dolore magna aliqua.
+                  </p>
+                  <p className="small ms-3 mb-3 rounded-3 text-muted float-end">
+                    12:00 PM | Aug 13
+                  </p>
+                </div>
+              </div>
+              <div className="d-flex flex-row single-chat-container">
+                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp" alt="avatar 1" style={{ width: 45, height: '100%' }} />
+                <div>
+                  <p className="small p-2 ms-3 mb-1 rounded-3 single-chat">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing
+                    elit, sed do eiusmod tempor incididunt ut labore et
+                    dolore magna aliqua.
+                  </p>
+                  <p className="small ms-3 mb-3 rounded-3 text-muted float-end">
+                    12:00 PM | Aug 13
+                  </p>
+                </div>
+              </div>
+              <div className="d-flex flex-row single-chat-container">
+                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp" alt="avatar 1" style={{ width: 45, height: '100%' }} />
+                <div>
+                  <p className="small p-2 ms-3 mb-1 rounded-3 single-chat">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing
+                    elit, sed do eiusmod tempor incididunt ut labore et
+                    dolore magna aliqua.
+                  </p>
+                  <p className="small ms-3 mb-3 rounded-3 text-muted float-end">
+                    12:00 PM | Aug 13
+                  </p>
+                </div>
+              </div>
+              <div className="d-flex flex-row single-chat-container">
+                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp" alt="avatar 1" style={{ width: 45, height: '100%' }} />
+                <div>
+                  <p className="small p-2 ms-3 mb-1 rounded-3 single-chat">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing
+                    elit, sed do eiusmod tempor incididunt ut labore et
+                    dolore magna aliqua.
+                  </p>
+                  <p className="small ms-3 mb-3 rounded-3 text-muted float-end">
+                    12:00 PM | Aug 13
+                  </p>
+                </div>
+              </div>
+              <div className="d-flex flex-row single-chat-container">
+                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp" alt="avatar 1" style={{ width: 45, height: '100%' }} />
+                <div>
+                  <p className="small p-2 ms-3 mb-1 rounded-3 single-chat">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing
+                    elit, sed do eiusmod tempor incididunt ut labore et
+                    dolore magna aliqua.
+                  </p>
+                  <p className="small ms-3 mb-3 rounded-3 text-muted float-end">
+                    12:00 PM | Aug 13
+                  </p>
+                </div>
+              </div>
+              <div className="d-flex flex-row single-chat-container">
+                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp" alt="avatar 1" style={{ width: 45, height: '100%' }} />
+                <div>
+                  <p className="small p-2 ms-3 mb-1 rounded-3 single-chat">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing
+                    elit, sed do eiusmod tempor incididunt ut labore et
+                    dolore magna aliqua.
+                  </p>
+                  <p className="small ms-3 mb-3 rounded-3 text-muted float-end">
+                    12:00 PM | Aug 13
+                  </p>
+                </div>
+              </div>
+              <div className="d-flex flex-row single-chat-container">
+                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp" alt="avatar 1" style={{ width: 45, height: '100%' }} />
+                <div>
+                  <p className="small p-2 ms-3 mb-1 rounded-3 single-chat">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing
+                    elit, sed do eiusmod tempor incididunt ut labore et
+                    dolore magna aliqua.
+                  </p>
+                  <p className="small ms-3 mb-3 rounded-3 text-muted float-end">
+                    12:00 PM | Aug 13
+                  </p>
+                </div>
+              </div>
+              <div className="d-flex flex-row single-chat-container">
+                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp" alt="avatar 1" style={{ width: 45, height: '100%' }} />
+                <div>
+                  <p className="small p-2 ms-3 mb-1 rounded-3 single-chat">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing
+                    elit, sed do eiusmod tempor incididunt ut labore et
+                    dolore magna aliqua.
+                  </p>
+                  <p className="small ms-3 mb-3 rounded-3 text-muted float-end">
+                    12:00 PM | Aug 13
+                  </p>
+                </div>
+              </div>
               <div className="d-flex flex-row single-chat-container">
                 <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp" alt="avatar 1" style={{ width: 45, height: '100%' }} />
                 <div>
@@ -77,8 +227,8 @@ export default function MessageList({ currentChat, setChatClicked, chatClicked }
                 messages[0] &&
                 messages.map((item, index) => {
                   return (
-                    <div className="d-flex flex-row single-chat-container me">
-                      <div>
+                    <div className="d-flex flex-row single-chat-container me" ref={scrollRef}>
+                      <div className='sg-chat'>
                         <p className={`small p-2 me-3 mb-1 text-white rounded-3 single-chat ${user._id === item.senderId ? 'me' : ''}`}>
                           {item.text}
                         </p>
