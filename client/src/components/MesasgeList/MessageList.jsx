@@ -67,7 +67,7 @@ export default function MessageList({ currentChat, chatClicked }) {
   console.log(messages, currentChat)
 
   return (
-    <div className={`col-md-6 col-lg-7 col-xl-8 ${!chatClicked} && 'hide-sec'`}>
+    <div className={`col-md-6 col-lg-7 col-xl-8 ${!chatClicked && 'hide-sec'} `}>
       {
         currentChat ?
 
@@ -79,11 +79,11 @@ export default function MessageList({ currentChat, chatClicked }) {
                 <b className="ps-1">{currentChat.doctorId.name}</b>
               </div>
             </div>
-            <div className="pt-3 pe-3 message-box" data-mdb-perfect-scrollbar="true" style={{ position: 'relative'}}>
+            <div className=" message-box pt-2" data-mdb-perfect-scrollbar="true" style={{ position: 'relative'}}>
+              
               <div className="d-flex flex-row single-chat-container">
-                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp" alt="avatar 1" style={{ width: 45, height: '100%' }} />
                 <div className='sg-chat'>
-                  <p className="small p-2 ms-3 mb-1 rounded-3 single-chat">
+                  <p className="small p-2 mb-1 rounded-3 single-chat">
                     Lorem ipsum dolor sit amet, consectetur adipiscing
                     elit, sed do eiusmod tempor incididunt ut labore et
                     dolore magna aliqua.
@@ -93,157 +93,26 @@ export default function MessageList({ currentChat, chatClicked }) {
                   </p>
                 </div>
               </div>
-              <div className="d-flex flex-row single-chat-container">
-                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp" alt="avatar 1" style={{ width: 45, height: '100%' }} />
-                <div>
-                  <p className="small p-2 ms-3 mb-1 rounded-3 single-chat">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing
-                    elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua.
-                  </p>
-                  <p className="small ms-3 mb-3 rounded-3 text-muted float-end">
-                    12:00 PM | Aug 13
-                  </p>
-                </div>
-              </div>
-              <div className="d-flex flex-row single-chat-container">
-                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp" alt="avatar 1" style={{ width: 45, height: '100%' }} />
-                <div>
-                  <p className="small p-2 ms-3 mb-1 rounded-3 single-chat">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing
-                    elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua.
-                  </p>
-                  <p className="small ms-3 mb-3 rounded-3 text-muted float-end">
-                    12:00 PM | Aug 13
-                  </p>
-                </div>
-              </div>
-              <div className="d-flex flex-row single-chat-container">
-                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp" alt="avatar 1" style={{ width: 45, height: '100%' }} />
-                <div>
-                  <p className="small p-2 ms-3 mb-1 rounded-3 single-chat">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing
-                    elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua.
-                  </p>
-                  <p className="small ms-3 mb-3 rounded-3 text-muted float-end">
-                    12:00 PM | Aug 13
-                  </p>
-                </div>
-              </div>
-              <div className="d-flex flex-row single-chat-container">
-                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp" alt="avatar 1" style={{ width: 45, height: '100%' }} />
-                <div>
-                  <p className="small p-2 ms-3 mb-1 rounded-3 single-chat">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing
-                    elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua.
-                  </p>
-                  <p className="small ms-3 mb-3 rounded-3 text-muted float-end">
-                    12:00 PM | Aug 13
-                  </p>
-                </div>
-              </div>
-              <div className="d-flex flex-row single-chat-container">
-                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp" alt="avatar 1" style={{ width: 45, height: '100%' }} />
-                <div>
-                  <p className="small p-2 ms-3 mb-1 rounded-3 single-chat">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing
-                    elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua.
-                  </p>
-                  <p className="small ms-3 mb-3 rounded-3 text-muted float-end">
-                    12:00 PM | Aug 13
-                  </p>
-                </div>
-              </div>
-              <div className="d-flex flex-row single-chat-container">
-                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp" alt="avatar 1" style={{ width: 45, height: '100%' }} />
-                <div>
-                  <p className="small p-2 ms-3 mb-1 rounded-3 single-chat">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing
-                    elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua.
-                  </p>
-                  <p className="small ms-3 mb-3 rounded-3 text-muted float-end">
-                    12:00 PM | Aug 13
-                  </p>
-                </div>
-              </div>
-              <div className="d-flex flex-row single-chat-container">
-                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp" alt="avatar 1" style={{ width: 45, height: '100%' }} />
-                <div>
-                  <p className="small p-2 ms-3 mb-1 rounded-3 single-chat">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing
-                    elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua.
-                  </p>
-                  <p className="small ms-3 mb-3 rounded-3 text-muted float-end">
-                    12:00 PM | Aug 13
-                  </p>
-                </div>
-              </div>
-              <div className="d-flex flex-row single-chat-container">
-                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp" alt="avatar 1" style={{ width: 45, height: '100%' }} />
-                <div>
-                  <p className="small p-2 ms-3 mb-1 rounded-3 single-chat">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing
-                    elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua.
-                  </p>
-                  <p className="small ms-3 mb-3 rounded-3 text-muted float-end">
-                    12:00 PM | Aug 13
-                  </p>
-                </div>
-              </div>
-              <div className="d-flex flex-row single-chat-container">
-                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp" alt="avatar 1" style={{ width: 45, height: '100%' }} />
-                <div>
-                  <p className="small p-2 ms-3 mb-1 rounded-3 single-chat">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing
-                    elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua.
-                  </p>
-                  <p className="small ms-3 mb-3 rounded-3 text-muted float-end">
-                    12:00 PM | Aug 13
-                  </p>
-                </div>
-              </div>
-              <div className="d-flex flex-row single-chat-container">
-                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp" alt="avatar 1" style={{ width: 45, height: '100%' }} />
-                <div>
-                  <p className="small p-2 ms-3 mb-1 rounded-3 single-chat">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing
-                    elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua.
-                  </p>
-                  <p className="small ms-3 mb-3 rounded-3 text-muted float-end">
-                    12:00 PM | Aug 13
-                  </p>
-                </div>
-              </div>
+              
               {
                 messages[0] &&
                 messages.map((item, index) => {
                   return (
-                    <div className="d-flex flex-row single-chat-container me" ref={scrollRef}>
-                      <div className='sg-chat'>
-                        <p className={`small p-2 me-3 mb-1 text-white rounded-3 single-chat ${user._id === item.senderId ? 'me' : ''}`}>
+                    <div className={`d-flex flex-row single-chat-container ${user._id === item.senderId ? 'me' : ''}`} ref={scrollRef}>
+                      <div className={`sg-chat ${user._id === item.senderId ? 'me' : ''}`}>
+                        <p className={`small p-2 mb-1 rounded-3 single-chat ${user._id === item.senderId ? 'me' : ''}`}>
                           {item.text}
                         </p>
                         <p className="small me-3 mb-3 rounded-3 text-muted">
                           {format(item.createdAt)} | {new Date(item.createdAt).toLocaleDateString()}
                         </p>
                       </div>
-                      <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp" alt="avatar 1" style={{ width: 45, height: '100%' }} />
                     </div>
                   )
                 })
               }
             </div>
             <form onSubmit={sentMessage} className={`text-muted chat-input-box d-flex justify-content-start align-items-center pe-3 pt-3 mt-2  ${!chatClicked && 'hide-sec'} `}>
-              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp" alt="avatar 3" style={{ width: 40, height: '100%' }} />
               <input type="text" value={message} onChange={(e) => setMessage(e.target.value)} className="form-control form-control-lg" id="exampleFormControlInput2" placeholder="Type message" />
               {/* <span className="ms-1 text-muted" href="#!"><i className="fas fa-paperclip" /></span> */}
               <a className="ms-3 text-muted" onClick={() => setShowEmoji(true)}>

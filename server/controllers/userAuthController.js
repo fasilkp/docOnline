@@ -12,11 +12,15 @@ var salt = bcrypt.genSaltSync(10);
 export async function userLogin(req, res) {
     try {
         const { email, password } = req.body;
+        console.log(email, password)
         const user = await UserModel.findOne({ email })
         if (!user)
             return res.json({ err: true, message: "No User found" })
         if (user.block)
             return res.json({ err: true, message: "You are blocked" })
+            if(!user.password){
+            return res.json({ err: true, message: "Please login with google" })
+        }
         const userValid = bcrypt.compareSync(password, user.password);
         if (!userValid)
             return res.json({ err: true, message: "wrong Password" })

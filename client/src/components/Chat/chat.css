@@ -138,7 +138,7 @@
 .single-chat-container .sg-chat::before{
     content: '';
   position: absolute;
-  left: 14px;
+  left: 2px;
   top: 5px;
   width: 8px;
   height: 10px;
@@ -147,26 +147,52 @@
 }
 .single-chat-container.me .sg-chat::before{
     left: auto;
-    right: 14px;
+    right: 2px;
   width: 8px;
   height: 10px;
   transform: rotate(45deg);
   background-color: var(--mainColor);
 }
+.sg-chat.me{
+    padding-right: 4px;
+    padding-left: auto;
 
-@media(max-width:600px){
+}
+.sg-chat.me p{
+    color: white;
+}
+.sg-chat{
+    padding-right: auto;
+    padding-left: 4px;
+    max-width: 550px;
+}
+
+.single-chat-container{
+    justify-content: flex-start;
+    width: 100%;
+}
+
+@media(max-width:1200px) and (min-width:913px){
+    .chat-input-box{
+        width: 40%;
+    }
+}
+@media(max-width:913px){
     .hide-sec{
         display: none !important;
         transform: scale(0);
+    }
+    .sg-chat{
+        max-width: 300px;
     }
     .chat-input-box{
         width: 90%;
     }
     .card-body{
         /* padding: 0px !important; */
-        padding: 0px 10px !important;
+        padding: 0px 5px !important;
     }
-    /* .chat-list{
-        z-index: 150 !important;
-    } */
+    .chat-input-box{
+        width: 97%;
+    }
 }

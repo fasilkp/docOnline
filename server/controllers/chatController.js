@@ -41,7 +41,7 @@ export const doctorChats = async (req, res) => {
     try {
         const chat = await ChatModel.find({
             doctorId: req.params.doctorId,
-        }).populate('doctorId');
+        }).populate('userId');
         const messages= await MessageModel.aggregate([
             {
                 $group: {
@@ -66,13 +66,14 @@ export const findChat = async (req, res) => {
         let chat = await ChatModel.findOne({
             userId: req.params.userId,
             doctorId: req.params.doctorId
-        }).populate('doctorId');
+        }).populate('doctorId')
         if (!chat) {
             chat = await ChatModel.create({
                 userId: req.params.userId,
                 doctorId: req.params.doctorId
             }).populate('doctorId')
         }
+        console.log(chat)
         res.json({ err: false, chat })
     } catch (error) {
         res.json({ err: true });

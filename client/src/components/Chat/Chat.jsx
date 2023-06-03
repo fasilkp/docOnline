@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './chat.css'
 import './mdb.min.css'
-import UserHeader from '../UserHeader/UserHeader'
+import UserHeader from '../UserHeader/UserHeader' 
 import ChatList from '../ChatList/ChatList'
 import MessageList from '../MesasgeList/MessageList'
 import { useParams, useSearchParams } from 'react-router-dom'
@@ -43,6 +43,7 @@ export default function Chat({ }) {
       }
     })()
   }, [user, id])
+  console.log(usersList)
 
   return (
     <div className='container'>
@@ -53,6 +54,7 @@ export default function Chat({ }) {
             <div className="card" id="chat3">
               <div className="card-body">
                 <div className="row">
+                  
                   <ChatList users={usersList} chatClicked={chatClicked} lastMessage={lastMessage} setChatClicked={setChatClicked}></ChatList>
                   {
                     currentChat ?

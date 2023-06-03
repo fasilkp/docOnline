@@ -44,6 +44,7 @@ import NotFoundPage from './pages/NotFoundPage';
 import './App.css'
 import Chat from './components/Chat/Chat';
 import UserAuthCallbackPage from './pages/user/UserAuthCallbackPage';
+import DoctorChat from './components/DoctorChat/DoctorChat';
 
 
 function App() {
@@ -154,6 +155,7 @@ function App() {
             <Route path='/account/doctor/profile' element={<DoctorProfilePage />} />
             <Route path='/account/doctor/schedule' element={<DoctorSchedulePage />} />
             <Route path='/account/doctor/booking' element={<DoctorBookingPage />} />
+            <Route path='/account/doctor/chat' element={<DoctorChat />} />
             <Route path='/account/doctor/*' element={<NotFoundPage />} />
 
           </>

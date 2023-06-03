@@ -4,7 +4,7 @@ const router = express.Router()
 
 router.post('/', createChat);
 router.get('/:userId', userChats);
-router.get('/:doctorId', doctorChats);
+router.get('/doctor/:doctorId', doctorChats);
 router.get('/find/:userId/:doctorId', findChat);
 
 export default router

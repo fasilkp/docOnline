@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom' 
 
 export default function ChatList({ users, lastMessage, setChatClicked, chatClicked }) {
   const defaultImg="https://www.pngmart.com/files/22/User-Avatar-Profile-PNG-Isolated-Transparent-Picture.png"
@@ -16,18 +16,19 @@ export default function ChatList({ users, lastMessage, setChatClicked, chatClick
           <ul className="list-unstyled mb-0">
 
             {
-              users[0] &&
+              users && users[0] &&
               users.map((chat, index) => {
+                console.log(chat)
                 return (
                   <li className="p-2 border-bottom">
-                    <Link to={"/chat?id="+chat.doctorId._id} onClick={()=>setChatClicked(true)} className="d-flex justify-content-between">
+                    <Link to={"/chat?id="+chat?.doctorId?._id} onClick={()=>setChatClicked(true)} className="d-flex justify-content-between">
                       <div className="d-flex flex-row">
                         <div>
-                          <img src={chat.doctorId.image ? chat.doctorId.image.url : defaultImg } alt="avatar" className="d-flex align-self-center me-3 chat-avatar" width={60} />
+                          <img src={chat?.doctorId?.image?.url ? chat?.doctorId?.image?.url : defaultImg } alt="avatar" className="d-flex align-self-center me-3 chat-avatar" width={60} />
                           <span className="badge bg-warning badge-dot" />
                         </div>
                         <div className="pt-1">
-                          <p className="fw-bold mb-0">{chat.doctorId.name}</p>
+                          <p className="fw-bold mb-0">{chat?.doctorId?.name}</p>
                           <p className="small text-muted">
                             {lastMessage[chat._id]}
                           </p>
