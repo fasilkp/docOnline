@@ -7,7 +7,7 @@ import { Avatar } from '@mui/material';
 import { format } from 'timeago.js';
 import { BounceLoader, PuffLoader } from 'react-spinners';
 
-export default function MessageList({ currentChat, setChatClicked, chatClicked }) {
+export default function DoctorMessageList({ currentChat }) {
   const [showEmoji, setShowEmoji] = useState(false)
   const [message, setMessage] = useState("")
   const [messages, setMessages] = useState([])
@@ -47,14 +47,14 @@ export default function MessageList({ currentChat, setChatClicked, chatClicked }
   console.log(messages, currentChat)
 
   return (
-    <div className={`col-md-6 col-lg-7 col-xl-8 ${!chatClicked} && 'hide-sec'`}>
+    <div className="col-md-6 col-lg-7 col-xl-8">
       {
         currentChat ?
 
           <>
-            <div className="row ps-2 d-flex align-items-center message-head" style={{ height: "45px" }}>
+            <div className="row ps-2 d-flex align-items-center message-head" style={{ height: 50 }}>
               <div className='d-flex align-items-center' style={{ gap: "10px" }} >
-                <i className="fa-sharp fa-solid fa-arrow-left-long" onClick={()=>setChatClicked(false)}  />
+                <i className="fa-sharp fa-solid fa-arrow-left-long" />
                 <Avatar alt="Remy Sharp" sx={{ width: 32, height: 32 }} src={currentChat.doctorId.image && currentChat.doctorId.image.url} />
                 <b className="ps-1">{currentChat.doctorId.name}</b>
               </div>
@@ -92,10 +92,10 @@ export default function MessageList({ currentChat, setChatClicked, chatClicked }
                 })
               }
             </div>
-            <form onSubmit={sentMessage} className={`text-muted chat-input-box d-flex justify-content-start align-items-center pe-3 pt-3 mt-2  ${!chatClicked && 'hide-sec'} `}>
+            <form onSubmit={sentMessage} className="text-muted chat-input-box d-flex justify-content-start align-items-center pe-3 pt-3 mt-2">
               <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp" alt="avatar 3" style={{ width: 40, height: '100%' }} />
               <input type="text" value={message} onChange={(e) => setMessage(e.target.value)} className="form-control form-control-lg" id="exampleFormControlInput2" placeholder="Type message" />
-              {/* <span className="ms-1 text-muted" href="#!"><i className="fas fa-paperclip" /></span> */}
+              <span className="ms-1 text-muted" href="#!"><i className="fas fa-paperclip" /></span>
               <a className="ms-3 text-muted" onClick={() => setShowEmoji(true)}>
                 <i className="fas fa-smile" />
               </a>

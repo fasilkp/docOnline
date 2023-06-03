@@ -1,4 +1,5 @@
 import ChatModel from "../models/ChatModel.js";
+import MessageModel from "../models/MessageModel.js";
 
 export const createChat = async (req, res) => {
     const newChat = new ChatModel({
@@ -18,7 +19,42 @@ export const userChats = async (req, res) => {
         const chat = await ChatModel.find({
             userId: req.params.userId,
         }).populate('doctorId');
-        res.json({ err: false, chat })
+        const messages= await MessageModel.aggregate([
+            {
+                $group: {
+                    _id: "$chatId",
+                    lastMessage: { $last: "$text" }
+                }
+            }
+        ])
+        let lastMessage={}
+        messages.map((item, index)=>{
+            lastMessage[item._id]=item.lastMessage
+        })
+        res.json({ err: false, chat, lastMessage })
+    } catch (error) {
+        res.json({ err: true });
+
+    }
+};
+export const doctorChats = async (req, res) => {
+    try {
+        const chat = await ChatModel.find({
+            doctorId: req.params.doctorId,
+        }).populate('doctorId');
+        const messages= await MessageModel.aggregate([
+            {
+                $group: {
+                    _id: "$chatId",
+                    lastMessage: { $last: "$text" }
+                }
+            }
+        ])
+        let lastMessage={}
+        messages.map((item, index)=>{
+            lastMessage[item._id]=item.lastMessage
+        })
+        res.json({ err: false, chat, lastMessage })
     } catch (error) {
         res.json({ err: true });
 
