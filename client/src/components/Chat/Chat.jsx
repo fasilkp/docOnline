@@ -8,6 +8,8 @@ import { useParams, useSearchParams } from 'react-router-dom'
 import { createChat, findChat, getUserChats } from '../../api/chatRequests'
 import { useSelector } from 'react-redux'
 import { io } from "socket.io-client";
+const socket = io.connect("http://localhost:5000");
+
 
 export default function Chat({ }) {
   const [currentChat, setCurrentChat] = useState(null);
@@ -16,10 +18,12 @@ export default function Chat({ }) {
   const [lastMessage, setLastMessage]= useState({})
   const [chatClicked, setChatClicked]= useState(false)
   const [onlineUsers, setOnlineUsers] = useState({});
+  const [refresh, setRefresh]= useState(true)
+
   const [sendMessage, setSendMessage] = useState(null);
   const [receivedMessage, setReceivedMessage] = useState({});
   const id = searchParams.get('id')
-  const socket = useRef();
+  // const socket = useRef();
   const user = useSelector((state) => state.user.details)
   useEffect(() => {
     (async function () {
@@ -48,22 +52,24 @@ export default function Chat({ }) {
     })()
   }, [user, id])
   useEffect(() => {
-    socket.current = io("ws://localhost:5500");
     if(user){
-      socket.current.emit("new-user-add", user._id);
-      socket.current.on("get-users", (users) => {
+      socket.emit("new-user-add", user._id);
+      socket.on("get-users", (users) => {
         setOnlineUsers(users);
       });
     }
   }, [user]);
   useEffect(() => {
     if (sendMessage!==null) {
-      socket.current.emit("send-message", sendMessage);}
+      socket.emit("send-message", sendMessage);}
   }, [sendMessage]);
 
 
   useEffect(() => {
-    socket.current.on("recieve-message", (data) => {
+    socket.on("get-users", (users) => {
+      setOnlineUsers(users);
+    });
+    socket.on("recieve-message", (data) => {
       console.log("user received message : ",data)
       setReceivedMessage(data);
     }
@@ -81,7 +87,7 @@ export default function Chat({ }) {
               <div className="card-body">
                 <div className="row">
                   
-                  <ChatList usersList={usersList} chatClicked={chatClicked} lastMessage={lastMessage} setChatClicked={setChatClicked}></ChatList>
+                  <ChatList onlineUsers={onlineUsers} usersList={usersList} chatClicked={chatClicked} lastMessage={lastMessage} setChatClicked={setChatClicked}></ChatList>
                   {
                     currentChat ?
                       <MessageList setSendMessage={setSendMessage} receivedMessage={receivedMessage} currentChat={currentChat} chatClicked={chatClicked} setChatClicked={setChatClicked} ></MessageList>

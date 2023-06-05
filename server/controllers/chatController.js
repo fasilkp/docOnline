@@ -73,7 +73,6 @@ export const findChat = async (req, res) => {
                 doctorId: req.params.doctorId
             }).populate('doctorId').populate('userId')
         }
-        console.log(chat)
         res.json({ err: false, chat })
     } catch (error) {
         res.json({ err: true });

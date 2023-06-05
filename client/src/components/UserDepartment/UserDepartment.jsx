@@ -7,7 +7,6 @@ import axios from "axios"
 
 function UserDepartment() {
     const {id}= useParams()
-    console.log(id)
     const [doctorsList, setDoctorsList] = useState([]);
     const {state}= useLocation()
     

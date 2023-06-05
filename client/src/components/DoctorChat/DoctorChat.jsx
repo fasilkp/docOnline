@@ -9,6 +9,8 @@ import DoctorChatList from '../DoctorChatList/DoctorChatList'
 import DoctorHeader from '../DoctorHeader/DoctorHeader'
 import { io } from "socket.io-client";
 import DoctorSidebar from '../DoctorSidebar/DoctorSidebar'
+const socket = io.connect("http://localhost:5000");
+
 
 
 export default function DoctorChat({ }) {
@@ -19,9 +21,10 @@ export default function DoctorChat({ }) {
   const [chatClicked, setChatClicked]= useState(false)
   const [sendMessage, setSendMessage] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState({});
+  const [refresh, setRefresh]= useState(true)
   const [receivedMessage, setReceivedMessage] = useState({});
   const id = searchParams.get('id')
-  const socket = useRef();
+  // const socket = useRef();
 
   const doctor = useSelector((state) => state.doctor.details)
   useEffect(() => {
@@ -49,30 +52,36 @@ export default function DoctorChat({ }) {
         console.log(err)
       }
     })()
-  }, [doctor, id])
+  }, [doctor, id, refresh])
+
   useEffect(() => {
-    socket.current = io("ws://localhost:5500");
     if(doctor){
-      socket.current.emit("new-user-add", doctor._id);
-      socket.current.on("get-users", (users) => {
+      socket.emit("new-user-add", doctor._id);
+      socket.on("get-users", (users) => {
         setOnlineUsers(users);
       });
     }
   }, [doctor]);
+
   useEffect(() => {
     if (sendMessage!==null) {
-      socket.current.emit("send-message", sendMessage);}
+      socket.emit("send-message", sendMessage);}
   }, [sendMessage]);
 
 
 
   useEffect(() => {
-    socket.current.on("recieve-message", (data) => {
+    socket.on("get-users", (users) => {
+      setOnlineUsers(users);
+    });
+    socket.on("recieve-message", (data) => {
       console.log("doctor received message : ",data)
       setReceivedMessage(data);
+      setRefresh(!refresh)
     }
     );
-  }, [socket]);
+  }, [socket, refresh]);
+  console.log(onlineUsers)
 
   return (
     <div className=''>
@@ -85,7 +94,7 @@ export default function DoctorChat({ }) {
               <div className="card-body">
                 <div className="row">
                   
-                  <DoctorChatList usersList={usersList} chatClicked={chatClicked} lastMessage={lastMessage} setChatClicked={setChatClicked}></DoctorChatList>
+                  <DoctorChatList onlineUsers={onlineUsers} usersList={usersList} chatClicked={chatClicked} lastMessage={lastMessage} setChatClicked={setChatClicked}></DoctorChatList>
                   {
                     currentChat ?
                       <DoctorMessageList  setSendMessage={setSendMessage} receivedMessage={receivedMessage}  currentChat={currentChat} chatClicked={chatClicked} setChatClicked={setChatClicked} ></DoctorMessageList>

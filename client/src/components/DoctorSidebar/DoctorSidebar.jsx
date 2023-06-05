@@ -1,7 +1,8 @@
 import React from 'react'
 import '../AdminSidebar/Sidebar.css'
-import { RiArchiveDrawerLine, RiBuilding4Line, RiFileList3Fill, RiFileList3Line, RiHome2Line, RiHospitalLine, RiUser2Line } from "react-icons/ri";
+import { RiArchiveDrawerLine, RiBuilding4Line, RiFileList3Fill, RiFileList3Line, RiHome2Line, RiHospitalLine, RiUser2Line, RiUserLine } from "react-icons/ri";
 import { Link } from 'react-router-dom';
+import {BsChatLeftText} from "react-icons/bs"
 
 function DoctorSidebar({ page }) {
   return (
@@ -46,7 +47,7 @@ function DoctorSidebar({ page }) {
               <div className='side'></div>
               <div className="admin-sideItem">
 
-                <RiBuilding4Line className='icon' />
+                <RiUserLine className='icon' />
                 <span>Profile</span>
               </div>
             </li>
@@ -58,7 +59,7 @@ function DoctorSidebar({ page }) {
               <div className='side'></div>
               <div className="admin-sideItem">
 
-                <RiBuilding4Line className='icon' />
+                <BsChatLeftText className='icon' />
                 <span>Chats</span>
               </div>
             </li>

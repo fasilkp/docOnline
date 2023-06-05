@@ -36,7 +36,6 @@ export default function MessageList({ currentChat, chatClicked, setSendMessage, 
         senderId:user._id,
         receiverId:currentChat?.doctorId?._id
       }
-      console.log(tempMessage)
 
       setMessages([...messages, tempMessage])
       setSendMessage(tempMessage)

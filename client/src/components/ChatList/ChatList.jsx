@@ -1,26 +1,26 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom' 
+import { Link } from 'react-router-dom'
 
-export default function ChatList({ usersList, lastMessage, setChatClicked, chatClicked }) {
-  const [users, setUsers]=useState([])
-  useEffect(()=>{
-    if(usersList){
+export default function ChatList({ usersList,onlineUsers, lastMessage, setChatClicked, chatClicked }) {
+  const [users, setUsers] = useState([])
+  useEffect(() => {
+    if (usersList) {
       setUsers(usersList)
     }
-  },[usersList])
-  const searchUsers=(e)=>{
-    try{
-      let value=e.target.value
-      let chats= usersList.filter((item, index)=>{
+  }, [usersList])
+  const searchUsers = (e) => {
+    try {
+      let value = e.target.value
+      let chats = usersList.filter((item, index) => {
         return item?.doctorId?.name?.match(new RegExp(value, 'i'))
       })
       setUsers(chats)
-    }catch(err){
+    } catch (err) {
       console.log(err)
     }
 
   }
-  const defaultImg="https://www.pngmart.com/files/22/User-Avatar-Profile-PNG-Isolated-Transparent-Picture.png"
+  const defaultImg = "https://www.pngmart.com/files/22/User-Avatar-Profile-PNG-Isolated-Transparent-Picture.png"
   return (
     <div className={`col-md-6 col-lg-5 col-xl-4 mb-4 mb-md-0 chat-list ${chatClicked && 'hide-sec'}`}>
       <div className="">
@@ -38,11 +38,14 @@ export default function ChatList({ usersList, lastMessage, setChatClicked, chatC
               users.map((chat, index) => {
                 return (
                   <li className="p-2 border-bottom" key={index}>
-                    <Link to={"/chat?id="+chat?.doctorId?._id} onClick={()=>setChatClicked(true)} className="d-flex justify-content-between">
+                    <Link to={"/chat?id=" + chat?.doctorId?._id} onClick={() => setChatClicked(true)} className="d-flex justify-content-between">
                       <div className="d-flex flex-row">
                         <div>
-                          <img src={chat?.doctorId?.image?.url ? chat?.doctorId?.image?.url : defaultImg } alt="avatar" className="d-flex align-self-center me-3 chat-avatar" width={60} />
-                          <span className="badge bg-warning badge-dot" />
+                          <img src={chat?.doctorId?.image?.url ? chat?.doctorId?.image?.url : defaultImg} alt="avatar" className="d-flex align-self-center me-3 chat-avatar" width={60} />
+                          {
+                            onlineUsers[chat?.doctorId?._id] &&
+                            <span className="badge bg-success badge-dot" />
+                          }
                         </div>
                         <div className="pt-1">
                           <p className="fw-bold mb-0">{chat?.doctorId?.name}</p>

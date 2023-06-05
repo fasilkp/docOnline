@@ -12,7 +12,6 @@ var salt = bcrypt.genSaltSync(10);
 export async function userLogin(req, res) {
     try {
         const { email, password } = req.body;
-        console.log(email, password)
         const user = await UserModel.findOne({ email })
         if (!user)
             return res.json({ err: true, message: "No User found" })
@@ -258,7 +257,6 @@ export async function googleAuthRedirect(req, res) {
 
         await UserModel.findOneAndUpdate({ email: user.email }, { $set: { picture: user.picture, name: user.name } }, {upsert:true});
         let newUser= await UserModel.findOne({email:user.email});
-        console.log("hello", newUser)
         const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET_KEY);
         res.redirect(`http://localhost:3000/callback?token=${token}`);
 
@@ -279,7 +277,6 @@ export async function verifyGAuth(req, res) {
             return res.json({ loggedIn: false, err: true, message: "no token" });
         }
         const user = await UserModel.findById(verifiedJWT.id, { password: 0 });
-        console.log(user)
         if (!user) {
             return res.json({ loggedIn: false, err:true, message:"no user found" });
         }

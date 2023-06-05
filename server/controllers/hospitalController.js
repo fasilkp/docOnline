@@ -370,7 +370,6 @@ export async function getHospitalReport(req, res) {
             },
             { $unwind: "$department" }
         ])
-        console.log(byDepartment)
         const byDoctor = await BookingModel.aggregate([
             {
                 $match:

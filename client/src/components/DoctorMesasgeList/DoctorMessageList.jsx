@@ -30,7 +30,6 @@ export default function DoctorMessageList({ currentChat, chatClicked, setSendMes
         senderId: doctor._id,
         text: message
       })
-      console.log(currentChat)
       const tempMessage={
         text:message,
         createdAt:new Date(),
@@ -38,7 +37,6 @@ export default function DoctorMessageList({ currentChat, chatClicked, setSendMes
         receiverId:currentChat.userId._id
 
       }
-      console.log(tempMessage)
       setMessages([...messages, tempMessage])
       setSendMessage(tempMessage)
       setMessage("")
@@ -72,8 +70,11 @@ export default function DoctorMessageList({ currentChat, chatClicked, setSendMes
   useEffect(()=>{
     if(receivedMessage && currentChat?.userId?._id == receivedMessage?.senderId){
       setMessages([...messages, receivedMessage])
+    }else{
+      console.log("hai", receivedMessage)
+      // setRefresh(prev=>!prev)
     }
-  },[receivedMessage])
+  },[receivedMessage ])
 
   return (
     <div className={`col-md-6 col-lg-7 col-xl-8 ${!chatClicked} && 'hide-sec'`}>

@@ -171,6 +171,8 @@ function App() {
             <Route path='/hospital/:id' element={<UserHospitalPage />} />
             <Route path='/department/:id' element={<UserDepartmentPage />} />
             <Route path='/profile' element={<UserProfilePage />} />
+            <Route path="/chat" element={<Chat/>} />
+
           </>
         }
         {
@@ -186,9 +188,9 @@ function App() {
             <Route path='/department/:id' element={<Navigate to="/login" />} />
             <Route path='/profile' element={<Navigate to="/login" />} />
             <Route path='/callback' element={<UserAuthCallbackPage />} />
+            <Route path="/chat" element={<Navigate to="/login"/>} />
           </>
         }
-        <Route path="/chat" element={<Chat/>} />
 
       </Routes>
 
