@@ -18,9 +18,14 @@ import doctorRouter from "./routers/doctorRouter.js"
 import verifyDoctor from './middlewares/verifyDoctor.js'
 import chatRouter from './routers/chatRouter.js'
 import messageRouter from './routers/messageRouter.js'
-// import './config/passport.js'
+import http from "http"
+import socketConnect from './config/socketConnect.js'
 
 const app=express();
+const server = http.createServer(app);
+
+socketConnect(server)
+
 app.use(express.json({limit: '50mb'}))
 app.use(cookieParser());
 app.use(express.urlencoded({extended:true}))

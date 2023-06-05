@@ -51,6 +51,18 @@ function DoctorSidebar({ page }) {
               </div>
             </li>
             </Link>
+      <Link to="/account/doctor/chat">
+
+            <li className={`admin-sideitems ${page=="chat" && 'active'}`}>
+
+              <div className='side'></div>
+              <div className="admin-sideItem">
+
+                <RiBuilding4Line className='icon' />
+                <span>Chats</span>
+              </div>
+            </li>
+            </Link>
 
 
       </ul>

@@ -66,12 +66,12 @@ export const findChat = async (req, res) => {
         let chat = await ChatModel.findOne({
             userId: req.params.userId,
             doctorId: req.params.doctorId
-        }).populate('doctorId')
+        }).populate('doctorId').populate('userId')
         if (!chat) {
             chat = await ChatModel.create({
                 userId: req.params.userId,
                 doctorId: req.params.doctorId
-            }).populate('doctorId')
+            }).populate('doctorId').populate('userId')
         }
         console.log(chat)
         res.json({ err: false, chat })

@@ -8,7 +8,7 @@ import { format } from 'timeago.js';
 import { BounceLoader, PuffLoader } from 'react-spinners';
 import { useNavigate } from 'react-router-dom';
 
-export default function DoctorMessageList({ currentChat, chatClicked }) {
+export default function DoctorMessageList({ currentChat, chatClicked, setSendMessage, receivedMessage }) {
   const [showEmoji, setShowEmoji] = useState(false)
   const [message, setMessage] = useState("")
   const [messages, setMessages] = useState([])
@@ -30,12 +30,17 @@ export default function DoctorMessageList({ currentChat, chatClicked }) {
         senderId: doctor._id,
         text: message
       })
+      console.log(currentChat)
       const tempMessage={
         text:message,
         createdAt:new Date(),
         senderId:doctor._id,
+        receiverId:currentChat.userId._id
+
       }
+      console.log(tempMessage)
       setMessages([...messages, tempMessage])
+      setSendMessage(tempMessage)
       setMessage("")
 
     } catch (err) {
@@ -47,7 +52,6 @@ export default function DoctorMessageList({ currentChat, chatClicked }) {
   useEffect(() => {
     try {
       (async function () {
-        console.log(currentChat._id)
         const { data } = await getMessages(currentChat._id)
         if (!data.err)
           setMessages(data.result)
@@ -64,7 +68,12 @@ export default function DoctorMessageList({ currentChat, chatClicked }) {
     }
   },[messages])
 
-  console.log(messages, currentChat)
+
+  useEffect(()=>{
+    if(receivedMessage && currentChat?.userId?._id == receivedMessage?.senderId){
+      setMessages([...messages, receivedMessage])
+    }
+  },[receivedMessage])
 
   return (
     <div className={`col-md-6 col-lg-7 col-xl-8 ${!chatClicked} && 'hide-sec'`}>
@@ -74,26 +83,12 @@ export default function DoctorMessageList({ currentChat, chatClicked }) {
           <>
             <div className="row ps-2 d-flex align-items-center message-head" style={{ height: "45px" }}>
               <div className='d-flex align-items-center' style={{ gap: "10px" }} >
-                <i className="fa-sharp fa-solid fa-arrow-left-long" onClick={()=>navigate("/chat")}  />
+                <i className="fa-sharp fa-solid fa-arrow-left-long" onClick={()=>navigate("/account/doctor/chat")}  />
                 <Avatar alt="Remy Sharp" sx={{ width: 32, height: 32 }} src={currentChat.userId.picture && currentChat.userId.picture} />
                 <b className="ps-1">{currentChat.userId.name}</b>
               </div>
             </div>
-            <div className=" message-box pt-2" data-mdb-perfect-scrollbar="true" style={{ position: 'relative'}}>
-              
-              <div className="d-flex flex-row single-chat-container">
-                <div className='sg-chat'>
-                  <p className="small p-2 mb-1 rounded-3 single-chat">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing
-                    elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua.
-                  </p>
-                  <p className="small ms-3 mb-3 rounded-3 text-muted float-end">
-                    12:00 PM | Aug 13
-                  </p>
-                </div>
-              </div>
-              
+            <div className=" message-box pt-2" data-mdb-perfect-scrollbar="true" style={{ position: 'relative'}}>  
               {
                 messages[0] &&
                 messages.map((item, index) => {

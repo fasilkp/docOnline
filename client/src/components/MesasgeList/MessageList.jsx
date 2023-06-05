@@ -8,7 +8,7 @@ import { format } from 'timeago.js';
 import { BounceLoader, PuffLoader } from 'react-spinners';
 import { useNavigate } from 'react-router-dom';
 
-export default function MessageList({ currentChat, chatClicked }) {
+export default function MessageList({ currentChat, chatClicked, setSendMessage, receivedMessage }) {
   const [showEmoji, setShowEmoji] = useState(false)
   const [message, setMessage] = useState("")
   const [messages, setMessages] = useState([])
@@ -34,8 +34,12 @@ export default function MessageList({ currentChat, chatClicked }) {
         text:message,
         createdAt:new Date(),
         senderId:user._id,
+        receiverId:currentChat?.doctorId?._id
       }
+      console.log(tempMessage)
+
       setMessages([...messages, tempMessage])
+      setSendMessage(tempMessage)
       setMessage("")
 
     } catch (err) {
@@ -47,7 +51,6 @@ export default function MessageList({ currentChat, chatClicked }) {
   useEffect(() => {
     try {
       (async function () {
-        console.log(currentChat._id)
         const { data } = await getMessages(currentChat._id)
         if (!data.err)
           setMessages(data.result)
@@ -64,7 +67,14 @@ export default function MessageList({ currentChat, chatClicked }) {
     }
   },[messages])
 
-  console.log(messages, currentChat)
+  useEffect(()=>{
+    console.log("rcvd msg", receivedMessage)
+    if(receivedMessage && currentChat?.doctorId?._id==receivedMessage?.senderId){
+      setMessages([...messages, receivedMessage])
+    }
+  },[receivedMessage])
+  console.log(receivedMessage)
+
 
   return (
     <div className={`col-md-6 col-lg-7 col-xl-8 ${!chatClicked && 'hide-sec'} `}>
@@ -81,7 +91,7 @@ export default function MessageList({ currentChat, chatClicked }) {
             </div>
             <div className=" message-box pt-2" data-mdb-perfect-scrollbar="true" style={{ position: 'relative'}}>
               
-              <div className="d-flex flex-row single-chat-container">
+              {/* <div className="d-flex flex-row single-chat-container">
                 <div className='sg-chat'>
                   <p className="small p-2 mb-1 rounded-3 single-chat">
                     Lorem ipsum dolor sit amet, consectetur adipiscing
@@ -92,7 +102,7 @@ export default function MessageList({ currentChat, chatClicked }) {
                     12:00 PM | Aug 13
                   </p>
                 </div>
-              </div>
+              </div> */}
               
               {
                 messages[0] &&

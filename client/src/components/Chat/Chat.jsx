@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import './chat.css'
 import './mdb.min.css'
 import UserHeader from '../UserHeader/UserHeader' 
@@ -7,6 +7,7 @@ import MessageList from '../MesasgeList/MessageList'
 import { useParams, useSearchParams } from 'react-router-dom'
 import { createChat, findChat, getUserChats } from '../../api/chatRequests'
 import { useSelector } from 'react-redux'
+import { io } from "socket.io-client";
 
 export default function Chat({ }) {
   const [currentChat, setCurrentChat] = useState(null);
@@ -14,8 +15,11 @@ export default function Chat({ }) {
   const [usersList, setUsersList] = useState([])
   const [lastMessage, setLastMessage]= useState({})
   const [chatClicked, setChatClicked]= useState(false)
+  const [onlineUsers, setOnlineUsers] = useState({});
+  const [sendMessage, setSendMessage] = useState(null);
+  const [receivedMessage, setReceivedMessage] = useState({});
   const id = searchParams.get('id')
-  console.log(chatClicked)
+  const socket = useRef();
   const user = useSelector((state) => state.user.details)
   useEffect(() => {
     (async function () {
@@ -43,7 +47,29 @@ export default function Chat({ }) {
       }
     })()
   }, [user, id])
-  console.log(usersList)
+  useEffect(() => {
+    socket.current = io("ws://localhost:5500");
+    if(user){
+      socket.current.emit("new-user-add", user._id);
+      socket.current.on("get-users", (users) => {
+        setOnlineUsers(users);
+      });
+    }
+  }, [user]);
+  useEffect(() => {
+    if (sendMessage!==null) {
+      socket.current.emit("send-message", sendMessage);}
+  }, [sendMessage]);
+
+
+  useEffect(() => {
+    socket.current.on("recieve-message", (data) => {
+      console.log("user received message : ",data)
+      setReceivedMessage(data);
+    }
+    );
+  }, [socket]);
+  console.log(receivedMessage)
 
   return (
     <div className='container'>
@@ -55,10 +81,10 @@ export default function Chat({ }) {
               <div className="card-body">
                 <div className="row">
                   
-                  <ChatList users={usersList} chatClicked={chatClicked} lastMessage={lastMessage} setChatClicked={setChatClicked}></ChatList>
+                  <ChatList usersList={usersList} chatClicked={chatClicked} lastMessage={lastMessage} setChatClicked={setChatClicked}></ChatList>
                   {
                     currentChat ?
-                      <MessageList currentChat={currentChat} chatClicked={chatClicked} setChatClicked={setChatClicked} ></MessageList>
+                      <MessageList setSendMessage={setSendMessage} receivedMessage={receivedMessage} currentChat={currentChat} chatClicked={chatClicked} setChatClicked={setChatClicked} ></MessageList>
                       :
                       <div className="col-md-6 col-lg-7 col-xl-8">
                       <div className="tap-on-chat-main">

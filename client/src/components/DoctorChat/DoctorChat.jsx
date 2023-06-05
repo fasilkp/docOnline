@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import '../Chat/chat.css'
 import './mdb.min.css'
 import {  useSearchParams } from 'react-router-dom'
@@ -7,6 +7,9 @@ import { useSelector } from 'react-redux'
 import DoctorMessageList from '../DoctorMesasgeList/DoctorMessageList'
 import DoctorChatList from '../DoctorChatList/DoctorChatList'
 import DoctorHeader from '../DoctorHeader/DoctorHeader'
+import { io } from "socket.io-client";
+import DoctorSidebar from '../DoctorSidebar/DoctorSidebar'
+
 
 export default function DoctorChat({ }) {
   const [currentChat, setCurrentChat] = useState(null);
@@ -14,8 +17,12 @@ export default function DoctorChat({ }) {
   const [usersList, setUsersList] = useState([])
   const [lastMessage, setLastMessage]= useState({})
   const [chatClicked, setChatClicked]= useState(false)
+  const [sendMessage, setSendMessage] = useState(null);
+  const [onlineUsers, setOnlineUsers] = useState({});
+  const [receivedMessage, setReceivedMessage] = useState({});
   const id = searchParams.get('id')
-  console.log(chatClicked)
+  const socket = useRef();
+
   const doctor = useSelector((state) => state.doctor.details)
   useEffect(() => {
     (async function () {
@@ -43,22 +50,45 @@ export default function DoctorChat({ }) {
       }
     })()
   }, [doctor, id])
-  console.log(usersList)
+  useEffect(() => {
+    socket.current = io("ws://localhost:5500");
+    if(doctor){
+      socket.current.emit("new-user-add", doctor._id);
+      socket.current.on("get-users", (users) => {
+        setOnlineUsers(users);
+      });
+    }
+  }, [doctor]);
+  useEffect(() => {
+    if (sendMessage!==null) {
+      socket.current.emit("send-message", sendMessage);}
+  }, [sendMessage]);
+
+
+
+  useEffect(() => {
+    socket.current.on("recieve-message", (data) => {
+      console.log("doctor received message : ",data)
+      setReceivedMessage(data);
+    }
+    );
+  }, [socket]);
 
   return (
-    <div className='container'>
+    <div className=''>
       <DoctorHeader fullWidth></DoctorHeader>
-      <section className="chat-main containers">
-        <div className>
-          <div className="col-md-12" style={{ boxShadow: "none" }}>
+      <section className="chat-main">
+        <div className="d-flex">
+        <DoctorSidebar page={"chat"} ></DoctorSidebar>
+          <div className="w-100" style={{ boxShadow: "none" }}>
             <div className="card" id="chat3">
               <div className="card-body">
                 <div className="row">
                   
-                  <DoctorChatList users={usersList} chatClicked={chatClicked} lastMessage={lastMessage} setChatClicked={setChatClicked}></DoctorChatList>
+                  <DoctorChatList usersList={usersList} chatClicked={chatClicked} lastMessage={lastMessage} setChatClicked={setChatClicked}></DoctorChatList>
                   {
                     currentChat ?
-                      <DoctorMessageList currentChat={currentChat} chatClicked={chatClicked} setChatClicked={setChatClicked} ></DoctorMessageList>
+                      <DoctorMessageList  setSendMessage={setSendMessage} receivedMessage={receivedMessage}  currentChat={currentChat} chatClicked={chatClicked} setChatClicked={setChatClicked} ></DoctorMessageList>
                       :
                       <div className="col-md-6 col-lg-7 col-xl-8">
                       <div className="tap-on-chat-main">

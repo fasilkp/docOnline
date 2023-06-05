@@ -37,6 +37,7 @@
     "react-time-picker": "^6.0.4",
     "react-timeit": "^1.2.12",
     "redux": "^4.2.1",
+    "socket.io-client": "^4.6.2",
     "styled-components": "^5.3.9",
     "sweetalert2": "^11.7.3",
     "timeago.js": "^4.0.0-beta.3",
@@ -77,6 +78,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "proxy": "http://localhost:5000"
+  }
 }
