@@ -9,7 +9,7 @@ io.on("connection", (socket) => {
             console.log("New User Connected", activeUsers);
         }
         console.log("active",activeUsers);
-        socket.emit("get-users", activeUsers);
+        io.emit("get-users", activeUsers);
     });
     socket.on("disconnect", () => {
         Object.keys(activeUsers).forEach((key) => {
@@ -19,7 +19,7 @@ io.on("connection", (socket) => {
             });
         console.log("disconnect", socket.id)
         console.log("User Disconnected", activeUsers);
-        socket.emit("get-users", activeUsers);
+        io.emit("get-users", activeUsers);
     });
     socket.on("send-message", (data) => {
         const { receiverId } = data;
