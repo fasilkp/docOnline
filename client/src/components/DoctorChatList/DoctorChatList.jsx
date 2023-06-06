@@ -1,3 +1,4 @@
+import { Chip } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
@@ -56,7 +57,12 @@ export default function DoctorChatList({ usersList, onlineUsers, lastMessage, se
                         </div>
                       </div>
                       <div className="pt-1">
-                        <p className="small text-muted mb-1">5 mins ago</p>
+                        <p className="small text-muted mb-1">
+                          {
+                            onlineUsers[chat.userId._id] &&
+                            <Chip label={"Active now"} color="primary" variant="outlined" />
+                          }
+                        </p>
                         {/* <span className="badge bg-danger rounded-pill float-end">2</span> */}
                       </div>
                     </Link>

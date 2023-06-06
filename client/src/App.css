@@ -30,7 +30,7 @@ a {
 }
 
 button:disabled {
-  background: none;
+  background: none !important;
   background-color: #93acd3 !important;
 }
 .admin-home{

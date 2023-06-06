@@ -15,12 +15,41 @@
     gap: 20px;
 
 }
+.user-main{
+    padding-bottom: 100px;
+}
 .user-banner-container h1{
     font-weight: 900;
     font-size: 3rem;
     max-width: 600px;
 }
 .user-banner-container button{
+    width: 180px;
+    height: 55px;
+    border: none;
+    outline: none;
+    background-image: linear-gradient(to right, var(--mainColor), var(--secondColor));
+    border-radius: 10px;
+    font-weight: 500;
+    color: white;
+}
+.user-home-chat-img img{
+    object-fit: contain;
+    height: 600px;
+}
+.user-home-chat-img, .user-home-chat-desc{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+.user-home-chat-desc{
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    height: 600px;
+    gap: 10px;
+}
+.user-home-chat-desc button{
     width: 180px;
     height: 55px;
     border: none;
@@ -41,5 +70,11 @@
     }
     .user-banner-container p{
         max-width: 250px;
+    }
+    .user-home-chat-desc{
+        height: 250px;
+    }
+    .user-home-chat-img img{
+        height: 350px;
     }
 }

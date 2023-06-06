@@ -7,14 +7,18 @@ import noResultImg from '../../assets/images/no-result.png'
 
 import './hospitallist.css'
 
-function HospitalList({ list, rating }) {
+function HospitalList({ list, rating, title }) {
     return (
         <div>
-            <Row>
-                <h5>Hospitals</h5>
+            <Row className='d-flex justify-content-center'>
+                <h5 className='text-center'>
+                    {
+                            title ? title : "Hopitals"
+                    }
+                    </h5>
 
             </Row>
-            <Row>
+            <Row className='d-flex justify-content-center mt-5'>
                 {
                     list[0] ?
                     list.map((item, index) => {

@@ -9,11 +9,11 @@ import './doctorlist.css'
 function DoctorList({ list, title, rating }) {
     return (
         <div>
-            <Row>
-                <h5>{title ? title : "Doctors"}</h5>
+            <Row className='d-flex justify-content-center'>
+                <h5 className='text-center'>{title ? title : "Doctors"}</h5>
 
             </Row>
-            <Row>
+            <Row className='d-flex justify-content-center mt-5'>
                 {
                     list[0] ?
                     list.map((item, index) => {

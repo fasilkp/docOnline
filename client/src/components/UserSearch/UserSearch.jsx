@@ -6,6 +6,7 @@ import DoctorList from '../DoctorList/DoctorList'
 import HospitalList from '../HospitalList/HospitalList'
 import UserHeader from '../UserHeader/UserHeader'
 import './userSearch.css'
+import UserBottom from '../UserBottom/UserBottom'
 
 function UserSearch() {
     const [name, setName] = useState("")
@@ -114,6 +115,8 @@ function UserSearch() {
                     </Row>
                 }
             </Container>
+      <UserBottom page={'search'}></UserBottom>
+
         </div>
     )
 }

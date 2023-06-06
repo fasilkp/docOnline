@@ -16,13 +16,13 @@ function UserDepartmentRow({ list, hospitalWise, hospitalId }) {
                 <div className="department-row-main">
                     <div className="department-row-container">
                         <Container>
-                            <Row className='mt-5'>
-                                <h5>Departments</h5>
+                            <Row className='mt-5 d-flex justify-content-center'>
+                                <h5 className='text-center'>Departments</h5>
                             </Row>
                         </Container>
                         <Container>
 
-                            <Row className='mt-1'>
+                            <Row className='mt-1 d-flex justify-content-center mt-5'>
                                 {
                                     list[0] ?
                                         list.map((item, index) => {

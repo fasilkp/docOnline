@@ -29,10 +29,10 @@ function UserHeader({fullWidth}) {
             </Link>
           </div>
           <div className="user-header-item">
-            {/* <span>Home</span>
-            <span>Hospitals</span>
-            <span>Departmets</span>
-            <span>Doctors</span> */}
+           <Link to="/"><span>Home</span></Link> 
+           <Link to="/chat"><span>Chat</span></Link> 
+           <Link to="/profile"><span>Bookings</span></Link> 
+           
             <Button
               id="basic-button"
               aria-controls={open ? 'basic-menu' : undefined}

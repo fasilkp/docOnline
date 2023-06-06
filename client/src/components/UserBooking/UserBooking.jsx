@@ -9,6 +9,7 @@ import Swal from 'sweetalert2'
 import { cancelBooking } from '../../api/userApi'
 import notFoundImg from '../../assets/images/notFound.png'
 import { useSelector } from 'react-redux'
+import UserBottom from '../UserBottom/UserBottom'
 
 export default function UserBooking() {
   const [bookingList, setBookingList] = useState([])
@@ -17,7 +18,7 @@ export default function UserBooking() {
   const [filter, setFilter] = useState('all')
   const [showAddEmr, setShowAddEmr] = useState(false)
 
-  const user = useSelector((state)=>state.user.details)
+  const user = useSelector((state) => state.user.details)
 
   useEffect(() => {
     (
@@ -67,7 +68,7 @@ export default function UserBooking() {
       >
 
         <div className="user-booking-container">
-          
+
           <div className="profile-comp">
             <img src={user.picture ? user.picture.replace('=s96-c', '') : "https://png.pngtree.com/png-vector/20220709/ourmid/pngtree-businessman-user-avatar-wearing-suit-with-red-tie-png-image_5809521.png"} alt="" />
             <h6 className="text-center mt-2">{user.name.toUpperCase()}</h6>
@@ -103,7 +104,7 @@ export default function UserBooking() {
                     <b>{item.doctorId.name}</b>
                     <div className="mt-2">
                       <p>Date : </p>
-                      <p> {new Date(new Date(item.date).setDate(new Date(item.date).getDate()-1)).toLocaleDateString('en-US')}</p>
+                      <p> {new Date(new Date(item.date).setDate(new Date(item.date).getDate() - 1)).toLocaleDateString('en-US')}</p>
                     </div>
                     <div>
                       <p>Time : </p>
@@ -115,13 +116,20 @@ export default function UserBooking() {
                     </div>
 
                   </div>
-                  <div className="booking-status d-flex align-items-center justify-content-center" style={{ gap: "10px", flexWrap: "wrap" }}>
-                    <Chip label={item.status} color={item.status == 'consulted' ? "primary" : "secondary"} variant="outlined" />
-                    {
-                      item.status == 'upcoming' &&
-                      <button className='btn btn-dark' onClick={() => handleCancelBooking(item._id)}>Cancel</button>
-                    }
-                  </div>
+                  {
+                    (item.status==="upcoming" &&(new Date(item.date) < new Date())) ?
+                      <div className="booking-status d-flex align-items-center justify-content-center" style={{ gap: "10px", flexWrap: "wrap" }}>
+                        <Chip label={"completed"} color={item.status == 'consulted' ? "primary" : "secondary"} variant="outlined" />
+                      </div>
+                      :
+                      <div className="booking-status d-flex align-items-center justify-content-center" style={{ gap: "10px", flexWrap: "wrap" }}>
+                        <Chip label={item.status} color={item.status == 'consulted' ? "primary" : "secondary"} variant="outlined" />
+                        {
+                          item.status == 'upcoming' &&
+                          <button className='btn btn-dark' onClick={() => handleCancelBooking(item._id)}>Cancel</button>
+                        }
+                      </div>
+                  }
                 </div>
               </div>
             })
@@ -136,7 +144,9 @@ export default function UserBooking() {
           }
 
         </div>
+
       </Container>
+      <UserBottom page={'profile'}></UserBottom>
       {
         showAddEmr &&
         <ViewEmr booking={booking} setShowAddEmr={setShowAddEmr} />

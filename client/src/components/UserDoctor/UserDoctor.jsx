@@ -9,6 +9,7 @@ import axios from "axios"
 import BookNow from "../../Modal/BookNow/BookNow"
 import { addDoctorReview, getDoctor } from "../../api/userApi"
 import Swal from "sweetalert2"
+import UserBottom from "../UserBottom/UserBottom"
 function UserDoctor() {
     const { id } = useParams()
     const [refresh, setRefresh] = useState(false)
@@ -123,7 +124,9 @@ function UserDoctor() {
                                 </div>
                                 <div className="dr-profile-sec-row">
                                     <h6>Appointments Available</h6>
-                                    <div className="doctor-time-list">
+                                    {
+                                        daysAvailable[0] ?
+                                        <div className="doctor-time-list">
                                         {
                                             daysAvailable.map((item, index) => {
                                                 return <div className="time-box" key={index}>
@@ -131,9 +134,12 @@ function UserDoctor() {
                                                 </div>
                                             })
                                         }
-
-
                                     </div>
+                                        :
+                                        "No appointments available"
+
+                                    }
+
                                 </div>
                                 <div className="dr-profile-sec-row button">
                                     <button onClick={()=>navigate("/chat?id="+doctor._id)}>Chat</button>
@@ -254,6 +260,8 @@ function UserDoctor() {
 
                 </div>
             </Container>
+            <UserBottom page={''}></UserBottom>
+
         </div>
     )
 }

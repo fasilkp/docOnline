@@ -8,6 +8,7 @@ import axios from "axios"
 function UserDepartment() {
     const {id}= useParams()
     const [doctorsList, setDoctorsList] = useState([]);
+    const [rating, setRating]=useState({})
     const {state}= useLocation()
     
     useEffect(()=>{
@@ -21,6 +22,7 @@ function UserDepartment() {
                 }
                 if(!result.data.err){
                     setDoctorsList(result.data.doctors)
+                    setRating(result.data.rating)
                 }
             }
         )()
@@ -29,7 +31,7 @@ function UserDepartment() {
         <div className="user-main">
             <UserHeader />
             <Container className="mt-3">
-                <DoctorList list={doctorsList} />
+                <DoctorList list={doctorsList} rating={rating} />
             </Container>
         </div>
     )
