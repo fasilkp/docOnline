@@ -45,7 +45,7 @@ function UserSignup() {
     useEffect(() => {
         if (password) {
             !validatePassword(password).status ?
-                setErrMessage(validatePassword(password).message[0].message) :
+                setErrMessage(validatePassword(password).message[0].message.replace("string", 'password')) :
                 setErrMessage("")
         }
         if (confirmPassword) {

@@ -52,6 +52,20 @@ function UserLogin() {
         }
         setLoading({ ...loading, submit: false })
     }
+    const demoLogin=async(e)=>{
+        e.preventDefault();
+        handleSubmit(e);
+        setLoading({ ...loading, submit: true })
+        let tempEmail="fasilkp314@gmail.com"
+        let tempPassword="12"
+        const { data } = await axios.post("/user/auth/login", { email:tempEmail, password:tempPassword });
+        if (data.err) {
+            setErrMessage(data.message)
+        } else {
+            dispatch({ type: "refresh" })
+        }
+        setLoading({ ...loading, submit: false })
+    }
     return (
         <div className="login-main">
             <Row>
@@ -98,6 +112,12 @@ function UserLogin() {
                                             login
                                             <ClipLoader size={20} color="white" loading={loading.submit} />
                                         </button>
+                                    </div>
+                                    <div className="login-row google-btn">
+                                    <Button variant="contained" onClick={demoLogin}>
+                                            Demo Login
+                                    </Button>
+                                        
                                     </div>
                                     <div className="login-row">
                                         OR

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Col, Container, Row } from 'react-bootstrap';
 import { TextField } from '@mui/material';
 import resetImage from '../../assets/images/resetPassword.jpg'
@@ -7,6 +7,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useDispatch } from "react-redux";
 import { ClipLoader } from 'react-spinners';
+import validatePassword from '../../helpers/validatePassword';
 
 
 export default function UserReset({email, otp}) {
@@ -31,11 +32,25 @@ export default function UserReset({email, otp}) {
     }
 
     const validForm=()=>{
-        if(password.trim()==="" || password!=confirmPassword){
+        if(password.trim()==="" || !validatePassword(password).status || password!=confirmPassword){
             return false
         }
         return true
     }
+
+    useEffect(() => {
+        if (password) {
+            !validatePassword(password).status ?
+                setErrMessage(validatePassword(password).message[0].message.replace("string", 'password')) :
+                setErrMessage("")
+        }
+        if (confirmPassword) {
+            {
+                password !== confirmPassword ? setErrMessage("Password not match") :
+                setErrMessage("")
+            }
+        }
+    }, [password, confirmPassword])
     
 
     return (

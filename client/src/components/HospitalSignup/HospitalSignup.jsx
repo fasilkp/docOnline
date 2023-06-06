@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Col, Container, Form, Row } from 'react-bootstrap';
 import { TextField } from '@mui/material';
 import loginImage from '../../assets/images/login.jpg'
@@ -8,6 +8,7 @@ import { ClipLoader } from 'react-spinners';
 import axios from 'axios'
 import Swal from 'sweetalert2';
 import { useDispatch } from 'react-redux';
+import validatePassword from '../../helpers/validatePassword';
 
 function HospitalSignup() {
     const [name, setName] = useState("")
@@ -73,11 +74,18 @@ function HospitalSignup() {
         }
     }
     function validForm() {
-        if (name.trim() === "" || about.trim() === "" || place.trim() === "" || address.trim() === "" || email.trim() === "" || password.trim() === "" || mobile.toString().length !== 10 || docNo.trim() ==='' || !finalImage) {
+        if (name.trim() === ""|| !validatePassword(password).status || about.trim() === "" || place.trim() === "" || address.trim() === "" || email.trim() === "" || password.trim() === "" || mobile.toString().length !== 10 || docNo.trim() ==='' || !finalImage) {
             return false
         }
         return true
     }
+    useEffect(() => {
+        if (password) {
+            !validatePassword(password).status ?
+                setErrMessage(validatePassword(password).message[0].message.replace("string", 'password')) :
+                setErrMessage("")
+        }
+    }, [password])
     return (
         <div className="login-main">
             <Row>
