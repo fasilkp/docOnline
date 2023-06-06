@@ -19,7 +19,7 @@ function DoctorHeader() {
       showCancelButton: true,
       confirmButtonColor: '#7e3af2',
       cancelButtonColor: '##a8a8a8',
-      confirmButtonText: 'Yes, Accept it!'
+      confirmButtonText: 'Yes, Logout!'
     }).then(async (result) => {
       if (result.isConfirmed) {
         await axios.get("/doctor/auth/logout")

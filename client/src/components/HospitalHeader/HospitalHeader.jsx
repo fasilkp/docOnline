@@ -20,7 +20,7 @@ function HospitalHeader(props) {
       showCancelButton: true,
       confirmButtonColor: '#7e3af2',
       cancelButtonColor: '##a8a8a8',
-      confirmButtonText: 'Yes, Accept it!'
+      confirmButtonText: 'Yes, Logout!'
     }).then(async (result) => {
       if (result.isConfirmed) {
         await axios.get("/hospital/auth/logout")
@@ -28,6 +28,7 @@ function HospitalHeader(props) {
       }
     })
   }
+  
   return (
     <div className="admin-header">
       <div className='d-flex align-items-center' style={{gap:"10px"}}>

@@ -18,7 +18,7 @@ export default function sentOTP(email, otp){
               subject: "DocOnline Email verification",
               html: `
               <h1>Verify Your Email For DocOnline</h1>
-                <h3>use this code in E-cart to verify your email</h3>
+                <h3>use this code in DocOnline to verify your email</h3>
                 <h2>${otp}</h2>
               `,
             }

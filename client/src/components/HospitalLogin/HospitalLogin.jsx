@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Col, Container, Row } from 'react-bootstrap';
-import { TextField } from '@mui/material';
+import { Button, TextField } from '@mui/material';
 import loginImage from '../../assets/images/login.jpg'
 import "../UserLogin/userlogin.css"
 import { Link, useNavigate } from 'react-router-dom';
@@ -33,6 +33,20 @@ function HospitalLogin() {
 
         }
 
+    }
+    const demoLogin=async(e)=>{
+        e.preventDefault();
+        handleSubmit(e);
+        setLoading({ ...loading, submit: true })
+        let tempEmail="kpfasil314@gmail.com"
+        let tempPassword="12"
+        const { data } = await axios.post("/hospital/auth/login", { email:tempEmail, password:tempPassword });
+        if (data.err) {
+            setErrMessage(data.message)
+        } else {
+            dispatch({ type: "refresh" })
+        }
+        setLoading({ ...loading, submit: false })
     }
     function validForm() {
         if (email.trim() === "" || password.trim() === "") {
@@ -86,6 +100,12 @@ function HospitalLogin() {
                                             Login
                                             <ClipLoader size={20} color="white" loading={loading.submit} />
                                         </button>
+                                    </div>
+                                    <div className="login-row google-btn">
+                                    <Button variant="contained" onClick={demoLogin}>
+                                            Demo Login
+                                    </Button>
+                                        
                                     </div>
                                     <div className="login-row mt-3">
                                         <Link to="/account/hospital/signup">Don't Have an Account? Signup</Link>
