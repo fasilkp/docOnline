@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
-import { FcOk, FcOvertime, FcTodoList } from "react-icons/fc";
+import { FcCancel, FcOk, FcOvertime, FcTodoList } from "react-icons/fc";
 import dayjs from 'dayjs';
 import { jsPDF } from "jspdf";
 import autoTable from 'jspdf-autotable'
@@ -45,6 +45,7 @@ export default function AdminReport() {
         booking: () => <FcTodoList className='icon' />,
         upcoming: () => <FcOvertime className='icon' />,
         completed: () => <FcOk className='icon' />,
+        cancelled: () => <FcCancel className='icon' />,
     }
     const downloadPdf = () => {
         const totalBody = data.totalCount.map((item => ["Total " + item._id, item.count]))
@@ -201,7 +202,9 @@ export default function AdminReport() {
                                                                 <h3>{item.count}</h3>
                                                             </div>
                                                             <div>
-                                                                {iconComponent[item._id]()}
+                                                                {
+                                                                iconComponent?.[item._id] &&
+                                                                iconComponent[item._id]() }
                                                             </div>
                                                         </div>
                                                     })

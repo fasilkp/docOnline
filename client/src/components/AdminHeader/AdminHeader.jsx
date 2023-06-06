@@ -45,7 +45,6 @@ function AdminHeader(props) {
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
-              <Dropdown.Item href="#">Action</Dropdown.Item>
               <Dropdown.Item href="#" onClick={handleLogout}>Logout</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>

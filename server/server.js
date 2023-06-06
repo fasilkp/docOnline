@@ -21,6 +21,7 @@ import messageRouter from './routers/messageRouter.js'
 import http from "http"
 import { Server } from "socket.io";
 import socketConnect from './config/socketConnect.js'
+import doctorChatRouter from './routers/doctorChatRouter.js'
 
 const app = express();
 const server = http.createServer(app);
@@ -56,8 +57,10 @@ app.use("/admin/", verifyAdmin, adminRouter)
 app.use("/hospital/", verifyHospital, hospitalRouter)
 app.use("/user/", verifyUser, userRouter)
 app.use("/doctor/", verifyDoctor, doctorRouter)
-app.use("/chat", chatRouter)
-app.use("/message", messageRouter)
+app.use("/chat",verifyUser, chatRouter)
+app.use("/doctor/chat",verifyDoctor, doctorChatRouter)
+app.use("/message",verifyUser, messageRouter)
+app.use("/doctor/message/",verifyDoctor, messageRouter)
 
 server.listen(5000, () => {
   console.log("server running on port 5000")

@@ -2,13 +2,14 @@ import React, { useEffect, useRef, useState } from 'react'
 import '../Chat/chat.css'
 import './mdb.min.css'
 import {  useSearchParams } from 'react-router-dom'
-import { findChat, getDoctorChats } from '../../api/chatRequests'
 import { useSelector } from 'react-redux'
 import DoctorMessageList from '../DoctorMesasgeList/DoctorMessageList'
 import DoctorChatList from '../DoctorChatList/DoctorChatList'
 import DoctorHeader from '../DoctorHeader/DoctorHeader'
 import { io } from "socket.io-client";
 import DoctorSidebar from '../DoctorSidebar/DoctorSidebar'
+import { findDoctorChat, getDoctorChats } from '../../api/doctorChatRequests'
+import DoctorBottomNav from '../DoctorBottom/DoctorBottom'
 const socket = io.connect("http://localhost:5000");
 
 
@@ -25,7 +26,7 @@ export default function DoctorChat({ }) {
   const [receivedMessage, setReceivedMessage] = useState({});
   const id = searchParams.get('id')
   // const socket = useRef();
-
+  
   const doctor = useSelector((state) => state.doctor.details)
   useEffect(() => {
     (async function () {
@@ -36,7 +37,7 @@ export default function DoctorChat({ }) {
           setChatClicked(false)
         }
         if (id && doctor) {
-          let { data } = await findChat(id, doctor._id)
+          let { data } = await findDoctorChat(id, doctor._id)
           if (!data.err) {
             setCurrentChat(data.chat)
           }
@@ -115,6 +116,11 @@ export default function DoctorChat({ }) {
           </div>
         </div>
       </section>
+      {
+      !chatClicked &&
+        <DoctorBottomNav page={'chat'} />
+      }
+
     </div>
   )
 }

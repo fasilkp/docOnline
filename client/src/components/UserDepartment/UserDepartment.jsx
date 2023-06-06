@@ -25,10 +25,8 @@ function UserDepartment() {
             }
         )()
     },[])
-    
     return (
         <div className="user-main">
-
             <UserHeader />
             <Container className="mt-3">
                 <DoctorList list={doctorsList} />

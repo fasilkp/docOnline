@@ -1,7 +1,8 @@
 import React from 'react'
-import { RiArchiveDrawerLine, RiFileList3Fill, RiFileList3Line, RiFileListFill, RiHome2Fill, RiUser3Fill } from 'react-icons/ri';
+import { RiArchiveDrawerLine,RiQuestionAnswerFill, RiFileList3Fill, RiFileList3Line, RiFileListFill, RiHome2Fill, RiUser3Fill } from 'react-icons/ri';
 import { Link } from 'react-router-dom';
 import '../../assets/css/bottomNav.css'
+import { BsChatLeftText } from 'react-icons/bs';
 function DoctorBottomNav({page}) {
     
   return (
@@ -23,7 +24,12 @@ function DoctorBottomNav({page}) {
                 <Link to="/account/doctor/schedule">
                 <RiFileListFill className='icon'/>
                 <span>Schedule</span>
-
+                </Link>
+            </div>
+            <div className={`bottom-nav-item ${page==='chat' && 'active'}`}>
+                <Link to="/account/doctor/chat">
+                <RiQuestionAnswerFill className='icon'/>
+                <span>Chat</span>
                 </Link>
             </div>
             <div className={`bottom-nav-item ${page==='profile' && 'active'}`}>

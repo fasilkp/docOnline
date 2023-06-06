@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react'
 import EmojiPicker from 'emoji-picker-react';
 import { AiFillCloseCircle } from 'react-icons/ai'
-import { addMessage, getMessages } from '../../api/messageRequests';
 import { useSelector } from 'react-redux';
 import { Avatar } from '@mui/material';
 import { format } from 'timeago.js';
 import { BounceLoader, PuffLoader } from 'react-spinners';
 import { useNavigate } from 'react-router-dom';
+import { addDoctorMessage, getDoctorMessages } from '../../api/doctorMessageRequests';
 
 export default function DoctorMessageList({ currentChat, chatClicked, setSendMessage, receivedMessage }) {
   const [showEmoji, setShowEmoji] = useState(false)
@@ -25,7 +25,7 @@ export default function DoctorMessageList({ currentChat, chatClicked, setSendMes
     }
     setSendLoading(true)
     try {
-      const { data } = await addMessage({
+      const { data } = await addDoctorMessage({
         chatId: currentChat._id,
         senderId: doctor._id,
         text: message
@@ -50,7 +50,7 @@ export default function DoctorMessageList({ currentChat, chatClicked, setSendMes
   useEffect(() => {
     try {
       (async function () {
-        const { data } = await getMessages(currentChat._id)
+        const { data } = await getDoctorMessages(currentChat._id)
         if (!data.err)
           setMessages(data.result)
       })()

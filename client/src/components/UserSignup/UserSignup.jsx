@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Col, Container, Row } from 'react-bootstrap';
 import { CircularProgress, TextField } from '@mui/material';
 import loginImage from '../../assets/images/login.jpg'
@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import { ClipLoader } from 'react-spinners'
 import axios from 'axios';
 import VerifyOtp from '../verifyOtp/VerifyOtp';
+import validatePassword from '../../helpers/validatePassword';
 
 function UserSignup() {
     const [name, setName] = useState('')
@@ -20,7 +21,8 @@ function UserSignup() {
         submit: false
     })
     const validForm = () => {
-        if (name.trim() === "" || password.trim() === "" || email.trim() === "" || password !== confirmPassword) {
+        validatePassword(password)
+        if (name.trim() === "" || !validatePassword(password).status || password.trim() === "" || email.trim() === "" || password !== confirmPassword) {
             return false
         }
         return true
@@ -40,6 +42,19 @@ function UserSignup() {
             }
         }
     }
+    useEffect(() => {
+        if (password) {
+            !validatePassword(password).status ?
+                setErrMessage(validatePassword(password).message[0].message) :
+                setErrMessage("")
+        }
+        if (confirmPassword) {
+            {
+                password !== confirmPassword ? setErrMessage("Password not match") :
+                setErrMessage("")
+            }
+        }
+    }, [password, confirmPassword])
 
     return (
         <div className="login-main">
@@ -81,13 +96,13 @@ function UserSignup() {
                                             <div className="login-row">
                                                 <TextField id="outlined-basic" label="Confirm Password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} type="password" variant="outlined" className='input' fullWidth />
                                             </div>
-                                            {password !== confirmPassword && <div className="login-row" style={{ justifyContent: "flex-start" }}>
-                                                <p className='text-danger text-left                                                                                                                                    '>Password Not Match</p>
-                                            </div>}
+                                            
                                             {
                                                 errMessage &&
                                                 <div className="login-row" style={{ justifyContent: "flex-start" }}>
-                                                    <p className='text-danger'>{errMessage}</p>
+                                                    <p className='text-danger'>
+                                                        {errMessage}
+                                                    </p>
                                                 </div>
                                             }
                                             <div className="login-row">
@@ -106,7 +121,7 @@ function UserSignup() {
                         </div>
                     </Row>
                     :
-                    <VerifyOtp data={{name, email, password}} />
+                    <VerifyOtp data={{ name, email, password }} />
             }
 
         </div>
