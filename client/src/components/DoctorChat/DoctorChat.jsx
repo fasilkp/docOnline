@@ -10,7 +10,7 @@ import { io } from "socket.io-client";
 import DoctorSidebar from '../DoctorSidebar/DoctorSidebar'
 import { findDoctorChat, getDoctorChats } from '../../api/doctorChatRequests'
 import DoctorBottomNav from '../DoctorBottom/DoctorBottom'
-const socket = io.connect("http://localhost:5000");
+const socket = io.connect(process.env.REACT_APP_SERVER_URL);
 
 
 
@@ -26,7 +26,7 @@ export default function DoctorChat({ }) {
   const [receivedMessage, setReceivedMessage] = useState({});
   const id = searchParams.get('id')
   // const socket = useRef();
-  
+
   const doctor = useSelector((state) => state.doctor.details)
   useEffect(() => {
     (async function () {

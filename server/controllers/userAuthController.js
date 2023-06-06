@@ -236,7 +236,7 @@ export async function googleAuthRedirect(req, res) {
     try {
         const CLIENT_ID = process.env.GOOGLE_CLIENT_ID
         const CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
-        const REDIRECT_URI = 'http://localhost:5000/user/auth/google/callback';
+        const REDIRECT_URI = process.env.SERVER_URL+'/user/auth/google/callback';
         const { code } = req.query;
         const tokenResponse = await axios.post('https://oauth2.googleapis.com/token', {
             code,
@@ -258,7 +258,7 @@ export async function googleAuthRedirect(req, res) {
         await UserModel.findOneAndUpdate({ email: user.email }, { $set: { picture: user.picture, name: user.name } }, {upsert:true});
         let newUser= await UserModel.findOne({email:user.email});
         const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET_KEY);
-        res.redirect(`http://localhost:3000/callback?token=${token}`);
+        res.redirect(`${process.env.CLIENT_URL}/callback?token=${token}`);
 
     } catch (error) {
         console.error('Google authentication error:', error.message);

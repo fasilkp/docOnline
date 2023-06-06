@@ -8,7 +8,7 @@ import { useParams, useSearchParams } from 'react-router-dom'
 import { createChat, findChat, getUserChats } from '../../api/chatRequests'
 import { useSelector } from 'react-redux'
 import { io } from "socket.io-client";
-const socket = io.connect("http://localhost:5000");
+const socket = io.connect(process.env.REACT_APP_SERVER_URL);
 
 
 export default function Chat({ }) {

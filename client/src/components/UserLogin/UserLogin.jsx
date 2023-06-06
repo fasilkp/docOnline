@@ -27,7 +27,7 @@ function UserLogin() {
     }
     const handleGoogleLogin = async (e) => {
         e.preventDefault()
-        let redirectUri = "http://localhost:5000/user/auth/google/callback"
+        let redirectUri = process.env.REACT_APP_SERVER_URL+"/user/auth/google/callback"
         let clientId = "572510792166-vpf7ki1vmt5t7u4er1afdsgn7oe1l1l9.apps.googleusercontent.com"
         try {
             window.open(

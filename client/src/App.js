@@ -49,7 +49,7 @@ import DoctorChat from './components/DoctorChat/DoctorChat';
 
 function App() {
   axios.defaults.withCredentials = true;
-  axios.defaults.baseURL = "http://localhost:5000/";
+  axios.defaults.baseURL =process.env.REACT_APP_SERVER_URL ;
   // axios.defaults.baseURL = "https://doconlineapi.cartgenie.store/";
 
 
