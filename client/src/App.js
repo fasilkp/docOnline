@@ -62,6 +62,7 @@ function App() {
     (async function () {
       let { data } = await axios.get("/user/auth/check");
       dispatch({ type: "user", payload: { login: data.loggedIn, details: data.user } })
+      console.log(data)
       let { data: adminData } = await axios.get("/admin/auth/check");
       dispatch({ type: "admin", payload: { login: adminData.loggedIn, details: adminData.admin } })
       let { data: hospitalData } = await axios.get("/hospital/auth/check");
@@ -70,6 +71,7 @@ function App() {
       dispatch({ type: "doctor", payload: { login: doctorData.loggedIn, details: doctorData.doctor } })
     })()
   }, [refresh])
+  console.log("hai it is working")
   return (
     <div className='App'>
       <Routes>
