@@ -160,7 +160,7 @@ function UserHospital() {
                                                     <div className="head-sec">
                                                         <Avatar
                                                             alt={item.userId.name}
-                                                            src={item.userId.picture.replace('=s96-c', '')}
+                                                            src={item?.userId?.picture?.replace('=s96-c', '')}
                                                             sx={{ width: 32, height: 32 }}
                                                         />
                                                         <div className="d-flex flex-column">

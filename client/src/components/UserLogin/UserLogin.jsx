@@ -56,8 +56,8 @@ function UserLogin() {
         e.preventDefault();
         handleSubmit(e);
         setLoading({ ...loading, submit: true })
-        let tempEmail="fasilkp314@gmail.com"
-        let tempPassword="12"
+        let tempEmail="kpfasil314@gmail.com"
+        let tempPassword="123"
         const { data } = await axios.post("/user/auth/login", { email:tempEmail, password:tempPassword });
         if (data.err) {
             setErrMessage(data.message)
