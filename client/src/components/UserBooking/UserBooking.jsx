@@ -95,7 +95,40 @@ export default function UserBooking() {
             </FormControl>
           </div>
           {
+            filter==='upcoming' ?
+            bookingList.map((item, index) => {
+              return (new Date(item.date) >= new Date() &&
+              <div className="user-booking-item" key={index} onClick={() => item.status == "completed" && showEmr(item)}>
+                <div className="ub-dr-profile">
+                  <img src={item.doctorId.image.url} alt="" />
+                </div>
+                <div className="ub-dr-desc">
+                  <div className="ub-dr-desc-item">
+                    <b>{item.doctorId.name}</b>
+                    <div className="mt-2">
+                      <p>Date : </p>
+                      <p>  {formatDate(item.date)}</p>
+                    </div>
+                    <div>
+                      <p>Time : </p>
+                      <p> {new Date(item.time).toLocaleTimeString('en-US')}</p>
+                    </div>
+                    <div>
+                      <p>Token : </p>
+                      <p> {item.token}</p>
+                    </div>
 
+                  </div>
+                      <div className="booking-status d-flex align-items-center justify-content-center" style={{ gap: "10px", flexWrap: "wrap" }}>
+                          <>
+                          <Chip label={"Upcoming"} color={item.status == 'consulted' ? "primary" : "secondary"} variant="outlined" />
+                            <button className='btn btn-dark' onClick={() => handleCancelBooking(item._id)}>Cancel</button>
+                          </>
+                      </div>
+                </div>
+              </div>)
+            })
+            :
             bookingList.map((item, index) => {
               return <div className="user-booking-item" key={index} onClick={() => item.status == "completed" && showEmr(item)}>
                 <div className="ub-dr-profile">
@@ -123,7 +156,7 @@ export default function UserBooking() {
                       <div className="booking-status d-flex align-items-center justify-content-center" style={{ gap: "10px", flexWrap: "wrap" }}>
                         {
                           new Date(item.date) < new Date() ?
-                          <Chip label={"Outdated"} color={item.status == 'consulted' ? "primary" : "secondary"} variant="outlined" />
+                          <></>
                           :
                           <>
                           <Chip label={"Upcoming"} color={item.status == 'consulted' ? "primary" : "secondary"} variant="outlined" />
@@ -138,6 +171,10 @@ export default function UserBooking() {
                       :
                       <div className="booking-status d-flex align-items-center justify-content-center" style={{ gap: "10px", flexWrap: "wrap" }}>
                         <Chip label={item.status} color={item.status == 'consulted' ? "primary" : "secondary"} variant="outlined" />
+                        {
+                            item.status == 'completed' &&
+                            <button className='btn btn-dark'>View EMR</button>
+                          }
                       </div>
                   }
                 </div>
