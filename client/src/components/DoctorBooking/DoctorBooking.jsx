@@ -88,9 +88,13 @@ export default function DoctorBooking() {
                                                 {/* </Link> */}
                                                 </td>
                                             <td>{item.fees}</td>
-                                            <td>{new Date(item.date).toLocaleDateString()}</td>
+                                            <td>{
+                                            new Date(item.date).toLocaleDateString()
+                                            }</td>
                                             <td>{new Date(item.time).toLocaleTimeString('en-US')}</td>
-                                            <td>{item.status ? item.status : 'pending'}</td>
+                                            <td>
+                                                {item.status ? (item?.status==="upcoming" && new Date(item?.date) <= new Date() ? "Not Attended" : item?.status ) : 'pending'}
+                                            </td>
                                             <td>
                                                 <button className='btn btn-outline-dark btn-sm' onClick={()=>handleShowEmr(item)}>Show EMR</button>
                                             </td>
