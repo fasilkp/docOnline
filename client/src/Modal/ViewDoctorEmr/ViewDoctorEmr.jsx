@@ -10,21 +10,52 @@ import {
   import React, { useEffect, useState } from "react";
   import { getDoctorEMR } from "../../api/doctorApi";
   import "../AddEMR/AddEMR.css";
+  import { jsPDF } from "jspdf";
+import autoTable from 'jspdf-autotable'
+import formatDate from "../../helpers/formatDate";
   
   export default function ViewDoctorEmr({booking, setShowAddEmr}) {
     const [gender, setGender] = useState("");
     const [weight, setWeight] = useState("");
     const [prescription, setPrescription] = useState("");
     const [noData, setNoData]=useState(true)
+    const [data, setData]=useState({})
   
     const downloadReport=async ()=>{
-    
+      if(data){
+        const doc = new jsPDF();
+        doc.setFontSize(13);
+
+        autoTable(doc, {
+            theme: 'grid',
+            head: [["Details", ""]],
+            body: [
+              ["Name", data?.patientName],
+              ["Doctor Name", data?.doctorId?.name],
+              ["Age", data?.age],
+              ["Gender", data?.gender],
+              ["Weight", data?.weight],
+              ["Date", formatDate(data?.date)],
+            ],
+            startY: 20
+
+        })
+        doc.autoTable({
+            theme: 'grid',
+            head: [['Prescription']],
+            body: [[data?.prescription]],
+            startY: doc.lastAutoTable.finalY + 10
+        })
+
+        doc.save("a4.pdf");  
+      }
     }
     useEffect(()=>{
       (
         async function(){
           const data=await getDoctorEMR(booking._id);
           if(!data.err && data.emr){
+            setData(data.emr)
             setNoData(false)
             setGender(data.emr.gender);
             setWeight(data.emr.weight)

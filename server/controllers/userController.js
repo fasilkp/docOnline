@@ -250,6 +250,7 @@ export async function getDoctorSchedule(req, res) {
 
 export async function getUserBookings(req, res) {
     try {
+        console.log(req.query.filter )
         let bookings = []
         if (req.query.filter === 'completed') {
             bookings = await BookingModel.find({

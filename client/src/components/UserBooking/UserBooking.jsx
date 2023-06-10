@@ -10,6 +10,7 @@ import { cancelBooking } from '../../api/userApi'
 import notFoundImg from '../../assets/images/notFound.png'
 import { useSelector } from 'react-redux'
 import UserBottom from '../UserBottom/UserBottom'
+import formatDate from '../../helpers/formatDate'
 
 export default function UserBooking() {
   const [bookingList, setBookingList] = useState([])
@@ -26,6 +27,7 @@ export default function UserBooking() {
         const { data } = await axios.get("/user/booking?filter=" + filter);
         if (!data.err) {
           setBookingList(data.bookings)
+          console.log(data.bookings)
         }
       }
     )()
@@ -104,7 +106,7 @@ export default function UserBooking() {
                     <b>{item.doctorId.name}</b>
                     <div className="mt-2">
                       <p>Date : </p>
-                      <p> {new Date(new Date(item.date).setDate(new Date(item.date).getDate() - 1)).toLocaleDateString('en-US')}</p>
+                      <p>  {formatDate(item.date)}</p>
                     </div>
                     <div>
                       <p>Time : </p>
@@ -117,17 +119,25 @@ export default function UserBooking() {
 
                   </div>
                   {
-                    (item.status==="upcoming" &&(new Date(item.date) < new Date())) ?
+                    (item.status==="upcoming") ?
                       <div className="booking-status d-flex align-items-center justify-content-center" style={{ gap: "10px", flexWrap: "wrap" }}>
-                        <Chip label={"completed"} color={item.status == 'consulted' ? "primary" : "secondary"} variant="outlined" />
+                        {
+                          new Date(item.date) < new Date() ?
+                          <Chip label={"Outdated"} color={item.status == 'consulted' ? "primary" : "secondary"} variant="outlined" />
+                          :
+                          <>
+                          <Chip label={"Upcoming"} color={item.status == 'consulted' ? "primary" : "secondary"} variant="outlined" />
+                          {
+                            item.status == 'upcoming' &&
+                            <button className='btn btn-dark' onClick={() => handleCancelBooking(item._id)}>Cancel</button>
+                          }
+                          </>
+                          
+                        }
                       </div>
                       :
                       <div className="booking-status d-flex align-items-center justify-content-center" style={{ gap: "10px", flexWrap: "wrap" }}>
                         <Chip label={item.status} color={item.status == 'consulted' ? "primary" : "secondary"} variant="outlined" />
-                        {
-                          item.status == 'upcoming' &&
-                          <button className='btn btn-dark' onClick={() => handleCancelBooking(item._id)}>Cancel</button>
-                        }
                       </div>
                   }
                 </div>

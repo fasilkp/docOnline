@@ -10,29 +10,55 @@ import {
   import React, { useEffect, useState } from "react";
   import { getDoctorEMR } from "../../api/doctorApi";
   import "../AddEMR/AddEMR.css";
+import formatDate from "../../helpers/formatDate";
+import { jsPDF } from "jspdf";
+import autoTable from 'jspdf-autotable'
+
   
   export default function ViewEmr({booking, setShowAddEmr}) {
     const [gender, setGender] = useState("");
     const [weight, setWeight] = useState("");
     const [prescription, setPrescription] = useState("");
     const [noData, setNoData]=useState(true)
+    const [data, setData]=useState({})
   
     const downloadReport=async ()=>{
-      const {data} = await axios.post("/doctor/emr",{
-        bookingId:booking._id,
-        userId:booking.userId,
-        patientName:booking.patientName,
-        age:booking.age,
-        weight,
-        prescription,
-        gender
-      })
+      if(data){
+        const doc = new jsPDF();
+        doc.setFontSize(13);
+
+        autoTable(doc, {
+            theme: 'grid',
+            head: [["Details", ""]],
+            body: [
+              ["Name", data?.patientName],
+              ["Doctor Name", data?.doctorId?.name],
+              ["Age", data?.age],
+              ["Gender", data?.gender],
+              ["Weight", data?.weight],
+              ["Date", formatDate(data?.date)],
+            ],
+            startY: 20
+
+        })
+        doc.autoTable({
+            theme: 'grid',
+            head: [['Prescription']],
+            body: [[data?.prescription]],
+            startY: doc.lastAutoTable.finalY + 10
+        })
+
+        doc.save("a4.pdf");  
+      }
+
     }
     useEffect(()=>{
       (
         async function(){
           const data=await getDoctorEMR(booking._id);
+          console.log(data)
           if(!data.err && data.emr){
+            setData(data.emr)
             setNoData(false)
             setGender(data.emr.gender);
             setWeight(data.emr.weight)
@@ -98,7 +124,7 @@ import {
                 variant="filled"
                 fullWidth
                 readOnly
-                value={"Dr. Fasil"}
+                value={booking.doctorId.name}
               />
             </div>
             <div className="emr-header-item">

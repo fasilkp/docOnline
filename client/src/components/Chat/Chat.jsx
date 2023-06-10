@@ -110,7 +110,6 @@ export default function Chat({ }) {
         </div>
       </section>
       {/* <UserBottom page={'chat'}></UserBottom> */}
-
     </div>
   )
 }

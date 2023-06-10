@@ -117,7 +117,6 @@ function UserLogin() {
                                     <Button variant="contained" onClick={demoLogin}>
                                             Demo Login
                                     </Button>
-                                        
                                     </div>
                                     <div className="login-row">
                                         OR
@@ -131,6 +130,18 @@ function UserLogin() {
                                     </div>
                                     <div className="login-row mt-3">
                                         <Link to="/signup">Don't Have an Account? Signin</Link>
+                                    </div>
+                                    <div className="login-row mt-3">
+                                        <p>
+                                                Login as {" "}
+                                        <Link to="/account/doctor">
+                                            <b>Doctor</b>{" "}
+                                            </Link>
+                                        {" "}or{" "}
+                                        <Link to="/account/hospital">
+                                            <b>Hospital</b>
+                                        </Link>
+                                        </p>
                                     </div>
                                 </form>
                             </div>

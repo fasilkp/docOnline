@@ -1,4 +1,4 @@
-import { Chip } from '@mui/material';
+import { Button, Chip } from '@mui/material';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { Container, Dropdown, Row, Table } from 'react-bootstrap';
@@ -8,6 +8,7 @@ import DoctorBottomNav from '../DoctorBottom/DoctorBottom';
 import DoctorHeader from '../DoctorHeader/DoctorHeader';
 import DoctorSideBar from '../DoctorSidebar/DoctorSidebar';
 import notFoundImg from '../../assets/images/notFound.png'
+import formatDate from '../../helpers/formatDate'
 
 
 function DoctorHome() {
@@ -52,7 +53,7 @@ function DoctorHome() {
                                                     <b>{item.patientName}</b>
                                                     <div className="mt-2">
                                                         <p>Date : </p>
-                                                        <p> {new Date(new Date(item.date).setDate(new Date(item.date).getDate()-1)).toLocaleDateString('en-US')}</p>
+                                                        <p> {formatDate(item.date)}</p>
                                                     </div>
                                                     <div>
                                                         <p>Time : </p>
@@ -63,8 +64,9 @@ function DoctorHome() {
                                                         <p> {item.token}</p>
                                                     </div>
                                                 </div>
-                                                <div className="booking-status">
+                                                <div className="booking-status d-flex flex-wrap" style={{gap:"10px", height:"100%"}}>
                                                     <Chip label={item.status} color="secondary" variant="outlined" />
+                                                    <Button variant='contained' className='bg-dark'>Edit EMR</Button>
                                                 </div>
                                             </div>
                                         </div>

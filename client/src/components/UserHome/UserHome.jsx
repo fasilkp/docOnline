@@ -11,6 +11,7 @@ import HospitalList from '../HospitalList/HospitalList'
 import UserBottom from '../UserBottom/UserBottom'
 import homeChatImg from '../../assets/images/userHomeChat.jpg'
 
+
 function UserHome() {
   const [departmentList, setDepartmentList] = useState([])
   const [doctorList, setDoctorList] = useState([])
@@ -94,7 +95,7 @@ function UserHome() {
         </Container>
         <Container>
           <Row className='mt-5'>
-            <HospitalList list={hospitalList} title={"Top Doctors"} rating={hospitalRating} />
+            <HospitalList list={hospitalList} title={"Top Hospitals"} rating={hospitalRating} />
           </Row>
         </Container>
         <UserBottom page={'home'}></UserBottom>
