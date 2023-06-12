@@ -74,7 +74,7 @@ export default function HospitalRequests() {
       showCancelButton: true,
       confirmButtonColor: '#7e3af2',
       cancelButtonColor: '##a8a8a8',
-      confirmButtonText: 'Yes, Accept it!'
+      confirmButtonText: 'Yes, Reject it!'
     }).then(async (result) => {
       if (result.isConfirmed) {
         setLoad(true)

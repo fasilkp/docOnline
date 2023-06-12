@@ -14,6 +14,7 @@ import NotFoundPage from '../pages/NotFoundPage';
 import HospitalLoginPage from '../pages/hospital/HospitalLoginPage';
 import HospitalSignupPage from '../pages/hospital/HospitalSignupPage';
 import HospitalForgotPage from '../pages/hospital/HospitalForgotPage';
+import ProtectedHospitalRoutes from '../utils/ProtectedHospitalRoutes';
 
 export default function HospitalRoutes() {
     const { refresh, hospital } = useSelector((state) => state);
@@ -25,16 +26,17 @@ export default function HospitalRoutes() {
           dispatch({ type: "hospital", payload: { login: hospitalData.loggedIn, details: hospitalData.hospital } })
         })()
       }, [refresh])
-      
+
   return (
     <Routes>
-                {
+        {
           hospital.login && hospital.details.rejected &&
           <>
             <Route path='/' element={<HospitalApproalPage rejected hospital={hospital.details} rejectedMessage={hospital.details.rejectedMessage} />} />
             <Route path='/*' element={<HospitalApproalPage rejected hospital={hospital.details} rejectedMessage={hospital.details.rejectedMessage} />} />
           </>
         }
+        
         {
           hospital.login && hospital.details.active === false &&
           <>
@@ -42,20 +44,25 @@ export default function HospitalRoutes() {
             <Route path='/*' element={<HospitalApproalPage rejected={false} />} />
           </>
         }
-        {
-          hospital.login &&
-          <>
+
+        <Route element={<ProtectedHospitalRoutes hospital={hospital} />}>
+        <>
             <Route path='/' element={<HospitalHomePage />} />
             <Route path='/profile' element={<HospitalProfilePage />} />
             <Route path='/department' element={<HospitalDepartmentPage />} />
             <Route path='/doctor' element={<HospitalDoctorPage />} />
-            <Route path='/login' element={<Navigate to="/account/hospital/" />} />
-            <Route path='/signup' element={<Navigate to="/account/hospital/" />} />
             <Route path='/schedule/:id' element={<HospitalSchedulePage />} />
             <Route path='/booking' element={<HospitalBookingPage />} />
             <Route path='/reports' element={<HospitalReportPage />} />
             <Route path='/*' element={<NotFoundPage />} />
-
+          </>
+        </Route>
+        {
+          hospital.login &&
+          <>
+            <Route path='/login' element={<Navigate to="/account/hospital/" />} />
+            <Route path='/signup' element={<Navigate to="/account/hospital/" />} />
+            <Route path='/forgot' element={<Navigate to="/account/hospital/" />} />
           </>
         }
         {
@@ -64,8 +71,6 @@ export default function HospitalRoutes() {
             <Route path='/login' element={<HospitalLoginPage />} />
             <Route path='/signup' element={<HospitalSignupPage />} />
             <Route path='/forgot' element={<HospitalForgotPage />} />
-            <Route path='/' element={<Navigate to="/account/hospital/login" />} />
-            <Route path='/*' element={<Navigate to="/account/hospital/login" />} />
           </>
         }
     </Routes>

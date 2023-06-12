@@ -34,12 +34,14 @@ export default function DoctorRoutes() {
         <Route path="/chat" element={<DoctorChat />} />
         <Route path="/*" element={<NotFoundPage />} />
       </Route>
+
       {doctor.login === false && (
         <>
           <Route path="/login" element={<DoctorLoginPage />} />
           <Route path="/forgot" element={<DoctorForgotPage />} />
         </>
       )}
+      
       {doctor.login && (
         <>
           <Route path="/login" element={<Navigate to="/account/doctor/" />} />
