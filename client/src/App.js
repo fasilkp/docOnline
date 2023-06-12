@@ -46,6 +46,7 @@ import Chat from './components/Chat/Chat';
 import UserAuthCallbackPage from './pages/user/UserAuthCallbackPage';
 import DoctorChat from './components/DoctorChat/DoctorChat';
 import UserRoutes from './Routes/UserRoutes';
+import AdminRoutes from './Routes/AdminRoutes';
 
 
 function App() {
@@ -72,35 +73,12 @@ function App() {
       dispatch({ type: "doctor", payload: { login: doctorData.loggedIn, details: doctorData.doctor } })
     })()
   }, [refresh])
-  console.log("hai it is working")
   return (
     <div className='App'>
       <Routes>
+        <Route path='/account/admin/*' element={<AdminRoutes/>}/>
         
-        {
-          admin.login &&
-          <>
-            <Route path='/account/admin/' element={<AdminHomePage />} />
-            <Route path='/account/admin/login' element={<Navigate to="/account/admin" />} />
-            <Route path='/account/admin/hospitals/requests' element={<HospitalrequestPage />} />
-            <Route path='/account/admin/doctors' element={<AdminDoctorsPage />} />
-            <Route path='/account/admin/refunds' element={<AdminRefundPage />} />
-            <Route path='/account/admin/hospitals' element={<AdminHospitalPage />} />
-            <Route path='/account/admin/users' element={<AdminUsersPage />} />
-            <Route path='/account/admin/reports' element={<AdminReportPage />} />
-            <Route path='/account/admin/complaints' element={<AdminComplaintPage />} />
-            <Route path='/account/admin/withdrawals' element={<AdminWithdrawalsPage />} />
-            <Route path='/account/admin/*' element={<NotFoundPage />} />
-          </>
-        }
-        {
-          admin.login === false &&
-          <>
-            <Route path='/account/admin/login' element={<AdminLoginPage />} />
-            <Route path='/account/admin' element={<Navigate to="/account/admin/login" />} />
-            <Route path='/account/admin/*' element={<Navigate to="/account/admin/login" />} />
-          </>
-        }
+       
         {
           hospital.login && hospital.details.rejected &&
           <>
