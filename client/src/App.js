@@ -45,6 +45,7 @@ import './App.css'
 import Chat from './components/Chat/Chat';
 import UserAuthCallbackPage from './pages/user/UserAuthCallbackPage';
 import DoctorChat from './components/DoctorChat/DoctorChat';
+import UserRoutes from './Routes/UserRoutes';
 
 
 function App() {
@@ -162,38 +163,7 @@ function App() {
 
           </>
         }
-        {
-          user.login &&
-          <>
-            <Route path='/login' element={<Navigate to={"/"} />} />
-            <Route path='/signup' element={<Navigate to="/" />} />
-            <Route path='/' element={<UserHomePage />} />
-            <Route path='/search' element={<UserSearchPage />} />
-            <Route path='/doctor/:id' element={<UserDoctorPage />} />
-            <Route path='/hospital/:id' element={<UserHospitalPage />} />
-            <Route path='/department/:id' element={<UserDepartmentPage />} />
-            <Route path='/profile' element={<UserProfilePage />} />
-            <Route path="/chat" element={<Chat/>} />
-
-          </>
-        }
-        {
-          user.login === false &&
-          <>
-            <Route path='/login' element={<LoginPage />} />
-            <Route path='/signup' element={<UserSignupPage />} />
-            <Route path='/forgot' element={<UserForgotPage />} />
-            <Route path='/' element={<Navigate to="/login" />} />
-            <Route path='/search' element={<Navigate to="/login" />} />
-            <Route path='/doctor/:id' element={<Navigate to="/login" />} />
-            <Route path='/hospital/:id' element={<Navigate to="/login" />} />
-            <Route path='/department/:id' element={<Navigate to="/login" />} />
-            <Route path='/profile' element={<Navigate to="/login" />} />
-            <Route path='/callback' element={<UserAuthCallbackPage />} />
-            <Route path="/chat" element={<Navigate to="/login"/>} />
-          </>
-        }
-
+        <Route path='/*' element={<UserRoutes/>}></Route>
       </Routes>
 
     </div>
