@@ -47,6 +47,7 @@ import UserAuthCallbackPage from './pages/user/UserAuthCallbackPage';
 import DoctorChat from './components/DoctorChat/DoctorChat';
 import UserRoutes from './Routes/UserRoutes';
 import AdminRoutes from './Routes/AdminRoutes';
+import HospitalRoutes from './Routes/HospitalRoutes';
 
 
 function App() {
@@ -77,70 +78,11 @@ function App() {
     <div className='App'>
       <Routes>
         <Route path='/account/admin/*' element={<AdminRoutes/>}/>
+        <Route path='/account/hospital/*' element={<HospitalRoutes/>}/>
         
        
-        {
-          hospital.login && hospital.details.rejected &&
-          <>
-            <Route path='/account/hospital/' element={<HospitalApproalPage rejected hospital={hospital.details} rejectedMessage={hospital.details.rejectedMessage} />} />
-            <Route path='/account/hospital/*' element={<HospitalApproalPage rejected hospital={hospital.details} rejectedMessage={hospital.details.rejectedMessage} />} />
-          </>
-        }
-        {
-          hospital.login && hospital.details.active === false &&
-          <>
-            <Route path='/account/hospital/' element={<HospitalApproalPage rejected={false} />} />
-            <Route path='/account/hospital/*' element={<HospitalApproalPage rejected={false} />} />
-          </>
-        }
-        {
-          hospital.login &&
-          <>
-            <Route path='/account/hospital/' element={<HospitalHomePage />} />
-            <Route path='/account/hospital/profile' element={<HospitalProfilePage />} />
-            <Route path='/account/hospital/department' element={<HospitalDepartmentPage />} />
-            <Route path='/account/hospital/doctor' element={<HospitalDoctorPage />} />
-            <Route path='/account/hospital/login' element={<Navigate to="/account/hospital/" />} />
-            <Route path='/account/hospital/signup' element={<Navigate to="/account/hospital/" />} />
-            <Route path='/account/hospital/schedule/:id' element={<HospitalSchedulePage />} />
-            <Route path='/account/hospital/booking' element={<HospitalBookingPage />} />
-            <Route path='/account/hospital/reports' element={<HospitalReportPage />} />
-            <Route path='/account/hospital/*' element={<NotFoundPage />} />
 
-          </>
-        }
-        {
-          hospital.login === false &&
-          <>
-            <Route path='/account/hospital/login' element={<HospitalLoginPage />} />
-            <Route path='/account/hospital/signup' element={<HospitalSignupPage />} />
-            <Route path='/account/hospital/forgot' element={<HospitalForgotPage />} />
-            <Route path='/account/hospital' element={<Navigate to="/account/hospital/login" />} />
-            <Route path='/account/hospital/*' element={<Navigate to="/account/hospital/login" />} />
-          </>
-        }
-        {
-          doctor.login === false &&
-          <>
-            <Route path='/account/doctor/login' element={<DoctorLoginPage />} />
-            <Route path='/account/doctor/forgot' element={<DoctorForgotPage />} />
-            <Route path='/account/doctor' element={<Navigate to="/account/doctor/login" />} />
-            <Route path='/account/doctor/*' element={<Navigate to="/account/doctor/login" />} />
-          </>
-        }
-        {
-          doctor.login &&
-          <>
-            <Route path='/account/doctor/login' element={<Navigate to="/account/doctor/" />} />
-            <Route path='/account/doctor/' element={<DoctorHomePage />} />
-            <Route path='/account/doctor/profile' element={<DoctorProfilePage />} />
-            <Route path='/account/doctor/schedule' element={<DoctorSchedulePage />} />
-            <Route path='/account/doctor/booking' element={<DoctorBookingPage />} />
-            <Route path='/account/doctor/chat' element={<DoctorChat />} />
-            <Route path='/account/doctor/*' element={<NotFoundPage />} />
-
-          </>
-        }
+        
         <Route path='/*' element={<UserRoutes/>}></Route>
       </Routes>
 
