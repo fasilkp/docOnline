@@ -13,6 +13,7 @@ import AdminComplaintPage from '../pages/admin/AdminComplaintPage';
 import AdminWithdrawalsPage from '../pages/admin/AdminWithdrawalsPage';
 import NotFoundPage from '../pages/NotFoundPage';
 import AdminLoginPage from '../pages/admin/AdminLoginPage';
+import ProtectedAdminRoutes from '../utils/ProtectedAdminRoutes';
 export default function AdminRoutes() {
     console.log("hai")
     const { refresh, admin} = useSelector((state) =>state);
@@ -27,11 +28,10 @@ export default function AdminRoutes() {
 
   return (
     <Routes>
-         {
-          admin.login &&
-          <>
+
+        <Route element={<ProtectedAdminRoutes admin={admin} />}>
+         <>
             <Route path='/' element={<AdminHomePage />} />
-            <Route path='/login' element={<Navigate to="/account/admin" />} />
             <Route path='/hospitals/requests' element={<HospitalrequestPage />} />
             <Route path='/doctors' element={<AdminDoctorsPage />} />
             <Route path='/refunds' element={<AdminRefundPage />} />
@@ -42,13 +42,15 @@ export default function AdminRoutes() {
             <Route path='/withdrawals' element={<AdminWithdrawalsPage />} />
             <Route path='/*' element={<NotFoundPage />} />
           </>
+        </Route>
+        {
+          admin.login &&
+          <Route path='/login' element={<Navigate to="/account/admin" />} />
         }
         {
           admin.login === false &&
           <>
             <Route path='/login' element={<AdminLoginPage />} />
-            <Route path='/' element={<Navigate to="/account/admin/login" />} />
-            <Route path='/*' element={<Navigate to="/account/admin/login" />} />
           </>
         }
     </Routes>

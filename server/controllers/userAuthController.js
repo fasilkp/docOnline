@@ -34,7 +34,7 @@ export async function userLogin(req, res) {
             secure: true,
             maxAge: 1000 * 60 * 60 * 24 * 7 * 30,
             sameSite: "none",
-        }).json({ err: false, user: user._id })
+        }).json({ err: false, user: user._id, token })
     }
     catch (err) {
         console.log(err)
@@ -65,7 +65,7 @@ export async function userRegister(req, res) {
             secure: true,
             maxAge: 1000 * 60 * 10,
             sameSite: "none",
-        }).json({ err: false })
+        }).json({ err: false, tempToken })
     }
     catch (err) {
         console.log(err)
@@ -108,7 +108,7 @@ export async function userRegisterVerify(req, res) {
             secure: true,
             maxAge: 1000 * 60 * 60 * 24 * 7,
             sameSite: "none",
-        }).json({ err: false })
+        }).json({ err: false, token })
     }
     catch (err) {
         console.log(err)
@@ -129,7 +129,7 @@ export const checkUserLoggedIn = async (req, res) => {
         if (user.block) {
             return res.json({ loggedIn: false });
         }
-        return res.json({ user, loggedIn: true });
+        return res.json({ user, loggedIn: true, token });
     } catch (err) {
         console.log(err)
         res.json({ loggedIn: false, error: err });
@@ -173,7 +173,7 @@ export async function userForgot(req, res) {
     }
     catch (err) {
         console.log(err)
-        res.json({ err: true, error: err, message: "something went wrong" })
+        res.json({ err: true, error: err,tempToken, message: "something went wrong" })
     }
 }
 export async function verifyForgotOtp(req, res) {
@@ -288,7 +288,7 @@ export async function verifyGAuth(req, res) {
             secure: true,
             maxAge: 1000 * 60 * 60 * 24 * 7 * 30,
             sameSite: "none",
-        }).json({ err: false, user: user._id })
+        }).json({ err: false, user: user._id, token })
 
 
     } catch (error) {

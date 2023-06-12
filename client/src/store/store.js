@@ -5,6 +5,7 @@ const initialState={
     admin:{login:null},
     hospital:{login:null},
     doctor:{login:null},
+    loading:false,
     refresh:true
 }
 
@@ -15,9 +16,9 @@ function reducer(state=initialState, action){
         case 'hospital': return {...state, hospital:action.payload};
         case 'doctor': return {...state, doctor:action.payload};
         case 'refresh': return {...state, refresh:!state.refresh};
+        case 'loading': return {...state, loading:action.payload}
         default: return state;
     }
-
 }
 
 export default createStore(reducer)

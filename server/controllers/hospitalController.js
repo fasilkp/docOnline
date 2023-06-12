@@ -21,7 +21,7 @@ export async function hospitalDashboard(req, res) {
             { $match: { hospitalId: req.hospital._id } },
             { $group: { _id: "totalBokingDetails", totalBooking: { $sum: 1 }, totalRevenue: { $sum: "$fees" } } }
         ])
-        const monthlyDataArray = await BookingModel.aggregate([{ $group: { _id: { $month: "$date" }, totalRevenue: { $sum: "$fees" } } }])
+        const monthlyDataArray = await BookingModel.aggregate([{ $match: { hospitalId: req.hospital._id } },{ $group: { _id: { $month: "$date" }, totalRevenue: { $sum: "$fees" } } }])
         let monthlyDataObject = {}
         monthlyDataArray.map(item => {
             monthlyDataObject[item._id] = item.totalRevenue

@@ -131,6 +131,7 @@ export default function HospitalDepartment() {
                             </thead>
                             <tbody>
                                 {
+                                    departmentList[0] ?
                                     departmentList.map((item, index) => {
                                         return <tr key={index}>
                                             <td>{index + 1}</td>
@@ -148,6 +149,10 @@ export default function HospitalDepartment() {
                                             </td>
                                         </tr>
                                     })
+                                    :
+                                    <tr>
+                                        <th colSpan={3} className='text-center'>no data found</th>
+                                    </tr>
                                 }
 
                             </tbody>
