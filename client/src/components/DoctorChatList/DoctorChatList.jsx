@@ -37,7 +37,6 @@ export default function DoctorChatList({ usersList, onlineUsers, lastMessage, se
             {
               users && users[0] &&
               users.map((chat, index) => {
-                console.log(onlineUsers)
                 return (
                   <li className="p-2 border-bottom">
                     <Link to={"/account/doctor/chat?id=" + chat.userId._id} onClick={() => setChatClicked(true)} className="d-flex justify-content-between">

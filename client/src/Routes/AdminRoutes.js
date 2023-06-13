@@ -30,7 +30,7 @@ export default function AdminRoutes() {
     <Routes>
 
         <Route element={<ProtectedAdminRoutes admin={admin} />}>
-         <>
+        <>
             <Route path='/' element={<AdminHomePage />} />
             <Route path='/hospitals/requests' element={<HospitalrequestPage />} />
             <Route path='/doctors' element={<AdminDoctorsPage />} />
@@ -41,7 +41,7 @@ export default function AdminRoutes() {
             <Route path='/complaints' element={<AdminComplaintPage />} />
             <Route path='/withdrawals' element={<AdminWithdrawalsPage />} />
             <Route path='/*' element={<NotFoundPage />} />
-          </>
+        </>
         </Route>
         {
           admin.login &&

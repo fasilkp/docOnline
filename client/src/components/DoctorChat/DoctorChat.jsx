@@ -76,13 +76,11 @@ export default function DoctorChat({ }) {
       setOnlineUsers(users);
     });
     socket.on("recieve-message", (data) => {
-      console.log("doctor received message : ",data)
       setReceivedMessage(data);
       setRefresh(!refresh)
     }
     );
   }, [socket, refresh]);
-  console.log(onlineUsers)
 
   return (
     <div className=''>

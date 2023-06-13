@@ -31,7 +31,8 @@ export default function UserBooking() {
         }
       }
     )()
-  }, [filter])
+  }, [filter, refresh])
+
   const showEmr = (data) => {
 
     setBooking(data);

@@ -71,12 +71,10 @@ export default function Chat({ }) {
       setOnlineUsers(users);
     });
     socket.on("recieve-message", (data) => {
-      console.log("user received message : ",data)
       setReceivedMessage(data);
     }
     );
   }, [socket]);
-  console.log(receivedMessage)
 
   return (
     <div className='container'>

@@ -169,7 +169,7 @@ export async function userForgot(req, res) {
             secure: true,
             maxAge: 1000 * 60 * 10,
             sameSite: "none",
-        }).json({ err: false })
+        }).json({ err: false, token })
     }
     catch (err) {
         console.log(err)

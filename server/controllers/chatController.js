@@ -68,13 +68,21 @@ export const findChat = async (req, res) => {
             doctorId: req.params.doctorId
         }).populate('doctorId').populate('userId')
         if (!chat) {
-            chat = await ChatModel.create({
+            chat = await ChatModel.findOneAndUpdate({
                 userId: req.params.userId,
                 doctorId: req.params.doctorId
-            }).populate('doctorId').populate('userId')
+            },{
+                $set:{
+                    userId: req.params.userId,
+                    doctorId: req.params.doctorId
+                }
+            },{upsert:true}
+            ).populate('doctorId').populate('userId')
         }
+        console.log(chat)
         res.json({ err: false, chat })
     } catch (error) {
-        res.json({ err: true });
+        console.log(error)
+        res.json({ err: true, message:"server error" });
     }
 };
