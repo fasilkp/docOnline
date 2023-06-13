@@ -10,7 +10,7 @@ import HospitalDoctorPage from '../pages/hospital/HospitalDoctorPage';
 import HospitalSchedulePage from '../pages/hospital/HospitalSchedulePage';
 import HospitalBookingPage from '../pages/hospital/HospitalBookingPage';
 import HospitalReportPage from '../pages/hospital/HospitalReportPage';
-import NotFoundPage from '../pages/NotFoundPage';
+import NotFoundPage from '../pages/NotFoundPage/NotFoundPage';
 import HospitalLoginPage from '../pages/hospital/HospitalLoginPage';
 import HospitalSignupPage from '../pages/hospital/HospitalSignupPage';
 import HospitalForgotPage from '../pages/hospital/HospitalForgotPage';

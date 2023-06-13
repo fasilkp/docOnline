@@ -11,7 +11,7 @@ import AdminUsersPage from '../pages/admin/AdminUsersPage';
 import AdminReportPage from '../pages/admin/AdminReportPage';
 import AdminComplaintPage from '../pages/admin/AdminComplaintPage';
 import AdminWithdrawalsPage from '../pages/admin/AdminWithdrawalsPage';
-import NotFoundPage from '../pages/NotFoundPage';
+import NotFoundPage from '../pages/NotFoundPage/NotFoundPage';
 import AdminLoginPage from '../pages/admin/AdminLoginPage';
 import ProtectedAdminRoutes from '../utils/ProtectedAdminRoutes';
 export default function AdminRoutes() {

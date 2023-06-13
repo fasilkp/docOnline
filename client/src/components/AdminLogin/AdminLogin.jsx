@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Col, Container, Row } from 'react-bootstrap';
+import { Button, Col, Container, Row } from 'react-bootstrap';
 import { TextField } from '@mui/material';
 import loginImage from '../../assets/images/login.jpg'
 import "../UserLogin/userlogin.css"
@@ -27,6 +27,20 @@ function AdminLogin() {
         e.preventDefault();
         setLoading({ ...loading, submit: true })
         const { data } = await axios.post("/admin/auth/login", { email, password });
+        if (data.err) {
+            setErrMessage(data.message)
+        } else {
+            dispatch({ type: "refresh" })
+        }
+        setLoading({ ...loading, submit: false })
+    }
+    const demoLogin=async(e)=>{
+        e.preventDefault();
+        handleSubmit(e);
+        setLoading({ ...loading, submit: true })
+        let tempEmail="admin@gmail.com"
+        let tempPassword="123"
+        const { data } = await axios.post("/admin/auth/login", { email:tempEmail, password:tempPassword });
         if (data.err) {
             setErrMessage(data.message)
         } else {
@@ -78,6 +92,12 @@ function AdminLogin() {
                                             <ClipLoader size={20} color="white" loading={loading.submit} />
 
                                         </button>
+                                    </div>
+                                    <div className="login-row google-btn">
+                                    <Button variant="contained" onClick={demoLogin}>
+                                            Demo Login
+                                    </Button>
+                                        
                                     </div>
                                 </form>
                             </div>

@@ -9,7 +9,7 @@ import DoctorProfilePage from "../pages/doctor/DoctorProfilePage";
 import DoctorSchedulePage from "../pages/doctor/DoctorSchedulePage";
 import DoctorBookingPage from "../pages/doctor/DoctorBookingPage";
 import DoctorChat from "../components/DoctorChat/DoctorChat";
-import NotFoundPage from "../pages/NotFoundPage";
+import NotFoundPage from "../pages/NotFoundPage/NotFoundPage";
 import ProtectedDoctorRoutes from "../utils/ProtectedDoctorRoutes";
 
 export default function DoctorRoutes() {

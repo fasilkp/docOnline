@@ -14,6 +14,7 @@ import UserSignupPage from "../pages/user/UserSignupPage";
 import UserForgotPage from "../pages/user/UserForgotPage";
 import UserAuthCallbackPage from "../pages/user/UserAuthCallbackPage";
 import ProtectedUserRoutes from "../utils/ProtectedUserRoutes";
+import NotFoundPage from "../pages/NotFoundPage/NotFoundPage";
 
 export default function UserRoutes() {
   const { refresh, user } = useSelector((state) => state);
@@ -57,6 +58,7 @@ export default function UserRoutes() {
           <Route path="/callback" element={<Navigate to="/" />} />
         </>
       )}
+          <Route path="/*" element={<NotFoundPage />} />
     </Routes>
   );
 }
