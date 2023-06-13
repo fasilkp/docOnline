@@ -67,12 +67,10 @@ export default function MessageList({ currentChat, chatClicked, setSendMessage, 
   },[messages])
 
   useEffect(()=>{
-    console.log("rcvd msg", receivedMessage)
     if(receivedMessage && currentChat?.doctorId?._id==receivedMessage?.senderId){
       setMessages([...messages, receivedMessage])
     }
   },[receivedMessage])
-  console.log(receivedMessage)
 
 
   return (

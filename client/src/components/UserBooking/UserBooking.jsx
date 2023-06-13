@@ -98,8 +98,9 @@ export default function UserBooking() {
           {
             filter==='upcoming' ?
             bookingList.map((item, index) => {
-              return (new Date(item.date) >= new Date() &&
-              <div className="user-booking-item" key={index} onClick={() => item.status == "completed" && showEmr(item)}>
+              if(new Date(item.date) >= new Date()){
+                return(
+              <div className="user-booking-item" key={index}>
                 <div className="ub-dr-profile">
                   <img src={item.doctorId.image.url} alt="" />
                 </div>
@@ -108,7 +109,7 @@ export default function UserBooking() {
                     <b>{item.doctorId.name}</b>
                     <div className="mt-2">
                       <p>Date : </p>
-                      <p>  {formatDate(item.date)}</p>
+                      <p>{formatDate(item.date)}</p>
                     </div>
                     <div>
                       <p>Time : </p>
@@ -128,6 +129,7 @@ export default function UserBooking() {
                       </div>
                 </div>
               </div>)
+              }
             })
             :
             bookingList.map((item, index) => {
@@ -157,7 +159,9 @@ export default function UserBooking() {
                       <div className="booking-status d-flex align-items-center justify-content-center" style={{ gap: "10px", flexWrap: "wrap" }}>
                         {
                           new Date(item.date) < new Date() ?
-                          <></>
+                          <>
+                          <Chip label={"Not attended"} color={"secondary"} variant="outlined" />
+                          </>
                           :
                           <>
                           <Chip label={"Upcoming"} color={item.status == 'consulted' ? "primary" : "secondary"} variant="outlined" />
