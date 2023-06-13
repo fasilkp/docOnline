@@ -65,7 +65,7 @@ export async function userRegister(req, res) {
             secure: true,
             maxAge: 1000 * 60 * 10,
             sameSite: "none",
-        }).json({ err: false, tempToken })
+        }).json({ err: false, tempToken:token })
     }
     catch (err) {
         console.log(err)
