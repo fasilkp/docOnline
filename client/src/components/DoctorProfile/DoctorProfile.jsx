@@ -114,7 +114,7 @@ export default function DoctorProfile() {
                                             doctor.reviews &&
                                             doctor.reviews.map((item, index) => {
 
-                                                return <div className="dr-profile-review">
+                                                return <div className="dr-profile-review" key={index}>
                                                     <div className="head-sec">
                                                         <Avatar
                                                             alt="Remy Sharp"

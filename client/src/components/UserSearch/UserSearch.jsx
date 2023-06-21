@@ -78,7 +78,7 @@ function UserSearch() {
                                     <option value="">All Department</option>
                                     {
                                         departmentList.map((item, index) => {
-                                            return <option value={item._id}>{item.name}</option>
+                                            return <option value={item._id}  key={index}>{item.name}</option>
                                         })
                                     }
                                 </select>

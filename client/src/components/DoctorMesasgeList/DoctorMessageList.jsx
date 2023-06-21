@@ -94,7 +94,7 @@ export default function DoctorMessageList({ currentChat, chatClicked, setSendMes
                 messages[0] &&
                 messages.map((item, index) => {
                   return (
-                    <div className={`d-flex flex-row single-chat-container ${doctor._id === item.senderId ? 'me' : ''}`} ref={scrollRef}>
+                    <div key={index} className={`d-flex flex-row single-chat-container ${doctor._id === item.senderId ? 'me' : ''}`} ref={scrollRef}>
                       <div className={`sg-chat ${doctor._id === item.senderId ? 'me' : ''}`}>
                         <p className={`small p-2 mb-1 rounded-3 single-chat ${doctor._id === item.senderId ? 'me' : ''}`}>
                           {item.text}

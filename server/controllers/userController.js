@@ -13,7 +13,7 @@ import sentMail from "../helpers/sentMail.js"
 export async function getAllDepartments(req, res) {
     try {
         const departments = await DepartmentModel.find().lean()
-        res.json({ departments })
+        res.json({err:false, departments })
     } catch (err) {
         console.log(err)
         res.json({ err: true, error: err })
@@ -47,7 +47,7 @@ export async function getAllHospitals(req, res) {
             }
         })
 
-        res.json({ hospitals, rating })
+        res.json({ err:false, hospitals, rating })
     } catch (err) {
         console.log(err)
         res.json({ err: true, error: err })
@@ -95,7 +95,7 @@ export async function getAllDoctors(req, res) {
                 rating[item._id.valueOf()]=item.rating
             }
         })
-        res.json({ doctors, rating })
+        res.json({err:false, doctors, rating })
 
     } catch (err) {
         console.log(err)
@@ -415,7 +415,7 @@ export async function getTop3Doctors(req, res) {
                 rating[item._id.valueOf()]=item.rating
             }
         })
-        return res.json({doctors, rating})
+        return res.json({err:false, doctors, rating})
     } catch (error) {
         console.log(error)
         res.json({ err: true, message: "something went wrong", error })
@@ -472,7 +472,7 @@ export async function getTop3Hospitals(req, res) {
                 rating[item._id.valueOf()]=item.rating
             }
         })
-        return res.json({hospitals, rating})
+        return res.json({err:false, hospitals, rating})
     } catch (error) {
         console.log(error)
         res.json({ err: true, message: "something went wrong", error })
