@@ -7,7 +7,6 @@ import HospitalModel from "../models/HospitalModel.js"
 import ScheduleModel from "../models/ScheduleModel.js"
 import EMRModel from '../models/EMRModel.js'
 import ComplaintModel from '../models/ComplaintModel.js'
-import sentMail from "../helpers/sentMail.js"
 
 
 export async function getAllDepartments(req, res) {
