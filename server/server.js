@@ -41,7 +41,7 @@ app.use(express.static(path.resolve() + "/public"))
 app.use(
   cors({
     origin: [
-      "http://localhost:3000", "https://doconline.netlify.app"
+      "http://localhost:3000", "https://doconline.netlify.app","https://doconlines.netlify.app"
     ],
     credentials: true,
   })
