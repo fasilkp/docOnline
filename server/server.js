@@ -48,7 +48,7 @@ app.use(
 );
 dbConnect();
 
-
+app.get("/", (req, res)=>res.send("app running successfully..."))
 app.use("/user/auth/", userAuthRouter)
 app.use("/admin/auth/", adminAuthRouter)
 app.use("/hospital/auth/", hospitalAuthRouter)
