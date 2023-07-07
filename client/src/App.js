@@ -24,7 +24,7 @@ function App() {
         <Route path='/account/doctor/*' element={<DoctorRoutes/>}/>
         <Route path='/*' element={<UserRoutes/>}></Route>
       </Routes>
-      <BackdropLoading open={loading}/>
+      <BackdropLoading open={loading} />
 
     </div>
 
