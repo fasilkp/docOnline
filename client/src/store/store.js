@@ -17,6 +17,7 @@ function reducer(state=initialState, action){
         case 'doctor': return {...state, doctor:action.payload};
         case 'refresh': return {...state, refresh:!state.refresh};
         case 'loading': return {...state, loading:action.payload}
+
         default: return state;
     }
 }

@@ -9,6 +9,7 @@ import Swal from 'sweetalert2'
 import { Backdrop, CircularProgress } from '@mui/material';
 import { getAdminRefundList, refundComplete } from '../../api/adminApi';
 import notFoundImg from '../../assets/images/notFound.png'
+import { useDispatch } from 'react-redux';
 
 export default function AdminRefunds() {
   const [refundList, setRefundList] = useState([])
@@ -19,6 +20,7 @@ export default function AdminRefunds() {
   const handleClick = () => {
     setCLicked(!clicked)
   }
+  const dispatch= useDispatch()
   React.useEffect(() => {
     (
       async function () {
@@ -41,6 +43,7 @@ export default function AdminRefunds() {
       cancelButtonText: "Cancel"
     }).then(async (result) => {
       if (result.isConfirmed) {
+        dispatch({type:"loading", payload:true})
         const data = await refundComplete(id)
         if (!data.err) {
           Swal.fire(
@@ -50,6 +53,7 @@ export default function AdminRefunds() {
           )
           setRefresh(!refresh)
         }
+        dispatch({type:"loading", payload:false})
       }
     })
   }

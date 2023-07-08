@@ -9,6 +9,12 @@ import HospitalModel from "../models/HospitalModel.js";
 import UserModel from "../models/UserModel.js";
 import WithdrawModel from "../models/WithdrawModel.js";
 import cron from "node-cron";
+import Razorpay from 'razorpay'
+
+let instance = new Razorpay({
+    key_id: process.env.RAZORPAY_KEY_ID,
+    key_secret: process.env.RAZORPAY_KEY_SECRET,
+});
 
 cron.schedule('0 0 0 * * *', async () => {
   try {
@@ -385,6 +391,22 @@ export async function getBookingRefunds(req, res) {
 export async function refundComplete(req, res) {
   try {
     const { id } = req.body;
+    const booking= await BookingModel.findById(id);
+    if(!booking){
+      return res.json({err:true, message:"No booking found"})
+    }
+    const paymentId=booking.payment.razorpay_payment_id;
+    const payment = await instance.payments.fetch(paymentId);
+    if (payment.amount_refunded) {
+      return res.json({err:true, message:"Payment has been refunded."})
+    }
+    const result= await instance.payments.refund(paymentId,{
+      "amount": booking.fees,
+      "speed": "normal",
+      "notes": {
+        "notes_key_1": "Thank you for using doconline",
+      }
+    })
     await BookingModel.findByIdAndUpdate(id, {
       $set: {
         status: "cancelled",
