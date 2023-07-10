@@ -125,3 +125,15 @@ export async function getTop3Hospitals(bookingId){
     return data
 }
 
+export async function getUserEMR(bookingId) {
+    const {data} = await axios.get("/user/emr/"+bookingId)
+    console.log(data)
+    if(data.err){
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: data.message,
+          })
+    }
+    return data;
+}

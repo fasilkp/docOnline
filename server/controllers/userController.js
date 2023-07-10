@@ -477,3 +477,14 @@ export async function getTop3Hospitals(req, res) {
         res.json({ err: true, message: "something went wrong", error })
     }
 }
+
+export async function getUserEMR(req, res) {
+    try {
+        const {bookingId}=req.params;
+        const emr= await EMRModel.findOne({bookingId}).populate('doctorId')
+        res.json({err:false, emr})
+        
+    } catch (err) {
+        res.json({ err: true, error: err, message: "Something Went Wrong" })
+    }
+}

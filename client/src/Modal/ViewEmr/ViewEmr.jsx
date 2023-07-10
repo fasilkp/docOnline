@@ -13,6 +13,7 @@ import {
 import formatDate from "../../helpers/formatDate";
 import { jsPDF } from "jspdf";
 import autoTable from 'jspdf-autotable'
+import { getUserEMR } from "../../api/userApi";
 
   
   export default function ViewEmr({booking, setShowAddEmr}) {
@@ -55,8 +56,7 @@ import autoTable from 'jspdf-autotable'
     useEffect(()=>{
       (
         async function(){
-          const data=await getDoctorEMR(booking._id);
-          console.log(data)
+          const data=await getUserEMR(booking._id);
           if(!data.err && data.emr){
             setData(data.emr)
             setNoData(false)
@@ -66,7 +66,7 @@ import autoTable from 'jspdf-autotable'
           }
         }
       )()
-    },[])
+    },[booking])
     return (
       <div className="add-emr-main">
         <div className="add-emr-container">

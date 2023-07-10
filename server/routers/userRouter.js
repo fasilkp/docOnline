@@ -1,6 +1,6 @@
 import express from 'express';
 import { paymentOrder, verifyPayment } from '../controllers/paymentController.js';
-import { addComplaint, addDoctorFeedback, addHospitalrFeedback, cancelBooking, checkTimeSlot, getAllDepartments, getAllDoctors, getAllHospitals, getDoctor, getDoctorSchedule, getHospital, getTop3Doctors, getTop3Hospitals, getUserBookings } from '../controllers/userController.js';
+import { addComplaint, addDoctorFeedback, addHospitalrFeedback, cancelBooking, checkTimeSlot, getAllDepartments, getAllDoctors, getAllHospitals, getDoctor, getDoctorSchedule, getHospital, getTop3Doctors, getTop3Hospitals, getUserBookings, getUserEMR } from '../controllers/userController.js';
 
 const router=express.Router();
 
@@ -29,6 +29,8 @@ router.post('/feedback/doctor', addDoctorFeedback)
 router.post('/feedback/hospital', addHospitalrFeedback)
 
 router.post("/complaint", addComplaint)
+router.get('/emr/:bookingId', getUserEMR)
+
 
 
 

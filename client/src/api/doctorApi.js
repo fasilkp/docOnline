@@ -3,6 +3,7 @@ import Swal from 'sweetalert2'
 
 export async function getDoctorEMR(bookingId) {
     const {data} = await axios.get("/doctor/emr/"+bookingId)
+    console.log(data)
     if(data.err){
         Swal.fire({
             icon: 'error',
