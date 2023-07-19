@@ -60,18 +60,23 @@ function UserDoctor() {
                     setDoctor({ ...data.doctor, reviewAccess: data.reviewAccess, reviews: data.reviews, rating: data.rating })
                 }
                 const { data: scheduleData } = await axios.get("/user/doctor/schedule/" + id);
+                console.log(scheduleData)
                 if (!scheduleData.err) {
                     let n = 0;
                     let date = new Date()
                     let tempDaysAvailable = []
                     while (n < 9) {
                         date = new Date(new Date().setDate(new Date(date).getDate() + 1));
+                        console.log(date)
                         let day = new Date(date).getDay();
+                        console.log(scheduleData.schedule[days[day]])
                         if (scheduleData.schedule[days[day]][0]) {
+                            console.log( date,scheduleData.schedule[days[day]])
                             const { data } = await axios.post("/user/check-time", {
                                 date,
                                 schedule: scheduleData.schedule[days[day]]
                             })
+                            console.log(data)
                             if (!data.err) {
                                 tempDaysAvailable.push({
                                     ...data.result
@@ -80,6 +85,7 @@ function UserDoctor() {
                         }
                         n++;
                     }
+                    console.log(tempDaysAvailable)
                     setDaysAvailable([...tempDaysAvailable])
                 }
             }
