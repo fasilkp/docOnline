@@ -261,7 +261,7 @@ export async function googleAuthRedirect(req, res) {
         res.redirect(`${process.env.CLIENT_URL}/callback?token=${token}`);
 
     } catch (error) {
-        console.error('Google authentication error:', error.message);
+        console.log('Google authentication error:', error);
         res.json({ err: true, error, message: "Google Authentication failed" })
     }
 }
