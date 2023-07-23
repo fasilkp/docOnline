@@ -36,10 +36,9 @@ function HospitalLogin() {
     }
     const demoLogin=async(e)=>{
         e.preventDefault();
-        handleSubmit(e);
         setLoading({ ...loading, submit: true })
         let tempEmail="kpfasil314@gmail.com"
-        let tempPassword="123"
+        let tempPassword="12"
         const { data } = await axios.post("/hospital/auth/login", { email:tempEmail, password:tempPassword });
         if (data.err) {
             setErrMessage(data.message)

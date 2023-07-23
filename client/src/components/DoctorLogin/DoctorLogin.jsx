@@ -36,10 +36,9 @@ function DoctorLogin() {
     }
     const demoLogin=async(e)=>{
         e.preventDefault();
-        handleSubmit(e);
         setLoading({ ...loading, submit: true })
         let tempEmail="fasilkp314@gmail.com"
-        let tempPassword="123"
+        let tempPassword="12"
         const { data } = await axios.post("/doctor/auth/login", { email:tempEmail, password:tempPassword });
         if (data.err) {
             setErrMessage(data.message)

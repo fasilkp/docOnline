@@ -36,7 +36,6 @@ function AdminLogin() {
     }
     const demoLogin=async(e)=>{
         e.preventDefault();
-        handleSubmit(e);
         setLoading({ ...loading, submit: true })
         let tempEmail="admin@gmail.com"
         let tempPassword="123"
