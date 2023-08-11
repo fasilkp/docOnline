@@ -245,9 +245,11 @@ export async function googleAuthRedirect(req, res) {
             redirect_uri: REDIRECT_URI,
             grant_type: 'authorization_code'
         });
-
+        console.log("token response", tokenResponse)
+        
         const { access_token, id_token } = tokenResponse.data;
         const userInfo = await axios.get(`https://www.googleapis.com/oauth2/v3/userinfo?access_token=${access_token}`);
+        console.log("token response", userInfo)
 
         const user = {
             email: userInfo.data.email,

@@ -1,6 +1,7 @@
 import Razorpay from 'razorpay'
 import crypto from 'crypto'
 import BookingModel from '../models/BookingModel.js';
+import DoctorModel from '../models/DoctorModel.js';
 
 let instance = new Razorpay({
     key_id: process.env.RAZORPAY_KEY_ID,
@@ -50,8 +51,9 @@ export async function verifyPayment(req, res) {
             .digest('hex');
 
         if (expectedSignature === response.razorpay_signature){
+            const doctor = await DoctorModel.findById(doctorId).populate('hospitalId');
             const booking= await BookingModel.create({
-                date, timeSlot, time, payment:response, doctorId, hospitalId,fees,
+                date, timeSlot, time, payment:response, doctorId, hospitalId:doctor.hospitalId,fees,
                 userId:req.user._id, patientName:name, age,
                 token: Math.ceil(Math.random()*100000)
             })
