@@ -51,7 +51,7 @@ export async function verifyPayment(req, res) {
             .digest('hex');
 
         if (expectedSignature === response.razorpay_signature){
-            const doctor = await DoctorModel.findById(doctorId).populate('hospitalId');
+            const doctor = await DoctorModel.findById(doctorId);
             const booking= await BookingModel.create({
                 date, timeSlot, time, payment:response, doctorId, hospitalId:doctor.hospitalId,fees,
                 userId:req.user._id, patientName:name, age,
